@@ -1,0 +1,26 @@
+.p-form-section {
+
+  .smf-form {
+
+    .smf-item {
+
+      &__label {
+        font-family: $hiragino;
+      }
+    }
+  }
+
+  .smf-action {
+
+    .smf-button-control {
+
+      &__control {
+        border: none;
+        border-radius: 30px;
+        font-weight: bold;
+        background: $green !important;
+        color: #fff;
+      }
+    }
+  }
+}

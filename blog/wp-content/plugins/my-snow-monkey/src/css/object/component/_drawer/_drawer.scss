@@ -1,0 +1,22 @@
+.#{ $_prefix }c-drawer {
+  background: url(https://tokachitoiro.com/wp-content/uploads/bg_01.jpg) center center / auto repeat;
+
+  &__item {
+    margin-top: 20px;
+    border-bottom: 1px solid $red;
+
+    & + .c-drawer__item {
+      margin-top: 20px;
+    }
+
+    & > a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      @include _font-size-line-height($_base-font-size-px + 4);
+      line-height: 1 !important;
+      font-weight: bold;
+      color: #777;
+    }
+  }
+}

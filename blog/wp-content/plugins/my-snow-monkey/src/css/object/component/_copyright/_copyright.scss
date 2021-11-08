@@ -1,0 +1,6 @@
+.#{ $_prefix }c-copyright {
+  background-color: var(--accent-color,#cd162c);
+  color: #fff;
+  @include _font-size($_base-font-size-px - 1);
+  text-align: center;
+}

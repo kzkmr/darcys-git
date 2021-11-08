@@ -1,0 +1,143 @@
+# Translation of Plugins - Snow Monkey Blocks - Stable (latest release) in Japanese
+# This file is distributed under the same license as the Plugins - Snow Monkey Blocks - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-03-15 13:58:46+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: ja_JP\n"
+"Project-Id-Version: Plugins - Snow Monkey Blocks - Stable (latest release)\n"
+
+#: App/Controller/Manager.php:68
+msgid "Reset available blocks settings"
+msgstr "利用可能なブロックの設定をリセット"
+
+#: App/Controller/Manager.php:117
+msgid "Available blocks"
+msgstr "利用可能なブロック"
+
+#: App/Setup/BlockPatterns.php:31
+msgid "Headings"
+msgstr "Headings"
+
+#: App/Setup/BlockPatterns.php:32
+msgid "Features"
+msgstr "Features"
+
+#: App/Setup/BlockPatterns.php:33
+msgid "Text with image"
+msgstr "Text with image"
+
+#: App/Setup/BlockPatterns.php:34
+msgid "Pricing"
+msgstr "Pricing"
+
+#: snow-monkey-blocks.php:79
+msgid "[Deprecated]"
+msgstr "[非推奨]"
+
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#: App/Setup/BlockPatterns.php:41 App/Setup/BlockPatterns.php:51
+#: App/Setup/BlockPatterns.php:61 App/Setup/BlockPatterns.php:71
+#: App/Setup/BlockPatterns.php:81
+msgid "Heading %1$s"
+msgstr "Heading %1$s"
+
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#: App/Setup/BlockPatterns.php:91 App/Setup/BlockPatterns.php:101
+#: App/Setup/BlockPatterns.php:111 App/Setup/BlockPatterns.php:121
+#: App/Setup/BlockPatterns.php:131 App/Setup/BlockPatterns.php:141
+msgid "Feature %1$s"
+msgstr "Feature %1$s"
+
+#. translators: $1: number
+#. translators: $1: number
+#. translators: $1: number
+#: App/Setup/BlockPatterns.php:151 App/Setup/BlockPatterns.php:161
+#: App/Setup/BlockPatterns.php:171
+msgid "Text with image %1$s"
+msgstr "Text with image %1$s"
+
+#. translators: $1: number
+#: App/Setup/BlockPatterns.php:181
+msgid "Pricing %1$s"
+msgstr "Pricing %1$s"
+
+#. translators: $1: number
+#. translators: $1: number
+#: App/Setup/BlockPatterns.php:191 App/Setup/BlockPatterns.php:201
+msgid "FAQ %1$s"
+msgstr "FAQ %1$s"
+
+#: block/categories-list/view.php:82
+msgid "(no title)"
+msgstr "(タイトルなし)"
+
+#: block/categories-list/view.php:44 block/categories-list/edit.js:137
+#: dist/block/categories-list/editor.js:1
+msgid "articles"
+msgstr "記事"
+
+#: block/categories-list/view.php:62 block/categories-list/edit.js:150
+#: block/recent-posts/edit.js:365 block/taxonomy-posts/index.js:21
+#: dist/block/categories-list/editor.js:1 dist/block/recent-posts/editor.js:2
+#: dist/block/taxonomy-posts/editor.js:1
+msgid "Recent posts"
+msgstr "最近の投稿"
+
+#: App/Setup/BlockPatterns.php:35
+msgid "FAQ"
+msgstr "FAQ"
+
+#. Author of the plugin
+msgid "inc2734"
+msgstr "inc2734"
+
+#. Description of the plugin
+msgid "Gutenberg blocks collection made by MonkeyWrench."
+msgstr "モンキーレンチ作の Gutenberg ブロック集。"
+
+#. Author URI of the plugin
+msgid "https://2inc.org"
+msgstr "https://2inc.org"
+
+#. translators: %1$s: Start a tag, %2$s: End a tag
+#: snow-monkey-blocks.php:142
+msgid "When used together with the %1$sSnow Monkey%2$s theme, it can be displayed with the most beautiful balance, and it is displayed on the edit screen with the same design as the front screen."
+msgstr "%1$sSnow Monkey%2$s テーマと一緒に使用すると、最も美しいバランスで表示され、フロントスクリーンと同じデザインで編集画面に表示されます。"
+
+#: snow-monkey-blocks.php:118
+msgid "[ PR ] Premium WordPress Theme Snow Monkey"
+msgstr "【PR】プレミアム WordPress テーマ Snow Monkey"
+
+#: snow-monkey-blocks.php:70
+msgid "[Sections]"
+msgstr "[セクション]"
+
+#: snow-monkey-blocks.php:61
+msgid "[Common blocks]"
+msgstr "[共通ブロック]"
+
+#. Plugin Name of the plugin
+#: App/Controller/Manager.php:47 App/Controller/Manager.php:48
+#: App/Controller/Manager.php:54 snow-monkey-blocks.php:59
+#: snow-monkey-blocks.php:68 snow-monkey-blocks.php:77
+msgid "Snow Monkey Blocks"
+msgstr "Snow Monkey Blocks"
+
+#. translators: %1$s: Start a tag, %2$s: End a tag
+#: snow-monkey-blocks.php:136
+msgid "Snow Monkey Blocks is optimized for the %1$sSnow Monkey%2$s theme, but it can also be used with other themes."
+msgstr "Snow Monkey Blocksは %1$sSnow Monkey%2$s テーマに最適化されていますが、他のテーマでも使用できます。"

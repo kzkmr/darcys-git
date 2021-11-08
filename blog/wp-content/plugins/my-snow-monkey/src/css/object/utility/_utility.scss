@@ -1,0 +1,33 @@
+.u-align-center {
+  text-align: center;
+}
+
+.u-img-hover {
+
+  a {
+
+    img {
+      transition: .3s;
+    }
+
+    &:hover {
+
+      img {
+        opacity: .8;
+      }
+    }
+  }
+}
+
+.u-roboto {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.u-helvetica {
+  font-family: 'Helvetica','Leelawadee UI',sans-serif !important;
+}
+
+.u-din {
+  font-family: 'DIN Condensed','Arial',sans-serif !important;
+  font-weight: bold !important;
+}

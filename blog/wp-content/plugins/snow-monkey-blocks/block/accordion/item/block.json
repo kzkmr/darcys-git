@@ -1,0 +1,24 @@
+{
+  "apiVersion": 2,
+  "name": "snow-monkey-blocks/accordion--item",
+	"title": "Item",
+  "category": "smb",
+  "parent": [
+    "snow-monkey-blocks/accordion"
+  ],
+  "attributes": {
+    "title": {
+      "type": "string",
+      "source": "html",
+      "selector": ".smb-accordion__item__title__label",
+      "default": ""
+    },
+    "initialState": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "html": false
+  }
+}

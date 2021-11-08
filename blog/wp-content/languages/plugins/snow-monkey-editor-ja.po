@@ -1,0 +1,28 @@
+# Translation of Plugins - Snow Monkey Editor - Stable (latest release) in Japanese
+# This file is distributed under the same license as the Plugins - Snow Monkey Editor - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-03-05 13:40:30+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: ja_JP\n"
+"Project-Id-Version: Plugins - Snow Monkey Editor - Stable (latest release)\n"
+
+#. Author URI of the plugin
+msgid "https://2inc.org"
+msgstr "https://2inc.org"
+
+#. Author of the plugin
+msgid "inc2734"
+msgstr "inc2734"
+
+#. Description of the plugin
+msgid "Extends gutenberg block editor"
+msgstr "gutenberg ブロックエディターを拡張"
+
+#. Plugin Name of the plugin
+msgid "Snow Monkey Editor"
+msgstr "Snow Monkey Editor"

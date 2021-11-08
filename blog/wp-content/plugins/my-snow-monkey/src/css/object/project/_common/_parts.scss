@@ -1,0 +1,24 @@
+
+.p-info {
+
+  .smb-information__body {
+    border-bottom: 1px dotted #999;
+
+    >:not(:first-child) {
+      margin-top: 0 !important;
+    }
+
+    .smb-information__item {
+      padding: 5px 5.333%;
+      border-top: 1px dotted #999;
+
+      @include _media-min(md) {
+        padding: 5px 15%;
+      }
+
+      &__label {
+        font-weight: bold;
+      }
+    }
+  }
+}

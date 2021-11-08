@@ -1,0 +1,48 @@
+.#{ $_prefix }c-entry-summary {
+
+  &__meta {
+    text-align: right;
+
+    .#{ $_prefix }c-meta {
+
+      &__item--author {
+        display: none;
+      }
+    }
+  }
+
+  &__figure {
+
+    .c-entry-summary__term {
+      top: auto;
+      bottom: 15px;
+      left: 20px;
+      right: auto;
+      min-width: 108px;
+      text-align: center;
+      background-color: #eee;
+      color: #fff;
+
+      &--category-1 {
+        background-color: #fff;
+        color: $black;
+      }
+
+      &--category-3 {
+        background-color: #1BA7EB;
+      }
+
+      &--category-4 {
+        background-color: $red;
+      }
+
+      &--category-5 {
+        background-color: $green;
+      }
+
+      &--category-6 {
+        background-color: $black;
+      }
+    }
+  }
+}

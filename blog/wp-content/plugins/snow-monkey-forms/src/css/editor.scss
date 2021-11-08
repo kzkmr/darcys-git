@@ -1,0 +1,40 @@
+@import 'core/core';
+@import '../../node_modules/sass-basis/src/css/basis-core';
+
+.snow-monkey-forms-setting-panel {
+  .components-panel__header {
+    color: #555d66;
+    font-size: 13px;
+    font-weight: bold;
+  }
+}
+
+.editor-styles-wrapper {
+  @import 'app';
+
+  .smf-item {
+    &.is-hovered:not(.is-highlighted),
+    &.is-selected:not(.is-highlighted),
+    &.has-child-selected:not(.is-highlighted) {
+      &::after {
+        top: -5px;
+        right: -5px;
+        bottom: -5px;
+        left: -5px;
+        z-index: 1;
+        box-shadow: 0 0 0 1px rgba(#007cba, .25);
+        @include _transition(box-shadow);
+      }
+    }
+  }
+
+  .smf-select-control__control {
+    background-image: none !important;
+  }
+
+  .smf-textarea-control__control {
+    resize: none;
+  }
+}
+
+@import 'block-styles/editor';

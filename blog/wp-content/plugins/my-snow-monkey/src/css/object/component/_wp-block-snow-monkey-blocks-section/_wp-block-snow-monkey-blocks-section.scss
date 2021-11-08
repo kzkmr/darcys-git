@@ -1,0 +1,79 @@
+.wp-block-snow-monkey-blocks-section {
+  margin-top: 0 !important;
+  padding-top: calc(var(--_space, 1.76923rem)*1.5) !important;
+  padding-bottom: calc(var(--_space, 1.76923rem)*1.5) !important;
+
+  .c-container {
+    max-width: 1088px;
+  }
+
+  .smb-section {
+
+    &__title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1;
+      color: $black;
+
+      @include _media-min(md) {
+        font-size: 1.8125rem;
+      }
+
+      &::after {
+        content: none;
+      }
+    }
+
+    &__lede-wrapper {
+      margin-top: 18px !important;
+    }
+
+    &__lede {
+      display: flex;
+      justify-content: center;
+      width: 238px;
+      padding: .3em 0 0;
+      font-family: 'DIN Condensed','Arial',sans-serif;
+      font-weight: bold;
+      font-size: 1.25rem;
+      line-height: 1;
+      letter-spacing: 0;
+      background-color: #ddd;
+      color: #fff;
+
+      @include _media-min(md) {
+        font-size: 1.8125rem;
+      }
+    }
+  }
+
+  &--red {
+
+    .smb-section {
+
+      &__lede {
+        background-color: #E7615D;
+      }
+    }
+  }
+
+  &--blue {
+
+    .smb-section {
+
+      &__lede {
+        background-color: #1BA7EB;
+      }
+    }
+  }
+
+  &--green {
+
+    .smb-section {
+
+      &__lede {
+        background-color: #A5C654;
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "apiVersion": 2,
+  "name": "snow-monkey-blocks/box",
+	"title": "Box",
+	"description": "It is a box.",
+  "category": "smb",
+  "attributes": {
+    "backgroundColor": {
+      "type": "string"
+    },
+    "backgroundGradientColor": {
+      "type": "string"
+    },
+    "borderColor": {
+      "type": "string"
+    },
+    "textColor": {
+      "type": "string"
+    },
+    "borderWidth": {
+      "type": "number",
+      "default": 1
+    },
+    "borderRadius": {
+      "type": "number"
+    },
+    "opacity": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
+        }
+      }
+    ]
+  }
+}

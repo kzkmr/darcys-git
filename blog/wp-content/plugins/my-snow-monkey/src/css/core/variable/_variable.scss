@@ -1,0 +1,26 @@
+$_base-font-size-px: 16px !default;
+$_between-lines: (1rem / 2.6) !default;
+$_container-max-width: 1280px !default;
+$_transition-duration: .2s !default;
+$_font-path: 1 !default;
+$_base-margin-bottom: 1 !default;
+$_h2-font-size-scale: 1.5 !default;
+$_h2-margin-top: $_base-margin-bottom * 2 !default;
+$_h2-margin-bottom: $_base-margin-bottom * 1.25 !default;
+$_h3-margin-top: $_base-margin-bottom * 1.75 !default;
+$_h3-margin-bottom: $_base-margin-bottom * .75 !default;
+$_h4-margin-bottom: $_base-margin-bottom * .5 !default;
+$_border-radius: 6px !default;
+$color-accent: #1C422B !default;
+$one-column-slim-max-width: 46rem !default;
+$border-bottom-width: 1px !default;
+$_font-family: system-ui, -apple-system, BlinkMacSystemFont, "ヒラギノ角ゴ W3", sans-serif !default;
+$img-path: '../img' !default;
+
+$black: #1A1311;
+$red: #e7615d;
+$blue: #3B537A;
+$gray: #c4cbd6;
+$green: #A5C654;
+
+$hiragino: 'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','Meiryo UI','Osaka','ＭＳ Ｐゴシック','MS PGothic',sans-serif;

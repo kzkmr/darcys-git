@@ -1,0 +1,105 @@
+.#{ $_prefix }p-global-nav-wrap {
+  margin: 0 calc(50% - 50vw) !important;
+  padding: 15px 0;
+  background-color: rgb(214,234,253);
+
+  .p-global-nav {
+    max-width: 940px;
+    margin: 0 auto;
+
+    .c-navbar {
+
+      &__item {
+        @include _padding(.2, 0);
+
+        &[data-active-menu] {
+          background-color: #fff;
+          color: $blue;
+        }
+
+        & > a {
+          padding: 0;
+          font-family: $hiragino;
+          @include _font-size-line-height($_base-font-size-px - 1);
+          font-weight: 300;
+          line-height: 1.563;
+          color: $black;
+
+          & > span {
+            display: block;
+            margin: 0 auto;
+          }
+
+          .u-din {
+            @include _font-size-line-height($_base-font-size-px + 2);
+          }
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: 1px;
+          height: 100%;
+          margin: auto 0;
+          background-color: #999;
+        }
+
+        &:last-of-type::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          width: 1px;
+          height: 100%;
+          margin: auto 0;
+          background-color: #999;
+        }
+
+        &[data-active-menu] {
+          background-color: rgba(255,255,255,.5);
+
+          &::before {
+            content: none;
+          }
+
+          &::after {
+            content: none;
+          }
+
+          & + .c-navbar__item {
+
+            &::before {
+              content: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.p-drop-nav {
+  background: url(https://tokachitoiro.com/wp-content/uploads/bg_01.jpg) center center / cover no-repeat;
+
+  .c-navbar {
+
+    &__item {
+
+      & > a {
+
+        & > span {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}
+
+.p-global-nav--hover-text-color .c-navbar__item[data-active-menu] {
+    color: #919baa;
+}

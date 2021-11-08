@@ -1,0 +1,13 @@
+.#{ $_prefix }c-hamburger-btn {
+
+  &__bars {
+
+    .c-hamburger-btn__bar {
+      background-color: #fff;
+    }
+  }
+
+  &__label {
+    color: #fff;
+  }
+}

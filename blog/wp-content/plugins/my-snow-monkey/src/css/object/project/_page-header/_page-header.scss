@@ -1,0 +1,76 @@
+.p-page-header {
+  width: 100%;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 52px 0 35px !important;
+  background: url(https://tokachitoiro.com/wp-content/uploads/bg_01.jpg) center center / cover no-repeat;
+
+  .smb-container__body {
+
+    h2 {
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      font-size: 1.250rem;
+      font-weight: 800;
+      line-height: 1;
+      text-align: center;
+      color: $black;
+      background: none !important;
+
+      @include _media-min(md) {
+        font-size: 1.8125rem;
+      }
+    }
+
+    p {
+      display: flex;
+      justify-content: center;
+      width: 238px;
+      margin: 18px auto 0 !important;
+      padding: .3em 0 0;
+      font-family: 'DIN Condensed','Arial',sans-serif;
+      font-weight: bold;
+      font-size: 1.250rem;
+      line-height: 1;
+      letter-spacing: 0;
+      background-color: #ddd;
+      color: #fff;
+
+      @include _media-min(md) {
+        font-size: 1.8125rem;
+      }
+    }
+  }
+
+  &--red {
+
+    .smb-container__body {
+
+      p {
+        background-color: #E7615D;
+      }
+    }
+  }
+
+  &--blue {
+
+    .smb-container__body {
+
+      p {
+        background-color: #1BA7EB;
+      }
+    }
+  }
+
+  &--green {
+
+    .smb-container__body {
+
+      p {
+        background-color: #A5C654;
+      }
+    }
+  }
+}
+

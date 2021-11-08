@@ -1,0 +1,15 @@
+.#{ $_prefix }c-entries {
+
+  &--rich-media {
+
+    .c-entries__item {
+      flex: 0 1 100% !important;
+      max-width: 100% !important;
+
+      @include _media-min(md) {
+        flex: 0 1 33.33333% !important;
+        max-width: 33.33333% !important;
+      }
+    }
+  }
+}

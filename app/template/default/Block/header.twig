@@ -1,0 +1,57 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+<div class="ec-headerRole__navSP">
+    {{ include('Block/nav_sp.twig') }}
+</div>
+<div class="ec-headerNaviRoleTop">
+    <div class="ec-headerNaviRoleTop__nav">
+        {{ include('Block/login.twig') }}
+    </div>
+    <div class="ec-headerNaviRoleTop__btn">
+        <a href="">CONTACT US</a>
+    </div>
+</div>
+<div class="ec-headerNaviRoleBottom">
+    <div class="ec-headerNaviRoleBottom__logo">
+        {#<p class="ec-headerNaviRole__img"><a href="{{ url('homepage') }}"><img src="{{ asset('assets/img/add/logo_header.svg') }}" width="280"></a></p>#}
+        <p class="ec-headerNaviRoleBottom__img">
+          <a href="{{ url('homepage') }}">
+            <img src="{{ asset('assets/img/common/logo_header.png') }}">
+          </a>
+        </p>
+    </div>
+    <div class="ec-headerNaviRoleBottom__center">
+        <div class="ec-headerNaviRoleBottom__gnav">
+            <ul class="p-global-navi">
+                <li class="p-global-navi__item">
+                    <a href="">NEWS</a>
+                </li>
+                <li class="p-global-navi__item">
+                    <a href="">STORY</a>
+                </li>
+                <li class="p-global-navi__item">
+                    <a href="">CONCEPT</a>
+                </li>
+                <li class="p-global-navi__item">
+                    <a href="">PRODUCTS</a>
+                </li>
+                <li class="p-global-navi__item">
+                    <a href="{{ url('company') }}">ABOUT US</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="ec-headerNaviRoleBottom__right">
+        <div class="ec-headerRole__cart">
+            {{ include('Block/cart.twig') }}
+        </div>
+    </div>
+</div>

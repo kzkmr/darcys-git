@@ -1,0 +1,25 @@
+@charset 'utf-8';
+
+@import '../../src/css/core/block';
+
+.smb-box {
+  position: relative;
+  border-radius: $_border-radius; //for IE11
+  border-radius: _var-border-radius();
+  @include _padding(1);
+  overflow: visible;
+
+  &__background {
+    @include _alert();
+    @include _position(absolute, 0, 0, 0, 0);
+    border: 1px solid transparent;
+    border-color: _lighter($_color-gray); // For IE11
+    border-color: _var-lighter-color-gray();
+    border-radius: $_border-radius; //for IE11
+    border-radius: _var-border-radius();
+  }
+
+  &__body {
+    position: relative;
+  }
+}

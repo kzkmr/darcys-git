@@ -1,0 +1,19 @@
+.p-qanda-section {
+
+  .p-qanda-item {
+    max-width: 784px;
+    margin: 0 auto;
+
+    .smb-container__body {
+
+      h3 {
+        border-bottom: 3px solid $green !important;
+        text-align: center;
+      }
+    }
+
+    & + .p-qanda-item {
+      margin-top: 55px;
+    }
+  }
+}

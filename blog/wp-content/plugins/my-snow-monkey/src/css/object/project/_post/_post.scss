@@ -1,0 +1,11 @@
+.single-post {
+
+  .c-entry__content {
+
+    & > p {
+      max-width: 930px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

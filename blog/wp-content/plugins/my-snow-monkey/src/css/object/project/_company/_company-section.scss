@@ -1,0 +1,54 @@
+.p-company-section {
+
+  .p-company-subtitle {
+    border: none !important;
+    @include _font-size-line-height($_base-font-size-px + 9);
+    font-weight: 400;
+  }
+
+  .p-company-text-01 {
+    position: relative;
+    margin-bottom: calc(var(--_space, 1.8rem)*1.2*var(--_margin-scale, 1));
+    @include _font-size-line-height($_base-font-size-px + 7);
+
+    @include _media-min(md) {
+      @include _font-size-line-height($_base-font-size-px + 14);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      right: 0;
+      width: 86%;
+      height: 3px;
+      margin: 0 auto;
+      background-color: $red;
+    }
+  }
+
+  .p-company-items {
+    @include _margin(0, 0, 2);
+
+    .c-row {
+
+      .wp-block-snow-monkey-blocks-items--item--free {
+        padding-left: calc(var(--_space, 1.8rem)*1*var(--_margin-scale, 1)) !important;
+        padding-right: calc(var(--_space, 1.8rem)*1*var(--_margin-scale, 1)) !important;
+
+        .smb-items__item {
+
+          &__body {
+
+            h4 {
+              border-bottom: 1px solid $red;
+              @include _padding(0, 0, .5);
+              @include _font-size-line-height($_base-font-size-px + 9);
+            }
+          }
+        }
+      }
+    }
+  }
+}
