@@ -4215,7 +4215,7 @@ Styleguide 11.2
     margin-right: auto;
     margin-left: auto;
     width: 100%;
-    max-width: 1240px;
+    max-width: 1130px;
     display: flex;
     flex-wrap: nowrap; }
 .ec-layoutRole .ec-layoutRole__main {
@@ -4361,10 +4361,7 @@ Styleguide 11.2
 .ec-headerNaviRoleBottom__center {
     margin: 0 auto; }
 .ec-headerNaviRoleBottom__gnav .p-global-navi {
-    display: flex;
-    gap: 30px;
-    padding-top: 20px;
-    list-style: none; }
+    display: none; }
 .ec-headerNaviRoleBottom__gnav .p-global-navi__item a {
       font-size: 16px;
       letter-spacing: .06em;
@@ -4867,7 +4864,8 @@ include /assets/tmpl/elements/11.8.footer.pug
 Styleguide 11.3
 */
 .ec-footerRole {
-  margin-top: 30px;
+  max-width: 1130px;
+  margin: 30px auto 0;
   background: #f2f2f2; }
 .ec-footerRole .ec-footerRole__top {
     display: flex;
@@ -7423,6 +7421,27 @@ Styleguide 23
 .ec-top-blog .row .col-3 {
       flex: 0 0 100%;
       padding: 0 15px; }
+/* topページ blog
+********************************************/
+.ec-top-links {
+  margin-top: 30px; }
+.ec-top-links__inner {
+    display: flex;
+    flex-wrap: wrap; }
+.ec-top-links__item {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px; }
+.ec-top-links__item:nth-of-type(1), .ec-top-links__item:nth-of-type(4) {
+      background-color: #f1f1f1; }
+.ec-top-links__item a {
+      display: block; }
+/* topページ instagram
+********************************************/
+.ec-top-instagram {
+  margin-top: 30px; }
 /* privacy policy
 ********************************************/
 .ec-privacy-cell p {
@@ -7722,6 +7741,11 @@ Styleguide 23
           text-decoration: none; }
         .ec-headerNaviRole .ec-headerNaviRole__navSP a:hover {
           text-decoration: none; }
+      .ec-headerNaviRoleBottom__gnav .p-global-navi {
+        display: flex;
+        gap: 30px;
+        padding-top: 20px;
+        list-style: none; }
     .ec-headerNavSP {
       display: none; }
         .ec-headerTitle .ec-headerTitle__title a {
@@ -7817,7 +7841,8 @@ Styleguide 23
       color: #525263;
       -webkit-text-size-adjust: 100%;
       width: 100%;
-      max-width: 1130px; }
+      max-width: 1130px;
+      padding: 0 40px; }
       .ec-footerRole .ec-footerRole__inner:after {
         content: " ";
         display: table; }
@@ -8119,7 +8144,14 @@ Styleguide 23
                 font-size: 14px;
                 color: #525263; }
               .ec-top-blog .row .col-3 a .text-box .title {
-                color: #525263; } }
+                color: #525263; }
+    .ec-top-links {
+      margin-top: 50px; }
+      .ec-top-links__item {
+        flex: 0 0 50%;
+        height: 220px; }
+    .ec-top-instagram {
+      margin-top: 50px; } }
 @media only screen and (min-width: 768px) and (min-width: 768px) {
     .ec-off1Grid {
       display: flex; }

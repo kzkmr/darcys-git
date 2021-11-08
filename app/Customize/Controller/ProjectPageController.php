@@ -8,11 +8,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
-class CompanyPageController extends AbstractController
+class ProjectPageController extends AbstractController
 {
 
     /**
-     * CompanyPageController constructor.
+     * ProjectPageController constructor.
      */
     public function __construct()
     {
@@ -20,8 +20,8 @@ class CompanyPageController extends AbstractController
 
     /**
      * @Method("GET")
-     * @Route("/company", name="company")
-     * @Template("/company.twig")
+     * @Route("/project", name="project")
+     * @Template("/project.twig")
      */
     public function company()
     {

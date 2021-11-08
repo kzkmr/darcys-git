@@ -65,7 +65,7 @@ class CustomUserDataController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $file = sprintf('@user_data/%s.twig', $Page->getFileName());
+        $file = sprintf('/%s.twig', $Page->getFileName());
 
         $event = new EventArgs(
             [
