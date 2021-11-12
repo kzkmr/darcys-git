@@ -4354,18 +4354,31 @@ Styleguide 11.2
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 40px 0 20px; }
 .ec-headerNaviRoleBottom__center {
     display: none; }
+.ec-headerNaviRoleBottom__right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 30px;
+    height: 32px;
+    margin: auto 0; }
 .ec-headerNaviRoleBottom__gnav .p-global-navi {
     display: none; }
 .ec-headerNaviRoleBottom__gnav .p-global-navi__item a {
       font-size: 16px;
       letter-spacing: .06em;
       color: #555; }
+.ec-headerNaviRoleBottom__img {
+    text-align: center; }
+.ec-headerNaviRoleBottom__img img {
+      width: 120px;
+      height: auto; }
 .ec-headerNavSP {
   display: block;
   cursor: pointer;
@@ -4866,13 +4879,13 @@ Styleguide 11.3
 .ec-footerRole {
   max-width: 1130px;
   margin: 30px auto 0;
+  padding: 30px 5.333%;
   background: #f2f2f2; }
 .ec-footerRole .ec-footerRole__top {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around; }
+    justify-content: space-between; }
 .ec-footerRole .ec-footerRole__top > ul {
-      flex: 0 0 100%; }
+      flex: auto; }
 /*
 フッターナビ
 
@@ -4900,7 +4913,6 @@ Styleguide 11.3.1
     display: block; }
 .ec-footerNavi .ec-footerNavi__link a {
       display: block;
-      border-bottom: 1px solid #7d7d7d;
       padding: 15px 0;
       font-size: 14px;
       color: inherit;
@@ -7441,7 +7453,8 @@ Styleguide 23
 /* topページ instagram
 ********************************************/
 .ec-top-instagram {
-  margin-top: 30px; }
+  margin-top: 30px;
+  padding: 0 5.333%; }
 /* privacy policy
 ********************************************/
 .ec-privacy-cell p {
@@ -7744,11 +7757,17 @@ Styleguide 23
       .ec-headerNaviRoleBottom__center {
         display: block;
         margin: 0 auto; }
+      .ec-headerNaviRoleBottom__right {
+        position: relative;
+        right: 0;
+        margin: 0; }
       .ec-headerNaviRoleBottom__gnav .p-global-navi {
         display: flex;
         gap: 30px;
         padding-top: 20px;
         list-style: none; }
+        .ec-headerNaviRoleBottom__img img {
+          width: 136px; }
     .ec-headerNavSP {
       display: none; }
         .ec-headerTitle .ec-headerTitle__title a {
@@ -7832,7 +7851,7 @@ Styleguide 23
     .have_curtain .ec-overlayRole {
       display: none; }
     .ec-footerRole {
-      padding-top: 40px;
+      padding: 40px 0 0;
       margin-top: 100px; }
     .ec-footerRole .ec-footerRole__inner {
       margin: 0 auto;
@@ -7864,16 +7883,10 @@ Styleguide 23
         box-sizing: inherit; }
       .ec-footerRole .ec-footerRole__inner img {
         width: 100%; }
-      .ec-footerRole .ec-footerRole__top {
-        flex-direction: row;
-        justify-content: space-between; }
-        .ec-footerRole .ec-footerRole__top > ul {
-          flex: auto; }
       .ec-footerNavi .ec-footerNavi__link {
         display: inline-block; }
         .ec-footerNavi .ec-footerNavi__link a {
           display: inline-block;
-          border-bottom: none;
           margin: 0 10px;
           padding: 0;
           text-decoration: underline; }
@@ -8154,7 +8167,8 @@ Styleguide 23
         flex: 0 0 50%;
         height: 220px; }
     .ec-top-instagram {
-      margin-top: 50px; } }
+      margin-top: 50px;
+      padding: 0; } }
 @media only screen and (min-width: 768px) and (min-width: 768px) {
     .ec-off1Grid {
       display: flex; }
