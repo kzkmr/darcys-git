@@ -4359,7 +4359,7 @@ Styleguide 11.2
   margin: 0 auto;
   padding: 40px 0 20px; }
 .ec-headerNaviRoleBottom__center {
-    margin: 0 auto; }
+    display: none; }
 .ec-headerNaviRoleBottom__gnav .p-global-navi {
     display: none; }
 .ec-headerNaviRoleBottom__gnav .p-global-navi__item a {
@@ -7741,6 +7741,9 @@ Styleguide 23
           text-decoration: none; }
         .ec-headerNaviRole .ec-headerNaviRole__navSP a:hover {
           text-decoration: none; }
+      .ec-headerNaviRoleBottom__center {
+        display: block;
+        margin: 0 auto; }
       .ec-headerNaviRoleBottom__gnav .p-global-navi {
         display: flex;
         gap: 30px;
