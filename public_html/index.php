@@ -5,7 +5,7 @@ use Symfony\Component\Debug\Debug;
 use Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 
-require_once ('./blog/wp-load.php');
+require_once ('./shop/wp-load.php');
 
 // システム要件チェック
 if (version_compare(PHP_VERSION, '7.1.3') < 0) {

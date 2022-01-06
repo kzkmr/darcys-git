@@ -33,6 +33,8 @@
         "doctrine/migrations": "^1.8",
         "doctrine/orm": "^2.6",
         "easycorp/easy-log-handler": "^1.0",
+        "ec-cube/Coupon4": "^4.1",
+        "ec-cube/ZeusPayment4": "^1.0",
         "ec-cube/plugin-installer": "~0.0.6",
         "egulias/email-validator": "^2.1",
         "friendsofphp/php-cs-fixer": "^2.10",
@@ -182,12 +184,23 @@
     },
     "config": {
         "platform": {
-            "php": "7.1.3"
+            "php": "7.4.25"
         },
         "preferred-install": {
             "*": "dist"
         },
         "optimize-autoloader": true,
         "sort-packages": true
+    },
+    "repositories": {
+        "eccube": {
+            "type": "composer",
+            "url": "https://package-api.ec-cube.net",
+            "options": {
+                "http": {
+                    "header": ["X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"]
+                }
+            }
+        }
     }
 }

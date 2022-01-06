@@ -1,5 +1,5 @@
 {% if blogDatas|length > 0 %}
-    <section class="ec-top-blog" style="display:none;">
+    <section class="ec-top-blog" style="display:block;">
         <div class="ec-secHeading">
             <span class="ec-secHeading__en">NEWS</span>
             <span class="ec-secHeading__line"></span>
@@ -26,4 +26,6 @@
             {% endfor %}
         </div>
     </section>
+{% else %}
+  <p>none</p>
 {% endif %}

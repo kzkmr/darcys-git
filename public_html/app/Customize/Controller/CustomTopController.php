@@ -38,23 +38,31 @@ class CustomTopController extends AbstractController
           'header' => implode("\r\n", $header ),
         ));
         $options = stream_context_create($options);
-        $posts = json_decode(file_get_contents($request->getSchemeAndHttpHost().$request->getBasePath().'/blog/wp-json/wp/v2/posts?per_page=3&_embed', false, $options));
+        if (wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false, $options)) {
+          $response = wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false, $options);
+          $posts = json_decode($response["body"]);
+        } else {
+          $posts = false;
+        }
 
         $blogDatas = [];
-        foreach ($posts as $data) {
-            $item = [];
-            $item['title'] = $data->title;
-            $item['date'] = $data->date;
-            $item['link'] = $data->link;
-            $name = 'wp:featuredmedia';
-            if (isset($data->_embedded->{$name})) {
-                $item['attachment'] = $data->_embedded->{$name}[0];
-            }
-            $name = 'wp:term';
-            if (isset($data->_embedded->{$name})) {
-                $item['category'] = $data->_embedded->{$name}[0];
-            }
-            $blogDatas[] = $item;
+        if ($posts) {
+
+          foreach ($posts as $data) {
+              $item = [];
+              $item['title'] = $data->title;
+              $item['date'] = $data->date;
+              $item['link'] = $data->link;
+              $name = 'wp:featuredmedia';
+              if (isset($data->_embedded->{$name})) {
+                  $item['attachment'] = $data->_embedded->{$name}[0];
+              }
+              $name = 'wp:term';
+              if (isset($data->_embedded->{$name})) {
+                  $item['category'] = $data->_embedded->{$name}[0];
+              }
+              $blogDatas[] = $item;
+          }
         }
 
         return [

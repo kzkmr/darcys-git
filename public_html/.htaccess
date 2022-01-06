@@ -1,8 +1,6 @@
 SetEnvIf Request_URI ".*" Ngx_Cache_NoCacheMode=off
 SetEnvIf Request_URI ".*" Ngx_Cache_AllCacheMode
 
-#Redirect permanent / https://darcy-s.com
-
 DirectoryIndex index.php index.html .ht
 
 <FilesMatch "^composer|^COPYING|^\.env|^\.maintenance|^Procfile|^app\.json|^gulpfile\.js|^package\.json|^package-lock\.json|web\.config|^Dockerfile|^\.editorconfig|\.(ini|lock|dist|git|sh|bak|swp|env|twig|yml|yaml|dockerignore|sample)$">
@@ -60,7 +58,7 @@ DirectoryIndex index.php index.html .ht
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 
-AuthUserFile /home/jhdgroup/darcys-factory.co.jp/public_html/.htpasswd
+AuthUserFile /home/benechantest/test-darcys-factory.xyz/public_html/.htpasswd
 AuthGroupFile /dev/null
 AuthName "Please enter your ID and パスワード"
 AuthType Basic
