@@ -1,0 +1,28 @@
+{
+  "name": "snow-monkey-blocks/taxonomy-terms",
+	"title": "Taxonomy",
+	"description": "You can display terms linked to any taxonomy.",
+  "category": "smb",
+  "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "default": null
+    },
+    "orderby": {
+      "type": "string",
+      "default": "id"
+    },
+    "order": {
+      "type": "string",
+      "default": "asc"
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "example": {
+    "attributes": {
+      "taxonomy": "category"
+    }
+  }
+}

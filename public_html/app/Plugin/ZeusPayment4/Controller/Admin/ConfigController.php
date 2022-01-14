@@ -93,7 +93,7 @@ class ConfigController extends AbstractController
             case 'confirm':
                 $forms[$this->selectedTab]->handleRequest($request);
                 
-                if ($forms[$this->selectedTab]->isValid()) {
+                if ($forms[$this->selectedTab]->isSubmitted() && $forms[$this->selectedTab]->isValid()) {
                     $this->isInputting = false;
                     $forms[$this->selectedTab] = $builders[$this->selectedTab]->getForm();
                     $forms[$this->selectedTab]->handleRequest($request);
@@ -102,7 +102,7 @@ class ConfigController extends AbstractController
                 break;
             case 'complete':
                 $forms[$this->selectedTab]->handleRequest($request);
-                if ($forms[$this->selectedTab]->isValid()) { // 設定保存・完了画面
+                if ($forms[$this->selectedTab]->isSubmitted() && $forms[$this->selectedTab]->isValid()) { // 設定保存・完了画面
                     try {
                         $this->entityManager->getConnection()->beginTransaction();
                         $this->zeusPaymentService->saveConfig(

@@ -112,7 +112,7 @@ class SB_Instagram_Token_Refresher {
 
 		$connection = new SB_Instagram_API_Connect( $this->connected_account, 'access_token', array() );
 
-		$connection->connect();
+		$connection->wp_http_connect();
 
 		if ( ! $connection->is_wp_error() && ! $connection->is_instagram_error() ) {
 			$access_token_data = $connection->get_data();

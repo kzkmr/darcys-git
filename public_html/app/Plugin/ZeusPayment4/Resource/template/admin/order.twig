@@ -40,6 +40,27 @@
                     alert("チェックボックスが選択されていません");
                     return false;
                 }
+				$('#dropdown-form').attr('action', "{{ url('zeus_order_cancel') }}");
+                $('#dropdown-form').submit();
+
+            });
+
+            $('#bt-setsale-order').click(function(event){
+
+                event.preventDefault();
+                var href = $(this).attr('href');
+                var isChecked = false;
+                $('input[id^=check-]').each(function () {
+                    var check = $(this).prop('checked');
+                    if (check) {
+                        isChecked = true;
+                    }
+                });
+                if (!isChecked) {
+                    alert("チェックボックスが選択されていません");
+                    return false;
+                }
+                $('#dropdown-form').attr('action', "{{ url('zeus_order_setsale') }}");
                 $('#dropdown-form').submit();
 
             });
@@ -96,6 +117,10 @@
 					<label class="col-form-label">ゼウスオーダーNo</label>
 					{{ form_widget(searchForm.zeus_order_id) }}
 				</div>
+				<div class="col">
+					<label class="col-form-label">売上種別</label>
+					{{ form_widget(searchForm.zeus_sale_type) }}
+				</div>
 			</div>
 
 		</div>
@@ -139,7 +164,10 @@
 							</select>
 						</div>
 						<div class="d-inline-block">
-							<a class="btn btn-ec-regular" id="bt-cancel-order">一括キャンセル</a>
+							<a class="btn btn-ec-regular" id="bt-cancel-order">一括取消</a>
+						</div>
+						<div class="d-inline-block">
+							<a class="btn btn-ec-regular" id="bt-setsale-order">一括実売上</a>
 						</div>
 					</div>
 				</div>
@@ -158,6 +186,7 @@
 									<th style="min-width: 60px">支払方法</th>
 									<th style="min-width: 80px">購入金額(円)</th>
 									<th style="min-width: 50px">対応状況</th>
+									<th style="min-width: 50px">売上種別</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -175,12 +204,37 @@
 									<td class="align-middle text-right">{{ Order.payment_total|number_format }}</td>
 									<td class="align-middle">{{ Order.OrderStatus }}</td>
 									<td class="align-middle">
+{% if (Order.payment_method == credit_payment_method) %}
+{% if (Order.ZeusSaleType == 1) %}
+仮売上
+{% else  %}
+実売上
+{% endif %}
+{% else  %}
+-
+{% endif %}
+									</td>
+									<td class="align-middle">
 										<div class="px-1 d-inline-block">
 											<a class="btn btn-ec-actionIcon pdf-print"
 												href="{{ url('admin_order_edit', { id : Order.id }) }}"
 												data-tooltip="true" data-placement="top" title="編集"> <i
 												class="fa fa-edit fa-lg text-secondary" aria-hidden="true"></i>
 											</a>
+{% if ( Order.OrderStatus.id in can_cancel_status) %}
+											<a class="btn btn-ec-actionIcon pdf-print"
+												href="{{ url('zeus_order_cancel', {('ids' ~ Order.id) : 1} ) }}"
+												data-tooltip="true" data-placement="top" title="取消"> <i
+												class="fa fa-ban fa-lg text-secondary" aria-hidden="true"></i>
+											</a>
+{% endif %}
+{% if ( (Order.ZeusSaleType == 1) and ( Order.OrderStatus.id in can_cancel_status)) %}										
+											<a class="btn btn-ec-actionIcon pdf-print"
+												href="{{ url('zeus_order_setsale', {('ids' ~ Order.id) : 1} ) }}"
+												data-tooltip="true" data-placement="top" title="実売上"> <i
+												class="fa fa-yen-sign fa-lg text-secondary" aria-hidden="true"></i>
+											</a>
+{% endif %}											
 										</div>
 									</td>
 								</tr>

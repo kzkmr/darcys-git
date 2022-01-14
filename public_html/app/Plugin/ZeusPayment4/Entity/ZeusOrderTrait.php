@@ -54,6 +54,14 @@ trait ZeusOrderTrait
     private $zeus_order_id;
 
     /**
+     *
+     * @var string
+     * @ORM\Column(name="zeus_sale_type", type="smallint", nullable=false, options={"unsigned":true,"default":0})
+     * 1 - 仮売上 　0 - 即時売上  
+     */
+    private $zeus_sale_type = 0;
+
+    /**
      * @var string
      */
     private $zeus_credit_payment_card_no;
@@ -89,6 +97,11 @@ trait ZeusOrderTrait
      */
     private $zeus_credit_payment_quick;
 
+    /**
+     * @var boolean
+     */
+    private $zeus_skip_cancel = false;
+    
     /**
      * @return string
      */
@@ -320,4 +333,45 @@ trait ZeusOrderTrait
 
         return $this;
     }
+    
+    /**
+     * @return string
+     */
+    public function getZeusSaleType()
+    {
+        return $this->zeus_sale_type;
+    }
+    
+    /**
+     * @param string $zeus_sale_type
+     *
+     * @return $this
+     */
+    public function setZeusSaleType($zeus_sale_type)
+    {
+        $this->zeus_sale_type = $zeus_sale_type;
+        
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isZeusSkipCancel()
+    {
+        return $this->zeus_skip_cancel;
+    }
+    
+    /**
+     * @param string $zeus_skip_cancel
+     *
+     * @return $this
+     */
+    public function setZeusSkipCancel($zeus_skip_cancel)
+    {
+        $this->zeus_skip_cancel = $zeus_skip_cancel;
+        
+        return $this;
+    }
+    
 }

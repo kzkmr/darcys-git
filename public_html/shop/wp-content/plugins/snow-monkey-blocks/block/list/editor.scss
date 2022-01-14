@@ -1,0 +1,30 @@
+@charset 'utf-8';
+
+@import '../../src/css/core/block';
+
+.editor-styles-wrapper,
+.customize-control-sidebar_block_editor {
+  @import 'style';
+
+  .smb-list {
+    ul {
+      > li {
+        &::before {
+          content: '';
+          position: absolute;
+          top: 8px;
+          left: -1.3em;
+          @include _circle(10px);
+          border: 2px solid transparent;
+          border-color: $_color-text; // For IE11
+          border-color: _var-color-text();
+        }
+
+        > .smb-list__icon {
+          display: none;
+        }
+      }
+    }
+  }
+
+}

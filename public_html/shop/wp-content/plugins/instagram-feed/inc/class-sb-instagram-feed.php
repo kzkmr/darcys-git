@@ -702,9 +702,10 @@ class SB_Instagram_Feed {
 					$this->add_report( 'api call made for ' . $term . ' - ' . $type );
 
 					$connection->connect();
+
 					$this->num_api_calls++;
 
-					if ( ! $connection->is_wp_error() && ! $connection->is_instagram_error() ) {
+					if ( ! $connection->has_encryption_error() && ! $connection->is_wp_error() && ! $connection->is_instagram_error() ) {
 						$one_successful_connection = true;
 
 						if ( $type === 'hashtags_top' ) {
@@ -854,6 +855,14 @@ class SB_Instagram_Feed {
 						} else {
 							if ( $connection->is_wp_error() ) {
 								SB_Instagram_API_Connect::handle_wp_remote_get_error( $connection->get_wp_error() );
+							} elseif ( $connection->has_encryption_error() ) {
+								$error = array(
+									'error' => array(
+										'code'    => '999',
+										'message' => __( 'Issue decrypting the access token for this feed. Please reconnect this Instagram account.', 'instagram-feed' )
+									)
+								);
+								SB_Instagram_API_Connect::handle_instagram_error( $error, $connected_accounts_for_feed[ $term ] );
 							} else {
 								SB_Instagram_API_Connect::handle_instagram_error( $connection->get_data(), $connected_accounts_for_feed[ $term ] );
 							}

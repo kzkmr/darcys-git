@@ -274,6 +274,7 @@ class SB_Instagram_Posts_Manager {
 			100, // access token or permissions
 			190, // access token or permissions
 			10, // app permissions or scopes
+			999, // encryption
 		);
 
 		return in_array( $error_code, $critical_codes, true );

@@ -15,7 +15,7 @@ use Plugin\ZeusPayment4\Repository\ConfigRepository;
 use Plugin\ZeusPayment4\Service\ZeusPaymentService;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -66,7 +66,7 @@ class CreditPayment implements PaymentMethodInterface
         ConfigRepository $configRepository,
         EntityManagerInterface $entityManager,
         SessionInterface $session,
-        Router $route,
+        RouterInterface $route,
         EccubeConfig $eccubeConfig
 
     ) {
@@ -153,7 +153,7 @@ class CreditPayment implements PaymentMethodInterface
                     // purchaseFlow::commitを呼び出し, 購入処理を完了させる.
                     $this->purchaseFlow->commit($this->Order, new PurchaseContext());
 
-                    $OrderStatus = $this->orderStatusRepository->find(OrderStatus::PAID);
+                    $OrderStatus = $this->orderStatusRepository->find($config->getOrderStatusForSaleType());
                     $this->Order->setOrderStatus($OrderStatus);
                     $this->Order->setPaymentDate(new \DateTime());
 

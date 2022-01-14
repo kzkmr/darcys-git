@@ -910,8 +910,6 @@ class SB_Instagram_Settings {
 
 				break;
 			case 'string_true':
-				$value = floatval( $value );
-
 				if ( $value === 'true' || $value === 'on' || $value === true ) {
 					$sanitized_value = 'true';
 				} else {

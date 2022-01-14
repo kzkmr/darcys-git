@@ -3,7 +3,7 @@ Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 3.4
 Tested up to: 5.8
-Stable tag: 2.9.7
+Stable tag: 2.9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -331,6 +331,15 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 2.9.9 =
+* Fix: The plugin will no longer continue to attempt to connect to the Instagram API if there is an access token encryption error.
+* Fix: Added a content type to JSON responses to improve reliability for loading more posts and creating local images.
+
+= 2.9.8 =
+* Tweak: Added a warning if the access token could not be decrypted for use in API requests.
+* Tweak: Added a fallback method to reach the Instagram API if a cURL error 6 error is detected.
+* Fix: Fixed an issue with connecting an additional business account if the first account listed was not selected.
+
 = 2.9.7 =
 * Tweak: A prompt will now be displayed if the ability to save settings requires a page refresh.
 * Fix: Fixed several accessibility issues in the admin area.

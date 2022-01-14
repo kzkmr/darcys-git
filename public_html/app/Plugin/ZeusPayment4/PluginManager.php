@@ -5,8 +5,11 @@ namespace Plugin\ZeusPayment4;
 use Eccube\Plugin\AbstractPluginManager;
 use Plugin\ZeusPayment4\Entity\Config;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Eccube\Repository\PaymentOptionRepository;
-use Eccube\Repository\OrderRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Eccube\Entity\PaymentOption;
+use Eccube\Entity\Order;
+use Eccube\Repository\PluginRepository;
+use Eccube\Service\PluginService;
 
 use Eccube\Entity\Page;
 use Eccube\Entity\PageLayout;
@@ -39,6 +42,21 @@ class PluginManager extends AbstractPluginManager
         $this->disablePayment($container);
     }
 
+    // アップデート時
+    public function update(array $meta, ContainerInterface $container)
+    {
+        $Plugin = $container->get(PluginRepository::class)->findByCode('ZeusPayment4');
+        $PluginService = $container->get(PluginService::class);
+        
+        if (!$Plugin) {
+            throw new NotFoundHttpException();
+        }
+        
+        $config = $PluginService->readConfig($PluginService->calcPluginDir($Plugin->getCode()));
+        
+        $PluginService->generateProxyAndUpdateSchema($Plugin, $config);
+    }
+    
     private function createConfig(ContainerInterface $container)
     {
         $entityManager = $container->get('doctrine.orm.entity_manager');
@@ -103,12 +121,14 @@ class PluginManager extends AbstractPluginManager
         
         $payments = $config->getPayments();
         $deliveries = null;
-        $paymentOptionRepository = $container->get(PaymentOptionRepository::class);
-        $orderRepository = $container->get(OrderRepository::class);
 
         //remove configuration
         $entityManager->remove($config);
         $entityManager->flush();
+
+        $paymentOptionRepository = $entityManager->getRepository(PaymentOption::class);
+        $orderRepository = $entityManager->getRepository(Order::class);
+
         foreach ($payments as $payment) {
             if ($payment) {
                 //check if order exists
@@ -118,7 +138,7 @@ class PluginManager extends AbstractPluginManager
                 if ($orders && count($orders) > 0) {
                     continue;
                 }
-                
+
                 //remove payment
                 $paymentOptions = $paymentOptionRepository->findBy([
                     'payment_id' => $payment->getId()
@@ -130,7 +150,7 @@ class PluginManager extends AbstractPluginManager
                             $entityManager->flush();
                         }
                     }
-                    
+
                     $entityManager->remove($payment);
                     $entityManager->flush();
                 } catch (\Exception $e) {

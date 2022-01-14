@@ -147,6 +147,7 @@ function sbi_connect_business_accounts() {
 	}
 
 	$raw_accounts = ! empty( $_POST['accounts'] ) ? json_decode( wp_unslash( $_POST['accounts'] ), true ) : array();
+	$raw_accounts = array_values( $raw_accounts );
 	$access_token = ! empty( $raw_accounts[0] ) ? sbi_sanitize_alphanumeric_and_equals( $raw_accounts[0]['access_token'] ) : '';
 	if ( empty( $access_token ) ) {
 		wp_send_json_success( 'No access token' );

@@ -300,7 +300,8 @@ class ZeusPaymentReturn extends AbstractShoppingController
         
         $mode = $request->get("mode");
         try {
-            if ($mode != 'pares' || !$this->paymentService->paymentDataSendAuthorize($request, $Order)) {
+            $config = $this->configRepository->get();
+            if ($mode != 'pares' || !$this->paymentService->paymentDataSendAuthorize($request, $Order, $config)) {
                 $this->addError($this->eccubeConfig['zeus_auth_error_message']);
                 return $this->redirectToRoute('shopping');
             }
@@ -311,7 +312,8 @@ class ZeusPaymentReturn extends AbstractShoppingController
             log_info('[注文処理] カートをクリアします.', [$Order->getId()]);
             $this->cartService->clear();
             
-            $OrderStatus = $this->orderStatusRepository->find(OrderStatus::PAID);
+            $OrderStatus = $this->orderStatusRepository->find(($paymentClass!=CreditPayment::class)?OrderStatus::PAID:$config->getOrderStatusForSaleType());
+            
             $Order->setOrderStatus($OrderStatus);
             $Order->setPaymentDate(new \DateTime());
             

@@ -15,6 +15,7 @@ parameters:
     zeus_secure_3d_information_link_url: https://linkpt.cardservice.co.jp/cgi-bin/secure/api.cgi
     zeus_fetch_customer_info_url: https://linkpt.cardservice.co.jp/cgi-bin/secure/api.cgi
     zeus_get_token_url: https://linkpt.cardservice.co.jp/cgi-bin/token/token.cgi
+    zeus_secure_link_batch_url: https://linkpt.cardservice.co.jp/cgi-bin/secure.cgi
     zeus_resp_server_ips: "210.164.6.67,202.221.139.50"
 
     zeus_auth_error_message: 認証に失敗しました。お手数ですが入力内容をご確認ください。

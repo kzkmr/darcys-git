@@ -442,4 +442,13 @@ class CreditExtention extends AbstractTypeExtension
             'allow_extra_fields' => true
         ));
     }
+    
+    /**
+     * Return the class of the type being extended.
+     */
+    public static function getExtendedTypes(): iterable
+    {
+        // return FormType::class to modify (nearly) every field in the system
+        return [OrderType::class];
+    }
 }

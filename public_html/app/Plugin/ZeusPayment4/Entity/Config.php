@@ -3,7 +3,7 @@
 namespace Plugin\ZeusPayment4\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Eccube\Entity\Master\OrderStatus;
 /**
  * Config
  *
@@ -49,6 +49,14 @@ class Config extends \Eccube\Entity\AbstractEntity
      */
     private $quickchargeflg;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="saletype", type="smallint", nullable=false, options={"unsigned":true,"default":0})
+     * 1 - 仮売上 　0 - 即時売上　 
+     */
+    private $saleType = 0;
+    
     /**
      * @var int
      *
@@ -312,6 +320,45 @@ class Config extends \Eccube\Entity\AbstractEntity
         return $this->quickchargeflg;
     }
 
+    /**
+     * Set saleType
+     *
+     * @param integer $saleType
+     * @return Config
+     */
+    public function setSaleType($saleType)
+    {
+        $this->saleType = $saleType;
+        
+        return $this;
+    }
+    
+    /**
+     * Get saleType
+     *
+     * @return integer
+     */
+    public function getSaleType()
+    {
+        return $this->saleType;
+    }
+    
+    public function getSaleTypeString()
+    {
+        if ($this->saleType == 1)
+            return "仮売上";
+        else
+            return "即時";
+    }
+    
+    public function getOrderStatusForSaleType() {
+        if ($this->saleType == 1) { //仮売上
+            return OrderStatus::NEW;
+        } else {
+            return OrderStatus::PAID;
+        }
+    }
+    
     /**
      * Set secure3dflg
      *

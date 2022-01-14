@@ -33,6 +33,11 @@ class SB_Instagram_API_Connect
 	protected $response;
 
 	/**
+	 * @var bool
+	 */
+	protected $encryption_error;
+
+	/**
 	 * SB_Instagram_API_Connect constructor.
 	 *
 	 * @param mixed|array|string $connected_account_or_url either the connected account
@@ -101,7 +106,7 @@ class SB_Instagram_API_Connect
 	 *
 	 * @since 2.2.2/5.3.3
 	 */
-	public function type_allows_after_paging( ) {
+	public function type_allows_after_paging() {
 		return false;
 	}
 
@@ -114,13 +119,13 @@ class SB_Instagram_API_Connect
 	 *
 	 * @since 2.0/5.0
 	 */
-	public function get_next_page( ) {
+	public function get_next_page() {
 		if ( ! empty( $this->response['pagination']['next_url'] ) ) {
 			return $this->response['pagination']['next_url'];
 		} elseif ( ! empty( $this->response['paging']['next'] ) ) {
 			return $this->response['paging']['next'];
 		} else {
-			if ( $this->type_allows_after_paging( ) ) {
+			if ( $this->type_allows_after_paging() ) {
 				if ( isset( $this->response['paging']['cursors']['after'] ) ) {
 					return $this->response['paging']['cursors']['after'];
 				}
@@ -181,6 +186,44 @@ class SB_Instagram_API_Connect
 	 * @since 2.0/5.0
 	 */
 	public function connect() {
+		if ( empty( $this->url ) ) {
+			$this->response = array();
+			return;
+		}
+		$args = array(
+			'timeout' => 20,
+		);
+		if ( version_compare( get_bloginfo( 'version' ), '3.7', '<' ) ) {
+			$args['sslverify'] = false;
+		}
+		$response = wp_remote_get( $this->url, $args );
+
+		if ( ! is_wp_error( $response ) ) {
+			// certain ways of representing the html for double quotes causes errors so replaced here.
+			$response = json_decode( str_replace( '%22', '&rdquo;', $response['body'] ), true );
+		}
+
+		if ( ( is_wp_error( $response ) || empty( $response ) ) && ini_get( 'allow_url_fopen' ) && function_exists( 'file_get_contents' ) ) {
+			$raw_response     = file_get_contents( $this->url );
+			$decoded_response = json_decode( str_replace( '%22', '&rdquo;', $raw_response ), true );
+			if ( is_array( $decoded_response ) ) {
+				$response = $decoded_response;
+			} else {
+				$response = $raw_response;
+			}
+		}
+
+		$this->response = $response;
+	}
+
+	/**
+	 * Connect to the Instagram API and record the response
+	 */
+	public function wp_http_connect() {
+		if ( empty( $this->url ) ) {
+			$this->response = array();
+			return;
+		}
 		$args = array(
 			'timeout' => 20,
 		);
@@ -235,6 +278,15 @@ class SB_Instagram_API_Connect
 	}
 
 	/**
+	 * Determines how and where to record an error connecting to a specified url
+	 *
+	 * @since 2.0/5.0
+	 */
+	public function has_encryption_error() {
+		return isset( $this->encryption_error ) && $this->encryption_error;
+	}
+
+	/**
 	 * Sets the url for the API request based on the account information,
 	 * type of data needed, and additional parameters.
 	 *
@@ -252,28 +304,39 @@ class SB_Instagram_API_Connect
 		$num          = ! empty( $params['num'] ) ? (int) $params['num'] : 33;
 
 		if ( $account_type === 'basic' ) {
-			if ( $endpoint_slug === 'access_token' ) {
-				$url = 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
-			} elseif ( $endpoint_slug === 'header' ) {
-				$url = 'https://graph.instagram.com/me?fields=id,username,media_count&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
+			$access_token = sbi_maybe_clean( $connected_account['access_token'] );
+			if ( strpos( $access_token, 'IG' ) !== 0 ) {
+				$this->encryption_error = true;
+
+				$url = '';
 			} else {
-				$num = min( $num, 200 );
-				$url = 'https://graph.instagram.com/' . sbi_maybe_clean( $connected_account['user_id'] ) . '/media?fields=media_url,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $num . '&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
+				if ( $endpoint_slug === 'access_token' ) {
+					$url = 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $access_token;
+				} elseif ( $endpoint_slug === 'header' ) {
+					$url = 'https://graph.instagram.com/me?fields=id,username,media_count&access_token=' . $access_token;
+				} else {
+					$num = min( $num, 200 );
+					$url = 'https://graph.instagram.com/' . $connected_account['user_id'] . '/media?fields=media_url,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $num . '&access_token=' . $access_token;
+				}
 			}
+
 		} elseif ( $account_type === 'personal' ) {
-			if ( $endpoint_slug === 'header' ) {
-				$url = 'https://api.instagram.com/v1/users/' . $connected_account['user_id'] . '?access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
-			} else {
-				$num = $num > 20 ? min( $num, 33 ) : 20; // minimum set at 20 due to IG TV bug
-				$url = 'https://api.instagram.com/v1/users/' . $connected_account['user_id'] . '/media/recent?count=' . $num . '&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
-			}
+			$url = '';
 		} else {
-			if ( 'header' === $endpoint_slug ) {
-				$url = 'https://graph.facebook.com/' . $connected_account['user_id'] . '?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
+			$access_token = sbi_maybe_clean( $connected_account['access_token'] );
+			if ( strpos( $access_token, 'EA' ) !== 0 ) {
+				$this->encryption_error = true;
+
+				$url = '';
 			} else {
-				$num = min( $num, 200 );
-				$url = 'https://graph.facebook.com/v10.0/' . $connected_account['user_id'] . '/media?fields=media_url,media_product_type,video_title,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $num . '&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
+				if ( 'header' === $endpoint_slug ) {
+					$url = 'https://graph.facebook.com/' . $connected_account['user_id'] . '?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
+				} else {
+					$num = min( $num, 200 );
+					$url = 'https://graph.facebook.com/v10.0/' . $connected_account['user_id'] . '/media?fields=media_url,media_product_type,video_title,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $num . '&access_token=' . sbi_maybe_clean( $connected_account['access_token'] );
+				}
 			}
+
 		}
 
 		$this->set_url_from_args( $url );

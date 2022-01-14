@@ -98,14 +98,14 @@ class SBI_Account_Connector {
 		}
 
 		$connection = new SB_Instagram_API_Connect( $data, 'header', array() );
-		$connection->connect();
+		$connection->wp_http_connect();
 
 		if ( ! $connection->is_wp_error() && ! $connection->is_instagram_error() ) {
 			$new_data = $connection->get_data();
 
 			if ( $data['type'] === 'basic' ) {
 				$basic_account_access_token_connect = new SB_Instagram_API_Connect( $data, 'access_token', array() );
-				$basic_account_access_token_connect->connect();
+				$basic_account_access_token_connect->wp_http_connect();
 				$token_data = $basic_account_access_token_connect->get_data();
 
 				if ( ! $basic_account_access_token_connect->is_wp_error() && ! $basic_account_access_token_connect->is_instagram_error() ) {

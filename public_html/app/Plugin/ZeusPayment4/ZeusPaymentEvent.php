@@ -18,7 +18,7 @@ use Eccube\Service\CartService;
 use Eccube\Service\OrderHelper;
 use Eccube\Repository\OrderRepository;
 use Plugin\ZeusPayment4\Service\Method\CvsPayment;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -48,7 +48,7 @@ class ZeusPaymentEvent implements EventSubscriberInterface
         OrderHelper $orderHelper,
         OrderRepository $orderRepository,
         EntityManagerInterface $entityManager,
-        Router $router,
+        RouterInterface $router,
         SessionInterface $session
     )
     {
@@ -68,6 +68,8 @@ class ZeusPaymentEvent implements EventSubscriberInterface
         return [
             'Shopping/index.twig' => 'onShoppingIndexTwig',
             'Shopping/confirm.twig' => 'onShoppingConfirmTwig',
+            '@admin/Order/index.twig' => 'adminOrderIndexTwig',
+            '@admin/Order/edit.twig' => 'adminOrderEditTwig',
             KernelEvents::CONTROLLER => array('onKernelController', 130)
         ];
     }
@@ -263,5 +265,15 @@ class ZeusPaymentEvent implements EventSubscriberInterface
             }
         }
 
+    }
+    
+    public function adminOrderIndexTwig(TemplateEvent $event)
+    {
+        $event->addSnippet('@ZeusPayment4/admin/order_index_js.twig');
+    }
+    
+    public function adminOrderEditTwig(TemplateEvent $event)
+    {
+        $event->addSnippet('@ZeusPayment4/admin/order_edit_js.twig');
     }
 }

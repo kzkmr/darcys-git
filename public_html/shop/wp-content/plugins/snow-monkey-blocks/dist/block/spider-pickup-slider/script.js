@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(function(){new Spider(".smb-spider-pickup-slider")}),!1);

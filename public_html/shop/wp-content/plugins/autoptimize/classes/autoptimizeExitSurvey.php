@@ -29,55 +29,67 @@ class autoptimizeExitSurvey
     }
 
     function render_survey_model() {
+        global $wp_version;
+        
         $data = array(
             "home" => home_url(),
             "dest" => 'aHR0cHM6Ly9taXNjLm9wdGltaXppbmdtYXR0ZXJzLmNvbS9hb19leGl0X3N1cnZleS9pbmRleC5waHA='
         );
         ?>
 
-        <div class="ao-plugin-uninstall-feedback-popup ao-feedback" id="ao_uninstall_feedback_popup" data-modal="<?php echo base64_encode(json_encode($data)) ?>">
+        <div class="ao-plugin-uninstall-feedback-popup ao-feedback" id="ao_uninstall_feedback_popup" data-modal="<?php echo base64_encode( json_encode( $data ) ) ?>">
             <div class="popup--header">
-                <h5>Sorry to see you go, we would appreciate if you let us know why you're deactivating Autoptimize!</h5>
+                <h5><?php _e( 'Sorry to see you go, we would appreciate if you let us know why you\'re deactivating Autoptimize!', 'autoptimize' ); ?></h5>
             </div><!--/.popup--header-->
             <div class="popup--body">
                 <ul class="popup--form">
                     <li ao-option-id="5">
                         <input type="radio" name="ao-deactivate-option" id="ao_feedback5">
                         <label for="ao_feedback5">
-                            I don't see a performance improvement.
+                            <?php _e( 'I don\'t see a performance improvement.', 'autoptimize' ); ?>
                         </label>
+                        <p class="last-attempt"><?php _e( 'As Autoptimize does not do page caching, you might have to install e.g. KeyCDN Cache Enabler or WP Super Cache as well. Feel free to create a topic on <a href="https://wordpress.org/support/plugin/autoptimize/#new-topic-0" target="_blank">the support forum here</a> to get pointers on how get the most out of Autoptimize!', 'autoptimize' ); ?></p>
                     </li>
                     <li ao-option-id="6">
                         <input type="radio" name="ao-deactivate-option" id="ao_feedback6">
-                        <label for="ao_feedback6">
-                            It broke my site.
+                        <label for="ao_feedback6" data-reason="broke site">
+                            <?php _e( 'It broke my site.', 'autoptimize' ); ?>
                         </label>
+                        <p class="last-attempt"><?php _e( 'Almost all problems can be fixed with the right configuration, have a look at <a href="https://wordpress.org/plugins/autoptimize/#faq" target="_blank">the FAQ</a> or create a topic on <a href="https://wordpress.org/support/plugin/autoptimize/#new-topic-0" target="_blank">the support forum here</a>!', 'autoptimize' ); ?></p>
                     <li ao-option-id="4">
                         <input type="radio" name="ao-deactivate-option" id="ao_feedback4">
-                        <label for="ao_feedback4">
-                            I found a better solution.
+                        <label for="ao_feedback4" data-reason="found better">
+                            <?php _e( 'I found a better solution.', 'autoptimize' ); ?>
                         </label>
                     <li ao-option-id="3">
                         <input type="radio" name="ao-deactivate-option" id="ao_feedback3">
-                        <label for="ao_feedback3">
-                            I'm just disabling temporarily.
+                        <label for="ao_feedback3" data-reason="just temporarily">
+                            <?php _e( 'I\'m just disabling temporarily.', 'autoptimize' ); ?>
                         </label>
                     <li ao-option-id="999">
                         <input type="radio" name="ao-deactivate-option" id="ao_feedback999">
-                        <label for="ao_feedback999">
-                            Other (please specify below) </label>
+                        <label for="ao_feedback999" data-reason="other">
+                            <?php _e( 'Other (please specify below)', 'autoptimize' ); ?> </label>
                         <textarea width="100%" rows="2" name="comments" placeholder="What can we do better?"></textarea></li>
+                    <hr />
+                    <li ao-option-id="998">
+                        <label for="ao_feedback998" data-reason="other detail">
+                            <?php _e( 'If you want to be contacted about or get help with Autoptimize, leave your email here (we never spam).', 'autoptimize' ); ?>
+                        </label>
+                        <input type="email" name="ao-deactivate-option" id="ao_feedback998" placeholder="mymail@domain.xyz">
+                    </li>
                 </ul>
             </div><!--/.popup--body-->
             <div class="popup--footer">
                 <div class="actions">
-                    <a href="#" class="info-disclosure-link">What info do we collect?</a>
-                    <div class="info-disclosure-content"><p>Below is a detailed view of all data that Optimizing Matters will receive if
-                            you fill in this survey. Email address or IP addresses will not be sent.</p>
+                    <a href="#" class="info-disclosure-link"><?php _e( 'What info do we collect?', 'autoptimize' ); ?></a>
+                    <div class="info-disclosure-content"><p><?php _e( 'Below is a detailed view of all data that Optimizing Matters will receive if
+                            you fill in this survey. Your email address is only shared if you explicitly fill it in, your IP addres is never sent.', 'autoptimize' ); ?></p>
                         <ul>
-                            <li><strong>Plugin version </strong> <code id="ao_plugin_version"> <?php echo AUTOPTIMIZE_PLUGIN_VERSION ?> </code></li>
-                            <li><strong>Current website:</strong> <code> <?php echo trailingslashit(get_site_url()) ?> </code></li>
-                            <li><strong>Uninstall reason </strong> <i> Selected reason from the above survey </i></li>
+                            <li><strong><?php _e( 'Plugin version', 'autoptimize' ); ?> </strong> <code id="ao_plugin_version"> <?php echo AUTOPTIMIZE_PLUGIN_VERSION ?> </code></li>
+                            <li><strong><?php _e( 'WordPress version', 'autoptimize' ); ?> </strong> <code id="core_version"> <?php echo $wp_version ?> </code></li>
+                            <li><strong><?php _e( 'Current website:', 'autoptimize' ); ?></strong> <code> <?php echo trailingslashit(get_site_url()) ?> </code></li>
+                            <li><strong><?php _e( 'Uninstall reason', 'autoptimize' ); ?> </strong> <i> <?php _e( 'Selected reason from the above survey', 'autoptimize' ); ?> </i></li>
                         </ul>
                     </div>
                     <div class="buttons">
@@ -85,7 +97,12 @@ class autoptimizeExitSurvey
                                name="ao-deactivate-no"
                                id="ao-deactivate-no"
                                class="button"
-                               value="Skip &amp; Deactivate">
+                               value="Just Deactivate">
+                        <input type="submit"
+                               name="ao-deactivate-cancel"
+                               id="ao-deactivate-cancel"
+                               class="button"
+                               value="Cancel">
                         <input type="submit"
                                name="ao-deactivate-yes"
                                id="ao-deactivate-yes"

@@ -343,6 +343,7 @@ function sbi_get_next_post_set() {
         'resizedImages' => SB_Instagram_Feed::get_resized_images_source_set( $instagram_feed->get_image_ids_post_set(), 1, $feed_id )
 	);
 
+	header( 'Content-Type: application/json; charset=utf-8' );
 	echo sbi_json_encode( $return );
 
 	die();
@@ -435,6 +436,7 @@ function sbi_process_submitted_resize_ids() {
 	global $sb_instagram_posts_manager;
 
 	if ( ! $sb_instagram_posts_manager->image_resizing_disabled() ) {
+		header( 'Content-Type: application/json; charset=utf-8' );
 		echo sbi_json_encode( SB_Instagram_Feed::get_resized_images_source_set( $settings['minnum'], $offset - $settings['minnum'], $feed_id ) );
 		die();
 	}

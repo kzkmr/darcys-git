@@ -903,10 +903,37 @@ function sb_instagram_settings_page() {
 		SBI_Account_Connector::maybe_launch_modals( $sb_instagram_user_id );
 		if ( isset( $_POST['sbi_connect_username'] ) ) {
 			$new_user_name       = sanitize_text_field( wp_unslash( $_POST['sbi_connect_username'] ) );
-			$new_account_details = json_decode( wp_unslash( $_POST['sbi_account_json'] ), true );
+			$new_account_details = json_decode( stripslashes( $_POST['sbi_account_json'] ), true );
 			array_map( 'sanitize_text_field', $new_account_details );
 
-			$updated_options    = sbi_connect_basic_account( $new_account_details );
+			$basic_account_access_token_connect = new SB_Instagram_API_Connect( $new_account_details, 'access_token', array() );
+			$basic_account_access_token_connect->wp_http_connect();
+			$token_data = $basic_account_access_token_connect->get_data();
+
+			if ( ! $basic_account_access_token_connect->is_wp_error() && ! $basic_account_access_token_connect->is_instagram_error() ) {
+				$expires_in        = $token_data['expires_in'];
+				$expires_timestamp = time() + $expires_in;
+			} else {
+				$expires_timestamp = time() + 60 * DAY_IN_SECONDS;
+			}
+
+			$basic_account_access_token_connect = new SB_Instagram_API_Connect( $new_account_details, 'header', array() );
+			$basic_account_access_token_connect->wp_http_connect();
+			$new_data = $basic_account_access_token_connect->get_data();
+			if ( $basic_account_access_token_connect->is_wp_error() || $basic_account_access_token_connect->is_instagram_error() ) {
+				return;
+			}
+			$api_account_details = array(
+				'access_token'      => $new_account_details['access_token'],
+				'account_type'      => 'personal',
+				'user_id'           => $new_account_details['user_id'],
+				'username'          => $new_data['username'],
+				'expires_timestamp' => $expires_timestamp,
+				'type'              => 'basic',
+				'profile_picture'   => '',
+			);
+
+			$updated_options    = sbi_connect_basic_account( $api_account_details );
 			$connected_accounts = $updated_options['connected_accounts'];
 			$user_feed_ids      = $updated_options['sb_instagram_user_id'];
 		}
@@ -973,7 +1000,7 @@ function sb_instagram_settings_page() {
 						else :
 							$doing_account_error_messages = count( $connected_accounts ) > 1;
 							global $sb_instagram_posts_manager;
-
+							$encryption = new SB_Instagram_Data_Encryption();
 							?>
 							<?php
 							foreach ( $connected_accounts as $account ) :
@@ -1029,6 +1056,7 @@ function sb_instagram_settings_page() {
 											<span><i class="fa fa-exclamation-circle" aria-hidden="true"></i><?php esc_html_e( 'Feeds using this account might not be updating due to an error. Try viewing these feeds after reconnecting the account and saving your settings below.', 'instagram-feed' ); ?></span>
 										</div>
 									<?php endif; ?>
+
 									<div class="sbi_ca_alert">
 										<span><?php esc_html_e( 'The Access Token for this account is expired or invalid. Click the button above to attempt to renew it.', 'instagram-feed' ); ?></span>
 									</div>
@@ -1065,6 +1093,19 @@ function sb_instagram_settings_page() {
 												</div>
 												<p class="sbi_tooltip sbi-more-info" style="display: none; width: 100%; box-sizing: border-box;"><?php echo wp_kses_post( sprintf( __( 'This account is a "private" account on Instagram. It needs to be manually reconnected every 60 days. %1$sChange this account to be "public"%2$s to have access tokens that are automatically refreshed.', 'instagram-feed' ), '<a href="https://help.instagram.com/116024195217477/In" target="_blank">', '</a>' ) ); ?></p>
 											<?php endif; ?>
+											<?php
+											$show_encryption_warning = false;
+											if ( isset( $account['access_token'] ) && strpos( $account['access_token'], 'IG' ) === false && strpos( $account['access_token'], 'EA' ) === false && ! $encryption->decrypt( $account['access_token'] ) ) {
+												$show_encryption_warning = true;
+											}
+											if ( $show_encryption_warning ) :
+												?>
+												<div class="sbi_alert sbi_is_private">
+													<span><?php esc_html_e( 'Could not decrypt access token. Please reconnect this account.', 'instagram-feed' ); ?></span>
+												</div>
+											<?php
+											endif;
+											?>
 
 										</div>
 

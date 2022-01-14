@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - FileBird &#8211; WordPress Media Library Folders &amp; File Manager - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-05-21 13:50:34+0000\n"
+"PO-Revision-Date: 2021-12-03 13:29:51+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,9 +11,93 @@ msgstr ""
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - FileBird &#8211; WordPress Media Library Folders &amp; File Manager - Development (trunk)\n"
 
+#: includes/Controller/Folder.php:618
+msgid "FileBird folder:"
+msgstr "FileBird のフォルダー:"
+
+#: includes/Controller/Folder.php:619
+msgid "Click on the button to move this file to another folder"
+msgstr "ボタンをクリックして、このファイルを別のフォルダーに移動する"
+
+#: views/pages/settings/tab-import.php:150
+msgid "Folders by Premio"
+msgstr "Premio のフォルダー"
+
+#: includes/YC.php:67
+msgid "Install for Free"
+msgstr "無料インストール"
+
+#: includes/YC.php:65
+msgid "YayMail helps you easily customize your WooCommerce emails with email builder. Try it today!"
+msgstr "YayMail では、メールビルダーを使って WooCommerce のメールを簡単にカスタマイズすることができます。ぜひお試しください。"
+
+#: includes/YC.php:64
+msgid "Email Customizer for WooCommerce"
+msgstr "WooCommerce のメールカスタマイザー"
+
+#: includes/I18n.php:159
+msgid "You have some folders created by other media plugins. Would you like to import them?"
+msgstr "他のメディアプラグインで作成したフォルダーがあります。それらをインポートしたいですか？"
+
+#: includes/I18n.php:157
+msgid "Go to import"
+msgstr "インポートへ"
+
+#: includes/I18n.php:156
+msgid "Import folders to FileBird"
+msgstr "フォルダーを FileBird にインポート"
+
+#: includes/I18n.php:88
+msgid "By File Name"
+msgstr "ファイル名で"
+
+#: includes/Fallback.php:12
+msgid "Read more details."
+msgstr "詳細を読む。"
+
+#: includes/Fallback.php:11
+msgid "It looks like you have another FileBird version installed, please delete it before activating this new version. All of the settings and data are still preserved."
+msgstr "別のバージョンの FileBird がインストールされているようですが、それを削除してからこの新しいバージョンを有効にしてください。設定やデータはすべて保存されています。"
+
+#: includes/I18n.php:152
+msgid "Total size"
+msgstr "合計サイズ"
+
+#: includes/I18n.php:151
+msgid "Less than a min"
+msgstr "1分未満"
+
+#: includes/I18n.php:150
+msgid "Uploaded"
+msgstr "アップロード"
+
+#: views/pages/settings/tab-import.php:122
+msgid "HappyFiles by Codeer"
+msgstr "HappyFiles by Codeer"
+
+#: includes/I18n.php:149
+msgid "Expand"
+msgstr "拡大"
+
+#: includes/I18n.php:148
+msgid "Collapse"
+msgstr "崩壊"
+
+#: includes/I18n.php:54
+msgid "Unsuccessfully moved"
+msgstr "不成功に終わった移動"
+
 #: includes/I18n.php:146
 msgid "View details."
 msgstr "詳細を見る。"
+
+#: includes/I18n.php:49
+msgid "Download"
+msgstr "ダウンロード"
+
+#: includes/I18n.php:147
+msgid "Turn off for 7 days"
+msgstr "7日間のオフ"
 
 #: views/pages/html-settings.php:36 views/pages/settings/tab-uninstall.php:1
 msgid "Uninstall"
@@ -36,7 +120,7 @@ msgstr "デフォルトのスタートアップフォルダーを選択します
 msgid "Please enter your Purchase Code."
 msgstr "購入コードを入力してください。"
 
-#: includes/Controller/Api.php:130
+#: includes/Controller/Api.php:140 includes/Controller/Api.php:168
 msgid "folder_id is missing."
 msgstr "folder_id がありません。"
 
@@ -52,7 +136,7 @@ msgstr "設定の保存に失敗しました。もう一度試してみてくだ
 msgid "Can not active your License, please try again."
 msgstr "ライセンスを有効にできません。もう一度試してみてください。"
 
-#: includes/Controller/Api.php:141
+#: includes/Controller/Api.php:179
 msgid "Required fields are missing."
 msgstr "必須項目がありません。"
 
@@ -88,11 +172,11 @@ msgstr "開発者向けのFileBird API は<a target=\"_blank\" href=\"https://ni
 msgid "Go To Media"
 msgstr "メディアへ"
 
-#: includes/Controller/Folder.php:564
+#: includes/Controller/Folder.php:573
 msgid "Folder tree has been updated."
 msgstr "フォルダーツリーを更新しました。"
 
-#: includes/Controller/Folder.php:263
+#: includes/Controller/Folder.php:265
 msgid "Your request can't be processed."
 msgstr "リクエストは処理できません。"
 
@@ -100,7 +184,7 @@ msgstr "リクエストは処理できません。"
 msgid "You are editing another folder! Please complete the task first!"
 msgstr "別のフォルダを編集しています ! まずはタスクを完了させてください ! "
 
-#: includes/Controller/Folder.php:107
+#: includes/Controller/Folder.php:109
 msgid "You're using the new FileBird 4. Please update database to view your folders correctly."
 msgstr "新しい FileBird 4 を使用しています。フォルダーを正しく表示するには、データベースを更新してください。"
 
@@ -109,7 +193,7 @@ msgstr "新しい FileBird 4 を使用しています。フォルダーを正し
 msgid "Update Database"
 msgstr "データベースを更新"
 
-#: includes/Controller/Folder.php:436
+#: includes/Controller/Folder.php:445
 msgid "Please choose folder"
 msgstr "フォルダーを選択してください"
 
@@ -121,7 +205,7 @@ msgstr "今すぐインポート"
 msgid "You're using the new FileBird 4. Please import database to view your folders correctly."
 msgstr "新しい FileBird 4を使用しています。フォルダーを正しく表示するには、データベースをインポートしてください。"
 
-#: includes/Controller/Folder.php:103 includes/I18n.php:129
+#: includes/Controller/Folder.php:105 includes/I18n.php:129
 msgid "FileBird 4 Update Required"
 msgstr "FileBird 4の更新が必要です"
 
@@ -129,7 +213,7 @@ msgstr "FileBird 4の更新が必要です"
 msgid "Success."
 msgstr "成功しました。"
 
-#: includes/Controller/Folder.php:113
+#: includes/Controller/Folder.php:115
 #: views/pages/settings/tab-update-database.php:10
 msgid "Update now"
 msgstr "今すぐ更新"
@@ -307,7 +391,7 @@ msgstr "更新しました"
 msgid "Are you sure you want to delete"
 msgstr "削除してもよろしいですか ?"
 
-#: includes/Controller/Folder.php:298 includes/Model/Folder.php:30
+#: includes/Controller/Folder.php:301 includes/Model/Folder.php:30
 msgid "All Folders"
 msgstr "すべてのフォルダー"
 
@@ -427,12 +511,12 @@ msgstr "OK"
 msgid "success"
 msgstr "成功"
 
-#: includes/Controller/Api.php:105
+#: includes/Controller/Api.php:115
 msgid "Invalid action"
 msgstr "無効な操作"
 
-#: includes/Controller/Api.php:155 includes/Controller/Folder.php:482
-#: includes/Controller/Folder.php:551 includes/Controller/Folder.php:568
+#: includes/Controller/Api.php:193 includes/Controller/Folder.php:491
+#: includes/Controller/Folder.php:560 includes/Controller/Folder.php:577
 msgid "Validation failed"
 msgstr "検証失敗"
 
@@ -444,7 +528,7 @@ msgstr "もう一度お試しください。"
 msgid "validation failed"
 msgstr "検証失敗"
 
-#: includes/Controller/Folder.php:536
+#: includes/Controller/Folder.php:545
 msgid "Can't delete folder, please try again later"
 msgstr "フォルダーを削除できません。しばらくしてからもう一度お試しください"
 
@@ -485,10 +569,6 @@ msgstr "いつまでも感謝しています。どうぞよろしくお願いし
 msgid "Rate now"
 msgstr "今すぐ評価する"
 
-#: includes/Classes/Review.php:84
-msgid "Already did"
-msgstr "すでにした"
-
 #: includes/Classes/Review.php:83
 msgid "Later"
 msgstr "後で評価する"
@@ -497,7 +577,8 @@ msgstr "後で評価する"
 msgid "Success"
 msgstr "成功"
 
-#: includes/Classes/Convert.php:263 includes/I18n.php:158
+#: includes/Classes/Convert.php:263 includes/Classes/Review.php:84
+#: includes/I18n.php:158
 msgid "No, thanks"
 msgstr "いいえ、結構です"
 
@@ -553,7 +634,11 @@ msgstr "FileBird"
 msgid "Other"
 msgstr "その他"
 
-#: includes/Controller/Folder.php:80
+#: includes/YC.php:68
+msgid "No, Thanks"
+msgstr "いいえ、結構です。"
+
+#: includes/Controller/Folder.php:82
 msgid "Get Started"
 msgstr "始めてみよう"
 
@@ -561,7 +646,7 @@ msgstr "始めてみよう"
 msgid "Folder"
 msgstr "フォルダー"
 
-#: includes/Controller/Folder.php:78
+#: includes/Controller/Folder.php:80
 msgid "Create your first folder for media library now."
 msgstr "さあメディアライブラリに最初のフォルダーを作成してください。"
 
@@ -605,14 +690,27 @@ msgstr "https://ninjateam.org"
 msgid "FileBird Lite"
 msgstr "FileBird Lite"
 
+#: includes/I18n.php:153
+msgid "Move"
+msgstr "移動"
+
 #: includes/I18n.php:43
 msgid "Delete"
 msgstr "削除 "
 
-#: includes/Controller/Folder.php:302 includes/Controller/Folder.php:620
-#: includes/I18n.php:71 includes/Model/Folder.php:34
+#: includes/Controller/Folder.php:305 includes/Controller/Folder.php:614
+#: includes/Controller/Folder.php:660 includes/I18n.php:71
+#: includes/Model/Folder.php:34 assets/dist/js/app.js:1
 msgid "Uncategorized"
 msgstr "未分類"
+
+#: includes/I18n.php:155
+msgid "items"
+msgstr "項目"
+
+#: includes/I18n.php:154
+msgid "item"
+msgstr "項目"
 
 #: includes/I18n.php:41
 msgid "No media files found."

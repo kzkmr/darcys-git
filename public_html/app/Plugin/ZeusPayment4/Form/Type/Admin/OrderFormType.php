@@ -2,23 +2,18 @@
 
 namespace Plugin\ZeusPayment4\Form\Type\Admin;
 
+use Eccube\Application;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /*
  * ゼウス決済検索画面フォーム定義
  */
 class OrderFormType extends AbstractType
 {
-    private $app;
-
-    public function __construct(\Eccube\Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -32,8 +27,15 @@ class OrderFormType extends AbstractType
             ->add('order_id', TextType::class, array(
             'required' => false
         ))
-            ->add('zeus_order_id', TextType::class, array(
+        ->add('zeus_order_id', TextType::class, array(
             'required' => false
+        ))
+        ->add('zeus_sale_type', ChoiceType::class, array(
+            'choices'  => [
+                'すべて' => '-1',
+                '仮売上' => '1',
+                '実売上' => '0',
+            ],
         ));
     }
 

@@ -15,7 +15,7 @@ use Eccube\Entity\Master\OrderStatus;
 use GuzzleHttp\Exception\BadResponseException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Eccube\Entity\Layout;
 use Eccube\Entity\Page;
 use Eccube\Entity\PageLayout;
@@ -24,6 +24,7 @@ use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Eccube\Service\PurchaseFlow\PurchaseContext;
 use Eccube\Service\MailService;
 use Eccube\Service\OrderStateMachine;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /*
  * 決済ロジック処理
@@ -47,7 +48,7 @@ class ZeusPaymentService
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker,
         MailService $mailService,
-        Router $route,
+        RouterInterface $route,
         PurchaseFlow $shoppingPurchaseFlow,
         OrderStateMachine $orderStateMachine
     ) {
@@ -273,7 +274,7 @@ class ZeusPaymentService
                 }
 
                 if (strstr($response, '<status>success</status>') !== false) {
-                    return $this->createZeusOrderCredit($order, $toApiPostData, $response);
+                    return $this->createZeusOrderCredit($order, $toApiPostData, $response, $config);
                 } else {
                     return false;
                 }
@@ -288,7 +289,7 @@ class ZeusPaymentService
             // PaReq Action Start(PaReqは本人認証URLをユーザページよりリダイレクトさせ本人認証ページを表示させます。)
             $termUrl = $this->route->generate("zeus_payment_return_index", array(
                 'mode' => 'pares'
-            ), Router::ABSOLUTE_URL);
+            ), UrlGeneratorInterface::ABSOLUTE_URL);
             $paReqRequest = array(
                 'MD' => $enrolXid,
                 'PaReq' => $enrolPaReq,
@@ -311,7 +312,7 @@ class ZeusPaymentService
         }
 
         if (strstr($response, '<status>success</status>') !== false) {
-            return $this->createZeusOrderCredit($order, $toApiPostData, $response);
+            return $this->createZeusOrderCredit($order, $toApiPostData, $response, $config);
         } else {
             return false;
         }
@@ -372,10 +373,32 @@ class ZeusPaymentService
         throw new BadResponseException($error, null, $httpResponse);
     }
 
+    public function secureSendRequest($url, $params, $method = "POST")
+    {
+        $client = new Client();
+        
+        $error = '';
+        try {
+            
+            $httpResponse = $client->request($method, $url, [
+                'form_params' => $params
+            ]);
+            if ($httpResponse->getStatusCode() != 200) {
+                $error = $httpResponse->getReasonPhrase();
+            } else {
+                return $httpResponse->getBody(true);
+            }
+        } catch (BadResponseException $e) {
+            $error = $e->getMessage();
+        }
+        
+        throw new BadResponseException($error, null, $httpResponse);
+    }
+    
     /*
     * クレカ決済のゼウス注文情報を生成
     */
-    public function createZeusOrderCredit($order, $toApiPostData, $response)
+    public function createZeusOrderCredit($order, $toApiPostData, $response, $config)
     {
         $order->setZeusOrderId($this->getZeusOrderId($response));
         $order->setZeusRequestData($toApiPostData);
@@ -392,7 +415,10 @@ class ZeusPaymentService
         } else {
             $str = "";
         }
-        $order->setNote($str . 'ZEUS_ORDER_ID:[' . $this->getZeusOrderId($response) . ']'); //prefix:[' . $prefix . '] suffix:[' . $suffix . ']'
+        $order->setNote($str . '[' . date("Y-m-d H:i:s") . '] 決済処理（' . 
+            $config->getSaleTypeString(). '）を行いました。ZEUS_ORDER_ID:[' . $this->getZeusOrderId($response) . ']'); //prefix:[' . $prefix . '] suffix:[' . $suffix . ']'
+        $order->setZeusSaleType($config->getSaleType());
+        
         return $order;
     }
 
@@ -463,6 +489,7 @@ class ZeusPaymentService
         } else {
             $config->setDetailname($this->getZeusResultData($response, "/<name>(.*)<\/name>/"));
             $config->setSecure3dflg($this->getZeusResultData($response, "/<threed>(.*)<\/threed>/") === 'on' ? 1 : 0);
+            $config->setSaletype($this->getZeusResultData($response, "/<auth>(.*)<\/auth>/") === 'on' ? 1 : 0);
             
             $getCvvPatternFirst = $this->getZeusResultData($response, "/<first>(.*)<\/first>/");
             $getCvvPatternQuick = $this->getZeusResultData($response, "/<quick>(.*)<\/quick>/");
@@ -478,6 +505,7 @@ class ZeusPaymentService
                 $config->setCvvflg(0);
             }
             $config->setQuickchargeflg(1);
+            
             return '';
         }
     }
@@ -523,7 +551,7 @@ class ZeusPaymentService
     /*
      * クレカデータ送信（３Ｄ認証）
      */
-    public function paymentDataSendAuthorize($request, $order)
+    public function paymentDataSendAuthorize($request, $order, $config)
     {
         $paResMD = $request->get('MD');
         $paResPARES = $request->get('PaRes');
@@ -558,10 +586,11 @@ class ZeusPaymentService
         }
         
         if (strstr($response, '<status>success</status>') !== false) {
-            if (!$this->createZeusOrderCredit($order, $toApiPostData, $response)) {
+            if (!$this->createZeusOrderCredit($order, $toApiPostData, $response, $config)) {
                 return false;
             } else {
-                $OrderStatus = $this->orderStatusRepository->find(OrderStatus::PAID);
+                
+                $OrderStatus = $this->orderStatusRepository->find($config->getOrderStatusForSaleType());
                 $order->setOrderStatus($OrderStatus);
                 $order->setPaymentDate(new \DateTime());
             }
@@ -571,7 +600,75 @@ class ZeusPaymentService
         return true;
     }
 
-
+    /*
+     * 取消
+     */
+    public function paymentCancel($order, $config)
+    {
+        $toApiPostData = array(
+            'clientip' => $config->getClientip(),
+            'return' => 'yes',
+            'ordd' => $order->getZeusOrderId(),
+        );
+        
+        try {
+            $response = $this->secureSendRequest($this->eccubeConfig['zeus_secure_link_batch_url'], $toApiPostData, "POST");
+            log_notice('ゼウス応答結果(cancel)：' . $response);
+            if (strstr($response, 'SuccessOK')) {
+                return true;
+            } else {
+                log_error('ゼウス取消に失敗(' . $order->getZeusOrderId() .')：' . $response);
+                return false;
+            }
+            
+        } catch (BadResponseException $e) {
+            log_error('ゼウス通信失敗：' . $e->getMessage());
+            return false;
+        }
+    }
+    
+    /*
+     * 取消
+     */
+    public function paymentSetSale($order, $config, $king = 0, $date = null, $authtype = 'sale')
+    {
+        if (($king != 0) && (($king < $order->getPaymentTotal() - 5000) || ($king > $order->getPaymentTotal() + 5000))) {
+            return "実売上の金額は仮売上時の金額より±5000円以内のみ変更可能。";
+        }
+        
+        if ($king == 0) {
+            $king = intval($order->getPaymentTotal());
+        }
+        
+        if ($date == null) {
+            $date = date('Ymd');
+        }
+            
+        $toApiPostData = array(
+            'clientip' => $config->getClientip(),
+            'king' => $king,
+            'date' => $date,
+            'ordd' => $order->getZeusOrderId(),
+            'autype' => $authtype
+        );
+        
+        try {
+            $response = $this->secureSendRequest($this->eccubeConfig['zeus_secure_link_batch_url'], $toApiPostData, "POST");
+            log_notice('ゼウス応答結果(' . $authtype . ')：' . $response);
+            if (strstr($response, 'Success_order')) {
+                return true;
+            } else {
+                log_error('ゼウス実売上に失敗(' . $order->getZeusOrderId() .')：' . $response);
+                return false;
+            }
+            
+        } catch (BadResponseException $e) {
+            log_error('ゼウス通信失敗：' . $e->getMessage());
+            return false;
+        }
+    }
+    
+    
     public function getEnrolXid($zeusResponse)
     {
         $pattern = "/<xid>(.*)<\/xid>/";
@@ -1017,5 +1114,14 @@ class ZeusPaymentService
         log_error('処理終了_受信データが不正です');
         header('HTTP/1.1 400 Bad Request');
         return "Failed";
+    }
+    
+    function formatPrice($number) {
+        $locale = $this->eccubeConfig['locale'];
+        $currency = $this->eccubeConfig['currency'];
+        $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
+        
+        return $formatter->formatCurrency($number, $currency);
+        
     }
 }

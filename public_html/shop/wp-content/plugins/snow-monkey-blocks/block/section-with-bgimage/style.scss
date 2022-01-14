@@ -1,0 +1,127 @@
+@charset 'utf-8';
+
+@import '../../src/css/core/block';
+
+.smb-section-with-bgimage {
+  position: relative;
+  overflow: hidden;
+
+  &__repeatable-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-repeat: repeat;
+    background-position: 50% 50%;
+
+    img {
+      display: none;
+    }
+  }
+
+  &__bgimage {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $_color-white; // For IE11
+    background-color: _var-color-white();
+
+    &--lg {
+    }
+
+    &--md {
+      @include _media-min(lg) {
+        display: none;
+      }
+    }
+
+    &--sm {
+      @include _media-min(md) {
+        display: none;
+      }
+    }
+
+    img, iframe, video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-height: none;
+      max-width: none;
+      min-height: 100%;
+      min-width: 100%;
+
+      @supports (object-fit: cover) {
+        object-position: 50% 50%;
+        max-width: 100%;
+        height: 100%;
+        width: 100%;
+        min-height: auto;
+        min-width: auto;
+      }
+    }
+
+    img, video {
+      @supports (object-fit: cover) {
+        object-fit: cover;
+      }
+    }
+  }
+
+  &__mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $_color-black; // For IE11
+    background-color: _var-color-black();
+  }
+
+  // @deprecated
+  &--left:not([class*="smb-section--"]) {
+    > .#{ $_prefix }c-container {
+      > .smb-section__subtitle,
+      > .smb-section__title,
+      > .smb-section__lede,
+      > .smb-section__lede-wrapper > .smb-section__lede,
+      > .smb-section__body {
+        text-align: left;
+      }
+
+      > .smb-section__lede-wrapper {
+        display: block;
+      }
+    }
+  }
+
+  // @deprecated
+  &--center:not([class*="smb-section--"]) {
+    > .#{ $_prefix }c-container {
+      > .smb-section__title,
+      > .smb-section__body {
+        text-align: center;
+      }
+    }
+  }
+
+  // @deprecated
+  &--right:not([class*="smb-section--"]) {
+    > .#{ $_prefix }c-container {
+      > .smb-section__subtitle,
+      > .smb-section__title,
+      > .smb-section__lede,
+      > .smb-section__lede-wrapper > .smb-section__lede,
+      > .smb-section__body {
+        text-align: right;
+      }
+
+      > .smb-section__lede-wrapper {
+        display: block;
+      }
+    }
+  }
+}

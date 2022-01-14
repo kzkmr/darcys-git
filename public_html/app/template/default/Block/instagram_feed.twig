@@ -5,6 +5,9 @@
 
 /* Feed container */
 #sb_instagram {
+  height: auto !important;
+}
+#sb_instagram {
     width: 100%;
     margin: 0 auto;
     padding: 0;
@@ -32,6 +35,7 @@
     width: 100%;
     float: left;
     line-height: 0;
+    overflow: hidden;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -73,10 +77,10 @@
     transition: all 0.5s ease;
 }
 /* Transition items in */
-#sb_instagram #sbi_images .sbi_item.sbi_transition{
+{# #sb_instagram #sbi_images .sbi_item.sbi_transition{
     opacity: 0;
     max-height: 0;
-}
+} #}
 
 /* Cols */
 #sb_instagram.sbi_col_1 #sbi_images .sbi_item{ width: 100%; }
@@ -131,7 +135,6 @@
     opacity: 1 !important;
 }
 #sb_instagram .sbi_link{
-    display: none;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -822,8 +825,8 @@
 <section class="ec-top-instagram">
     <div class="ec-secHeading">
         <span class="ec-secHeading__en">Instagram</span>
-        <span class="ec-secHeading__line"></span>
-        <span class="ec-secHeading__ja">インスタグラム</span>
+        {#<span class="ec-secHeading__line"></span>
+        <span class="ec-secHeading__ja">インスタグラム</span>#}
     </div>
     <div class="ec-top-instagram__inner">
         {{ instagram() }}
