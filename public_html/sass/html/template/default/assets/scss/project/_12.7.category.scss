@@ -1,0 +1,59 @@
+@import "../mixins/media";
+@import "../mixins/clearfix";
+
+/*
+カテゴリ（アイテム3列）
+
+トップページで使用されているカテゴリのスタイルです。
+
+ex [トップページ](http://demo3.ec-cube.net/)
+
+Markup:
+sg-wrapper:
+<div class="ec-role">
+  <sg-wrapper-content/>
+</div>
+
+Styleguide 12.7.1
+*/
+
+.ec-categoryRole {
+  margin: 30px 0 0;
+  padding: 40px 0;
+  color: black;
+
+  @include media_desktop {
+    margin: 50px 0 0;
+    padding: 60px 0;
+  }
+
+  & &__list {
+    display: flex;
+    flex-wrap: wrap;
+
+    @include media_desktop {
+      flex-wrap: nowrap;
+    }
+
+  }
+  & &__listItem {
+    margin-bottom: 20px;
+    width: 100%;
+    height: auto;
+
+    @include media_desktop {
+      width: calc(100% / 3);
+
+      &:not(:last-of-type){
+        margin-right: 30px;
+      }
+    }
+
+    & a {
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      color: #555;
+    }
+  }
+}

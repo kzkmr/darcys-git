@@ -1,0 +1,142 @@
+@import "../mixins/media";
+/*
+Basic Figure Customized(2021.11.01~)
+
+Styleguide 23
+
+*/
+
+/* topページ blog
+********************************************/
+
+.ec-top-blog {
+
+  @include container;
+  margin-top: 30px;
+  @include media_desktop {
+    margin-top: 50px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+
+    .col-3 {
+      flex: 0 0 100%;
+      padding: 0 15px;
+      @include media_desktop {
+       flex: 0 0 33.333%;
+
+       a {
+         display: block;
+
+         .thumbnail {
+            margin: 0;
+            padding: 0;
+            border: none;
+         }
+
+         .text-box {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           padding-top: 8px;
+
+           .category {
+              font-size: 14px;
+              color: #525263;
+           }
+
+           .title {
+              color: #525263;
+           }
+         }
+       }
+      }
+    }
+  }
+}
+
+
+/* topページ blog
+********************************************/
+
+.ec-top-links {
+  margin-top: 30px;
+
+  @include media_desktop {
+    margin-top: 50px;
+  }
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .ec-top-links-item {
+    flex: 0 0 100%;
+    height: 140px;
+    padding: 0 20px;
+
+    @include media_desktop {
+      flex: 0 0 50%;
+      height: 280px;
+      padding: 0 30px;
+    }
+
+    &:nth-of-type(1),
+    &:nth-of-type(4) {
+      background-color: #f1f1f1;
+    }
+
+    &__title {
+      font-size: 15px;
+      color: #555;
+
+      span {
+        position: relative;
+        padding-left: 2em;
+
+        &::before {
+          content: '|';
+          position: absolute;
+          top: 0;
+          left: .5em;
+        }
+      }
+    }
+
+    &__img {
+      margin-top: 20px;
+      text-align: center;
+
+      img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+      }
+    }
+
+    a {
+      display: block;
+    }
+  }
+}
+
+
+/* topページ instagram
+********************************************/
+
+.ec-top-instagram {
+  margin-top: 30px;
+  padding: 0 5.333%;
+
+  @include media_desktop {
+    margin-top: 50px;
+    padding: 0;
+  }
+}
+
+
+/* topページ カテゴリー
+********************************************/

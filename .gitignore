@@ -5,3 +5,4 @@ vendor/
 var/
 bin/
 app/Plugin/.composer/cache/
+node_modules/
