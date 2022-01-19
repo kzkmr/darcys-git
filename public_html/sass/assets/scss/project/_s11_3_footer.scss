@@ -1,0 +1,176 @@
+@use '../mixins' as *;
+/*
+フッター
+
+全ページで使用されるフッターのプロジェクトコンポーネントです。
+
+ex [トップページ　フッター](http://demo3.ec-cube.net/)
+
+Markup:
+include /assets/tmpl/elements/11.8.footer.pug
++ec-footerRole
+
+Styleguide 11.3
+*/
+.ec-footerRole{
+  // border-top: 1px solid #7d7d7d;
+  margin: 30px auto 0;
+  padding: 30px 5.333%;
+  background: #f2f2f2;
+
+  @include media_desktop(){
+    padding: 40px 0 0;
+    margin-top: 100px;
+  }
+  & &__inner{
+    @include media_desktop {
+      @include container;
+      padding: 0 40px;
+    }
+  }
+  & &__top{
+    display: flex;
+    justify-content: space-between;
+
+    & > ul {
+      flex: auto;
+    }
+  }
+}
+
+/*
+フッターナビ
+
+フッタープロジェクトで使用するナビゲーション用のコンポーネントです。
+
+Markup:
+include /assets/tmpl/elements/11.8.footer.pug
++ec-footerNav
+
+sg-wrapper:
+<div class="ec-footerRole">
+  <div class="ec-footerRole__inner">
+    <sg-wrapper-content/>
+  </div>
+</div>
+
+Styleguide 11.3.1
+*/
+.ec-footerNavi{
+  padding: 0;
+  color: #444;
+  list-style: none;
+  text-align: right;
+
+  & &__link{
+    display: block;
+
+    @include media_desktop {
+      display: inline-block;
+    }
+
+    a {
+      display: block;
+      padding: 15px 0;
+      font-size: 14px;
+      color: inherit;
+      text-decoration: none;
+
+      @include media_desktop {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 0;
+        text-decoration: underline;
+      }
+    }
+    &:hover {
+      a {
+        opacity: .8;
+        text-decoration: none;
+      }
+
+    }
+
+  }
+}
+
+.ec-footerSnsNavi {
+  display: flex;
+  align-items: center;
+  list-style: none;
+
+  &__link {
+    width: 36px;
+
+    & + .ec-footerSnsNavi__link {
+      margin-left: 12px;
+    }
+
+    a {
+      display: block;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
+
+/*
+フッタータイトル
+
+フッタープロジェクトで使用するタイトル用のコンポーネントです。
+
+Markup:
+include /assets/tmpl/elements/11.8.footer.pug
++ec-footerTitle
+
+sg-wrapper:
+<div class="ec-footerRole">
+  <div class="ec-footerRole__inner">
+    <sg-wrapper-content/>
+  </div>
+</div>
+
+Styleguide 11.3.2
+*/
+.ec-footerTitle{
+  padding: 40px 0 60px;
+  text-align: center;
+  color: #444;
+
+  @include media_desktop {
+    padding: 50px 0 80px;
+  }
+
+  & &__logo{
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    @include reset_link();
+
+    a{
+      font-size: 22px;
+      color: inherit;
+      @include media_desktop {
+        font-size: 24px;
+      }
+
+    }
+
+    &:hover {
+      a {
+        opacity: .8;
+        text-decoration: none;
+      }
+    }
+  }
+  & &__copyright{
+    font-size: 10px;
+
+    @include media_desktop {
+      font-size: 12px;
+    }
+  }
+}

@@ -34,11 +34,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
-    "bootstrap": "^4.3.1",
-    "bootstrap-sass": "^3.4.1",
-    "browser-sync": "^2.26.14",
     "cross-env": "^7.0.2",
-    "css-mqpacker": "^7.0.0",
+    "ftp-deploy": "^2.3.8",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.2.0",
     "gulp-notify": "^4.0.0",
@@ -48,10 +45,8 @@
     "gulp-sass": "^5.1.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "normalize.css": "^5.0.0",
     "postcss-import": "^14.0.2",
     "process": "^0.11.10",
-    "sass": "^1.48.0",
-    "sort-css-media-queries": "^1.4.3"
+    "sass": "^1.48.0"
   }
 }

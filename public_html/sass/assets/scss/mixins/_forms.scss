@@ -1,0 +1,102 @@
+@use "./variables" as *;
+@use "./media" as m;
+@use "./bootstrap" as b;
+@use "./bootstrap-variables" as bv;
+
+@mixin forms-reset{
+  input[type="search"] {
+    box-sizing: border-box;
+  }
+
+  // Position radios and checkboxes better
+  input[type="radio"],
+  input[type="checkbox"] {
+    margin: 4px 0 0;
+    margin-top: 1px \9; // IE8-9
+    line-height: normal;
+  }
+
+  input[type="file"] {
+    display: block;
+  }
+
+  // Make range inputs behave like textual form controls
+  input[type="range"] {
+    display: block;
+    width: 100%;
+  }
+
+  // Make multiple select elements height not fixed
+  select[multiple],
+  select[size] {
+    height: auto;
+  }
+}
+
+@mixin _form-control{
+  display: block;
+  width: 100%;
+  height: bv.$input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  padding: bv.$padding-base-vertical bv.$padding-base-horizontal;
+  font-size: 16px;
+  line-height: bv.$line-height-base;
+  color: bv.$input-color;
+  background-color: bv.$input-bg;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid bv.$input-border;
+  border-radius: bv.$input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
+  -webkit-appearance: none;
+  @include b.box-shadow(none);
+  @include b.transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
+
+  // Placeholder
+  @include b.placeholder;
+
+  // Unstyle the caret on `<select>`s in IE10+.
+  &::-ms-expand {
+    border: 0;
+    background-color: transparent;
+  }
+
+  // Disabled and read-only inputs
+  //
+  // HTML5 says that controls under a fieldset > legend:first-child won't be
+  // disabled if the fieldset is disabled. Due to implementation difficulty, we
+  // don't honor that edge case; we style them as disabled anyway.
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color: bv.$input-bg-disabled;
+    opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: bv.$cursor-disabled;
+  }
+
+  // [converter] extracted textarea& to textarea.form-control
+
+  @include m.media_desktop {
+    font-size: bv.$font-size-base;
+  }
+}
+
+@mixin form-controls{
+  input{
+    @include _form-control;
+    border-radius: 3px;
+  }
+  select{
+    @include _form-control;
+    border-radius: 3px;
+  }
+  textarea{
+    @include _form-control;
+    border-radius: 3px;
+  }
+  input:focus, textarea:focus{
+    box-shadow: none;
+    border-color: #3c8dbc;
+  }
+}

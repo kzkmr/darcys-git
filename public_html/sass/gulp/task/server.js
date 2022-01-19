@@ -1,9 +1,9 @@
-const browserSync = require('browser-sync')
-const config = require('../config')
+// const browserSync = require('browser-sync')
+// const config = require('../config')
 
-module.exports = (done) => {
-  browserSync({
-    proxy: config.server
-  })
-  done()
-}
+// module.exports = (done) => {
+//   browserSync({
+//     proxy: config.server
+//   })
+//   done()
+// }

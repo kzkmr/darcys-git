@@ -2,15 +2,15 @@ let config = {}
 
 config.paths = {
   source: {
-    template: './html/template',
+    template: './assets',
   },
   output: {
-    template: './html/template',
+    template: './assets',
   },
   assets: {
     scss: '/**/scss/**/*.scss',
   },
 }
-config.server = 'http://localhost:8080'
+//config.server = 'http://localhost:8080'
 
 module.exports = config
