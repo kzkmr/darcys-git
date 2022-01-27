@@ -7,5 +7,6 @@
   "parent": [ "snow-monkey-blocks/items" ],
   "supports": {
     "html": false
-  }
+  },
+  "editorScript": "file:../../../../dist/block/items/item/free/editor.js"
 }

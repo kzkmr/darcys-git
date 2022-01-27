@@ -7,7 +7,7 @@ import {
 	InspectorControls,
 	useBlockProps,
 	__experimentalBlockAlignmentMatrixControl as BlockAlignmentMatrixControl,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 import { PanelBody, SelectControl } from '@wordpress/components';
@@ -39,8 +39,8 @@ export default function ( {
 
 	const hasInnerBlocks = useSelect(
 		( select ) =>
-			select( 'core/block-editor' ).getBlock( clientId ).innerBlocks
-				.length > 0,
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
 		[ clientId ]
 	);
 
@@ -85,14 +85,16 @@ export default function ( {
 		},
 		{
 			renderAppender: hasInnerBlocks
-				? undefined
+				? InnerBlocks.DefaultBlockAppender
 				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
 
 	const styles = {
-		background:
+		backgroundColor:
 			( ! backgroundColor && style?.color?.background ) || undefined,
+		background:
+			( ! backgroundColor && style?.color?.gradient ) || undefined,
 		borderColor: border.color || undefined,
 		borderWidth: ( border.color && border.width ) || undefined,
 		borderRadius: border.radius || undefined,
@@ -112,35 +114,6 @@ export default function ( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
-					initialOpen={ true }
-				>
-					<SelectControl
-						label={ __( 'Content Padding', 'snow-monkey-blocks' ) }
-						value={ contentPadding }
-						options={ [
-							{
-								value: '',
-								label: __( 'None', 'snow-monkey-blocks' ),
-							},
-							{
-								value: 's',
-								label: __( 'S', 'snow-monkey-blocks' ),
-							},
-							{
-								value: 'm',
-								label: __( 'M', 'snow-monkey-blocks' ),
-							},
-							{
-								value: 'l',
-								label: __( 'L', 'snow-monkey-blocks' ),
-							},
-						] }
-						onChange={ onChangeContentPadding }
-					/>
-				</PanelBody>
-
 				<PanelBorderSettings
 					settings={ [
 						{
@@ -169,6 +142,35 @@ export default function ( {
 						},
 					] }
 				/>
+
+				<PanelBody
+					title={ __( 'Dimensions', 'snow-monkey-blocks' ) }
+					initialOpen={ false }
+				>
+					<SelectControl
+						label={ __( 'Padding', 'snow-monkey-blocks' ) }
+						value={ contentPadding }
+						options={ [
+							{
+								value: '',
+								label: __( 'None', 'snow-monkey-blocks' ),
+							},
+							{
+								value: 's',
+								label: __( 'S', 'snow-monkey-blocks' ),
+							},
+							{
+								value: 'm',
+								label: __( 'M', 'snow-monkey-blocks' ),
+							},
+							{
+								value: 'l',
+								label: __( 'L', 'snow-monkey-blocks' ),
+							},
+						] }
+						onChange={ onChangeContentPadding }
+					/>
+				</PanelBody>
 
 				<PanelBoxShadowSettings
 					settings={ [

@@ -31,10 +31,10 @@ define( 'WPCACHEHOME', '/home/benechantest/test-darcys-factory.xyz/public_html/s
 define( 'DB_NAME', 'benechantest_darcyswp' );
 
 /** MySQL データベースのユーザー名 */
-define( 'DB_USER', 'benechantest_dar' );
+define( 'DB_USER', 'benechantest_ec1' );
 
 /** MySQL データベースのパスワード */
-define( 'DB_PASSWORD', 'cmsgo794' );
+define( 'DB_PASSWORD', 't0excjm67p' );
 
 /** MySQL のホスト名 */
 define( 'DB_HOST', 'mysql7056.xserver.jp' );

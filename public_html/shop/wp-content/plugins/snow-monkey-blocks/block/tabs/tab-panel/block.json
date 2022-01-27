@@ -28,5 +28,6 @@
       "__experimentalToolbar": false
   },
   "example": {
-  }
+  },
+  "editorScript": "file:../../../dist/block/tabs/tab-panel/editor.js"
 }

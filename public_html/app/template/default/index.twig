@@ -90,7 +90,7 @@ file that was distributed with this source code.
     </style>
 {% endblock %}
 
-{% block javascript %}
+{#% block javascript %}
     <script>
         $(function() {
             $('.main_visual').slick({
@@ -104,14 +104,25 @@ file that was distributed with this source code.
             });
         });
     </script>
-{% endblock javascript %}
+{% endblock javascript %#}
 
+{#% block main %}
+    <div class="ec-sliderRole">
+        <div class="main_visual">
+            {#<div class="item slick-slide"><img src="{{ asset('assets/img/top/hero_01_pc.jpg') }}"></div>
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/hero_02_pc.jpg') }}"></div>
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/hero_03_pc.jpg') }}"></div>
+        </div>
+    </div>
+{% endblock %#}
 {% block main %}
     <div class="ec-sliderRole">
         <div class="main_visual">
-            {#<div class="item slick-slide"><img src="{{ asset('assets/img/top/hero_01_pc.jpg') }}"></div>#}
-            <div class="item slick-slide"><img src="{{ asset('assets/img/top/hero_02_pc.jpg') }}"></div>
-            <div class="item slick-slide"><img src="{{ asset('assets/img/top/hero_03_pc.jpg') }}"></div>
+            <div class="main_visual__movie">
+                <figure>
+                  <video autoplay loop muted playsinline src="{{ asset('assets/movie/sample-10s.mp4') }}"></video>
+                </figure>
+            </div>
         </div>
     </div>
 {% endblock %}

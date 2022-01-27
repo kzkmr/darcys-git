@@ -20,5 +20,7 @@
   },
   "supports": {
     "html": false
-  }
+  },
+  "style": "snow-monkey-blocks/countdown",
+  "editorScript": "file:../../dist/block/countdown/editor.js"
 }

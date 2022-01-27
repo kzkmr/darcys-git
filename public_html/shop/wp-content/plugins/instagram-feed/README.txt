@@ -2,8 +2,8 @@
 Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 3.4
-Tested up to: 5.8
-Stable tag: 2.9.9
+Tested up to: 5.9
+Stable tag: 2.9.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -331,8 +331,11 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 2.9.10 =
+* Fix: Fixed a bug related to feed data being removed in the event a feed hadn't been updated in 21 days even when it was in use.
+
 = 2.9.9 =
-* Fix: The plugin will no longer continue to attempt to connect to the Instagram API if there is an access token encryption error.
+* Fix: Prevented the plugin from attempting to connect to the Instagram API if there was an access token encryption error.
 * Fix: Added a content type to JSON responses to improve reliability for loading more posts and creating local images.
 
 = 2.9.8 =

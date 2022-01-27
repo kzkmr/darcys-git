@@ -7,7 +7,7 @@ import {
 	InspectorControls,
 	JustifyToolbar,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 } from '@wordpress/block-editor';
 
@@ -86,11 +86,9 @@ export default function ( {
 	} = attributes;
 
 	const hasInnerBlocks = useSelect(
-		( select ) => {
-			const { getBlock } = select( 'core/block-editor' );
-			const block = getBlock( clientId );
-			return !! ( block && block.innerBlocks.length );
-		},
+		( select ) =>
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
 		[ clientId ]
 	);
 
@@ -145,6 +143,11 @@ export default function ( {
 		`c-row__col--md-${ textColumnWidth }`
 	);
 
+	const bodyClasses = classnames(
+		'smb-section__body',
+		'smb-section-side-heading__body'
+	);
+
 	const sectionStyles = {};
 	if ( textColor ) {
 		sectionStyles.color = textColor;
@@ -161,14 +164,11 @@ export default function ( {
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: [
-				'smb-section__body',
-				'smb-section-side-heading__body',
-			],
+			className: bodyClasses,
 		},
 		{
 			renderAppender: hasInnerBlocks
-				? undefined
+				? InnerBlocks.DefaultBlockAppender
 				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
@@ -336,6 +336,20 @@ export default function ( {
 	return (
 		<>
 			<InspectorControls>
+				<PanelColorGradientSettings
+					title={ __( 'Color', 'snow-monkey-blocks' ) }
+					initialOpen={ false }
+					settings={ [
+						{
+							colorValue: textColor,
+							onColorChange: onChangeTextColor,
+							label: __( 'Text color', 'snow-monkey-blocks' ),
+						},
+					] }
+					__experimentalHasMultipleOrigins={ true }
+					__experimentalIsRenderedInSidebar={ true }
+				></PanelColorGradientSettings>
+
 				<PanelBasicSettings
 					disableIsSlim={ !! contentsMaxWidth }
 					disableContentsMaxWidth={ isSlim }
@@ -369,7 +383,7 @@ export default function ( {
 				/>
 
 				<PanelBody
-					title={ __( 'Columns Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Columns settings', 'snow-monkey-blocks' ) }
 					initialOpen={ true }
 				>
 					<SelectControl
@@ -494,18 +508,6 @@ export default function ( {
 						},
 					] }
 				/>
-
-				<PanelColorGradientSettings
-					title={ __( 'Color Settings', 'snow-monkey-blocks' ) }
-					initialOpen={ false }
-					settings={ [
-						{
-							colorValue: textColor,
-							onColorChange: onChangeTextColor,
-							label: __( 'Text Color', 'snow-monkey-blocks' ),
-						},
-					] }
-				></PanelColorGradientSettings>
 			</InspectorControls>
 
 			<BlockControls gruop="block">

@@ -1,17 +1,19 @@
 import classnames from 'classnames';
 
-import { BaseControl, PanelBody, TextControl } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
-
 import {
+	InnerBlocks,
 	InspectorControls,
-	PanelColorSettings,
 	RichText,
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
-export default function ( { attributes, setAttributes, className } ) {
+import { BaseControl, PanelBody, TextControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { __, sprintf } from '@wordpress/i18n';
+
+export default function ( { attributes, setAttributes, className, clientId } ) {
 	const {
 		question,
 		questionColor,
@@ -19,6 +21,13 @@ export default function ( { attributes, setAttributes, className } ) {
 		questionLabel,
 		answerLabel,
 	} = attributes;
+
+	const hasInnerBlocks = useSelect(
+		( select ) =>
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
+		[ clientId ]
+	);
 
 	const classes = classnames( 'smb-faq__item', className );
 
@@ -34,9 +43,16 @@ export default function ( { attributes, setAttributes, className } ) {
 		className: classes,
 	} );
 
-	const innerBlocksProps = useInnerBlocksProps( {
-		className: 'smb-faq__item__answer__body',
-	} );
+	const innerBlocksProps = useInnerBlocksProps(
+		{
+			className: 'smb-faq__item__answer__body',
+		},
+		{
+			renderAppender: hasInnerBlocks
+				? InnerBlocks.DefaultBlockAppender
+				: InnerBlocks.ButtonBlockAppender,
+		}
+	);
 
 	const onChangeQuestionLabel = ( value ) =>
 		setAttributes( {
@@ -66,11 +82,30 @@ export default function ( { attributes, setAttributes, className } ) {
 	return (
 		<>
 			<InspectorControls>
+				<PanelColorGradientSettings
+					title={ __( 'Color', 'snow-monkey-blocks' ) }
+					initialOpen={ false }
+					settings={ [
+						{
+							colorValue: questionColor,
+							onColorChange: onChangeQuestionColor,
+							label: __( 'Question color', 'snow-monkey-blocks' ),
+						},
+						{
+							colorValue: answerColor,
+							onColorChange: onChangeAnswerColor,
+							label: __( 'Answer color', 'snow-monkey-blocks' ),
+						},
+					] }
+					__experimentalHasMultipleOrigins={ true }
+					__experimentalIsRenderedInSidebar={ true }
+				></PanelColorGradientSettings>
+
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
 				>
 					<BaseControl
-						label={ __( 'Question Label', 'snow-monkey-blocks' ) }
+						label={ __( 'Question label', 'snow-monkey-blocks' ) }
 						id="snow-monkey-blocks/faq-item/question-label"
 					>
 						<TextControl
@@ -88,7 +123,7 @@ export default function ( { attributes, setAttributes, className } ) {
 						/>
 					</BaseControl>
 					<BaseControl
-						label={ __( 'Answer Label', 'snow-monkey-blocks' ) }
+						label={ __( 'Answer label', 'snow-monkey-blocks' ) }
 						id="snow-monkey-blocks/faq-item/answer-label"
 					>
 						<TextControl
@@ -106,21 +141,6 @@ export default function ( { attributes, setAttributes, className } ) {
 						/>
 					</BaseControl>
 				</PanelBody>
-				<PanelColorSettings
-					title={ __( 'Color Settings', 'snow-monkey-blocks' ) }
-					colorSettings={ [
-						{
-							value: questionColor,
-							onChange: onChangeQuestionColor,
-							label: __( 'Question Color', 'snow-monkey-blocks' ),
-						},
-						{
-							value: answerColor,
-							onChange: onChangeAnswerColor,
-							label: __( 'Answer Color', 'snow-monkey-blocks' ),
-						},
-					] }
-				></PanelColorSettings>
 			</InspectorControls>
 
 			<div { ...blockProps }>

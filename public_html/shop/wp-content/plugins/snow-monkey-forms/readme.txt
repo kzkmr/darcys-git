@@ -2,10 +2,10 @@
 Contributors: inc2734, mimitips
 Donate link: https://www.amazon.co.jp/registry/wishlist/39ANKRNSTNW40
 Tags: gutenberg, block, blocks, editor, gutenberg blocks, page builder, form, forms, mail, email, contact
-Requires at least: 5.8
-Tested up to: 5.8
+Requires at least: 5.9
+Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 2.1.0
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,13 @@ This plugin can be installed directly from your site.
 Yes! You can use the Snow Monkey Forms with any theme, but we recommend using our <a href="https://snow-monkey.2inc.org/" target="_blank">Snow Monkey</a> theme for the best presentation.
 
 == Changelog ==
+
+= 3.0.0 =
+* Requires WordPress 5.9 or later.
+* End of support for ie11.
+* Changes due to changes in WordPress 5.9.
+* Add filter hook `snow_monkey_forms/administrator_mailer/args` for changing administrator mail settings.
+* Changed the file upload check to be the same as the WordPress file upload check when sending files in "File".
 
 = 2.1.0 =
 * Add filter hook `snow_monkey_forms/validator/error_message`.

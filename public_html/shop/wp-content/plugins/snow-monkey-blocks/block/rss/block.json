@@ -47,5 +47,6 @@
   },
   "supports": {
     "anchor": true
-  }
+  },
+  "editorScript": "file:../../dist/block/rss/editor.js"
 }

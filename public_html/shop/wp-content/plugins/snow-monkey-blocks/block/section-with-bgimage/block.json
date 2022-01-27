@@ -217,5 +217,7 @@
   "supports": {
     "align": [ "wide", "full" ],
     "anchor": true
-  }
+  },
+  "style": "snow-monkey-blocks/section-with-bgimage",
+  "editorScript": "file:../../dist/block/section-with-bgimage/editor.js"
 }

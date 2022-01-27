@@ -77,5 +77,8 @@
         ]
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/tabs",
+  "editorStyle": "snow-monkey-blocks/tabs/editor",
+  "editorScript": "file:../../dist/block/tabs/editor.js"
 }

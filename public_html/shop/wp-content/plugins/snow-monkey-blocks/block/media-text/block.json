@@ -107,5 +107,7 @@
   },
   "supports": {
     "anchor": true
-  }
+  },
+  "style": "snow-monkey-blocks/media-text",
+  "editorScript": "file:../../dist/block/media-text/editor.js"
 }

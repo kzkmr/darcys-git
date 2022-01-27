@@ -74,5 +74,6 @@
       "taxonomy": "category",
       "termId": 0
     }
-  }
+  },
+  "editorScript": "file:../../dist/block/taxonomy-posts/editor.js"
 }

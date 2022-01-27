@@ -47,5 +47,8 @@
   },
   "supports": {
     "customClassName": false
-  }
+  },
+  "style": "snow-monkey-forms/textarea",
+  "editorStyle": "snow-monkey-forms/textarea/edtor",
+  "editorScript": "file:../../dist/block/textarea/editor.js"
 }

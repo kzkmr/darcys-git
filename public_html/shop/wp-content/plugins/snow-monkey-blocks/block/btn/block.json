@@ -57,5 +57,8 @@
       "content": "button",
       "url": "https://2inc.org"
     }
-  }
+  },
+  "style": "snow-monkey-blocks/btn",
+  "editorStyle": "snow-monkey-blocks/btn/editor",
+  "editorScript": "file:../../dist/block/btn/editor.js"
 }

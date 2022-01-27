@@ -35,5 +35,7 @@
   },
   "supports": {
     "align": [ "wide", "full" ]
-  }
+  },
+  "style": "snow-monkey-blocks/spider-pickup-slider",
+  "editorScript": "file:../../dist/block/spider-pickup-slider/editor.js"
 }

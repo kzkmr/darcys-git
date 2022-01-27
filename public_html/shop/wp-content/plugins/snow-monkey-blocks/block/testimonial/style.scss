@@ -12,9 +12,8 @@
     &__figure {
       @include _margin-top($_half-leading * 1rem);
       @include _margin-right(.5);
-      flex: 0 0 48px;
+      flex: 0 0 auto;
       @include _circle(48px);
-      max-width: 48px;
 
       img {
         height: 100%;
@@ -39,7 +38,6 @@
     }
 
     &__lede {
-      color: $_color-gray; // For IE11
       color: _var-color-gray();
       @include _font-size($_base-font-size-px - 6);
       line-height: 1.6;
@@ -59,7 +57,6 @@
         display: block;
         height: 1px;
         width: 2rem;
-        background-color: $_color-text; // For IE11
         background-color: _var-color-text();
       }
     }

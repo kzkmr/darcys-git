@@ -39,5 +39,7 @@
   },
   "supports": {
     "customClassName": false
-  }
+  },
+  "style": "snow-monkey-forms/checkboxes",
+  "editorScript": "file:../../dist/block/checkboxes/editor.js"
 }

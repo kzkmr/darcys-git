@@ -21,7 +21,7 @@ import {
 	RichText,
 	useBlockProps,
 	__experimentalImageURLInputUI as ImageURLInputUI,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 import { pullLeft, pullRight } from '@wordpress/icons';
@@ -138,7 +138,7 @@ export default function ( {
 		},
 		{
 			renderAppender: hasInnerBlocks
-				? undefined
+				? InnerBlocks.DefaultBlockAppender
 				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
@@ -279,11 +279,11 @@ export default function ( {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
 				>
 					<SelectControl
 						label={ __(
-							'Image Column Size',
+							'Image column size',
 							'snow-monkey-blocks'
 						) }
 						value={ mediaColumnSize }
@@ -339,7 +339,7 @@ export default function ( {
 						onChange={ onChangeMobileOrder }
 					/>
 					<BaseControl
-						label={ __( 'Title Tag', 'snow-monkey-blocks' ) }
+						label={ __( 'Title tag', 'snow-monkey-blocks' ) }
 						id="snow-monkey-blocks/media-text/title-tag-name"
 					>
 						<div className="smb-list-icon-selector">

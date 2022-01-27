@@ -23,5 +23,9 @@
   },
   "supports": {
     "anchor": true
-  }
+  },
+  "style": [
+    "slick-carousel-theme"
+  ],
+  "editorScript": "file:../../dist/block/pickup-slider/editor.js"
 }

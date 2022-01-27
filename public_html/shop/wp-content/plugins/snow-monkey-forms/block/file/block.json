@@ -27,5 +27,7 @@
   },
   "supports": {
     "customClassName": false
-  }
+  },
+  "style": "snow-monkey-forms/file",
+  "editorScript": "file:../../dist/block/file/editor.js"
 }

@@ -107,5 +107,8 @@
   "supports": {
     "align": [ "wide", "full" ],
     "anchor": true
-  }
+  },
+  "style": "snow-monkey-blocks/section-with-bgvideo",
+  "editorStyle": "snow-monkey-blocks/section-with-bgvideo/editor",
+  "editorScript": "file:../../dist/block/section-with-bgvideo/editor.js"
 }

@@ -57,5 +57,7 @@
         }
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/box",
+  "editorScript": "file:../../dist/block/box/editor.js"
 }

@@ -2,10 +2,7 @@
 
 @import 'core/block';
 
-.editor-styles-wrapper,
-.customize-control-sidebar_block_editor {
-  //@include related-components();
-
+html :where(.editor-styles-wrapper, .customize-control-sidebar_block_editor) {
   .#{$_prefix}c-row[data-columns],
   .#{$_prefix}c-row--margin {
     > .block-list-appender {
@@ -26,19 +23,21 @@
   }
 }
 
-.block-editor-block-list__block.#{ $_prefix }c-row__col {
+html :where(.block-editor-block-list__block.#{ $_prefix }c-row__col) {
   margin-top: 0;
 }
 
-&.#{$_prefix}c-row--margin {
-  > [data-type^="snow-monkey-blocks"] {
-    @include _row__col--margin(1);
-  }
+html :where(.#{ $_prefix }c-row--margin > [data-type^="snow-monkey-blocks"]) {
+  @include _row__col--margin(1);
 }
 
 [data-type^="snow-monkey-blocks"] {
   .components-placeholder__label .dashicon {
       margin-right: .25em;
+  }
+
+  &.has-child-selected .block-editor-block-list__layout > .block-list-appender .components-button {
+    display: flex;
   }
 
   .block-list-appender:empty {

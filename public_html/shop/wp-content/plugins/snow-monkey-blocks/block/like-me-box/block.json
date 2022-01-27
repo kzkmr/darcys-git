@@ -16,5 +16,6 @@
     "attributes": {
       "pageName": "inc2734.monkey.wrench"
     }
-  }
+  },
+  "editorScript": "file:../../dist/block/like-me-box/editor.js"
 }

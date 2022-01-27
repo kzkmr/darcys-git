@@ -52,5 +52,6 @@
       "text": true,
       "gradients": true
     }
-  }
+  },
+  "editorScript": "file:../../../dist/block/spider-contents-slider/item/editor.js"
 }

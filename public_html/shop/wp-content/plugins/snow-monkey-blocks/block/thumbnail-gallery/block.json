@@ -24,5 +24,7 @@
   },
   "supports": {
     "align": [ "wide", "full" ]
-  }
+  },
+  "style": "snow-monkey-blocks/thumbnail-gallery",
+  "editorScript": "file:../../dist/block/thumbnail-gallery/editor.js"
 }

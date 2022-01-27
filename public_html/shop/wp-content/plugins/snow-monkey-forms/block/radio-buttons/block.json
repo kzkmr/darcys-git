@@ -35,5 +35,7 @@
   },
   "supports": {
     "customClassName": false
-  }
+  },
+  "style": "snow-monkey-forms/radio-buttons",
+  "editorScript": "file:../../dist/block/radio-buttons/editor.js"
 }

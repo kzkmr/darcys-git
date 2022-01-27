@@ -1,7 +1,7 @@
 {
   "apiVersion": 2,
   "name": "snow-monkey-blocks/testimonial",
-	"title": "Testimonial",
+	"title": "Testimonials",
 	"description": "Let's arrange the voice of the customer.",
   "category": "smb",
   "attributes": {
@@ -38,5 +38,8 @@
         }
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/testimonial",
+  "editorStyle": "snow-monkey-blocks/testimonial/editor",
+  "editorScript": "file:../../dist/block/testimonial/editor.js"
 }

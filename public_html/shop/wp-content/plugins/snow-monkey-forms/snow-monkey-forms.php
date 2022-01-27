@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin name: Snow Monkey Forms
- * Version: 2.1.0
+ * Version: 3.0.0
  * Description: The Snow Monkey Forms is a mail form plugin for the block editor.
  * Author: inc2734
  * Author URI: https://2inc.org
@@ -44,12 +44,13 @@ class Bootstrap {
 	 * Plugins loaded.
 	 */
 	public function _plugins_loaded() {
-		load_plugin_textdomain( 'snow-monkey-forms', false, SNOW_MONKEY_FORMS_PATH . '/languages' );
 		add_filter( 'load_textdomain_mofile', [ $this, '_load_textdomain_mofile' ], 10, 2 );
+		load_plugin_textdomain( 'snow-monkey-forms', false, basename( SNOW_MONKEY_FORMS_PATH ) . '/languages' );
 
 		Csrf::save_token();
 
 		add_action( 'wp_enqueue_scripts', [ $this, '_enqueue_assets' ] );
+		add_action( 'enqueue_block_assets', [ $this, '_enqueue_block_assets' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, '_enqueue_block_editor_assets' ] );
 		add_action( 'rest_api_init', [ $this, '_endpoint' ] );
 		add_action( 'init', [ $this, '_register_blocks' ] );
@@ -104,7 +105,12 @@ class Bootstrap {
 			),
 			'before'
 		);
+	}
 
+	/**
+	 * Enqueue block assets.
+	 */
+	public function _enqueue_block_assets() {
 		wp_enqueue_style(
 			'snow-monkey-forms',
 			SNOW_MONKEY_FORMS_URL . '/dist/css/app.css',
@@ -117,13 +123,12 @@ class Bootstrap {
 	 * Enqueue block editor assets.
 	 */
 	public function _enqueue_block_editor_assets() {
-		$asset = include( SNOW_MONKEY_FORMS_PATH . '/dist/js/blocks.asset.php' );
 		wp_enqueue_script(
 			'snow-monkey-forms@blocks',
 			SNOW_MONKEY_FORMS_URL . '/dist/js/blocks.js',
-			$asset['dependencies'],
+			[],
 			filemtime( SNOW_MONKEY_FORMS_PATH . '/dist/js/blocks.js' ),
-			true
+			false
 		);
 
 		wp_set_script_translations(
@@ -135,13 +140,9 @@ class Bootstrap {
 		wp_enqueue_style(
 			'snow-monkey-forms@editor',
 			SNOW_MONKEY_FORMS_URL . '/dist/css/editor.css',
-			[],
+			[ 'snow-monkey-forms' ],
 			filemtime( SNOW_MONKEY_FORMS_PATH . '/dist/css/editor.css' )
 		);
-
-		if ( 'snow-monkey-forms' !== get_post_type() ) {
-			return;
-		}
 	}
 
 	/**

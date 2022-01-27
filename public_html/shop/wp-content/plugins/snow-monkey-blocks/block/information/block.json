@@ -58,5 +58,8 @@
         ]
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/information",
+  "editorStyle": "snow-monkey-blocks/information/editor",
+  "editorScript": "file:../../dist/block/information/editor.js"
 }

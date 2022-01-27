@@ -47,5 +47,7 @@
   },
   "supports": {
     "customClassName": false
-  }
+  },
+  "style": "snow-monkey-forms/text",
+  "editorScript": "file:../../dist/block/url/editor.js"
 }

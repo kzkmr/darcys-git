@@ -4,10 +4,11 @@ import {
 	InnerBlocks,
 	InspectorControls,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 import { PanelBody, SelectControl, ToggleControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 import { useMigrateDoubleHyphenToSingleHyphen } from '@smb/hooks';
@@ -22,6 +23,13 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 			newBlockName: 'snow-monkey-blocks/information-item',
 		},
 	] );
+
+	const hasInnerBlocks = useSelect(
+		( select ) =>
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
+		[ clientId ]
+	);
 
 	const {
 		labelColumnSize,
@@ -44,7 +52,9 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
 			templateLock: false,
-			renderAppender: InnerBlocks.ButtonBlockAppender,
+			renderAppender: hasInnerBlocks
+				? InnerBlocks.DefaultBlockAppender
+				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
 
@@ -72,11 +82,11 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
 				>
 					<SelectControl
 						label={ __(
-							'Label Column Size',
+							'Label column size',
 							'snow-monkey-blocks'
 						) }
 						value={ labelColumnSize }

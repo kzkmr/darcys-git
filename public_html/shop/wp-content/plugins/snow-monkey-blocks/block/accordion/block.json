@@ -42,5 +42,8 @@
         ]
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/accordion",
+  "editorStyle": "snow-monkey-blocks/accordion/editor",
+  "editorScript": "file:../../dist/block/accordion/editor.js"
 }

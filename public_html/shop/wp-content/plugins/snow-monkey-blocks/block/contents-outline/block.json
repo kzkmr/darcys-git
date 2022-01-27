@@ -29,5 +29,6 @@
   "supports": {
     "anchor": true,
     "customClassName": false
-  }
+  },
+  "editorScript": "file:../../dist/block/contents-outline/editor.js"
 }

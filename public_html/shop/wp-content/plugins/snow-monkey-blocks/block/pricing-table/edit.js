@@ -6,7 +6,7 @@ import {
 	InnerBlocks,
 	InspectorControls,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 import { useEffect } from '@wordpress/element';
@@ -58,13 +58,15 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 		[ className ]: !! className,
 	} );
 
+	const rowClasses = classnames( 'c-row', 'c-row--md-nowrap' );
+
 	const blockProps = useBlockProps( {
 		className: classes,
 	} );
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: [ 'c-row', 'c-row--md-nowrap' ],
+			className: rowClasses,
 		},
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
@@ -72,7 +74,7 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 			templateLock: false,
 			orientation: 'horizontal',
 			renderAppender: hasInnerBlocks
-				? undefined
+				? InnerBlocks.DefaultBlockAppender
 				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
@@ -86,10 +88,10 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
 				>
 					<BaseControl
-						label={ __( 'Column Size', 'snow-monkey-blocks' ) }
+						label={ __( 'Column size', 'snow-monkey-blocks' ) }
 						help={ __(
 							'If the text of each item is long, it is recommended to select other than "Auto".',
 							'snow-monkey-blocks'

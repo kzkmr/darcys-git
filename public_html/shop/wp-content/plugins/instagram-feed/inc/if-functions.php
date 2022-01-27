@@ -26,6 +26,7 @@ add_filter( 'widget_text', 'do_shortcode' );
  */
 add_shortcode( 'instagram-feed', 'display_instagram' );
 function display_instagram( $atts = array() ) {
+	do_action( 'sbi_before_display_instagram' );
 
 	$database_settings = sbi_get_database_settings();
 

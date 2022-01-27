@@ -68,5 +68,7 @@
       "btnLabel": "button",
       "btnURL": "https://2inc.org"
     }
-  }
+  },
+  "style": "snow-monkey-blocks/btn-box",
+  "editorScript": "file:../../dist/block/btn-box/editor.js"
 }

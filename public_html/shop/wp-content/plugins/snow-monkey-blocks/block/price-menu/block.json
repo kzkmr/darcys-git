@@ -24,5 +24,8 @@
         }
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/price-menu",
+  "editorStyle": "snow-monkey-blocks/price-menu/editor",
+  "editorScript": "file:../../dist/block/price-menu/editor.js"
 }

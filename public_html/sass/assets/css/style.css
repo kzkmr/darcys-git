@@ -386,6 +386,10 @@ p {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
 }
+img {
+  max-width: 100%;
+  height: auto;
+}
 fieldset {
   min-width: 0;
   padding: 0;
@@ -6412,7 +6416,7 @@ Styleguide 11.3.2
 /*
 トップページ
 
-トップページ スライド部に関する Project コンポーネントを定義します。
+トップページ メインビジュアル部に関する Project コンポーネントを定義します。
 
 ex [トップページ](http://demo3.ec-cube.net/)
 

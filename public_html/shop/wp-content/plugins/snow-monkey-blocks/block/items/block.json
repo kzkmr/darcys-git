@@ -35,5 +35,7 @@
   },
   "supports": {
     "html": false
-  }
+  },
+  "style": "snow-monkey-blocks/items",
+  "editorScript": "file:../../dist/block/items/editor.js"
 }

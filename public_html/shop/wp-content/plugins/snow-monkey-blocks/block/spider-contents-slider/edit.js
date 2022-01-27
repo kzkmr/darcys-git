@@ -4,7 +4,7 @@ import {
 	InnerBlocks,
 	InspectorControls,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 import {
@@ -25,7 +25,13 @@ import { toNumber } from '@smb/helper';
 
 const ALLOWED_BLOCKS = [ 'snow-monkey-blocks/spider-contents-slider-item' ];
 
-export default function ( { attributes, setAttributes, className, clientId } ) {
+export default function ( {
+	attributes,
+	setAttributes,
+	className,
+	isSelected,
+	clientId,
+} ) {
 	const {
 		arrows,
 		dots,
@@ -259,18 +265,20 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Dimensions', 'snow-monkey-blocks' ) }
+					initialOpen={ false }
 				>
 					<SelectControl
-						label={ __(
-							'Margin size between slides',
-							'snow-monkey-blocks'
-						) }
+						label={ __( 'Block spacing', 'snow-monkey-blocks' ) }
 						value={ gutter }
 						onChange={ onChangeGutter }
 						options={ gutterOptions }
 					/>
+				</PanelBody>
 
+				<PanelBody
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
+				>
 					<ToggleControl
 						label={ __( 'Display arrows', 'snow-monkey-blocks' ) }
 						checked={ arrows }
@@ -332,7 +340,7 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 
 					<RangeControl
 						label={ __(
-							'Animation Speed in seconds',
+							'Animation speed in seconds',
 							'snow-monkey-blocks'
 						) }
 						help={ __(
@@ -459,34 +467,38 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 					</div>
 				) }
 
-				<div
-					style={ {
-						display: 'flex',
-						gap: '3px',
-						marginTop: '1rem',
-					} }
-				>
-					{ sliderClientIds.map( ( sliderClientId, index ) => {
-						const isActive =
-							currentSliderClientId === sliderClientId ||
-							selectedSlide?.clientId === sliderClientId;
-						return (
-							<Button
-								isPrimary={ isActive }
-								isSecondary={ ! isActive }
-								onClick={ () => {
-									setCurrentSliderClientId( sliderClientId );
-									selectBlock( sliderClientId );
-								} }
-								key={ index }
-							>
-								{ index + 1 }
-							</Button>
-						);
-					} ) }
+				{ ( isSelected || !! selectedSlide ) && (
+					<div
+						style={ {
+							display: 'flex',
+							gap: '3px',
+							marginTop: '1rem',
+						} }
+					>
+						{ sliderClientIds.map( ( sliderClientId, index ) => {
+							const isActive =
+								currentSliderClientId === sliderClientId ||
+								selectedSlide?.clientId === sliderClientId;
+							return (
+								<Button
+									isPrimary={ isActive }
+									isSecondary={ ! isActive }
+									onClick={ () => {
+										setCurrentSliderClientId(
+											sliderClientId
+										);
+										selectBlock( sliderClientId );
+									} }
+									key={ index }
+								>
+									{ index + 1 }
+								</Button>
+							);
+						} ) }
 
-					<InnerBlocks.ButtonBlockAppender />
-				</div>
+						<InnerBlocks.ButtonBlockAppender />
+					</div>
+				) }
 			</div>
 		</>
 	);

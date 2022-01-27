@@ -1,7 +1,7 @@
 {
   "apiVersion": 2,
   "name": "snow-monkey-blocks/step",
-	"title": "Step",
+	"title": "Steps",
 	"description": "Express the steps in an easy-to-understand manner.",
   "category": "smb",
   "supports": {
@@ -38,5 +38,7 @@
         ]
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/step",
+  "editorScript": "file:../../dist/block/step/editor.js"
 }

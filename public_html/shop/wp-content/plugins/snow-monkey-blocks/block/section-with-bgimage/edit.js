@@ -9,7 +9,7 @@ import {
 	JustifyToolbar,
 	__experimentalColorGradientControl as ColorGradientControl,
 	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 	useBlockProps,
 	useSetting,
 } from '@wordpress/block-editor';
@@ -28,6 +28,9 @@ import { __ } from '@wordpress/i18n';
 import ResponsiveTabPanel from '@smb/component/responsive-tab-panel';
 import Figure from '@smb/component/figure';
 import ImageSizeSelectControl from '@smb/component/image-size-select-control';
+
+import { useMultipleOriginColorsAndGradients } from '@smb/hooks';
+
 import {
 	toNumber,
 	getMediaType,
@@ -102,11 +105,9 @@ export default function ( {
 	} = attributes;
 
 	const hasInnerBlocks = useSelect(
-		( select ) => {
-			const { getBlock } = select( 'core/block-editor' );
-			const block = getBlock( clientId );
-			return !! ( block && block.innerBlocks.length );
-		},
+		( select ) =>
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
 		[ clientId ]
 	);
 
@@ -321,7 +322,7 @@ export default function ( {
 		},
 		{
 			renderAppender: hasInnerBlocks
-				? undefined
+				? InnerBlocks.DefaultBlockAppender
 				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
@@ -595,6 +596,20 @@ export default function ( {
 	return (
 		<>
 			<InspectorControls>
+				<PanelColorGradientSettings
+					title={ __( 'Color', 'snow-monkey-blocks' ) }
+					initialOpen={ false }
+					settings={ [
+						{
+							colorValue: textColor,
+							onColorChange: onChangeTextColor,
+							label: __( 'Text color', 'snow-monkey-blocks' ),
+						},
+					] }
+					__experimentalHasMultipleOrigins={ true }
+					__experimentalIsRenderedInSidebar={ true }
+				></PanelColorGradientSettings>
+
 				<PanelBasicSettings
 					disableIsSlim={ !! contentsMaxWidth }
 					disableContentsMaxWidth={ isSlim }
@@ -638,7 +653,7 @@ export default function ( {
 				/>
 
 				<PanelBody
-					title={ __( 'Media Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Media settings', 'snow-monkey-blocks' ) }
 					initialOpen={ true }
 				>
 					{ ( hasLgBackground ||
@@ -810,7 +825,7 @@ export default function ( {
 				</PanelBody>
 
 				<PanelBody
-					title={ __( 'Mask Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Mask', 'snow-monkey-blocks' ) }
 					initialOpen={ false }
 				>
 					<ColorGradientControl
@@ -819,6 +834,9 @@ export default function ( {
 						gradientValue={ maskGradientColor }
 						onColorChange={ onChangeMaskColor }
 						onGradientChange={ onChangeMaskGradientColor }
+						{ ...useMultipleOriginColorsAndGradients() }
+						__experimentalHasMultipleOrigins={ true }
+						__experimentalIsRenderedInSidebar={ true }
 					/>
 
 					<RangeControl
@@ -884,23 +902,23 @@ export default function ( {
 							},
 						},
 						{
-							opacityValue: backgroundText.opacity,
-							onOpacityChange: ( value ) => {
-								setAttributes( {
-									backgroundText: {
-										...backgroundText,
-										...{ opacity: value },
-									},
-								} );
-							},
-						},
-						{
 							colorValue: backgroundText.color,
 							onColorChange: ( value ) => {
 								setAttributes( {
 									backgroundText: {
 										...backgroundText,
 										...{ color: value },
+									},
+								} );
+							},
+						},
+						{
+							opacityValue: backgroundText.opacity,
+							onOpacityChange: ( value ) => {
+								setAttributes( {
+									backgroundText: {
+										...backgroundText,
+										...{ opacity: value },
 									},
 								} );
 							},
@@ -918,18 +936,6 @@ export default function ( {
 						},
 					] }
 				/>
-
-				<PanelColorGradientSettings
-					title={ __( 'Color Settings', 'snow-monkey-blocks' ) }
-					initialOpen={ false }
-					settings={ [
-						{
-							colorValue: textColor,
-							onColorChange: onChangeTextColor,
-							label: __( 'Text Color', 'snow-monkey-blocks' ),
-						},
-					] }
-				></PanelColorGradientSettings>
 			</InspectorControls>
 
 			<BlockControls gruop="block">

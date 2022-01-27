@@ -59,5 +59,8 @@
   },
   "supports": {
     "align": [ "wide", "full" ]
-  }
+  },
+  "style": "snow-monkey-blocks/spider-contents-slider",
+  "editorStyle": "snow-monkey-blocks/spider-contents-slider/editor",
+  "editorScript": "file:../../dist/block/spider-contents-slider/editor.js"
 }

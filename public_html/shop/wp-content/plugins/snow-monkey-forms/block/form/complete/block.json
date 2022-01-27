@@ -8,5 +8,6 @@
     "inserter": false,
     "multiple": false,
     "reusable": false
-  }
+  },
+  "editorScript": "file:../../../dist/block/form/complete/editor.js"
 }

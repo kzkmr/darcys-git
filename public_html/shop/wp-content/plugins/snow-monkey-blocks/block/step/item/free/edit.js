@@ -5,10 +5,10 @@ import { __ } from '@wordpress/i18n';
 import {
 	InnerBlocks,
 	InspectorControls,
-	PanelColorSettings,
 	RichText,
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 import { useSelect } from '@wordpress/data';
@@ -17,11 +17,9 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 	const { title, numberColor } = attributes;
 
 	const hasInnerBlocks = useSelect(
-		( select ) => {
-			const { getBlock } = select( 'core/block-editor' );
-			const block = getBlock( clientId );
-			return !! ( block && block.innerBlocks.length );
-		},
+		( select ) =>
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
 		[ clientId ]
 	);
 
@@ -41,7 +39,7 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 		},
 		{
 			renderAppender: hasInnerBlocks
-				? undefined
+				? InnerBlocks.DefaultBlockAppender
 				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
@@ -59,17 +57,19 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelColorSettings
-					title={ __( 'Color Settings', 'snow-monkey-blocks' ) }
+				<PanelColorGradientSettings
+					title={ __( 'Color', 'snow-monkey-blocks' ) }
 					initialOpen={ false }
-					colorSettings={ [
+					settings={ [
 						{
-							value: numberColor,
-							onChange: onChangeNumberColor,
-							label: __( 'Number Color', 'snow-monkey-blocks' ),
+							colorValue: numberColor,
+							onColorChange: onChangeNumberColor,
+							label: __( 'Number color', 'snow-monkey-blocks' ),
 						},
 					] }
-				></PanelColorSettings>
+					__experimentalHasMultipleOrigins={ true }
+					__experimentalIsRenderedInSidebar={ true }
+				></PanelColorGradientSettings>
 			</InspectorControls>
 
 			<div { ...blockProps }>

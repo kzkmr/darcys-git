@@ -1,14 +1,14 @@
 import classnames from 'classnames';
 
-import { PanelBody, RangeControl } from '@wordpress/components';
-
 import {
 	InnerBlocks,
 	InspectorControls,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
+import { PanelBody, RangeControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 import { toNumber } from '@smb/helper';
@@ -28,7 +28,15 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 
 	const { md, lg } = attributes;
 
+	const hasInnerBlocks = useSelect(
+		( select ) =>
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
+		[ clientId ]
+	);
+
 	const classes = classnames( 'smb-testimonial', className );
+	const rowClasses = classnames( 'c-row', 'c-row--margin' );
 
 	const blockProps = useBlockProps( {
 		className: classes,
@@ -36,13 +44,15 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: [ 'c-row', 'c-row--margin' ],
+			className: rowClasses,
 		},
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
 			templateLock: false,
-			renderAppender: InnerBlocks.ButtonBlockAppender,
+			renderAppender: hasInnerBlocks
+				? InnerBlocks.DefaultBlockAppender
+				: InnerBlocks.ButtonBlockAppender,
 			orientation: 'horizontal',
 		}
 	);
@@ -61,7 +71,7 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
 				>
 					<ResponsiveTabPanel
 						desktop={ () => {

@@ -152,5 +152,7 @@
         }
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/section-side-heading",
+  "editorScript": "file:../../dist/block/section-side-heading/editor.js"
 }

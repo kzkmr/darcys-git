@@ -31,5 +31,7 @@
         }
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/rating-box",
+  "editorScript": "file:../../dist/block/rating-box/editor.js"
 }

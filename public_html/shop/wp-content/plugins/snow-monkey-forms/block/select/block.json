@@ -39,5 +39,8 @@
   },
   "supports": {
     "customClassName": false
-  }
+  },
+  "style": "snow-monkey-forms/select",
+  "editorStyle": "snow-monkey-forms/select/editor",
+  "editorScript": "file:../../dist/block/select/editor.js"
 }

@@ -1,7 +1,7 @@
 {
   "apiVersion": 2,
   "name": "snow-monkey-blocks/step--item",
-	"title": "Item",
+	"title": "Step (Standard)",
 	"description": "It is a child block of the step block.",
   "category": "smb",
   "parent": [ "snow-monkey-blocks/step" ],
@@ -82,5 +82,6 @@
   "supports": {
     "anchor": true,
     "inserter": false
-  }
+  },
+  "editorScript": "file:../../../../dist/block/step/item/standard/editor.js"
 }

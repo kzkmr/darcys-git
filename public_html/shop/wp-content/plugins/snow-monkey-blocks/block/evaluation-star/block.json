@@ -39,5 +39,7 @@
       "evaluationValue": 3,
       "isDisplayNumeric": true
     }
-  }
+  },
+  "style": "snow-monkey-blocks/evaluation-star",
+  "editorScript": "file:../../dist/block/evaluation-star/editor.js"
 }

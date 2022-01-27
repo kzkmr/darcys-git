@@ -75,5 +75,6 @@
   },
   "supports": {
     "html": false
-  }
+  },
+  "editorScript": "file:../../../../dist/block/items/item/item/editor.js"
 }

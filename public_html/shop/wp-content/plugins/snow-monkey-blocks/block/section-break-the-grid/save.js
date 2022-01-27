@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import hexToRgba from 'hex-to-rgba';
 
-import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 import { SectionBackground } from '../section/components/background';
 import { Save as Header } from '../section/components/header';
@@ -92,7 +92,8 @@ export default function ( { attributes, className } ) {
 				!! mobileOrder && isAvailableVerticalAlignment,
 			[ `smb-section--${ contentsAlignment }` ]: !! contentsAlignment,
 			[ className ]: !! className,
-			[ `smb-section-break-the-grid--match-height` ]: imageMatchHeight,
+			[ `smb-section-break-the-grid--match-height` ]:
+				imageMatchHeight && isAvailableVerticalAlignment,
 		}
 	);
 
@@ -135,6 +136,11 @@ export default function ( { attributes, className } ) {
 		'smb-section-break-the-grid__content--remove-outside-p':
 			contentPadding && removeContentOutsidePadding,
 	} );
+
+	const bodyClasses = classnames(
+		'smb-section__body',
+		'smb-section-break-the-grid__body'
+	);
 
 	const shadowClasses = classnames( 'smb-section-break-the-grid__shadow' );
 
@@ -252,9 +258,11 @@ export default function ( { attributes, className } ) {
 										className="smb-section-break-the-grid"
 									/>
 
-									<div className="smb-section__body smb-section-break-the-grid__body">
-										<InnerBlocks.Content />
-									</div>
+									<div
+										{ ...useInnerBlocksProps.save( {
+											className: bodyClasses,
+										} ) }
+									/>
 								</div>
 							</div>
 							<div className={ imageColumnClasses }>

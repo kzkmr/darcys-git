@@ -1,17 +1,17 @@
 import classnames from 'classnames';
 
-import { __ } from '@wordpress/i18n';
-
-import { BaseControl, Button, PanelBody } from '@wordpress/components';
-
 import {
 	InnerBlocks,
 	InspectorControls,
-	PanelColorSettings,
 	RichText,
+	__experimentalPanelColorGradientSettings as PanelColorGradientSettings,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
+
+import { BaseControl, Button, PanelBody } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { __ } from '@wordpress/i18n';
 
 import FontAwesome from '@smb/component/font-awesome';
 import { useMigrateDoubleHyphenToSingleHyphen } from '@smb/hooks';
@@ -34,6 +34,13 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 			newBlockName: 'snow-monkey-blocks/directory-structure-item-file',
 		},
 	] );
+
+	const hasInnerBlocks = useSelect(
+		( select ) =>
+			!! select( 'core/block-editor' ).getBlock( clientId )?.innerBlocks
+				?.length,
+		[ clientId ]
+	);
 
 	const { iconColor, iconVendor, iconClass, name } = attributes;
 
@@ -62,7 +69,9 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			templateLock: false,
-			renderAppender: InnerBlocks.ButtonBlockAppender,
+			renderAppender: hasInnerBlocks
+				? InnerBlocks.DefaultBlockAppender
+				: InnerBlocks.ButtonBlockAppender,
 		}
 	);
 
@@ -106,8 +115,22 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 	return (
 		<>
 			<InspectorControls>
+				<PanelColorGradientSettings
+					title={ __( 'Color', 'snow-monkey-blocks' ) }
+					initialOpen={ false }
+					settings={ [
+						{
+							colorValue: iconColor,
+							onColorChange: onChangeIconColor,
+							label: __( 'Icon color', 'snow-monkey-blocks' ),
+						},
+					] }
+					__experimentalHasMultipleOrigins={ true }
+					__experimentalIsRenderedInSidebar={ true }
+				/>
+
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
 				>
 					<BaseControl
 						label={ __( 'Icon', 'snow-monkey-blocks' ) }
@@ -145,18 +168,6 @@ export default function ( { attributes, setAttributes, className, clientId } ) {
 						</div>
 					</BaseControl>
 				</PanelBody>
-
-				<PanelColorSettings
-					title={ __( 'Color Settings', 'snow-monkey-blocks' ) }
-					initialOpen={ false }
-					colorSettings={ [
-						{
-							value: iconColor,
-							onChange: onChangeIconColor,
-							label: __( 'Icon Color', 'snow-monkey-blocks' ),
-						},
-					] }
-				/>
 			</InspectorControls>
 
 			<div { ...blockProps }>

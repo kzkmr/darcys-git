@@ -107,5 +107,8 @@
   },
   "supports": {
     "align": [ "wide", "full" ]
-  }
+  },
+  "style": "snow-monkey-blocks/spider-slider",
+  "editorStyle": "snow-monkey-blocks/spider-slider/editor",
+  "editorScript": "file:../../dist/block/spider-slider/editor.js"
 }

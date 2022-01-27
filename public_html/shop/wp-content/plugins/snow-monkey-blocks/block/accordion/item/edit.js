@@ -7,7 +7,7 @@ import {
 	InspectorControls,
 	RichText,
 	useBlockProps,
-	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 export default function ( { attributes, setAttributes, className } ) {
@@ -37,7 +37,7 @@ export default function ( { attributes, setAttributes, className } ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Block Settings', 'snow-monkey-blocks' ) }
+					title={ __( 'Block settings', 'snow-monkey-blocks' ) }
 				>
 					<CheckboxControl
 						label={ __(

@@ -64,5 +64,7 @@
   },
   "supports": {
     "align": [ "wide", "full" ]
-  }
+  },
+  "style": "snow-monkey-blocks/slider",
+  "editorScript": "file:../../dist/block/slider/editor.js"
 }

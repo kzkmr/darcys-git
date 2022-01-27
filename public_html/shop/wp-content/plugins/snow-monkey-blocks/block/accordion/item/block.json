@@ -1,7 +1,7 @@
 {
   "apiVersion": 2,
   "name": "snow-monkey-blocks/accordion-item",
-	"title": "Item",
+	"title": "Panel",
   "category": "smb",
   "parent": [
     "snow-monkey-blocks/accordion"
@@ -21,5 +21,6 @@
   "supports": {
     "html": false,
     "className": true
-  }
+  },
+  "editorScript": "file:../../../dist/block/accordion/item/editor.js"
 }

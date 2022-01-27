@@ -239,5 +239,8 @@
   "supports": {
     "align": [ "wide", "full" ],
     "anchor": true
-  }
+  },
+  "style": "snow-monkey-blocks/section-break-the-grid",
+  "editorStyle": "snow-monkey-blocks/section-break-the-grid/editor",
+  "editorScript": "file:../../dist/block/section-break-the-grid/editor.js"
 }

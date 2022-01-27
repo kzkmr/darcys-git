@@ -31,5 +31,7 @@
   },
   "supports": {
     "html": false
-  }
+  },
+  "style": "snow-monkey-blocks/panels",
+  "editorScript": "file:../../dist/block/panels/editor.js"
 }

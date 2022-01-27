@@ -68,5 +68,6 @@
     "attributes": {
       "postsPerPage": 3
     }
-  }
+  },
+  "editorScript": "file:../../dist/block/recent-posts/editor.js"
 }

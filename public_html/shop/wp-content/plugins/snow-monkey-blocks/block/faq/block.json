@@ -1,7 +1,7 @@
 {
   "apiVersion": 2,
   "name": "snow-monkey-blocks/faq",
-	"title": "FAQ",
+	"title": "FAQs",
 	"description": "You can list the FAQs.",
   "category": "smb",
   "supports": {
@@ -38,5 +38,7 @@
         ]
       }
     ]
-  }
+  },
+  "style": "snow-monkey-blocks/faq",
+  "editorScript": "file:../../dist/block/faq/editor.js"
 }
