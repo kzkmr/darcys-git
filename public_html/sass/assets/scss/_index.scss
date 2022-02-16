@@ -1,15 +1,22 @@
 @import url('./normalize.css/normalize.css');
 
 body {
-  font-family: Roboto, "游ゴシック", YuGothic, "Yu Gothic", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Arial, "メイリオ", Meiryo, sans-serif;
+  font-family: 'Courier','TsukuARdGothic-Regular','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'Yu Gothic UI',YuGothic,'Yu Gothic',sans-serif;
   line-height: 1.6;
-  color:#525263;
+  color:#231815;
   transition: z-index 0ms 5.28455ms;
-  background: #f6f6f6;
+  background: #fff;
   margin: 0;
 }
+
 a {
   text-decoration: none;
+  transition: .2s;
+
+  &:hover {
+    text-decoration: none !important;
+    opacity: .7;
+  }
 }
 
 pre {
@@ -26,4 +33,19 @@ p {
 img {
   max-width: 100%;
   height: auto;
+}
+
+.pc-none {
+
+  @media (min-width:768px) {
+    display: none !important;
+  }
+}
+
+.sp-none {
+  display: none !important;
+
+  @media (min-width:768px) {
+    display: block !important;
+  }
 }

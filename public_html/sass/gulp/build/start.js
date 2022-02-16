@@ -11,14 +11,14 @@ const ftpOptions = {
 //FTPユーザー名
   user: 'arie001@test-darcys-factory.xyz',
 //FTPパスワード
-  password: 'ariebeneseed',
+  password: '9nfoB3n3s33d',
 //FTPホスト
   host: 'sv7553.xserver.jp',
 //アップロードフォルダを指定
-  localRoot: process.cwd() + "/assets/css", 
+  localRoot: process.cwd() + "/assets/css",
 //サーバーのアップロード先を指定
-  remoteRoot:'/test-darcys-factory.xyz/public_html/html/template/default/assets/css', 
-  include: ['*'], 
+  remoteRoot:'/test-darcys-factory.xyz/public_html/html/template/default/assets/css',
+  include: ['*'],
   deleteRemote: false
 }
 

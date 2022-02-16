@@ -1,0 +1,120 @@
+body {
+  font-family: "Courier", YuGothic, "Yu Gothic", "ＭＳ Ｐゴシック", "MS PGothic", "ヒラギノ角ゴ StdN", "Hiragino Kaku Gothic StdN", sans-serif;
+  color: #555;
+}
+a {
+  text-decoration: none;
+  transition: 0.3s;
+}
+.ec-headerNaviRoleTop {
+  display: flex;
+  justify-content: flex-end;
+}
+.ec-headerNaviRoleTop__nav {
+  margin-right: 20px;
+}
+.ec-headerNaviRoleTop__btn {
+  padding: 11px 24px;
+  background-color: #f4f4f4;
+}
+.ec-headerNaviRoleTop__btn a {
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: #555;
+}
+.ec-headerNaviRoleBottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 0 20px;
+}
+.ec-headerNaviRoleBottom__center {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ec-headerNaviRoleBottom__center {
+    display: block;
+    margin: 0 auto;
+  }
+}
+.ec-headerNaviRoleBottom__right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 30px;
+  height: 32px;
+  margin: auto 0;
+}
+@media (min-width: 768px) {
+  .ec-headerNaviRoleBottom__right {
+    position: relative;
+    right: 0;
+    margin: 0;
+  }
+}
+.ec-headerNaviRoleBottom__gnav .p-global-navi {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ec-headerNaviRoleBottom__gnav .p-global-navi {
+    display: flex;
+    gap: 30px;
+    padding-top: 20px;
+    list-style: none;
+  }
+}
+.ec-headerNaviRoleBottom__gnav .p-global-navi__item a {
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: #555;
+}
+.ec-headerNaviRoleBottom__img {
+  text-align: center;
+}
+.ec-headerNaviRoleBottom__img img {
+  width: 120px;
+  height: auto;
+}
+@media (min-width: 768px) {
+  .ec-headerNaviRoleBottom__img img {
+    width: 136px;
+  }
+}
+.ec-headerNav {
+  text-align: right;
+}
+.ec-headerNav .ec-headerNav__item {
+  margin-left: 0;
+  display: inline-block;
+  font-size: 28px;
+}
+.ec-headerNav .ec-headerNav__itemIcon {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 18px;
+  color: black;
+}
+@media (min-width: 768px) {
+  .ec-headerNav .ec-headerNav__itemIcon {
+    margin-right: 0;
+    font-size: 20px;
+  }
+}
+.ec-headerNav .ec-headerNav__itemLink {
+  display: none;
+  margin-right: 5px;
+  font-size: 14px;
+  vertical-align: middle;
+  color: black;
+}
+@media (min-width: 768px) {
+  .ec-headerNav .ec-headerNav__itemLink {
+    display: inline-block;
+  }
+}
+/*# sourceMappingURL=https://test-darcys-factory.xyz/shop/wp-content/build/scss_library/c95a917ee6bb0ae693cce959840a8e5687da2c5a.css.map */

@@ -3,9 +3,9 @@ Contributors: futtta, optimizingmatters, zytzagoo, turl
 Tags: optimize, minify, performance, images, core web vitals, lazy-load, pagespeed, google fonts
 Donate link: http://blog.futtta.be/2013/10/21/do-not-donate-to-me/
 Requires at least: 4.9
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 2.9.5
+Stable tag: 2.9.5.1
 
 Autoptimize speeds up your website by optimizing JS, CSS, images (incl. lazy-load), HTML and Google Fonts, asyncing JS, removing emoji cruft and more.
 
@@ -25,10 +25,6 @@ Just install from your WordPress "Plugins > Add New" screen and all will be well
 1. Go to `Settings > Autoptimize` and enable the options you want. Generally this means "Optimize HTML/ CSS/ JavaScript".
 
 == Frequently Asked Questions ==
-
-= Do you offer or recommend a course on how to speed up WordPress/ use Autoptimize? =
-
-There are many great resources online, both free and premium, but [the "Autoptimize Masterclass" by Load Labz](https://misc.optimizingmatters.com/partners/?from=faq&partner=loadlabz) stands out for the systematic and detailed approach in the video-based course. Have a look at the free sample class(es) and when interested make sure to use the `EarlyBird` coupon to get a discount!
 
 = What does the plugin do to help speed up my site? =
 
@@ -324,6 +320,9 @@ You can get help on the [wordpress.org support forum](http://wordpress.org/suppo
 Just [fork Autoptimize on Github](https://github.com/futtta/autoptimize) and code away!
 
 == Changelog ==
+
+= 2.9.5.1 =
+* fix for CSS cache growing too fast when inline CSS with variable selectors from WordPress 5.9 comment blocks is aggregated.
 
 = 2.9.5 =
 * Better fix for PHP notice in autoptimizeImages.php.

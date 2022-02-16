@@ -22,40 +22,48 @@ Styleguide 11.2
 .ec-layoutRole {
   width: 100%;
   transition: transform 0.3s;
-  font-family: 'Courier',YuGothic,'Yu Gothic','ＭＳ Ｐゴシック','MS PGothic','ヒラギノ角ゴ StdN','Hiragino Kaku Gothic StdN',sans-serif;
   background: #fff;
-  color: #555;
+  color: $bl;
   overflow: hidden;
-  & &__contentTop {
+
+  &__contentTop {
     padding: 0;
   }
 
-  & &__contents {
+  &__contents {
     margin-right: auto;
     margin-left: auto;
+    padding-top: 60px;
     width: 100%;
     max-width: 1130px;
     display: flex;
     flex-wrap: nowrap;
 
+    @include media_desktop() {
+      padding-top: 0;
+    }
   }
-  & &__main {
+
+  &__main {
     width: 100%;
   }
-  & &__mainWithColumn {
+
+  &__mainWithColumn {
     width: 100%;
     @include media_desktop() {
       width: 75%;
     }
   }
-  & &__mainBetweenColumn {
+
+  &__mainBetweenColumn {
     width: 100%;
     @include media_desktop() {
       width: 50%;
     }
   }
-  & &__left,
-  & &__right {
+
+  &__left,
+  &__right {
     display: none;
     @include media_desktop() {
       display: block;
@@ -90,17 +98,6 @@ Styleguide 11.2
   & &__title {
     width: 100%;
   }
-  & &__navSP {
-    display: block;
-    position: absolute;
-    top: 15px;
-    width: 27%;
-    right: 0;
-    text-align: right;
-    @include media_desktop {
-      display: none;
-    }
-  }
 }
 
 .ec-headerNaviRole {
@@ -123,7 +120,6 @@ Styleguide 11.2
 
   & &__left {
     width: calc(100% / 3);
-
   }
 
   & &__search {
@@ -159,9 +155,13 @@ Styleguide 11.2
   }
 }
 
-.ec-headerNaviRoleTop {
-  display: flex;
-  justify-content: flex-end;
+.ec-header-top {
+
+  @include media_desktop {
+    display: flex !important;
+    justify-content: flex-end;
+    align-items: center;
+  }
 
   &__nav {
     margin-right: 20px;
@@ -169,7 +169,7 @@ Styleguide 11.2
 
   &__btn {
     padding: 11px 24px;
-    background-color: #ddd;
+    background-color: #f4f4f4;
 
     a {
       font-size: 16px;
@@ -179,8 +179,8 @@ Styleguide 11.2
   }
 }
 
-.ec-headerNaviRoleBottom {
-  display: flex;
+.ec-header-bottom {
+  display: none;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -189,11 +189,16 @@ Styleguide 11.2
   margin: 0 auto;
   padding: 40px 0 20px;
 
+  @include media_desktop() {
+    display: flex;
+  }
+
   &__center {
     display: none;
 
     @include media_desktop() {
-      display: block;
+      display: flex;
+      align-items: center;
       margin: 0 auto;
     }
   }
@@ -210,6 +215,19 @@ Styleguide 11.2
       position: relative;
       right: 0;
       margin: 0;
+    }
+  }
+
+  &__img {
+    text-align: center;
+
+    img {
+      width: 120px;
+      height: auto;
+
+      @include media_desktop() {
+        width: 136px;
+      }
     }
   }
 
@@ -236,49 +254,139 @@ Styleguide 11.2
     }
   }
 
-  &__img {
-    text-align: center;
+  &__store-link {
 
-    img {
-      width: 120px;
-      height: auto;
+    a {
+      display: flex;
+      align-items: center;
 
-      @include media_desktop() {
-        width: 136px;
+      &
+
+      img {
+        margin-right: 12px;
+      }
+
+      span {
+        color: $bl;
       }
     }
   }
 }
 
-.ec-headerNavSP {
-  display: block;
-  cursor: pointer;
-  //display: inline-block;
-  border-radius: 50%;
-  box-sizing: border-box;
-  padding: 10px;
-  width: 40px;
-  height: 40px;
-  font-size: 18px;
-  text-align: center;
-  color: black;
-  background: white;
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1000;
+/* スマホヘッダー */
 
-  .fas {
-    vertical-align: top;
+.ec-header-navi-sp {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+  z-index: 10000;
+
+  &__logo {
+    padding-left: 8px;
+    margin-right: 10px;
   }
+
+  &__login {
+    margin: 0 auto;
+  }
+
+  &__cart {
+    margin: 0 auto;
+
+    .ec-cartNavi {
+      position: relative;
+      padding: 0;
+    }
+  }
+
+  &__store {
+    width: 94px;
+    height: 100%;
+    margin-left: auto;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 0 5px;
+      background: #f7f7f7;
+      color: #333;
+
+      p {
+        margin-right: 4px;
+
+        .small {
+          display: block;
+          @include font(8,500,1,.05em);
+          text-align: center;
+        }
+
+        .large {
+          display: block;
+          margin-top: 5px;
+          @include font(11,500,1,.05em);
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  &__btn {
+    flex: 0 0 90px;
+    display: block;
+    width: 80px;
+    height: 60px;
+    margin-left: 1px;
+  }
+}
+
+.ec-header-sp-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f7f7f7;
+  z-index: 1000;
+  cursor: pointer;
 
   @include media_desktop {
     display: none;
   }
+
+  &__text {
+    @include font(12px,500,1,0);
+  }
+
+  &__bars {
+    width: 28px;
+    margin-left: 6px;
+
+    span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: #333;
+      user-select: none;
+
+      &:nth-of-type(2) {
+        margin-top: 7px;
+      }
+
+      &:nth-of-type(3) {
+        margin-top: 7px;
+      }
+    }
+  }
 }
-.ec-headerNavSP.is-active {
-  display: none;
-}
+
 
 /*
 ヘッダー：タイトル
@@ -291,46 +399,46 @@ include /assets/tmpl/elements/11.2.header.pug
 
 Styleguide 11.2.1
 */
-.ec-headerTitle {
-  @include commonStyle();
-  & &__title {
-    text-align: center;
-    h1 {
-      margin: 0;
-      padding: 0;
-    }
-    a {
-      display: inline-block;
-      margin-bottom: 30px;
-      text-decoration: none;
-      font-size: 20px;
+// .ec-headerTitle {
+//   @include commonStyle();
+//   & &__title {
+//     text-align: center;
+//     h1 {
+//       margin: 0;
+//       padding: 0;
+//     }
+//     a {
+//       display: inline-block;
+//       margin-bottom: 30px;
+//       text-decoration: none;
+//       font-size: 20px;
 
-      @include media_desktop() {
-        font-size: 40px;
-      }
-      font-weight: bold;
-      color: black;
+//       @include media_desktop() {
+//         font-size: 40px;
+//       }
+//       font-weight: bold;
+//       color: black;
 
-      &:hover {
-        opacity: .8;
-      }
-    }
-  }
-  & &__subtitle {
-    font-size: 10px;
-    text-align: center;
-    @include media_desktop() {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    a {
-      display: inline-block;
-      color: #0092C4;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  }
-}
+//       &:hover {
+//         opacity: .8;
+//       }
+//     }
+//   }
+//   & &__subtitle {
+//     font-size: 10px;
+//     text-align: center;
+//     @include media_desktop() {
+//       font-size: 16px;
+//       margin-bottom: 10px;
+//     }
+//     a {
+//       display: inline-block;
+//       color: #0092C4;
+//       text-decoration: none;
+//       cursor: pointer;
+//     }
+//   }
+// }
 
 /*
 ヘッダー：ユーザナビゲーション
@@ -352,33 +460,21 @@ sg-wrapper:
 
 Styleguide 11.2.3
 */
-.ec-headerNav {
-  text-align: right;
-  & &__item {
-    margin-left: 0;
-    display: inline-block;
-    font-size: 28px;
+.ec-header-nav {
+  display: flex;
+  align-items: center;
+
+  &__item {
+    display: block;
+    margin-left: 5px;
+    padding: 14px 20px;
+    background-color: #efefef;
   }
-  & &__itemIcon {
-    display: inline-block;
-    margin-right: 10px;
-    margin-left: 10px;
-    font-size: 18px;
-    color: black;
-    @include media_desktop {
-      margin-right: 0;
-      font-size: 20px;
-    }
-  }
-  & &__itemLink {
-    display: none;
-    margin-right: 5px;
-    font-size: 14px;
-    vertical-align: middle;
-    color: black;
-    @include media_desktop {
-      display: inline-block;
-    }
+
+  &__item-link {
+    // display: none;
+    @include font(14px,800,1,.1em);
+    color: $bl;
   }
 }
 
@@ -391,7 +487,7 @@ Styleguide 11.2.3
 
 Markup:
 include /assets/tmpl/elements/11.3.headerNavi.pug
-+ec-headerSearch
++ec-header-search
 
 sg-wrapper:
 <div class="ec-headerNaviRole">
@@ -402,14 +498,16 @@ sg-wrapper:
 
 Styleguide 11.2.4
 */
-.ec-headerSearch{
+.ec-header-search {
   @include clearfix;
-  & &__category {
+
+  &__category {
     float: none;
     @include media_desktop {
       float: left;
       width: 43%;
     }
+
     .ec-select {
       overflow: hidden;
       width: 100%;
@@ -474,21 +572,18 @@ Styleguide 11.2.4
       }
     }
   }
-  & &__keyword{
+
+  &__keyword {
     position: relative;
     color: $clrDarkGray;
     border: 1px solid #ccc;
     background-color: #f6f6f6;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-radius: 30px;
 
     @include media_desktop {
-      float: right;
-      width: 57%;
-      border-bottom-left-radius: inherit;
-      border-top-right-radius: 50px;
-      border-bottom-right-radius: 50px;
+      width: 240px;
     }
+
     input[type="search"]{
       width: 100%;
       height: 34px;
@@ -499,16 +594,19 @@ Styleguide 11.2.4
       background: none;
       box-sizing: border-box;
       margin-bottom: 0;
+
       @include media_desktop {
         font-size: 12px;
       }
     }
+
     .ec-icon {
       width: 22px;
       height: 22px;
     }
   }
-  & &__keywordBtn{
+
+  &__keyword-btn{
     border: 0;
     background: none;
     position: absolute;
@@ -538,17 +636,18 @@ sg-wrapper:
 
 Styleguide 11.2.5
 */
-.ec-categoryNaviRole {
-  @include container;
-  display: none;
-  @include media_desktop() {
-    display: block;
-    width: 100%;
-    @include reset_link;
-  }
-}
+// .ec-categoryNaviRole {
+//   @include container;
+//   display: none;
 
-.ec-itemNav {
+//   @include media_desktop() {
+//     display: block;
+//     width: 100%;
+//     @include reset_link;
+//   }
+// }
+
+.ec-item-nav {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -556,55 +655,54 @@ Styleguide 11.2.5
   text-align: center;
 }
 
-.ec-itemNav__nav {
-  display: block;
-  margin: 0 auto;
-  padding: 0;
-  width: auto;
-  height: auto;
-  list-style-type: none;
-  text-align: center;
-  vertical-align: bottom;
-  @include media_desktop {
-    display: inline-block;
-  }
-}
+// .ec-item-nav__nav {
+//   display: block;
+//   margin: 0 auto;
+//   padding: 0;
+//   width: auto;
+//   height: auto;
+//   list-style-type: none;
+//   text-align: center;
 
-.ec-itemNav__nav li {
-  float: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  @include media_desktop {
-    float: left;
-    width: auto;
-  }
-}
+//   @include media_desktop {
+//     display: inline-block;
+//   }
+// }
 
-.ec-itemNav__nav li a {
+// .ec-item-nav__nav li {
+//   position: relative;
+//   float: none;
+//   width: 100%;
+//   margin: 0;
+//   padding: 0;
+//   text-align: left;
+
+//   @include media_desktop {
+//     float: left;
+//     width: auto;
+//   }
+// }
+
+.ec-item-nav__nav li a,
+.ec-item-nav__nav li span {
   display: block;
-  border-bottom: 1px solid #E8E8E8;
   margin: 0;
-  padding: 16px;
+  padding: 12px 20px;
   height: auto;
-  color: #2e3233;;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 20px;
-  text-decoration: none;
+  @include font(16px,500,1,0);
   text-align: left;
-  background: #fff;
-  border-bottom: 1px solid #E8E8E8;
+  text-decoration: none;
+  background: #595757;
+  color: #fff;
+
   @include media_desktop {
     text-align: center;
     border-bottom: none;
   }
 }
 
-.ec-itemNav__nav li ul {
-  display: none;
+.ec-item-nav__nav li ul {
+  display: block;
   z-index: 0;
   margin: 0;
   padding: 0;
@@ -613,14 +711,14 @@ Styleguide 11.2.5
   position: static;
   top: 100%;
   left: 0;
+
   @include media_desktop {
-    display: block;
     z-index: 100;
     position: absolute;
   }
 }
 
-.ec-itemNav__nav li ul li {
+.ec-item-nav__nav li ul li {
   overflow: hidden;
   width: 100%;
   height: auto;
@@ -631,39 +729,36 @@ Styleguide 11.2.5
   }
 }
 
-.ec-itemNav__nav li ul li a {
-  border-bottom: 1px solid #E8E8E8;
+.ec-item-nav__nav li ul li a {
   padding: 16px 22px 16px 16px;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
+  @include font(15,500,1,0);
   text-align: left;
-  background: black;
+  color: #fff;
+  background: #595757;
 }
 
-.ec-itemNav__nav > li:hover > a {
-  background: #fafafa;
+.ec-item-nav__nav > li:hover > a {
+  background: #595757;
 }
 
-.ec-itemNav__nav > li:hover li:hover > a {
-  background: #333;
+.ec-item-nav__nav > li:hover li:hover > a {
+  background: #595757;
 }
 
-.ec-itemNav__nav > li:hover > ul > li {
+.ec-item-nav__nav > li:hover > ul > li {
   @include media_desktop {
     overflow: visible;
     height: auto;
-
   }
 }
 
-.ec-itemNav__nav li ul li ul {
+.ec-item-nav__nav li ul li ul {
   top: 0;
   left: 100%;
   width: auto;
 }
 
-.ec-itemNav__nav li ul li ul:before {
+.ec-item-nav__nav li ul li ul:before {
   @include media_desktop {
     content: "\f054";
     font-family: "Font Awesome 5 Free";
@@ -677,7 +772,7 @@ Styleguide 11.2.5
   }
 }
 
-.ec-itemNav__nav li ul li:hover > ul > li {
+.ec-item-nav__nav li ul li:hover > ul > li {
   @include media_desktop {
     overflow: visible;
     height: auto;
@@ -685,11 +780,11 @@ Styleguide 11.2.5
   }
 }
 
-.ec-itemNav__nav li ul li ul li a {
+.ec-item-nav__nav li ul li ul li a {
   background: #7D7D7D
 }
 
-.ec-itemNav__nav li:hover ul li ul li a:hover {
+.ec-item-nav__nav li:hover ul li ul li a:hover {
   background: #333;
 }
 
@@ -700,44 +795,46 @@ SP時のみ出現するヘッダーに関係するコンポーネントです。
 ex [トップページ](http://demo3.ec-cube.net/)画面サイズが768px以下に該当。<br>
 <br>
 `.ec-drawerRole`：SPのドロワー内の要素をwrapするコンポーネントです。<br>
-`.ec-headerSearch`、`.ec-headerNav`、`.ec-itemNav`は`.ec-drawerRole`の子要素にある場合、ドロワーに適したスタイルに変化します。<br><br>
+`.ec-headerSearch`、`.ec-headerNav`、`.ec-item-nav`は`.ec-drawerRole`の子要素にある場合、ドロワーに適したスタイルに変化します。<br><br>
 `.ec-overlayRole`：SPのドロワー出現時にz-indexがドロワー以下の要素に半透明の黒背景をかぶせるコンポーネントです。<br>
 
 Styleguide 11.2.6
 */
 
 .ec-drawerRole {
-  overflow-y: scroll;
-  background: black;
-  width: 260px;
-  height: 100vh;
-  transform: translateX(-300px);
   position: fixed;
   top: 0;
   left: 0;
+  background: #595757;
+  width: 260px;
+  height: auto;
+  padding-bottom: 25px;
+  overflow-y: scroll;
   z-index: 1;
   transition: z-index 0ms 1ms;
+  transform: translateX(-300px);
+
   @include media_desktop() {
     display: none;
   }
 
-
-  .ec-headerSearchArea {
+  .ec-header-search-area {
     padding: 20px 10px;
     width: 100%;
     background: #F8F8F8;
   }
 
-  .ec-headerSearch{
-    padding: 16px 8px 26px;
-    background: #EBEBEB;
+  .ec-header-search{
+    padding: 16px 15px 26px;
+    background: #595757;
     color: #636378;
     select{
       width: 100% !important;
     }
   }
 
-  .ec-headerCategoryArea{
+  .ec-headerCategoryArea {
+
     .ec-headerCategoryArea__heading {
       border-top: 1px solid #CCCCCC;
       border-bottom: 1px solid #CCCCCC;
@@ -753,102 +850,129 @@ Styleguide 11.2.6
       margin-bottom: 0;
     }
 
-    .ec-itemNav__nav li a {
-      border-bottom: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-      color: black;
-      font-weight: normal;
-      background: #f8f8f8;
+    .ec-item-nav__nav li a,
+    .ec-item-nav__nav li span {
+      color: #fff;
+      background: #595757;
     }
 
-    .ec-itemNav__nav li ul li a {
-      border-bottom: 1px solid #ccc;
-      padding-left: 20px;
-      font-weight: normal;
-      background: white;
+    .ec-item-nav__nav li ul li a,
+    .ec-item-nav__nav li ul li span {
+      padding: 5px 20px 5px 40px;
+      @include font(14px,500,1,0);
+      background: #595757;
     }
 
-    .ec-itemNav__nav > li:hover > a {
-      background: #f8f8f8;
+    .ec-item-nav__nav > li:hover > a {
+      background: #fff;
+      color: #595757;
     }
 
-    .ec-itemNav__nav > li:hover li:hover > a {
-      background: white;
+    .ec-item-nav__nav > li:hover li:hover > a {
+      background: #fff;
+      color: #595757;
     }
 
-    .ec-itemNav__nav li ul li ul li a {
+    .ec-item-nav__nav li ul li ul li a {
       padding-left: 40px;
-      color: black;
-      background: white;
+      color: #fff;
+      background: #595757;
     }
 
-    .ec-itemNav__nav li:hover ul li ul li a:hover {
-      background: white;
+    .ec-item-nav__nav li:hover ul li ul li a:hover {
+      background: #fff;
+      color: #595757;
     }
 
-    .ec-itemNav__nav li ul li ul li ul li a{
+    .ec-item-nav__nav li ul li ul li ul li a {
       padding-left: 60px;
       font-weight: normal;
     }
-  }
-  .ec-headerLinkArea {
-    background: black;
 
-    .ec-headerLink__list {
-      border-top: 1px solid #ccc;
-
+    .ec-item-nav__child-nav {
+      margin-top: -7px;
     }
 
-    .ec-headerLink__item {
+    .ec-item-nav__child-nav li a {
+      position: relative;
+
+      &::before {
+        content: '-';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 25px;
+        margin: auto 0;
+        line-height: 1.6;
+        color: #fff;
+      }
+    }
+  }
+
+  .ec-header-link-area {
+    background: #595757;
+
+    .ec-header-link__list {
+      border-top: none;
+    }
+
+    .ec-header-link__item {
       display: block;
-      border-bottom: 1px solid #ccc;
-      padding: 15px 20px;
-      font-size: 16px;
-      font-weight: bold;
+      padding: 10px 16px;
+      @include font(15px,500,1,0);
       color: white;
     }
-    .ec-headerLink__icon {
-      display: inline-block;
-      width: 28px;
-      font-size: 17px;
-    }
 
-
-
+    // .ec-header-link__icon {
+    //   display: inline-block;
+    //   width: 28px;
+    //   font-size: 17px;
+    // }
   }
-
 }
 
 .ec-drawerRoleClose {
   display: none;
-  cursor: pointer;
-  border-radius: 50%;
-  box-sizing: border-box;
-  padding: 10px;
-  width: 40px;
-  height: 40px;
-  font-size: 18px;
-  text-align: center;
-  color: black;
-  background: white;
+  justify-content: flex-end;
+  align-items: center;
   position: fixed;
-  top: 10px;
-  left: 270px;
+  top: 0;
+  right: 0;
+  width: calc(100% - 260px);
+  height: 60px;
+  padding-right: 14px;
+  background: #f7f7f7;
   z-index: 1000;
+  cursor: pointer;
 
-  .fas {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  &__bars {
+    width: 28px;
+    margin-left: auto;
+    padding-top: 29px;
+
+    span {
+      display: block;
+      width: 110%;
+      height: 2px;
+      background-color: #333;
+      transform-origin: center top;
+
+      &:first-of-type {
+        transform: rotate(45deg);
+      }
+
+      &:nth-of-type(2) {
+        transform: rotate(-45deg) translateY(-2px);
+      }
+    }
   }
+
   @include media_desktop {
     display: none;
   }
-
 }
 
-.ec-drawerRole.is_active {
+.ec-drawer-role.is_active {
   display: block;
   transform: translateX(0);
   transition: all .3s;
@@ -858,6 +982,7 @@ Styleguide 11.2.6
     display: none;
   }
 }
+
 .ec-drawerRoleClose.is_active  {
   display: inline-block;
   transition: all .3s;
@@ -902,14 +1027,14 @@ test
 
 Markup:
 span.ec-itemAccordionParent test1
-ul.ec-itemNavAccordion
-  li.ec-itemNavAccordion__item
+ul.ec-item-navAccordion
+  li.ec-item-navAccordion__item
     a(href='') test2
-    ul.ec-itemNavAccordion
-      li.ec-itemNavAccordion__item
+    ul.ec-item-navAccordion
+      li.ec-item-navAccordion__item
         a(href='') test3
-        ul.ec-itemNavAccordion
-          li.ec-itemNavAccordion__item
+        ul.ec-item-navAccordion
+          li.ec-item-navAccordion__item
             a(href='') test4
 
 Styleguide 11.2.7

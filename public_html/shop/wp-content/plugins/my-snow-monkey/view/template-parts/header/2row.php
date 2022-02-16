@@ -57,30 +57,75 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 		</div>
 
 		<!-- PC 用 -->
-		<div class="c-row p-custom-header u-invisible-md-down">
-			<div class="c-row__col u-invisible-md-down p-custom-header__image">
-				<h1 class="p-main-pc-logo">
-					<a href="<?php echo esc_url(home_url('/')); ?>">
-						<img src="<?php echo wp_upload_dir()['url']; ?>/logo_header.svg" alt="有限会社 工藤塗装店" width="299" height="58">
-					</a>
-				</h1>
-			</div>
+    <div class="c-row p-custom-header u-invisible-md-down">
+      <div class="ec-headerNaviRoleTop">
+        <div class="ec-headerNaviRoleTop__nav">
 
-			<div class="c-row__col u-invisible-md-down p-custom-header__info">
-				<div class="p-custom-header__tel">
-					<img src="<?php echo wp_upload_dir()['url']; ?>/tel_header.svg" alt="0155-62-2893" width="213" height="58">
-				</div>
-				<div class="p-custom-header__fax">
-					<img src="<?php echo wp_upload_dir()['url']; ?>/fax_header.svg" alt="0155-62-1137" width="226" height="57">
-				</div>
-			</div>
+        </div>
+        <!-- <div class="ec-headerNaviRoleTop__btn">
+          <a href="">
+            <img src="/html/template/default/assets/img/common/icon_store.png" width="28" height="28">
+            ONLINE SHOP
+          </a>
+        </div> -->
+      </div>
+      <div class="ec-headerNaviRoleBottom">
+        <div class="ec-headerNaviRoleBottom__logo">
+          <p class="ec-headerNaviRoleBottom__img">
+            <a href="https://test-darcys-factory.xyz/">
+              <img src="/html/template/default/assets/img/common/logo_header.png">
+            </a>
+          </p>
+        </div>
+        <div class="ec-headerNaviRoleBottom__center">
+          <div class="ec-headerNaviRoleBottom__gnav">
+            <ul class="p-global-navi">
+              <li class="p-global-navi__item">
+                <a href="">NEWS</a>
+              </li>
+              <li class="p-global-navi__item">
+                <a href="https://test-darcys-factory.xyz/story">STORY</a>
+              </li>
+              <li class="p-global-navi__item">
+                <a href="https://test-darcys-factory.xyz/concept">CONCEPT</a>
+              </li>
+              <li class="p-global-navi__item">
+                <a href="https://test-darcys-factory.xyz/materials">MATERIAL</a>
+              </li>
+              <li class="p-global-navi__item">
+                <a href="https://test-darcys-factory.xyz/company">ABOUT US</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="ec-headerNaviRoleBottom__right">
+          <!-- <div class="ec-headerRole__cart">
+            <div class="ec-cartNaviWrap">
+              <div class="ec-cartNavi">
+                <i class="ec-cartNavi__icon fas fa-shopping-cart">
+                  <span class="ec-cartNavi__badge">0</span>
+                </i>
+                <div class="ec-cartNavi__label">
+                  <div class="ec-cartNavi__price">￥0</div>
+                </div>
+              </div>
+              <div class="ec-cartNaviNull">
+                <div class="ec-cartNaviNull__message">
+                  <p>現在カート内に商品はございません。</p>
+                </div>
+              </div>
+            </div>
 
-			<div class="c-row__col u-invisible-md-down p-custom-header__link">
-				<a href="<?php echo esc_url(home_url('/contact/')); ?>">
-					お問合せ・お見積り
-				</a>
-			</div>
-		</div>
+          </div> -->
+          <div class="ec-headerNaviRoleTop__btn">
+            <a href="">
+              <img src="/html/template/default/assets/img/common/icon_store.png" width="28" height="28">
+              ONLINE SHOP
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
 		<?php if ( $has_global_nav ) : ?>
 			<div class="l-<?php echo esc_attr( $header_type ); ?>__row u-invisible-md-down p-global-nav-wrap">

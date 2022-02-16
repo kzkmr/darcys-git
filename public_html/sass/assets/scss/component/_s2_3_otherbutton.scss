@@ -29,16 +29,12 @@ Styleguide 2.3.1
 .ec-blockTopBtn{
   display: none;
   position: fixed;
-  width:120px;
-  height: 40px;
-  right: 0;
+  width: 40px;
+  height: 46px;
+  right: 10px;
   bottom: 10px;
   cursor: pointer;
-  color: #FFFFFF;
-  text-align: center;
-  line-height: 40px;
-  opacity: 0.8;
-  background-color: #9da3a9;
+  background-color: transparent;
   @include media_desktop {
     right:30px;
     bottom: 30px;

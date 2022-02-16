@@ -29,17 +29,25 @@ class CustomTopController extends AbstractController
     {
 
         // ブログ情報を取得
-        $header = array(
-          'Content-Type: application/x-www-form-urlencoded',
-          'Authorization: Basic '.base64_encode('darcys:202111')
-        );
-        $options = array('http' => array(
-          'method' => 'GET',
-          'header' => implode("\r\n", $header ),
-        ));
+        // $header = array(
+        //   'Content-Type: application/x-www-form-urlencoded',
+        //   'Authorization: Basic '.base64_encode('darcys:202111')
+        // );
+        // $options = array('http' => array(
+        //   'method' => 'GET',
+        //   'header' => implode("\r\n", $header ),
+        // ));
+        // $options = stream_context_create($options);
+        // if (wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false, $options)) {
+        //   $response = wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false, $options);
+        //   $posts = json_decode($response["body"]);
+        // } else {
+        //   $posts = false;
+        // }
+
         $options = stream_context_create($options);
-        if (wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false, $options)) {
-          $response = wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false, $options);
+        if (wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false)) {
+          $response = wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false);
           $posts = json_decode($response["body"]);
         } else {
           $posts = false;

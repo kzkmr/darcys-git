@@ -56,9 +56,9 @@ add_action(
 	function() {
 		wp_enqueue_style(
 			'my-snow-monkey',
-			MY_SNOW_MONKEY_URL . '/assets/css/style.min.css',
+			MY_SNOW_MONKEY_URL . '/assets/scss/style.scss',
 			[ Framework\Helper::get_main_style_handle() ],
-			filemtime( MY_SNOW_MONKEY_DIR_PATH . '/assets/css/style.min.css')
+			filemtime( MY_SNOW_MONKEY_DIR_PATH . '/assets/scss/style.scss')
 		);
 		// if ( is_front_page() || is_page('works') ) {
 		// 	wp_enqueue_style(
