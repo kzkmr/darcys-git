@@ -1,1 +1,0 @@
-.smf-item.has-child-selected:not(.is-highlighted):after,.smf-item.is-hovered:not(.is-highlighted):after,.smf-item.is-selected:not(.is-highlighted):after{bottom:-5px;box-shadow:0 0 0 1px rgba(0,124,186,.25);left:-5px;right:-5px;top:-5px;transition:box-shadow var(--_transition-duration,.2s) var(--_transition-function-timing,ease-out);z-index:1}

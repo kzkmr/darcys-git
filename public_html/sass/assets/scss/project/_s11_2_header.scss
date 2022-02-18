@@ -794,14 +794,14 @@ Styleguide 11.2.5
 SP時のみ出現するヘッダーに関係するコンポーネントです。<br>
 ex [トップページ](http://demo3.ec-cube.net/)画面サイズが768px以下に該当。<br>
 <br>
-`.ec-drawerRole`：SPのドロワー内の要素をwrapするコンポーネントです。<br>
-`.ec-headerSearch`、`.ec-headerNav`、`.ec-item-nav`は`.ec-drawerRole`の子要素にある場合、ドロワーに適したスタイルに変化します。<br><br>
+`.ec-drawer-role`：SPのドロワー内の要素をwrapするコンポーネントです。<br>
+`.ec-headerSearch`、`.ec-headerNav`、`.ec-item-nav`は`.ec-drawer-role`の子要素にある場合、ドロワーに適したスタイルに変化します。<br><br>
 `.ec-overlayRole`：SPのドロワー出現時にz-indexがドロワー以下の要素に半透明の黒背景をかぶせるコンポーネントです。<br>
 
 Styleguide 11.2.6
 */
 
-.ec-drawerRole {
+.ec-drawer-role {
   position: fixed;
   top: 0;
   left: 0;
@@ -833,9 +833,9 @@ Styleguide 11.2.6
     }
   }
 
-  .ec-headerCategoryArea {
+  .ec-header-category-area {
 
-    .ec-headerCategoryArea__heading {
+    .ec-header-category-area__heading {
       border-top: 1px solid #CCCCCC;
       border-bottom: 1px solid #CCCCCC;
       padding: 1em 10px;
@@ -931,7 +931,7 @@ Styleguide 11.2.6
   }
 }
 
-.ec-drawerRoleClose {
+.ec-drawer-role-close {
   display: none;
   justify-content: flex-end;
   align-items: center;
@@ -983,7 +983,7 @@ Styleguide 11.2.6
   }
 }
 
-.ec-drawerRoleClose.is_active  {
+.ec-drawer-role-close.is_active  {
   display: inline-block;
   transition: all .3s;
 
@@ -992,7 +992,7 @@ Styleguide 11.2.6
   }
 }
 
-.ec-overlayRole {
+.ec-overlay-role {
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -1009,7 +1009,7 @@ Styleguide 11.2.6
   }
 }
 
-.have_curtain .ec-overlayRole {
+.have_curtain .ec-overlay-role {
   display: block;
   opacity: 1;
   background: rgba(0, 0, 0, 0.5);

@@ -55,10 +55,16 @@ add_action(
 	'wp_enqueue_scripts',
 	function() {
 		wp_enqueue_style(
+			'ec-cube',
+			'../../../../html/template/default/assets/css/style.min.css',
+			[],
+			'1.0.0'
+		);
+		wp_enqueue_style(
 			'my-snow-monkey',
-			MY_SNOW_MONKEY_URL . '/assets/scss/style.scss',
+			MY_SNOW_MONKEY_URL . '/assets/css/style.css',
 			[ Framework\Helper::get_main_style_handle() ],
-			filemtime( MY_SNOW_MONKEY_DIR_PATH . '/assets/scss/style.scss')
+			filemtime( MY_SNOW_MONKEY_DIR_PATH . '/assets/css/style.css')
 		);
 		// if ( is_front_page() || is_page('works') ) {
 		// 	wp_enqueue_style(
@@ -83,7 +89,7 @@ add_action(
 add_action(
 	'after_setup_theme',
 	function() {
-		add_editor_style( '/../../plugins/my-snow-monkey/assets/css/style.min.css' );
+		add_editor_style( '/../../plugins/my-snow-monkey/assets/css/style.css' );
 	},
 	11
 );
@@ -105,23 +111,25 @@ add_action(
 	'wp_enqueue_scripts',
 	function() {
 		wp_enqueue_script(
-			'jquery',
-			'/wp-content/plugins/my-snow-monkey/assets/js/jquery-3.5.1.min.js',
+			'functions',
+			'/wp-content/plugins/my-snow-monkey/assets/js/functions.js',
 			'',
-			'3.5.1',
+			'1.0',
 			true
 		);
-		wp_enqueue_script(
-			'main',
-			'/wp-content/plugins/my-snow-monkey/assets/js/main.js',
-      'jquery',
-      '1.0',
-			true
-		);
-		if ( is_front_page() || is_page('works') ) {
+		// if ( is_front_page() || is_page('works') ) {
+		// 	wp_enqueue_script(
+		// 		'slick',
+		// 		'/wp-content/plugins/my-snow-monkey/assets/slick/slick.min.js',
+		// 		'jquery',
+		// 		'1.0',
+		// 		true
+		// 	);
+		// }
+		if ( is_page('news') ) {
 			wp_enqueue_script(
-				'slick',
-				'/wp-content/plugins/my-snow-monkey/assets/slick/slick.min.js',
+				'news',
+				'/wp-content/plugins/my-snow-monkey/assets/js/news.js',
 				'jquery',
 				'1.0',
 				true
@@ -132,33 +140,33 @@ add_action(
 
 
 /*
-  copyright.php を上書き
+	copyright.php を上書き
 */
 
 add_filter(
-  'snow_monkey_template_part_root_hierarchy_template-parts/footer/copyright',
-  function( $hierarchy, $name, $vars ) {
-    $hierarchy[] = untrailingslashit( __DIR__ ) . '/copyright-override';
-    return $hierarchy;
-  },
-  10,
-  3
+	'snow_monkey_template_part_root_hierarchy_template-parts/footer/copyright',
+	function( $hierarchy, $name, $vars ) {
+		$hierarchy[] = untrailingslashit( __DIR__ ) . '/copyright-override';
+		return $hierarchy;
+	},
+	10,
+	3
 );
 
 
 /*
-  記事詳細ヘッダー content/entry/header/header.php を上書き
+	記事詳細ヘッダー content/entry/header/header.php を上書き
 */
 
-add_filter(
-  'snow_monkey_template_part_root_hierarchy_template-parts/content/entry/header/header',
-  function( $hierarchy, $name, $vars ) {
-    $hierarchy[] = untrailingslashit( __DIR__ ) . '/post-detail-override';
-    return $hierarchy;
-  },
-  10,
-  3
-);
+// add_filter(
+//   'snow_monkey_template_part_root_hierarchy_template-parts/content/entry/header/header',
+//   function( $hierarchy, $name, $vars ) {
+//     $hierarchy[] = untrailingslashit( __DIR__ ) . '/post-detail-override';
+//     return $hierarchy;
+//   },
+//   10,
+//   3
+// );
 
 
 /**
@@ -168,7 +176,7 @@ add_filter(
  * @param string $file ファイル名（ショートコードのパラメータ）
  *
  * 使用例（sample.phpを配置した場合）
- * inc
+ * [call_php file=sample]
  */
 function my_php_Include($params = array()) {
 	extract(shortcode_atts(array('file' => 'default'), $params));

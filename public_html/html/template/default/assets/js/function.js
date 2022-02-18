@@ -1,3 +1,4 @@
+
 /*
  * This file is part of EC-CUBE
  *
@@ -9,7 +10,7 @@
  * file that was distributed with this source code.
 */
 
-$(function() {
+$(function () {
 
     $('.pagetop').hide();
 
@@ -48,25 +49,25 @@ $(function() {
     });
 
 
-    $('.ec-headerNavSP').on('click', function() {
+    $('.ec-header-sp-btn').on('click', function() {
         $('.ec-layoutRole').toggleClass('is_active');
-        $('.ec-drawerRole').toggleClass('is_active');
-        $('.ec-drawerRoleClose').toggleClass('is_active');
+        $('.ec-drawer-role').toggleClass('is_active');
+        $('.ec-drawer-role-close').toggleClass('is_active');
         $('body').toggleClass('have_curtain');
     });
 
-    $('.ec-overlayRole').on('click', function() {
+    $('.ec-overlay-role').on('click', function() {
         $('body').removeClass('have_curtain');
         $('.ec-layoutRole').removeClass('is_active');
-        $('.ec-drawerRole').removeClass('is_active');
-        $('.ec-drawerRoleClose').removeClass('is_active');
+        $('.ec-drawer-role').removeClass('is_active');
+        $('.ec-drawer-role-close').removeClass('is_active');
     });
 
-    $('.ec-drawerRoleClose').on('click', function() {
+    $('.ec-drawer-role-close').on('click', function() {
         $('body').removeClass('have_curtain');
         $('.ec-layoutRole').removeClass('is_active');
-        $('.ec-drawerRole').removeClass('is_active');
-        $('.ec-drawerRoleClose').removeClass('is_active');
+        $('.ec-drawer-role').removeClass('is_active');
+        $('.ec-drawer-role-close').removeClass('is_active');
     });
 
     // TODO: カート展開時のアイコン変更処理
@@ -92,7 +93,7 @@ $(function() {
 
     $('.is_inDrawer').each(function() {
         var html = $(this).html();
-        $(html).appendTo('.ec-drawerRole');
+        $(html).appendTo('.ec-drawer-role');
     });
 
     $('.ec-blockTopBtn').on('click', function() {

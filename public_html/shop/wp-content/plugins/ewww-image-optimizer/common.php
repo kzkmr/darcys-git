@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '640.0' );
+define( 'EWWW_IMAGE_OPTIMIZER_VERSION', '641.0' );
 
 // Initialize a couple globals.
 $eio_debug  = '';
@@ -1689,11 +1689,16 @@ function ewww_image_optimizer_install_table() {
 			}
 		}
 		if (
-			( false !== strpos( $mysql_version, '5.7.' ) || false !== strpos( $mysql_version, '10.1.' ) ) &&
+			(
+				false !== strpos( $mysql_version, '5.7.' ) ||
+				false !== strpos( $mysql_version, '8.0.' ) ||
+				false !== strpos( $mysql_version, '10.1.' )
+			) &&
 			$timestamp_upgrade_needed
 		) {
-			if ( is_multisite() ) {
-				// Just do the upgrade.
+			$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->ewwwio_images" );
+			if ( is_multisite() || $count < 10000 ) {
+				// Do the upgrade in real-time for multi-site and sites with less than 10k image records.
 				$wpdb->query( "ALTER TABLE $wpdb->ewwwio_images MODIFY updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" );
 			} else {
 				// Do it later via user interaction.
@@ -2285,7 +2290,6 @@ function ewww_image_optimizer_notice_media_listmode() {
  * Instruct the user to run the db upgrade.
  */
 function ewww_image_optimizer_620_upgrade_needed() {
-	// $wpdb->query( "ALTER TABLE $wpdb->ewwwio_images MODIFY updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" );
 	echo "<div id='ewww-image-optimizer-upgrade-notice' class='notice notice-info'><p>" .
 		esc_html__( 'EWWW Image Optimizer needs to upgrade the image log table.', 'ewww-image-optimizer' ) . '<br>' .
 		'<a href="' . esc_url( admin_url( 'admin.php?action=ewww_image_optimizer_620_upgrade' ) ) . '" class="button-secondary">' .
@@ -6875,11 +6879,11 @@ function ewww_image_optimizer_remote_fetch( $id, $meta ) {
 			}
 		} // End if().
 	} // End if().
-	if ( class_exists( 'Amazon_S3_And_CloudFront' ) ) {
+	if ( function_exists( 'as3cf_get_attachment_url' ) ) {
 		global $as3cf;
 		$full_url = get_attached_file( $id );
 		if ( ewww_image_optimizer_stream_wrapped( $full_url ) ) {
-			$full_url = $as3cf->get_attachment_url( $id, null, null, $meta );
+			$full_url = as3cf_get_attachment_url( $id );
 		}
 		$filename = get_attached_file( $id, true );
 		ewwwio_debug_message( "amazon s3 fullsize url: $full_url" );
@@ -6955,7 +6959,7 @@ function ewww_image_optimizer_remote_fetch( $id, $meta ) {
 				// If this is a unique size.
 				if ( ! $dup_size ) {
 					$resize_path = $base_dir . wp_basename( $data['file'] );
-					$resize_url  = $as3cf->get_attachment_url( $id, null, $size, $meta );
+					$resize_url  = as3cf_get_attachment_url( $id, $size );
 					if ( ewwwio_is_file( $resize_path ) ) {
 						continue;
 					}
@@ -8973,8 +8977,8 @@ function ewww_image_optimizer_relativize_path( $file ) {
 	if ( defined( 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER' ) && EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER && strpos( $file, EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER ) === 0 ) {
 		return str_replace( EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER, 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER', $file );
 	}
-	if ( strpos( $file, ABSPATH ) === 0 ) {
-		return str_replace( ABSPATH, 'ABSPATH', $file );
+	if ( strpos( $file, trailingslashit( ABSPATH ) ) === 0 ) {
+		return str_replace( trailingslashit( ABSPATH ), 'ABSPATH', $file );
 	}
 	if ( defined( 'WP_CONTENT_DIR' ) && WP_CONTENT_DIR && strpos( $file, WP_CONTENT_DIR ) === 0 ) {
 		return str_replace( WP_CONTENT_DIR, 'WP_CONTENT_DIR', $file );
@@ -9000,7 +9004,7 @@ function ewww_image_optimizer_absolutize_path( $file ) {
 		return str_replace( 'EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER', EWWW_IMAGE_OPTIMIZER_RELATIVE_FOLDER, $file );
 	}
 	if ( strpos( $file, 'ABSPATH' ) === 0 ) {
-		return str_replace( 'ABSPATH', ABSPATH, $file );
+		return str_replace( 'ABSPATH', trailingslashit( ABSPATH ), $file );
 	}
 	if ( defined( 'WP_CONTENT_DIR' ) && WP_CONTENT_DIR && strpos( $file, 'WP_CONTENT_DIR' ) === 0 ) {
 		return str_replace( 'WP_CONTENT_DIR', WP_CONTENT_DIR, $file );

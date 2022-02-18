@@ -3,7 +3,7 @@
  * @package snow-monkey
  * @author inc2734
  * @license GPL-2.0+
- * @version 11.6.0
+ * @version 15.9.0
  *
  * renamed: template-parts/2row-header.php
  */
@@ -43,17 +43,46 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 		</div>
 
 		<!-- スマホ/タブレット 用 -->
-		<div class="c-row u-invisible-lg-up p-custom-header-sp">
-			<div class="c-row__col c-row__col--fit">
-				<h1 class="p-main-sp-logo">
-					<img src="<?php echo wp_upload_dir()['url']; ?>/logo_header.svg" alt="有限会社 工藤塗装店" width="154" height="29">
-				</h1>
+		<div class="c-row u-invisible-lg-up ec-header-navi-sp">
+			<div class="ec-header-navi-sp__logo">
+				<a href="<?php echo ec_url(); ?>">
+					<img src="<?php echo esc_url(home_url('/')); ?>wp-content/plugins/my-snow-monkey/assets/img/logo_sp.png" width="80">
+				</a>
 			</div>
-			<?php if ( $has_drawer_nav ) : ?>
-				<div class="c-row__col c-row__col--fit">
-					<?php Helper::get_template_part( 'template-parts/header/hamburger-btn' ); ?>
+			<!-- <div class="ec-header-navi-sp__login">
+				{% if is_granted('ROLE_USER') %}
+					<a href="{{ url('logout') }}">
+						<img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+					</a>
+				{% else %}
+					<a href="{{ url('mypage_login') }}">
+						<img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+					</a>
+				{% endif %}
+			</div>
+			<div class="ec-header-navi-sp__cart">
+				<div class="ec-headerRole__cart">
+						{{ include('Block/cart.twig') }}
 				</div>
-			<?php endif; ?>
+			</div> -->
+			<div class="ec-header-navi-sp__store">
+				<a href="{{ url('product_list') }}">
+					<p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
+					<img src="<?php echo esc_url(home_url('/')); ?>wp-content/plugins/my-snow-monkey/assets/img/icon_online_store.png" width="32">
+				</a>
+			</div>
+			<div class="ec-header-navi-sp__btn">
+				<div class="ec-header-sp-btn">
+					<div class="ec-header-sp-btn__text">
+						<span>MENU</span>
+					</div>
+					<div class="ec-header-sp-btn__bars">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- PC 用 -->

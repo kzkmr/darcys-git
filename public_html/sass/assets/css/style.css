@@ -5958,13 +5958,13 @@ Styleguide 11.2.5
 SP時のみ出現するヘッダーに関係するコンポーネントです。<br>
 ex [トップページ](http://demo3.ec-cube.net/)画面サイズが768px以下に該当。<br>
 <br>
-`.ec-drawerRole`：SPのドロワー内の要素をwrapするコンポーネントです。<br>
-`.ec-headerSearch`、`.ec-headerNav`、`.ec-item-nav`は`.ec-drawerRole`の子要素にある場合、ドロワーに適したスタイルに変化します。<br><br>
+`.ec-drawer-role`：SPのドロワー内の要素をwrapするコンポーネントです。<br>
+`.ec-headerSearch`、`.ec-headerNav`、`.ec-item-nav`は`.ec-drawer-role`の子要素にある場合、ドロワーに適したスタイルに変化します。<br><br>
 `.ec-overlayRole`：SPのドロワー出現時にz-indexがドロワー以下の要素に半透明の黒背景をかぶせるコンポーネントです。<br>
 
 Styleguide 11.2.6
 */
-.ec-drawerRole {
+.ec-drawer-role {
   position: fixed;
   top: 0;
   left: 0;
@@ -5978,24 +5978,24 @@ Styleguide 11.2.6
   transform: translateX(-300px);
 }
 @media only screen and (min-width: 768px) {
-  .ec-drawerRole {
+  .ec-drawer-role {
     display: none;
   }
 }
-.ec-drawerRole .ec-header-search-area {
+.ec-drawer-role .ec-header-search-area {
   padding: 20px 10px;
   width: 100%;
   background: #F8F8F8;
 }
-.ec-drawerRole .ec-header-search {
+.ec-drawer-role .ec-header-search {
   padding: 16px 15px 26px;
   background: #595757;
   color: #636378;
 }
-.ec-drawerRole .ec-header-search select {
+.ec-drawer-role .ec-header-search select {
   width: 100% !important;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-headerCategoryArea__heading {
+.ec-drawer-role .ec-header-category-area .ec-header-category-area__heading {
   border-top: 1px solid #CCCCCC;
   border-bottom: 1px solid #CCCCCC;
   padding: 1em 10px;
@@ -6004,17 +6004,17 @@ Styleguide 11.2.6
   color: black;
   background: #F8F8F8;
 }
-.ec-drawerRole .ec-headerCategoryArea p {
+.ec-drawer-role .ec-header-category-area p {
   margin-top: 0;
   margin-bottom: 0;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav li a,
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav li span {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li a,
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li span {
   color: #fff;
   background: #595757;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav li ul li a,
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav li ul li span {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li a,
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li span {
   padding: 5px 20px 5px 40px;
   font-size: 14px;
   font-weight: 500;
@@ -6022,34 +6022,34 @@ Styleguide 11.2.6
   letter-spacing: 0;
   background: #595757;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav > li:hover > a {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav > li:hover > a {
   background: #fff;
   color: #595757;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav > li:hover li:hover > a {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav > li:hover li:hover > a {
   background: #fff;
   color: #595757;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav li ul li ul li a {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li ul li a {
   padding-left: 40px;
   color: #fff;
   background: #595757;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav li:hover ul li ul li a:hover {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li:hover ul li ul li a:hover {
   background: #fff;
   color: #595757;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__nav li ul li ul li ul li a {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li ul li ul li a {
   padding-left: 60px;
   font-weight: normal;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__child-nav {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__child-nav {
   margin-top: -7px;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__child-nav li a {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__child-nav li a {
   position: relative;
 }
-.ec-drawerRole .ec-headerCategoryArea .ec-item-nav__child-nav li a::before {
+.ec-drawer-role .ec-header-category-area .ec-item-nav__child-nav li a::before {
   content: "-";
   position: absolute;
   top: 0;
@@ -6059,13 +6059,13 @@ Styleguide 11.2.6
   line-height: 1.6;
   color: #fff;
 }
-.ec-drawerRole .ec-header-link-area {
+.ec-drawer-role .ec-header-link-area {
   background: #595757;
 }
-.ec-drawerRole .ec-header-link-area .ec-header-link__list {
+.ec-drawer-role .ec-header-link-area .ec-header-link__list {
   border-top: none;
 }
-.ec-drawerRole .ec-header-link-area .ec-header-link__item {
+.ec-drawer-role .ec-header-link-area .ec-header-link__item {
   display: block;
   padding: 10px 16px;
   font-size: 15px;
@@ -6074,7 +6074,7 @@ Styleguide 11.2.6
   letter-spacing: 0;
   color: white;
 }
-.ec-drawerRoleClose {
+.ec-drawer-role-close {
   display: none;
   justify-content: flex-end;
   align-items: center;
@@ -6088,26 +6088,26 @@ Styleguide 11.2.6
   z-index: 1000;
   cursor: pointer;
 }
-.ec-drawerRoleClose__bars {
+.ec-drawer-role-close__bars {
   width: 28px;
   margin-left: auto;
   padding-top: 29px;
 }
-.ec-drawerRoleClose__bars span {
+.ec-drawer-role-close__bars span {
   display: block;
   width: 110%;
   height: 2px;
   background-color: #333;
   transform-origin: center top;
 }
-.ec-drawerRoleClose__bars span:first-of-type {
+.ec-drawer-role-close__bars span:first-of-type {
   transform: rotate(45deg);
 }
-.ec-drawerRoleClose__bars span:nth-of-type(2) {
+.ec-drawer-role-close__bars span:nth-of-type(2) {
   transform: rotate(-45deg) translateY(-2px);
 }
 @media only screen and (min-width: 768px) {
-  .ec-drawerRoleClose {
+  .ec-drawer-role-close {
     display: none;
   }
 }
@@ -6122,16 +6122,16 @@ Styleguide 11.2.6
     display: none;
   }
 }
-.ec-drawerRoleClose.is_active {
+.ec-drawer-role-close.is_active {
   display: inline-block;
   transition: all 0.3s;
 }
 @media only screen and (min-width: 768px) {
-  .ec-drawerRoleClose.is_active {
+  .ec-drawer-role-close.is_active {
     display: none;
   }
 }
-.ec-overlayRole {
+.ec-overlay-role {
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -6144,18 +6144,18 @@ Styleguide 11.2.6
   visibility: hidden;
 }
 @media only screen and (min-width: 768px) {
-  .ec-overlayRole {
+  .ec-overlay-role {
     display: none;
   }
 }
-.have_curtain .ec-overlayRole {
+.have_curtain .ec-overlay-role {
   display: block;
   opacity: 1;
   background: rgba(0, 0, 0, 0.5);
   visibility: visible;
 }
 @media only screen and (min-width: 768px) {
-  .have_curtain .ec-overlayRole {
+  .have_curtain .ec-overlay-role {
     display: none;
   }
 }

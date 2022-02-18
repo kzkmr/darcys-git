@@ -1,9 +1,9 @@
 === Smash Balloon Social Photo Feed ===
 Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
-Requires at least: 3.4
+Requires at least: 4.1
 Tested up to: 5.9
-Stable tag: 2.9.10
+Stable tag: 6.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -331,27 +331,36 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
-= 2.9.10 =
-* Fix: Fixed a bug related to feed data being removed in the event a feed hadn't been updated in 21 days even when it was in use.
+= 6.0.3 =
+* Tweak: Updated our logo throughout the plugin to match our new [website](https://smashballoon.com/).
+* Tweak: Changed how the hover color for follow and load more buttons is applied to prevent theme conflicts.
+* Fix: Fixed JavaScript file not being added to the page when using the plugin GDPR Cookie Consent by WebToffee.
+* Fix: Dismissing dashboard notifications would cause the "Add new feed" button to stop working until the page was refreshed.
 
-= 2.9.9 =
-* Fix: Prevented the plugin from attempting to connect to the Instagram API if there was an access token encryption error.
-* Fix: Added a content type to JSON responses to improve reliability for loading more posts and creating local images.
+= 6.0.2 =
+* Fix: Fixed Instagram Feed JavaScript file missing from the page when using the "AJAX theme loading fix" setting causing blank images to display.
+* Fix: Added the ability to create the custom database tables if there was an error when first trying to create them.
+* Fix: Fixed the error message not displaying if there was an error when trying to connect a personal or basic account.
 
-= 2.9.8 =
-* Tweak: Added a warning if the access token could not be decrypted for use in API requests.
-* Tweak: Added a fallback method to reach the Instagram API if a cURL error 6 error is detected.
-* Fix: Fixed an issue with connecting an additional business account if the first account listed was not selected.
+= 6.0.1 =
+* Fix: Custom HTML templates were not applying to new feeds.
+* Fix: Some custom tables were not being created for specific versions of MySQL.
+* Fix: The shortcode setting "showfollow=false" was not working for legacy feeds.
+* Fix: The shortcode settings "showheader" and "showbio" were applying for non-legacy feeds causing confusion when trying to change these settings in the customizer.
+* Fix: The customizer would not resize images causing blank images to show when GDPR features were enabled.
+* Fix: Fixed PHP warning "Undefined array key tagged".
 
-= 2.9.7 =
-* Tweak: A prompt will now be displayed if the ability to save settings requires a page refresh.
-* Fix: Fixed several accessibility issues in the admin area.
-* Fix: Made a significant number of code quality improvements.
-
-= 2.9.6 =
-* Fix: Periods and underscores in usernames when used as part of the shortcode would cause the load more button not to work.
-* Tweak: The WooCommerce orders post type will no longer be scanned for oembeds.
-* Tweak: An alert bubble will be added to the Instagram Feed menu item when there are new notifications available.
+= 6.0 =
+* Important: Minimum supported WordPress version has been raised from 3.5 to 4.1.
+* New: Our biggest update ever! We've completely redesigned the plugin settings from head to toe to make it easier to create, manage, and customize your Instagram feeds.
+* New: All your feeds are now displayed in one place on the "All Feeds" page. This shows a list of any existing (legacy) feeds and any new ones that you create. Note: If you updated from a version prior to v2.8 then you may need to view your feeds on your webpage so that the plugin can locate them and list them here.
+* New: Easily edit individual feed settings for new feeds instead of cumbersome shortcode options.
+* New: It's now much easier to create feeds. Just click "Add New", select your feed type, connect your account, and you're done!
+* New: Brand new feed customizer. We've completely redesigned feed customization from the ground up, reorganizing the settings to make them easier to find.
+* New: Live Feed Preview. You can now see changes you make to your feeds in real time, right in the settings page. Easily preview them on desktop, tablet, and mobile sizes.
+* New: Color Scheme option. It's now easier than ever to change colors across your feed without needing to adjust individual color settings. Just set a color scheme to effortlessly change colors across your entire feed.
+* New: You can now change the number of columns in your feed across desktop, tablet, and mobile.
+* New: Easily import and export feed settings to make it simple to move feeds across sites.
 
 = 2.9.5 =
 * Fix: Fixed an issue when reconnecting a personal account.
@@ -472,7 +481,7 @@ We understand that sometimes you need help, have issues or just have questions. 
 
 = 2.4.3 =
 * Fix: The opt-in notice to help improve the plugin was not dismissing as expected for some sites due to the admin JavaScript file being cached by the browser.
-* Fix: Disabled the “About Us” page plugin installation if using a version of WordPress earlier than 4.6.
+* Fix: Disabled the "About Us" page plugin installation if using a version of WordPress earlier than 4.6.
 
 = 2.4.2 =
 * New: To help us improve the plugin we've added the ability to opt-in to usage tracking so that we can understand what features and settings are being used, and which features matter to you the most. This is disabled by default and will only be enabled if you explictly choose to opt in. If opted in, the plugin will send a report in the background once per week with your plugin settings and basic information about your website environment. No personal or sensitive data is collected (such as email addresses, Instagram account information, license keys, etc). To enable or disable usage tracking at a later date use the setting at: Instagram Feed > Customize > Advanced > Misc > Enable Usage Tracking. See [here](https://smashballoon.com/instagram-feed/usage-tracking/) for more information.
@@ -720,7 +729,7 @@ We understand that sometimes you need help, have issues or just have questions. 
 * **IMPORTANT: Due to the recent Instagram API changes, in order for the Instagram Feed plugin to continue working after June 1st you must obtain a new Access Token by using the Instagram button on the plugin's Settings page.** This is true even if you recently already obtained a new token. Apologies for any inconvenience.
 
 = 1.4.5 =
-* New: When you click on the name of a setting on the plugin’s Settings pages it now displays the shortcode option for that setting, making it easier to find the option that you need
+* New: When you click on the name of a setting on the plugin's Settings pages it now displays the shortcode option for that setting, making it easier to find the option that you need
 * New: Added a setting to disable the Font Awesome icon font if needed. This can be found under the Misc tab at the bottom of the Customize page.
 * Tweak: Updated the Instagram icon to match their new branding
 * Tweak: Added a help link next to the Instagram login button in case there's an issue using it

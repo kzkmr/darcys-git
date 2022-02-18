@@ -1,10 +1,24 @@
 body {
   font-family: "Courier", YuGothic, "Yu Gothic", "ＭＳ Ｐゴシック", "MS PGothic", "ヒラギノ角ゴ StdN", "Hiragino Kaku Gothic StdN", sans-serif;
-  color: #555;
+  color: #231815;
 }
 a {
   text-decoration: none;
   transition: 0.3s;
+}
+ul, ol {
+  padding: 0;
+  list-style: none;
+}
+.c-entry__header {
+  display: none !important;
+}
+.c-container {
+  max-width: 1230px !important;
+  padding: 0 15px !important;
+}
+.l-footer {
+  border-top: none !important;
 }
 .ec-headerNaviRoleTop {
   display: flex;
@@ -69,6 +83,7 @@ a {
 }
 .ec-headerNaviRoleBottom__gnav .p-global-navi__item a {
   font-size: 16px;
+  font-weight: 600;
   letter-spacing: 0.06em;
   color: #555;
 }
@@ -116,5 +131,184 @@ a {
   .ec-headerNav .ec-headerNav__itemLink {
     display: inline-block;
   }
+}
+.ec-footerRole {
+  margin: 30px auto 0;
+  padding: 30px 5.333%;
+  background: #f2f2f2;
+}
+@media (min-width: 768px) {
+  .ec-footerRole {
+    padding: 40px 0 0;
+    margin-top: 100px;
+  }
+}
+@media (min-width: 768px) {
+  .ec-footerRole .ec-footerRole__inner {
+    padding: 0 40px;
+  }
+}
+.ec-footerRole .ec-footerRole__top {
+  display: flex;
+}
+.ec-footerNavi {
+  flex: 0 0 13%;
+  padding: 0;
+  color: #444;
+  list-style: none;
+}
+.ec-footerNavi a {
+  font-size: 16px;
+  color: #231815;
+  text-decoration: none;
+}
+.ec-footerNavi a:hover {
+  opacity: 0.7;
+}
+.ec-footerNavi:nth-of-type(6) {
+  flex: 0 0 16%;
+}
+.ec-footerNavi:nth-of-type(6) a {
+  font-size: 15px;
+}
+.ec-footerNavi__link {
+  line-height: 2;
+}
+.ec-footerNavi-child {
+  list-style: none;
+  padding: 0;
+}
+.ec-footerNavi-child__link {
+  position: relative;
+  padding-left: 1em;
+  line-height: 2;
+}
+.ec-footerNavi-child__link_wide {
+  line-height: 3;
+}
+.ec-footerNavi-child__link::before {
+  content: '-';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto 0;
+}
+.ec-footerSnsNavi {
+  flex: 0 0 19%;
+  list-style: none;
+}
+.ec-footerSnsNavi a {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #231815;
+  text-decoration: none;
+}
+.ec-footerSnsNavi a:hover {
+  opacity: 0.7;
+}
+.ec-footerSnsNavi__link + .ec-footerSnsNavi__link {
+  margin-top: 20px;
+}
+.ec-footerSnsNavi__link img {
+  margin-right: 15px;
+}
+.ec-footerTitle {
+  padding: 40px 0 20px;
+  text-align: center;
+  color: #444;
+}
+@media (min-width: 768px) {
+  .ec-footerTitle {
+    padding: 50px 0 20px;
+  }
+}
+.ec-footerTitle .ec-footerTitle__copyright {
+  font-size: 10px;
+}
+@media (min-width: 768px) {
+  .ec-footerTitle .ec-footerTitle__copyright {
+    font-size: 14px;
+  }
+}
+.pageheader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  z-index: 0;
+  aspect-ratio: 2.7397260274;
+  overflow: hidden;
+}
+.pageheader img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+}
+.pageheader__title {
+  font-size: 34px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+.pageheader__title span {
+  display: block;
+  margin-top: 18px;
+  font-size: 20px;
+}
+.news-title__title {
+  font-size: 1.6rem;
+}
+.news-nav {
+  margin-top: 45px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #231815;
+}
+.news-nav__list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.news-nav__item {
+  flex: 0 0 18%;
+  position: relative;
+}
+.news-nav__item a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 0;
+  width: 100%;
+  line-height: 1;
+  background-color: #898989;
+  color: #fff;
+}
+.news-nav__item--black a {
+  background-color: #231815;
+}
+.news-nav__item--pink a {
+  background-color: #ef857d;
+}
+.news-nav__item--brown a {
+  background-color: #6a3906;
+}
+.news-nav__item--yellow a {
+  background-color: #f8b62d;
+}
+.news-nav__item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -23px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 6px;
+  margin: 0 auto;
+  background-color: #231815;
 }
 /*# sourceMappingURL=https://test-darcys-factory.xyz/shop/wp-content/build/scss_library/c95a917ee6bb0ae693cce959840a8e5687da2c5a.css.map */

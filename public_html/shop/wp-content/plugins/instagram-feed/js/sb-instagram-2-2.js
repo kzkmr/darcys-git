@@ -132,7 +132,9 @@ if(!sbi_js_exists) {
     function sbiAddVisibilityListener() {
       /* Detect when element becomes visible. Used for when the feed is initially hidden, in a tab for example. https://github.com/shaunbowe/jquery.visibilityChanged */
       !function (i) {
-        var n = { runOnLoad: !0, frequency: 100, sbiPreviousVisibility: null
+        var n = {
+          callback: function () {
+          }, runOnLoad: !0, frequency: 100, sbiPreviousVisibility: null
         }, c = {};
         c.sbiCheckVisibility = function (i, n) {
           if (jQuery.contains(document, i[0])) {
@@ -157,8 +159,20 @@ if(!sbi_js_exists) {
 
     Sbi.prototype = {
       createPage: function (createFeeds, createFeedsArgs) {
+        if (typeof sb_instagram_js_options.ajax_url !== 'undefined' && typeof window.sbiajaxurl === 'undefined') {
+          window.sbiajaxurl = sb_instagram_js_options.ajax_url;
+        }
         if (typeof window.sbiajaxurl === 'undefined' || window.sbiajaxurl.indexOf(window.location.hostname) === -1) {
           window.sbiajaxurl = location.protocol + '//'+ window.location.hostname + '/wp-admin/admin-ajax.php';
+        }
+
+        if ( $('#sbi-builder-app').length && typeof window.sbiresizedImages === 'undefined') {
+          if ($('.sbi_resized_image_data').length
+            && typeof $('.sbi_resized_image_data').attr('data-resized') !== 'undefined'
+            && $('.sbi_resized_image_data').attr('data-resized').indexOf('{"') === 0) {
+            window.sbiresizedImages = JSON.parse($('.sbi_resized_image_data').attr('data-resized'));
+            $('.sbi_resized_image_data').remove();
+          }
         }
 
         $('.sbi_no_js_error_message').remove();
@@ -185,6 +199,7 @@ if(!sbi_js_exists) {
             var feedOptions = {
               cols : $self.attr('data-cols'),
               colsmobile : typeof $self.attr('data-colsmobile') !== 'undefined' && $self.attr('data-colsmobile') !== 'same' ? $self.attr('data-colsmobile') : $self.attr('data-cols'),
+              colstablet : typeof $self.attr('data-colstablet') !== 'undefined' && $self.attr('data-colstablet') !== 'same' ? $self.attr('data-colstablet') : $self.attr('data-cols'),
               num : $self.attr('data-num'),
               imgRes : $self.attr('data-res'),
               feedID : $self.attr('data-feedid'),
@@ -296,7 +311,11 @@ if(!sbi_js_exists) {
           feed.lazyLoadCheck($(this));
         });
       },
+      initLayout: function() {
+
+      },
       afterInitialImagesLoaded: function() {
+        this.initLayout();
         this.loadMoreButtonInit();
         this.hideExtraImagesForWidth();
         this.beforeNewImagesRevealed();
@@ -333,7 +352,8 @@ if(!sbi_js_exists) {
         this.setImageSizeClass();
       },
       revealNewImages: function() {
-        var $self = $(this.el);
+        var $self = $(this.el),
+          feed = this;
 
         $self.find('.sbi-screenreader').each(function() {
           $(this).find('img').remove();
@@ -425,6 +445,8 @@ if(!sbi_js_exists) {
           && $(this.el).find('.sbi_resized_image_data').attr('data-resized').indexOf('{"') === 0) {
           this.resizedImages = JSON.parse($(this.el).find('.sbi_resized_image_data').attr('data-resized'));
           $(this.el).find('.sbi_resized_image_data').remove();
+        } else if (typeof window.sbiresizedImages !== 'undefined') {
+          this.resizedImages = window.sbiresizedImages;
         }
       },
       sendNeedsResizingToServer: function() {
@@ -437,6 +459,15 @@ if(!sbi_js_exists) {
           if ( typeof $self.attr( 'data-locatornonce' ) !== 'undefined' ) {
             locatorNonce = $self.attr( 'data-locatornonce' );
           }
+
+          if ($('#sbi-builder-app').length) {
+            if (typeof window.sbiresizeTriggered !== 'undefined' && window.sbiresizeTriggered) {
+              return;
+            } else {
+              window.sbiresizeTriggered = true;
+            }
+          }
+
           var submitData = {
             action: 'sbi_resized_images_submit',
             needs_resizing: feed.needsResizing,
@@ -467,7 +498,9 @@ if(!sbi_js_exists) {
             setTimeout(function() {
               feed.afterResize();
             },500);
-
+            if ($('#sbi-builder-app').length) {
+              window.sbiresizeTriggered = false;
+            }
           };
           sbiAjax(submitData,onSuccess);
         } else if (feed.settings.locator) {
@@ -546,11 +579,13 @@ if(!sbi_js_exists) {
             feed.outOfPages = false;
           }
           $('.sbi_no_js').removeClass('sbi_no_js');
+
         };
         sbiAjax(submitData, onSuccess);
       },
       appendNewPosts: function (newPostsHtml) {
-        var $self = $(this.el);
+        var $self = $(this.el),
+          feed = this;
         if ($self.find('#sbi_images .sbi_item').length) {
           $self.find('#sbi_images .sbi_item').last().after(newPostsHtml);
         } else {
@@ -573,8 +608,8 @@ if(!sbi_js_exists) {
         //Figure out what the width should be using the number of cols
         //Figure out what the width should be using the number of cols
         var imagesPadding = $self.find('#sbi_images').innerWidth() - $self.find('#sbi_images').width(),
-          imagepadding = imagesPadding / 2,
-          sbi_photo_width_manual = ( $self.find('#sbi_images').width() / sbi_num_cols ) - imagesPadding;
+          imagepadding = imagesPadding / 2;
+        sbi_photo_width_manual = ( $self.find('#sbi_images').width() / sbi_num_cols ) - imagesPadding;
         //If the width is less than it should be then set it manually
         //if( sbi_photo_width <= (sbi_photo_width_manual) ) sbi_photo_width = sbi_photo_width_manual;
 
@@ -926,7 +961,8 @@ if(!sbi_js_exists) {
         }
       },
       applyImageLiquid: function () {
-        var $self = $(this.el);
+        var $self = $(this.el),
+          feed = this;
         sbiAddImgLiquid();
         if (typeof $self.find(".sbi_photo").sbi_imgLiquid == 'function') {
           $self.find(".sbi_photo").sbi_imgLiquid({fill: true});
@@ -949,14 +985,18 @@ if(!sbi_js_exists) {
         var $self = $(this.el),
           cols = this.settings.cols,
           colsmobile = this.settings.colsmobile,
-          returnCols = cols,
-          sbiWindowWidth = window.innerWidth;
+          colstablet = this.settings.colstablet,
+          returnCols = cols;
+
+        sbiWindowWidth = window.innerWidth;
 
         if ($self.hasClass('sbi_mob_col_auto')) {
           if (sbiWindowWidth < 640 && (parseInt(cols) > 2 && parseInt(cols) < 7)) returnCols = 2;
           if (sbiWindowWidth < 640 && (parseInt(cols) > 6 && parseInt(cols) < 11)) returnCols = 4;
           if (sbiWindowWidth <= 480 && parseInt(cols) > 2) returnCols = 1;
-        } else if (sbiWindowWidth <= 480) {
+        } else if (sbiWindowWidth > 480 && sbiWindowWidth <= 800) {
+          returnCols = colstablet;
+        }else if (sbiWindowWidth <= 480) {
           returnCols = colsmobile;
         }
 
