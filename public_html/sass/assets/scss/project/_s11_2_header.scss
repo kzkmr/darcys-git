@@ -70,6 +70,10 @@ Styleguide 11.2
       width: 25%;
     }
   }
+
+  &__header {
+    padding-bottom: 40px;
+  }
 }
 
 
@@ -78,9 +82,11 @@ Styleguide 11.2
   padding-top: 15px;
   position: relative;
   display: none !important;
+
   &:after {
     display: none;
   }
+
   @include media_desktop {
     @include clearfix;
   }
@@ -244,12 +250,48 @@ Styleguide 11.2
       }
 
       &__item {
+        position: relative;
+        z-index: 1;
 
         a {
           font-size: 16px;
           letter-spacing: .06em;
           color: #555;
         }
+      }
+
+      &__jp {
+        display: none;
+
+        &.active {
+          display: block;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          font-size: 16px;
+          letter-spacing: .06em;
+          color: #555;
+          line-height: 20px;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .p-global-navi-child {
+      display: none;
+
+      @include media_desktop() {
+        position: absolute;
+        top: calc(100% + 20px);
+        left: -20px;
+        width: 150px;
+        padding: 10px 14px;
+        border: 1px solid #fbfbfb;
+        background-color: #fff;
+        visibility: visible;
+        opacity: 1;
+        transition: none;
+        z-index: 100;
       }
     }
   }
