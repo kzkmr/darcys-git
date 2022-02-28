@@ -1,0 +1,44 @@
+{% if blogDatas|length > 0 %}
+    <section class="ec-top-blog">
+        <div class="ec-top-blog__btn">
+            <a href="">＞＞＞ 一覧を見る</a>
+        </div>
+        <div class="ec-secHeading">
+            <span class="ec-secHeading__en">NEWS</span>
+        </div>
+        <div class="row">
+            {% for blogData in blogDatas %}
+                <div class="col-3">
+                    <a href="{{ blogData.link }}" target="_blank" rel="noopener">
+                        {% if blogData.attachment is defined %}
+                            <figure class="thumbnail">
+                                <img src="{{ blogData.attachment.source_url }}" alt="{{ blogData.title.rendered }}">
+                            </figure>
+                        {% endif %}
+                        <div class="text-box">
+                            <div class="meta">
+                                <time>{{ blogData.date|slice(0, 10)|replace({'-': '.'}) }}</time>
+                                {% if blogData.category is defined %}
+                                    {% for category in blogData.category %}
+                                        {% if category.name == "Ice" %}
+                                            <p class="category category_ice">{{ category.name }}</p>
+                                        {% elseif category.name == "Coffee" %}
+                                            <p class="category category_coffee">{{ category.name }}</p>
+                                        {% elseif category.name == "Bread" %}
+                                            <p class="category category_bread">{{ category.name }}</p>
+                                        {% else %}
+                                            <p class="category">{{ category.name }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <p class="title">{{ blogData.title.rendered }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% else %}
+  <p>none</p>
+{% endif %}

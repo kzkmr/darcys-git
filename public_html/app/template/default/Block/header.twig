@@ -1,0 +1,128 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+
+<div class="ec-header-navi-sp pc-none">
+  <div class="ec-header-navi-sp__logo">
+    <a href="">
+      <img src="{{ asset('assets/img/common/logo_sp.png') }}" width="80">
+    </a>
+  </div>
+  <div class="ec-header-navi-sp__login">
+    {% if is_granted('ROLE_USER') %}
+      <a href="{{ url('logout') }}">
+        <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+      </a>
+    {% else %}
+      <a href="{{ url('mypage_login') }}">
+        <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+      </a>
+    {% endif %}
+  </div>
+  <div class="ec-header-navi-sp__cart">
+    <div class="ec-headerRole__cart">
+        {{ include('Block/cart.twig') }}
+    </div>
+  </div>
+  <div class="ec-header-navi-sp__store">
+    <a href="{{ url('product_list') }}">
+      <p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
+      <img src="{{ asset('assets/img/common/icon_online_store.png') }}" width="32">
+    </a>
+  </div>
+  <div class="ec-header-navi-sp__btn">
+    {{ include('Block/nav_sp.twig') }}
+  </div>
+</div>
+
+<div class="ec-header-top sp-none">
+    {{ render(path('block_' ~ 'search_product')) }}
+  <div class="ec-header-top__login">
+    {{ include('Block/login.twig') }}
+  </div>
+</div>
+
+<div class="ec-header-bottom">
+  <div class="ec-header-bottom__logo">
+    <p class="ec-header-bottom__img">
+      <a href="{{ url('homepage') }}">
+        <img src="{{ asset('assets/img/common/logo_header.png') }}" alt="">
+      </a>
+    </p>
+  </div>
+  <div class="ec-header-bottom__center">
+    <div class="ec-header-bottom__gnav">
+      <ul class="p-global-navi">
+        <li class="p-global-navi__item">
+          <a href="/shop/news/">NEWS</a>
+        </li>
+        <li class="p-global-navi__item has-child">
+          <a href="/shop/story/">STORY</a>
+          <span class="p-global-navi__jp">製品の誕生ものがたり</span>
+          <ul class="p-global-navi-child">
+            <li class="p-global-navi-child__item">
+              <a href="">- ICE CREAM</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="">- COFFEE</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="">- BREAD</a>
+            </li>
+          </ul>
+        </li>
+        <li class="p-global-navi__item has-child">
+          <a href="/shop/concept/">CONCEPT</a>
+          <span class="p-global-navi__jp">製品のこだわり</span>
+          <ul class="p-global-navi-child">
+            <li class="p-global-navi-child__item">
+              <a href="">- ICE CREAM</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="">- COFFEE</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="">- BREAD</a>
+            </li>
+          </ul>
+        </li>
+        <li class="p-global-navi__item has-child">
+          <a href="/shop/products-list/">PRODUCTS</a>
+          <span class="p-global-navi__jp">商品ラインアップ</span>
+          <ul class="p-global-navi-child">
+            <li class="p-global-navi-child__item">
+              <a href="">- ICE CREAM</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="">- COFFEE</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="">- BREAD</a>
+            </li>
+          </ul>
+        </li>
+        <li class="p-global-navi__item">
+          <a href="{{ url('company') }}">ABOUT US</a>
+        </li>
+        <li class="p-global-navi__item">
+          <a href="/shop/stores/">STORE</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="ec-header-bottom__right">
+    <div class="ec-header-bottom__store-link">
+      <a href="{{ url('product_list') }}">
+        <img src="{{ asset('assets/img/common/icon_store.png') }}" alt="" width="34">
+        <span>ONLINE SHOP</span>
+      </a>
+    </div>
+  </div>
+</div>

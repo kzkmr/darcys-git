@@ -24,6 +24,7 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 <div class="l-<?php echo esc_attr( $header_type ); ?>" data-has-global-nav="<?php echo esc_attr( $data_has_global_nav ); ?>">
 	<div class="<?php echo esc_attr( $container_class ); ?>">
 
+    <?php /*
 		<div class="l-<?php echo esc_attr( $header_type ); ?>__row">
 			<div class="c-row c-row--margin-s c-row--lg-margin c-row--middle c-row--nowrap">
 				<?php if ( $has_drawer_nav && 'left' === $hamburger_btn_position ) : ?>
@@ -41,12 +42,13 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 				<?php endif; ?>
 			</div>
 		</div>
+    */ ?>
 
 		<!-- スマホ/タブレット 用 -->
 		<div class="c-row u-invisible-lg-up ec-header-navi-sp">
 			<div class="ec-header-navi-sp__logo">
 				<a href="<?php echo ec_url(); ?>">
-					<img src="<?php echo esc_url(home_url('/')); ?>wp-content/plugins/my-snow-monkey/assets/img/logo_sp.png" width="80">
+					<img src="<?php echo ec_asset_url(); ?>/img/common/logo_sp.png" width="80">
 				</a>
 			</div>
 			<!-- <div class="ec-header-navi-sp__login">
@@ -66,9 +68,9 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 				</div>
 			</div> -->
 			<div class="ec-header-navi-sp__store">
-				<a href="{{ url('product_list') }}">
+				<a href="<?php echo ec_url(); ?>">
 					<p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
-					<img src="<?php echo esc_url(home_url('/')); ?>wp-content/plugins/my-snow-monkey/assets/img/icon_online_store.png" width="32">
+					<img src="<?php echo ec_asset_url(); ?>/img/common/icon_online_store.png" width="32">
 				</a>
 			</div>
 			<div class="ec-header-navi-sp__btn">
@@ -87,76 +89,93 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 
 		<!-- PC 用 -->
     <div class="c-row p-custom-header u-invisible-md-down">
-      <div class="ec-headerNaviRoleTop">
-        <div class="ec-headerNaviRoleTop__nav">
-
-        </div>
-        <!-- <div class="ec-headerNaviRoleTop__btn">
-          <a href="">
-            <img src="/html/template/default/assets/img/common/icon_store.png" width="28" height="28">
-            ONLINE SHOP
-          </a>
-        </div> -->
-      </div>
-      <div class="ec-headerNaviRoleBottom">
-        <div class="ec-headerNaviRoleBottom__logo">
-          <p class="ec-headerNaviRoleBottom__img">
-            <a href="https://test-darcys-factory.xyz/">
-              <img src="/html/template/default/assets/img/common/logo_header.png">
+      <div class="ec-header-bottom">
+        <div class="ec-header-bottom__logo">
+          <p class="ec-header-bottom__img">
+            <a href="<?php echo ec_url(); ?>">
+              <img src="<?php echo ec_asset_url(); ?>/img/common/logo_header.png">
             </a>
           </p>
         </div>
-        <div class="ec-headerNaviRoleBottom__center">
-          <div class="ec-headerNaviRoleBottom__gnav">
+        <div class="ec-header-bottom__center">
+          <div class="ec-header-bottom__gnav">
             <ul class="p-global-navi">
               <li class="p-global-navi__item">
-                <a href="">NEWS</a>
+                <a href="<?php echo esc_url(home_url('/news/')); ?>">NEWS</a>
+              </li>
+              <li class="p-global-navi__item has-child">
+                <a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
+                <span class="p-global-navi__jp">製品の誕生ものがたり</span>
+                <ul class="p-global-navi-child">
+                  <li class="p-global-navi-child__item">
+                    <a href="">- ICE CREAM</a>
+                  </li>
+                  <li class="p-global-navi-child__item">
+                    <a href="">- COFFEE</a>
+                  </li>
+                  <li class="p-global-navi-child__item">
+                    <a href="">- BREAD</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="p-global-navi__item has-child">
+                <a href="<?php echo esc_url(home_url('/concept/')); ?>">CONCEPT</a>
+                <span class="p-global-navi__jp">製品のこだわり</span>
+                <ul class="p-global-navi-child">
+                  <li class="p-global-navi-child__item">
+                    <a href="">- ICE CREAM</a>
+                  </li>
+                  <li class="p-global-navi-child__item">
+                    <a href="">- COFFEE</a>
+                  </li>
+                  <li class="p-global-navi-child__item">
+                    <a href="">- BREAD</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="p-global-navi__item has-child">
+                <a href="<?php echo esc_url(home_url('/products-list/')); ?>">PRODUCTS</a>
+                <span class="p-global-navi__jp">商品ラインアップ</span>
+                <ul class="p-global-navi-child">
+                  <li class="p-global-navi-child__item">
+                    <a href="">- ICE CREAM</a>
+                  </li>
+                  <li class="p-global-navi-child__item">
+                    <a href="">- COFFEE</a>
+                  </li>
+                  <li class="p-global-navi-child__item">
+                    <a href="">- BREAD</a>
+                  </li>
+                </ul>
               </li>
               <li class="p-global-navi__item">
-                <a href="https://test-darcys-factory.xyz/story">STORY</a>
+                <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
               </li>
               <li class="p-global-navi__item">
-                <a href="https://test-darcys-factory.xyz/concept">CONCEPT</a>
-              </li>
-              <li class="p-global-navi__item">
-                <a href="https://test-darcys-factory.xyz/materials">MATERIAL</a>
-              </li>
-              <li class="p-global-navi__item">
-                <a href="https://test-darcys-factory.xyz/company">ABOUT US</a>
+                <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORE</a>
               </li>
             </ul>
           </div>
         </div>
-        <div class="ec-headerNaviRoleBottom__right">
-          <!-- <div class="ec-headerRole__cart">
-            <div class="ec-cartNaviWrap">
-              <div class="ec-cartNavi">
-                <i class="ec-cartNavi__icon fas fa-shopping-cart">
-                  <span class="ec-cartNavi__badge">0</span>
-                </i>
-                <div class="ec-cartNavi__label">
-                  <div class="ec-cartNavi__price">￥0</div>
-                </div>
-              </div>
-              <div class="ec-cartNaviNull">
-                <div class="ec-cartNaviNull__message">
-                  <p>現在カート内に商品はございません。</p>
-                </div>
-              </div>
-            </div>
-
-          </div> -->
-          <div class="ec-headerNaviRoleTop__btn">
-            <a href="">
-              <img src="/html/template/default/assets/img/common/icon_store.png" width="28" height="28">
-              ONLINE SHOP
+        <div class="ec-header-bottom__right">
+          <div class="ec-header-bottom__store-link">
+            <a href="<?php echo ec_url(); ?>/products/list">
+              <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" alt="" width="34">
+              <span>ONLINE SHOP</span>
             </a>
           </div>
         </div>
+          <?php /* <div class="ec-headerNaviRoleTop__btn">
+            <a href="">
+              <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" width="28" height="28">
+              ONLINE SHOP
+            </a>
+          </div>
+        </div> */ ?>
       </div>
     </div>
 
-		<?php if ( $has_global_nav ) : ?>
+		<?php /* if ( $has_global_nav ) : ?>
 			<div class="l-<?php echo esc_attr( $header_type ); ?>__row u-invisible-md-down p-global-nav-wrap">
 				<?php
 				Helper::get_template_part(
@@ -169,7 +188,7 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 				);
 				?>
 			</div>
-		<?php endif; ?>
+		<?php endif; */ ?>
 	</div>
 </div>
 

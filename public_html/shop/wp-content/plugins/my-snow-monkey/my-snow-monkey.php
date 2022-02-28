@@ -54,12 +54,12 @@ add_filter(
 add_action(
 	'wp_enqueue_scripts',
 	function() {
-		wp_enqueue_style(
-			'ec-cube',
-			'../../../../html/template/default/assets/css/style.min.css',
-			[],
-			'1.0.0'
-		);
+		// wp_enqueue_style(
+		// 	'ec-cube',
+		// 	'../../../../html/template/default/assets/css/style.min.css',
+		// 	[],
+		// 	'1.0.0'
+		// );
 		wp_enqueue_style(
 			'my-snow-monkey',
 			MY_SNOW_MONKEY_URL . '/assets/css/style.css',
@@ -110,10 +110,18 @@ add_action(
 add_action(
 	'wp_enqueue_scripts',
 	function() {
+    wp_deregister_script('jquery');
+		wp_enqueue_script(
+			'myjquery',
+			'/wp-content/plugins/my-snow-monkey/assets/js/jquery-3.6.0.min.js',
+			'',
+			'1.0',
+			false
+		);
 		wp_enqueue_script(
 			'functions',
 			'/wp-content/plugins/my-snow-monkey/assets/js/functions.js',
-			'',
+			'myjquery',
 			'1.0',
 			true
 		);
@@ -130,7 +138,7 @@ add_action(
 			wp_enqueue_script(
 				'news',
 				'/wp-content/plugins/my-snow-monkey/assets/js/news.js',
-				'jquery',
+				'myjquery',
 				'1.0',
 				true
 			);
@@ -155,18 +163,18 @@ add_filter(
 
 
 /*
-	記事詳細ヘッダー content/entry/header/header.php を上書き
+	記事一覧 loop/entry-summary-post.php を上書き
 */
 
-// add_filter(
-//   'snow_monkey_template_part_root_hierarchy_template-parts/content/entry/header/header',
-//   function( $hierarchy, $name, $vars ) {
-//     $hierarchy[] = untrailingslashit( __DIR__ ) . '/post-detail-override';
-//     return $hierarchy;
-//   },
-//   10,
-//   3
-// );
+add_filter(
+  'snow_monkey_template_part_root_hierarchy_template-parts/loop/entry-summary',
+  function( $hierarchy, $name, $vars ) {
+    $hierarchy[] = untrailingslashit( __DIR__ ) . '/entry-summary-override';
+    return $hierarchy;
+  },
+  10,
+  3
+);
 
 
 /**

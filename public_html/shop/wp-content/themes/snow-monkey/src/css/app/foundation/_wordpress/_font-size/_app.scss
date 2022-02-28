@@ -1,0 +1,76 @@
+// @deprecated
+.has-small-font-size {
+  @include _font-size-line-height(13px);
+}
+
+// @deprecated
+.has-medium-font-size {
+  @include _font-size-line-height(20px);
+}
+
+// @deprecated
+.has-large-font-size {
+  @include _font-size-line-height(36px);
+}
+
+// @deprecated
+.has-huge-font-size {
+  @include _font-size-line-height(42px);
+}
+
+$editor-font-sizes: (
+  'sm-small': 14px,
+  'sm-normal': 16px,
+  'sm-medium': 20px,
+  'sm-large': 28px,
+  'sm-xlarge': 36px,
+  'sm-xxlarge': 44px,
+  'sm-xxxlarge': 52px,
+);
+
+$editor-font-sizes-md: (
+  'sm-small': 14px,
+  'sm-normal': 16px,
+  'sm-medium': 20px,
+  'sm-large': 28px,
+  'sm-xlarge': 44px,
+  'sm-xxlarge': 76px,
+  'sm-xxxlarge': 96px,
+);
+
+$editor-font-sizes-lg: (
+  'sm-small': 14px,
+  'sm-normal': 16px,
+  'sm-medium': 20px,
+  'sm-large': 28px,
+  'sm-xlarge': 44px,
+  'sm-xxlarge': 76px,
+  'sm-xxxlarge': 140px,
+);
+
+body {
+  @include _media-only(sm) {
+    --wp--preset--font-size--sm-xlarge: calc(36px - (16px - var(--_base-font-size-px)));
+    --wp--preset--font-size--sm-xxlarge: calc(44px - (16px - var(--_base-font-size-px)));
+    --wp--preset--font-size--sm-xxxlarge: calc(52px - (16px - var(--_base-font-size-px)));
+
+    // @todo I really want to reflect the diff from base-font-size.
+    --line-height-sm-xlarge: #{ _line-height(36px) };
+    --line-height-sm-xxlarge: #{ _line-height(44px) };
+    --line-height-sm-xxlarge: #{ _line-height(52px) };
+  }
+
+  @include _media-only(md) {
+    --wp--preset--font-size--sm-xxxlarge: calc(96px - (16px - var(--_base-font-size-px)));
+
+    // @todo I really want to reflect the diff from base-font-size.
+    --line-height-sm-xxlarge: #{ _line-height(96px) };
+  }
+}
+
+// @see src/css/dependency/snow-monkey-blocks/section
+@each $slug, $size in $editor-font-sizes {
+  .has-#{ $slug }-font-size {
+    line-height: var(--line-height-#{ $slug });
+  }
+}

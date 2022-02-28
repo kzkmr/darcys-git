@@ -1,0 +1,98 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% set Categories = repository('Eccube\\Entity\\Category').getList() %}
+
+{% macro tree(Category) %}
+    {% from _self import tree %}
+    <a href="{{ url('product_list') }}?category_id={{ Category.id }}">
+        {{ Category.name }}
+    </a>
+    {% if Category.children|length > 0 %}
+        <ul>
+            {% for ChildCategory in Category.children %}
+                <li>
+                    {{ tree(ChildCategory) }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{# @see https://github.com/bolt/bolt/pull/2388 #}
+{% from _self import tree %}
+
+<div class="ec-header-category-area">
+  <div class="ec-item-nav">
+    <ul class="ec-item-nav__nav">
+      <li>
+        <a href="/shop/news/">NEWS</a>
+      </li>
+      <li>
+        <a href="/shop/story/">STORY</a>
+        <ul class="ec-item-nav__child-nav">
+          <li>
+            <a href="">ICE CREAM</a>
+          </li>
+          <li>
+            <a href="">BREAD</a>
+          </li>
+          <li>
+            <a href="">COFFEE</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="/shop/concept/">CONCEPT</a>
+        <ul class="ec-item-nav__child-nav">
+          <li>
+            <a href="">ICE CREAM</a>
+          </li>
+          <li>
+            <a href="">BREAD</a>
+          </li>
+          <li>
+            <a href="">COFFEE</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="/shop/products-list/">PRODUCTS</a>
+        <ul class="ec-item-nav__child-nav">
+          <li>
+            <a href="">ICE CREAM</a>
+          </li>
+          <li>
+            <a href="">BREAD</a>
+          </li>
+          <li>
+            <a href="">COFFEE</a>
+          </li>
+        {#
+          {% for Category in Categories %}
+            <li>
+              {{ tree(Category) }}
+            </li>
+          {% endfor %}
+        #}
+        </ul>
+      </li>
+      <li>
+        <a href="{{ url('company') }}">ABOUT US</a>
+      </li>
+      <li>
+        <a href="{{ url('product_list') }}">STORE</a>
+      </li>
+      <li>
+        <a href="">CONTACT US</a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.wp-block-table {
+  @extend %table;
+
+  > table {
+    @extend %table;
+  }
+
+  &.is-style-stripes {
+    th, td {
+      border: none;
+    }
+  }
+}

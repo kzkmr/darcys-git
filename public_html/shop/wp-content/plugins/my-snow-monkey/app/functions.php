@@ -66,7 +66,11 @@ function instagram(){
   echo do_shortcode('[instagram-feed]');
 }
 
-// 管理画面の「投稿」を「NEWS」表記に変更
+
+/*
+  管理画面の「投稿」を「NEWS」表記に変更
+*/
+
 function ChangeAdminLabel() {
 	global $menu;
 	global $submenu;
@@ -94,7 +98,10 @@ add_action( 'init', 'ChangeAdminObject' );
 add_action( 'admin_menu', 'ChangeAdminLabel' );
 
 
-// NEWSページクエリー制御
+/*
+  NEWSページクエリー制御
+*/
+
 add_filter(
 	'snow_monkey_recent_posts_widget_args_ice',
 	function( $query_args ) {
@@ -136,4 +143,66 @@ add_filter(
 		$query_args['tax_query'] = $tax_query;
 		return $query_args;
 	}
+);
+
+
+/*
+  「products_type」で絞り込むためのドロップダウンを追加する
+*/
+add_action(
+  'restrict_manage_posts',
+  function ( $post_type ) {
+    // カスタム投稿タイプ「products」に絞り込み条件を追加する.
+    if ( 'products' === $post_type ) {
+      // 「products_type」で絞り込むためのドロップダウンを追加する.
+      $taxonomy = 'products_type';
+      wp_dropdown_categories(
+        [
+          'show_option_all' => '商品カテゴリー',
+          'orderby'         => 'name',
+          'selected'        => get_query_var( $taxonomy ),
+          'hide_empty'      => 0,
+          'name'            => $taxonomy,
+          'taxonomy'        => $taxonomy,
+          'value_field'     => 'slug',
+          'hierarchical'    => 1, // 親・子関係がある場合は1がおすすめ.
+        ]
+      );
+    }
+  }
+);
+
+
+/*
+  「products_type」で絞り込むためのドロップダウンを追加する
+*/
+
+add_filter( 'snow_monkey_recent_posts_widget_args_ice', function( $query_args ) {
+    $query_args = [
+      'tax_query' => [
+        [
+          'taxonomy' => 'products_type',
+          'field'    => 'slug',
+          'terms'    => [ 'product_ice' ],
+        ]
+      ],
+    ] + $query_args;
+    $query_args['posts_per_page'] = 8;
+    $query_args['order'] = 'ASC';
+    return $query_args;
+} );
+
+
+/*
+  「商品」投稿ページレイアウト
+*/
+
+add_action(
+  'snow_monkey_prepend_contents',
+  function() {
+    if ( is_singular('products') ) {
+      echo do_shortcode( '[call_php file=pageheader]' );
+      echo do_shortcode( '[call_php file=breadcrumb]' );
+    }
+  }
 );

@@ -215,3 +215,18 @@ $(function() {
         $form.submit();
     });
 });
+
+
+// ヘッダードロップダウンメニュー
+$(function() {
+  $('.has-child').hover(
+    function() {
+      $(this).find('.p-global-navi__jp').addClass('active');
+      $(this).find('.p-global-navi-child').stop().slideDown(200);
+    },
+    function() {
+      $(this).find('.p-global-navi__jp').removeClass('active');
+      $(this).find('.p-global-navi-child').stop().slideUp(200);
+    }
+  );
+});

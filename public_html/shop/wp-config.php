@@ -54,14 +54,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'put your unique phrase here' );
-define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
-define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
-define( 'NONCE_KEY',        'put your unique phrase here' );
-define( 'AUTH_SALT',        'put your unique phrase here' );
-define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
-define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
-define( 'NONCE_SALT',       'put your unique phrase here' );
+define('AUTH_KEY',         '?APi=^DK.U#*d$CVe/2g7 L ZO[{+;&UzE-;<@qNY%HoJbcikd62`Z%/e/D#^f|L');
+define('SECURE_AUTH_KEY',  '|F)n[4l0fiq!3WK(WuCD7q)xIbL!M8X4VkVo+d?eRC#qDJ>Zr)=`><AU66c`|{lH');
+define('LOGGED_IN_KEY',    ':l;SS,07[XQr|ISeJ698=(79/znb-jRxO~^dTPRT8LJ#X/-d7iE+|8|u6Fw)e06,');
+define('NONCE_KEY',        '<EeEhK)7|#kZNcSTc+@[fHpoX-ZLq|?|-+tlR8Z ~->OI9?* AC?|++h()SLRn]z');
+define('AUTH_SALT',        'yg4u+Yyqf4eH=RTFmKcYT{H(~#k-l}9Tb4;%5+HPSE1|htZ}*Hq&1XTMU-i=]~op');
+define('SECURE_AUTH_SALT', '?)h<>fy.D{<q+UeD_~ak$!cp?l;4`!n;m*6>pLq$#a{Ikq@m!~hNv4(j+ObXtLR,');
+define('LOGGED_IN_SALT',   'YBk|l2Z#SgV/=ZEIeO0A;{~|&}fk([;a$PtSM3BrB9s]-{hv,W]<)Q&[b1YXoxrf');
+define('NONCE_SALT',       'j=%3BM56u!J)Y7g/ 3Nc1lx=Ro-|O}A=kOV7 WNE^!CY/:f6fWwAUuCq;I,X-K+n');
 
 /**#@-*/
 
@@ -83,7 +83,11 @@ $table_prefix = 'wp_';
  *
  * @link https://ja.wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_DEBUG', false );
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', false);
+define('WP_DEBUG_DISPLAY',true);
+ini_set('display_errors',1);
+error_reporting(E_ALL);
 
 /* カスタム値は、この行と「編集が必要なのはここまでです」の行の間に追加してください。 */
 

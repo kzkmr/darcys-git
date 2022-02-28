@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast Duplicate Post - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-11-21 13:59:10+0000\n"
+"PO-Revision-Date: 2022-02-25 13:18:39+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,26 +11,35 @@ msgstr ""
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Yoast Duplicate Post - Stable (latest release)\n"
 
-#: src/ui/newsletter.php:124
+#. translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+#: src/ui/newsletter.php:33
+msgid "Yoast respects your privacy. Read %1$sour privacy policy%2$s on how we handle your personal information."
+msgstr "Yoast はお客様のプライバシーを尊重します。お客様の個人情報の取り扱いについては、%1$sour privacy policy%2$s をお読みください。"
+
+#: src/admin/views/options.php:236
+msgid "Welcome notice"
+msgstr "歓迎のお知らせ"
+
+#: src/admin/options.php:262
+msgid "Show welcome notice"
+msgstr "参考文献"
+
+#. translators: %s: Yoast Duplicate Post.
+#: admin-functions.php:224
+msgid "You've successfully installed %s!"
+msgstr "%s のインストールに成功しました !"
+
+#: src/ui/newsletter.php:137
 msgid "You have successfully subscribed to the newsletter. Please check your inbox."
 msgstr "ニュースレターのご登録が完了しました。受信箱をご確認ください。"
 
-#: src/ui/newsletter.php:84
+#: src/ui/newsletter.php:97
 msgid "Please enter valid e-mail address."
 msgstr "有効なメールアドレスを入力してください。"
 
-#: src/ui/newsletter.php:68 src/ui/newsletter.php:118
+#: src/ui/newsletter.php:81 src/ui/newsletter.php:131
 msgid "Something went wrong. Please try again later."
 msgstr "問題が発生しました。後でもう一度やり直してください。"
-
-#. translators: %s: Yoast Duplicate Post version.
-#: admin-functions.php:235
-msgid "Read the changelog"
-msgstr "変更履歴を読む"
-
-#: admin-functions.php:229
-msgid "improved compatibility with PHP 8.0 and fixes for some bugs regarding translations and the Rewrite & Republish feature."
-msgstr "PHP 8.0との互換性を改善し、翻訳や書き換え & 再公開機能に関するいくつかのバグを修正しました。"
 
 #: src/handlers/check-changes-handler.php:134
 msgid "Added"
@@ -40,7 +49,7 @@ msgstr "追加されました"
 msgid "Removed"
 msgstr "削除されました"
 
-#: src/post-republisher.php:223
+#: src/post-republisher.php:224
 msgid "An error occurred while deleting the Rewrite & Republish copy."
 msgstr "書き換え & 再公開コピーの削除中にエラーが発生しました。"
 
@@ -50,30 +59,30 @@ msgstr "強力な書き換えと再公開機能を含む、投稿と固定ペー
 
 #. translators: 1: The page title with a link to the frontend page, 2: The
 #. scheduled date and time.
-#: src/ui/classic-editor.php:266
+#: src/ui/classic-editor.php:271
 msgid "This rewritten page %1$s is now scheduled to replace the original page. It will be published on %2$s."
 msgstr "この書き換え済みページ %1$s は、元のページを置き換えるよう予約されています。%2$sに公開されます。"
 
 #. translators: 1: The post title with a link to the frontend page, 2: The
 #. scheduled date and time.
-#: src/ui/classic-editor.php:253
+#: src/ui/classic-editor.php:258
 msgid "This rewritten post %1$s is now scheduled to replace the original post. It will be published on %2$s."
 msgstr "この書き換え済み投稿 %1$s は、元の投稿を置き換えるよう予約されています。%2$sに公開されます。"
 
-#: src/ui/classic-editor.php:227 js/dist/duplicate-post-strings-420.js:1
+#: src/ui/classic-editor.php:232 js/dist/duplicate-post-strings-440.js:1
 msgid "Schedule republish"
 msgstr "再公開予約"
 
 #. translators: %s: Date on which the post is to be republished.
-#: src/ui/classic-editor.php:210
+#: src/ui/classic-editor.php:215
 msgid "Republish on: %s"
 msgstr "再公開日: %s"
 
-#: src/ui/classic-editor.php:187
+#: src/ui/classic-editor.php:192
 msgid "Compare"
 msgstr "比較"
 
-#: src/ui/classic-editor.php:184
+#: src/ui/classic-editor.php:189
 msgid "Do you want to compare your changes with the original version before merging? Please save any changes first."
 msgstr "統合する前に、変更点を元のバージョンと比較しますか ? 最初に変更を保存してください。"
 
@@ -101,8 +110,8 @@ msgid "Warning: users will be able to copy, rewrite and republish all posts, eve
 msgstr "警告: ユーザーは他のユーザーの投稿も含め、すべての投稿を複製、書き換え、再公開できるようになります。"
 
 #: src/admin/options.php:281 src/ui/admin-bar.php:105 src/ui/admin-bar.php:125
-#: src/ui/bulk-actions.php:74 src/ui/classic-editor.php:159
-#: js/dist/duplicate-post-edit-420.js:1
+#: src/ui/bulk-actions.php:74 src/ui/classic-editor.php:164
+#: js/dist/duplicate-post-edit-440.js:1
 msgid "Rewrite & Republish"
 msgstr "書き換え & 再公開"
 
@@ -150,12 +159,12 @@ msgstr "これで、元の投稿のこの複製で投稿の書き換えを開始
 msgid "You can now start rewriting your post in this duplicate of the original post. If you click \"Republish\", your changes will be merged into the original post and you’ll be redirected there."
 msgstr "これで、元の投稿のこの複製で投稿の書き換えを開始できます。「再公開」をクリックすると、変更が元の投稿に統合され、そこにリダイレクトされます。"
 
-#: src/post-republisher.php:331
+#: src/post-republisher.php:332
 msgid "An error occurred while republishing the post."
 msgstr "記事の再公開中にエラーが発生しました。"
 
-#: src/post-republisher.php:83 src/ui/classic-editor.php:205
-#: js/dist/duplicate-post-strings-420.js:1
+#: src/post-republisher.php:83 src/ui/classic-editor.php:210
+#: js/dist/duplicate-post-strings-440.js:1
 msgid "Republish"
 msgstr "再公開"
 
@@ -194,17 +203,13 @@ msgstr "変更の概要を取得できません。ID %s の投稿が見つかり
 msgid "No post has been supplied!"
 msgstr "投稿が指定されていません。"
 
-#: admin-functions.php:620
+#: admin-functions.php:597
 msgid "You aren't allowed to duplicate this post"
 msgstr "この投稿を複製する権限がありません"
 
-#: src/ui/newsletter.php:47
+#: src/ui/newsletter.php:58
 msgid "Subscribe"
 msgstr "購読"
-
-#: src/admin/views/options.php:236
-msgid "Update notice"
-msgstr "更新通知"
 
 #. translators: 1: Code start tag, 2: Code closing tag, 3: Link start tag to
 #. the template tag documentation, 4: Link closing tag.
@@ -236,7 +241,7 @@ msgid "Delete reference to original item."
 msgstr "元の項目への参照を削除します。"
 
 #: src/ui/newsletter.php:29
-msgid "Email Address"
+msgid "Email address"
 msgstr "メールアドレス"
 
 #. translators: 1: Yoast
@@ -317,11 +322,6 @@ msgstr "&#8220;%s&#8221; をプレビュー"
 msgid "Edit &#8220;%s&#8221;"
 msgstr "&#8220;%s&#8221; を編集"
 
-#. translators: %s: Yoast Duplicate Post version.
-#: admin-functions.php:226
-msgid "What's new in Yoast Duplicate Post version %s:"
-msgstr "Yoast Duplicate Post バージョン %s の変更点:"
-
 #: src/handlers/link-handler.php:58 src/handlers/link-handler.php:114
 #: src/handlers/link-handler.php:188
 msgid "Current user is not allowed to copy posts."
@@ -331,13 +331,9 @@ msgstr "現在のユーザーは投稿をコピーする権限がありません
 msgid "you probably want this unchecked, unless you have very special requirements"
 msgstr "特別な要件でない限り、チェックしないことをお勧めします"
 
-#: admin-functions.php:773
+#: admin-functions.php:750
 msgid "Documentation"
 msgstr "ドキュメント"
-
-#: src/admin/options.php:262
-msgid "Show update notice"
-msgstr "更新通知を表示する"
 
 #: src/admin/options.php:307
 msgid "Bulk Actions"
@@ -363,7 +359,6 @@ msgstr "テンプレート"
 msgid "Featured Image"
 msgstr "アイキャッチ画像"
 
-#. translators: %s: Number of posts copied.
 #. translators: %s: Number of posts copied.
 #: src/watchers/bulk-actions-watcher.php:55
 #: src/watchers/link-actions-watcher.php:73
@@ -459,7 +454,7 @@ msgstr "権限"
 msgid "What to copy"
 msgstr "複製元"
 
-#: admin-functions.php:626
+#: admin-functions.php:603
 msgid "Copy features for this post type are not enabled in options page"
 msgstr "この投稿タイプに対する複製機能が設定ページで有効化されていません"
 
@@ -542,7 +537,7 @@ msgid "New Draft"
 msgstr "新規下書き"
 
 #: common-functions.php:79 src/ui/admin-bar.php:97 src/ui/admin-bar.php:115
-#: src/ui/classic-editor.php:130 js/dist/duplicate-post-edit-420.js:1
+#: src/ui/classic-editor.php:135 js/dist/duplicate-post-edit-440.js:1
 msgid "Copy to a new draft"
 msgstr "新規下書きとして複製"
 

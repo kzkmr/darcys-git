@@ -1,0 +1,52 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+
+<div class="ec-header-nav">
+  {% if is_granted('ROLE_USER') %}
+      <div class="ec-header-nav__item">
+        <a href="{{ url('mypage') }}">
+          <span class="ec-header-nav__item-link">{{ 'front.block.login.mypage'|trans }}</span>
+        </a>
+      </div>
+      {# {% if BaseInfo.option_favorite_product %}
+          <div class="ec-header-nav__item">
+              <a href="{{ url('mypage_favorite') }}">
+                  <i class="ec-header-nav__itemIcon fas fa-heart fa-fw"></i>
+                  <span class="ec-header-nav__item-link">{{ 'front.block.login.favorite'|trans }}</span>
+              </a>
+          </div>
+      {% endif %} #}
+      <div class="ec-header-nav__item">
+        <a href="{{ url('logout') }}">
+          <span class="ec-header-nav__item-link">{{ 'front.block.login.logout'|trans }}</span>
+        </a>
+      </div>
+  {% else %}
+      <div class="ec-header-nav__item">
+        <a href="{{ url('entry') }}">
+          <span class="ec-header-nav__item-link">{{ 'front.block.login.customer_registration'|trans }}</span>
+        </a>
+      </div>
+      {# {% if BaseInfo.option_favorite_product %}
+          <div class="ec-header-nav__item">
+              <a href="{{ url('mypage_favorite') }}">
+                  <i class="ec-header-nav__itemIcon fas fa-heart fa-fw"></i>
+                  <span class="ec-header-nav__item-link">{{ 'front.block.login.favorite'|trans }}</span>
+              </a>
+          </div>
+      {% endif %} #}
+      <div class="ec-header-nav__item">
+        <a href="{{ url('mypage_login') }}">
+          <span class="ec-header-nav__item-link">{{ 'front.block.login.login'|trans }}</span>
+        </a>
+      </div>
+  {% endif %}
+</div>

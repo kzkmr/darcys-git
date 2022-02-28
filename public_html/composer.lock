@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73d767f6a1f328a3de06658332211a97",
+    "content-hash": "b900b7c4ae8c5b5fddfad64c723ecda2",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2167,6 +2167,126 @@
             "time": "2019-10-24T07:13:31+00:00"
         },
         {
+            "name": "ec-cube/coupon4",
+            "version": "4.1.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/coupon4/4.1.1/Coupon4-4.1.1.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.4 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "Coupon4",
+                "id": 1923
+            },
+            "description": "Coupon Plugin for EC-CUBE4",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "ec-cube/customerclassprice4",
+            "version": "2.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/customerclassprice4/2.0.0/CustomerClassPrice4-2.0.0.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "CustomerClassPrice4",
+                "id": 1929
+            },
+            "description": "特定会員価格プラグイン for EC-CUBE4",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "ec-cube/customergroup",
+            "version": "2.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/customergroup/2.0.0/CustomerGroup-2.0.0.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "CustomerGroup",
+                "id": 2255
+            },
+            "description": "会員グループ管理プラグイン for EC-CUBE4",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "ec-cube/customergroupentry",
+            "version": "2.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/customergroupentry/2.0.0/CustomerGroupEntry-2.0.0.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "CustomerGroupEntry",
+                "id": 2270
+            },
+            "description": "会員グループ管理::会員登録アドオン for EC-CUBE4",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "ec-cube/kokokaraselect",
+            "version": "2.1.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/kokokaraselect/2.1.0/KokokaraSelect-2.1.0.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.7 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "KokokaraSelect",
+                "id": 2103
+            },
+            "description": "ココから選択",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"
+                    ]
+                }
+            }
+        },
+        {
             "name": "ec-cube/plugin-installer",
             "version": "2.0.1",
             "source": {
@@ -2201,6 +2321,30 @@
                 "source": "https://github.com/EC-CUBE/eccube-plugin-installer/tree/2.0.1"
             },
             "time": "2021-07-20T01:13:11+00:00"
+        },
+        {
+            "name": "ec-cube/zeuspayment4",
+            "version": "1.1.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/zeuspayment4/1.1.1/ZeusPayment4-1.1.1.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "ZeusPayment4",
+                "id": 1825
+            },
+            "description": "ゼウス決済プラグイン",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"
+                    ]
+                }
+            }
         },
         {
             "name": "egulias/email-validator",
@@ -12941,7 +13085,7 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.1.3"
+        "php": "7.4.25"
     },
     "plugin-api-version": "2.1.0"
 }

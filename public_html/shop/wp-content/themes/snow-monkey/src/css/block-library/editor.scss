@@ -1,0 +1,5 @@
+@charset 'utf-8';
+
+html :where(.editor-styles-wrapper, .customize-control-sidebar_block_editor) {
+  @import 'app';
+}

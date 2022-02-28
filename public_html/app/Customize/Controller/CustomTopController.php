@@ -45,7 +45,7 @@ class CustomTopController extends AbstractController
         //   $posts = false;
         // }
 
-        $options = stream_context_create($options);
+        $options = stream_context_create();
         if (wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false)) {
           $response = wp_remote_get($request->getSchemeAndHttpHost().$request->getBasePath().'/shop/wp-json/wp/v2/posts?per_page=3&_embed', false);
           $posts = json_decode($response["body"]);
