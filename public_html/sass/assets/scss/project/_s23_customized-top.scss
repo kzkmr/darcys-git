@@ -45,6 +45,14 @@ Styleguide 23
         flex: 0 0 33.333%;
       }
 
+      & + .col-3 {
+        margin-top: 15px;
+
+        @include media_desktop {
+          margin-top: 0;
+        }
+      }
+
       a {
         display: flex;
 
@@ -53,12 +61,18 @@ Styleguide 23
         }
 
         .thumbnail {
-          flex: 0 0 1
+          flex: 0 0 120px;
+          height: 120px;
           margin: 0;
           padding: 0;
           border: none;
           aspect-ratio: 1/1;
           overflow: hidden;
+
+          @include media_desktop {
+            flex: none;
+            height: auto;
+          }
 
           img {
             width: 100%;
@@ -76,6 +90,10 @@ Styleguide 23
           padding-top: 8px;
 
           @include media_desktop {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 8px;
 
           }
 
