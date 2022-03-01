@@ -2,18 +2,19 @@
 @use "./bootstrap-variables" as bv;
 
 $btn-primary-color: #fff;
-$btn-action-bg: #DE5D50;
+$btn-action-bg: #9f6e72;
 $btn-action-color: #fff;
 $btn-cancel-bg: #525263;
 $btn-cancel-color: #fff;
 $btn-default-bg: #F5F7F8;
 $btn-default-color: #525263;
 
-$btn-border-radius-base: 0px;
+$btn-border-radius-base: 5px;
 
 
 @mixin btn($color, $background, $border){
   display: inline-block;
+  margin: 0 auto;
   margin-bottom: 0; // For input.btn
   font-weight: bold;
   text-align: center;
@@ -86,9 +87,9 @@ $btn-border-radius-base: 0px;
   display: block;
   width: 100%;
   height:56px;
-  line-height:56px;
   padding-top: 0;
   padding-bottom: 0;
+  line-height:56px;
 }
 @mixin blockBtn-action(){
   @include btn($btn-action-color, $btn-action-bg, $btn-action-bg);

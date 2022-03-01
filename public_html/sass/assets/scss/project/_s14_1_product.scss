@@ -16,7 +16,8 @@ Styleguide 14.1
 */
 .ec-productRole {
   @include container;
-  & &__img {
+
+  &__img {
     margin-right: 0;
     margin-bottom: 20px;
     @include media_desktop {
@@ -24,13 +25,15 @@ Styleguide 14.1
       margin-bottom: 0;
     }
   }
-  & &__profile {
+
+  &__profile {
     margin-left: 0;
     @include media_desktop {
       margin-left: 16px;
     }
   }
-  & &__title {
+
+  &__title {
     .ec-headingTitle {
       font-size: 20px;
       @include media_desktop {
@@ -38,13 +41,15 @@ Styleguide 14.1
       }
     }
   }
-  & &__tags {
+
+  &__tags {
     margin-top: 16px;
     padding: 0;
     padding-bottom: 16px;
     border-bottom: 1px dotted #ccc;
   }
-  & &__tag {
+
+  &__tag {
     display: inline-block;
     padding: 2px 5px;
     list-style: none;
@@ -54,46 +59,58 @@ Styleguide 14.1
     border-radius: 3px;
     background-color: #F5F7F8;
   }
-  & &__priceRegular {
+
+  &__priceRegular {
     padding-top: 14px
   }
-  & &__priceRegularTax {
+
+  &__priceRegularTax {
     margin-left: 5px;
     font-size: 10px;
   }
-  & &__price {
+
+  &__price {
     color: #DE5D50;
     font-size: 28px;
     padding: 0;
     border-bottom: 0;
+
     @include media_desktop {
       padding: 14px 0;
       border-bottom: 1px dotted #ccc;
     }
   }
-  & &__code {
+
+  &__code {
     padding: 14px 0;
     border-bottom: 1px dotted #ccc;
   }
-  & &__category {
+
+  &__category {
     padding: 14px 0;
     border-bottom: 1px dotted #ccc;
+
     a {
       color: #33A8D0;
     }
+
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
   }
-  & &__actions {
+
+  &__actions {
     padding: 14px 0;
+
     .ec-select {
+
       select {
         height: 40px;
         max-width: 100%;
         min-width: 100%;
+
         @include media_desktop {
           min-width: 350px;
           max-width: 350px;
@@ -101,17 +118,68 @@ Styleguide 14.1
       }
     }
   }
-  & &__btn {
+
+  &__btn {
     width: 100%;
     margin-bottom: 10px;
+
     @include media_desktop {
       width: 60%;
-      margin-bottom: 16px;
+      margin: 16px auto 0;
       min-width: 350px;
     }
   }
-  & &__description {
+
+  &__description {
     margin-bottom: 16px;
   }
 
+}
+
+
+//ここからセレクト
+
+.ec-productRole {
+
+  .ec-grid2 {
+    flex-wrap: wrap;
+  }
+
+  .kokokara_select_product_left {
+    flex: 0 0 100%;
+
+    .ec-sliderItemRole {
+      width: 50%;
+      margin: 0 auto;
+    }
+  }
+
+  .kokokara_select_product_right {
+    flex: 0 0 100%;
+    margin-top: 30px;
+  }
+
+  .kokokara_select_cart_btn_area {
+    margin: 20px auto;
+  }
+}
+
+
+//モーダル
+.ec-modal-02 {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+
+  .ec-modal-02__text {
+    padding: 20px 30px;
+    @include font(20px,500,1,0);
+    border: 2px solid crimson;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      opacity: .7;
+    }
+  }
 }
