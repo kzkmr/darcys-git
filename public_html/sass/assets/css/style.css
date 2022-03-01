@@ -9750,22 +9750,45 @@ Styleguide 23
      object-fit: cover;
 }
 .ec-top-blog .row .col-3 a .text-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 8px;
+  flex: 0 0 calc(100% - 120px);
+  display: block;
+  padding: 8px 0 0 15px;
 }
 @media only screen and (min-width: 768px) {
   .ec-top-blog .row .col-3 a .text-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 8px;
+    flex: none;
+    padding: 8px 0 0;
+  }
+}
+.ec-top-blog .row .col-3 a .text-box .meta {
+  display: flex;
+  align-items: center;
+}
+.ec-top-blog .row .col-3 a .text-box .meta time {
+  color: #231815;
+  margin-right: 15px;
+}
+@media only screen and (min-width: 768px) {
+  .ec-top-blog .row .col-3 a .text-box .meta time {
+    margin-right: auto;
   }
 }
 .ec-top-blog .row .col-3 a .text-box .category {
-  font-size: 14px;
-  color: #525263;
+  padding: 5px 12px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #fff;
+}
+.ec-top-blog .row .col-3 a .text-box .category_ice {
+  background-color: #ef857d;
+}
+.ec-top-blog .row .col-3 a .text-box .category_coffee {
+  background-color: #6a3906;
+}
+.ec-top-blog .row .col-3 a .text-box .category_bread {
+  background-color: #f8b62d;
 }
 .ec-top-blog .row .col-3 a .text-box .title {
   color: #525263;

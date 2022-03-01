@@ -84,22 +84,45 @@ Styleguide 23
         }
 
         .text-box {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding-top: 8px;
+          flex: 0 0 calc(100% - 120px);
+          display: block;
+          padding: 8px 0 0 15px;
 
           @include media_desktop {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 8px;
+            flex: none;
+            padding: 8px 0 0;
+          }
 
+          .meta {
+            display: flex;
+            align-items: center;
+
+            time {
+              color: $bl;
+              margin-right: 15px;
+
+              @include media_desktop {
+                margin-right: auto;
+              }
+            }
           }
 
           .category {
-            font-size: 14px;
-            color: #525263;
+            padding: 5px 12px;
+            @include font(15px,500,1,0);
+            color: #fff;
+
+            &_ice {
+              background-color: #ef857d;
+            }
+
+            &_coffee {
+              background-color: #6a3906;
+            }
+
+            &_bread {
+              background-color: #f8b62d;
+            }
           }
 
           .title {
