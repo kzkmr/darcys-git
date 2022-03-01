@@ -1,0 +1,70 @@
+@use '../mixins' as *;
+/*
+Basic Figure Customized(2021.11.01~)
+
+Styleguide 23
+
+*/
+
+/* components common
+**************************************/
+
+/*ページヘッダー*/
+
+.c-page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  z-index: 0;
+  aspect-ratio: 20/9;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+  }
+
+  &__title {
+    font-size: 28px;
+    letter-spacing: .1em;
+    text-align: center;
+  }
+
+  &__text {
+    margin-top: 25px;
+    font-size: 17px;
+    line-height: 1.333;
+    text-align: center;
+  }
+}
+
+.c-static-page-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 450px;
+  background-color: #eee;
+
+  &__title {
+    font-size: 28px;
+    letter-spacing: .1em;
+    text-align: center;
+  }
+
+  &__text {
+    margin-top: 25px;
+    font-size: 17px;
+    line-height: 1.333;
+    text-align: center;
+  }
+}
