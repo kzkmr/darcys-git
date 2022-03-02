@@ -1,0 +1,10 @@
+services:
+  Plugin\CustomerGroup\Twig\Extension\GroupExtension:
+    autowire: true
+    public: true
+    arguments:
+      - '@Eccube\Common\EccubeConfig'
+      - '@Plugin\CustomerGroup\Repository\CategoryRepository'
+
+  Plugin\CustomerGroup\Service\Access\Context:
+    public: true

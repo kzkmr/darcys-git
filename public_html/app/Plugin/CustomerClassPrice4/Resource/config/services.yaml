@@ -1,0 +1,11 @@
+services:
+  Plugin\CustomerClassPrice4\Doctrine\EventListener\CustomerClassPriceEventListener:
+    arguments:
+      - '@doctrine.orm.default_entity_manager'
+      - '@Eccube\Service\TaxRuleService'
+      - '@Plugin\CustomerClassPrice4\Service\DiscountHelper'
+      - '@security.token_storage'
+      - '@request_stack'
+    tags:
+      - {name: doctrine.event_listener, event: postLoad, priority: 0}
+      - {name: doctrine.event_listener, event: preUpdate, priority: 0}

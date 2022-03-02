@@ -1,0 +1,4 @@
+<script src="{{ asset('CustomerClassPrice4/assets/js/script.js', 'plugin') }}"></script>
+<script>
+    ccp.customerClassPrices = {{ get_customer_class_prices_as_json(Product)|raw }};
+</script>

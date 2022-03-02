@@ -1,12 +1,12 @@
 !dummy
 !.gitmodule
 composer.phar
-/vendor/
+#/vendor/
 node_modules
 /var/*
 !/var/.gitkeep
 !/var/.htaccess
-/app/Plugin/*
+#/app/Plugin/*
 !/app/Plugin/.gitkeep
 /app/PluginData/*
 !/app/PluginData/.gitkeep

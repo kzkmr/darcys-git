@@ -1,0 +1,38 @@
+<script>
+    $(function () {
+        $('#customer_class_prices').appendTo('.c-contentsArea__primaryCol');
+    });
+</script>
+
+{% if has_class == false %}
+    {% set CustomerClassPrices = form.class.CustomerClassPrices %}
+    <div id="customer_class_prices">
+        <div class="card rounded border-0 mb-4">
+            <div class="card-header">
+                <span class="card-title">特定会員価格設定</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col mb-2">
+                        <ul>
+                            {% for child in CustomerClassPrices %}
+                                <li class="mb-2 customer_class_price">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <label>{{ child.vars.data.customerClass }}</label>
+                                        </div>
+                                        <div class="col">
+                                            {{ form_widget(child.price) }}
+                                            {{ form_errors(child.price) }}
+                                            {{ form_widget(child.customerClass) }}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

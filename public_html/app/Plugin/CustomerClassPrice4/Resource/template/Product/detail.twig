@@ -1,0 +1,41 @@
+{#
+    {{ include('@CustomerClassPrice4/Product/detail.twig', {'Product': Product}, ignore_missing=true) }}
+#}
+{% if not is_granted('ROLE_USER') %}
+    {% set CustomerClasses = repository('Plugin\\CustomerClassPrice4\\Entity\\CustomerClass').findAll() %}
+    <div class="ec-productRole__customerClassPrice">
+        {% for CustomerClass in CustomerClasses %}
+            {% set CustomerClassPricesIncTax = get_customer_class_prices_inc_tax(CustomerClass, Product.getProductClasses.toArray) %}
+            {% if CustomerClassPricesIncTax %}
+                {% if Product.hasProductClass -%}
+                    {% if min(CustomerClassPricesIncTax) == max(CustomerClassPricesIncTax) %}
+                        <div class="ec-price">
+                            {{ CustomerClass.name }}価格：
+                            <span
+                                class="ec-price__price ec-customerClassPrice"
+                                data-id="{{ CustomerClass.id }}"
+                            >{{ max(CustomerClassPricesIncTax)|price }}</span>
+                            <span class="ec-price__tax">{{ 'common.tax_include'|trans }}</span>
+                        </div>
+                    {% else %}
+                        <div class="ec-price">
+                            {{ CustomerClass.name }}価格：
+                            <span
+                                class="ec-price__price ec-customerClassPrice"
+                                data-id="{{ CustomerClass.id }}"
+                            >{{ min(CustomerClassPricesIncTax)|price }} ～ {{ max(CustomerClassPricesIncTax)|price }}</span>
+                            <span class="ec-price__tax">{{ 'common.tax_include'|trans }}</span>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="ec-price">
+                        {{ CustomerClass.name }}価格：
+                        <span
+                            class="ec-price__price ec-customerClassPrice">{{ min(CustomerClassPricesIncTax)|price }}</span>
+                        <span class="ec-price__tax">{{ 'common.tax_include'|trans }}</span>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

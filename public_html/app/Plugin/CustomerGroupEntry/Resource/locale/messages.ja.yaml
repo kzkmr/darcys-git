@@ -1,0 +1,2 @@
+customer_group_entry.front.group.label: '会員グループ'
+customer_group_entry.admin.group.option_entry_error: '「%name%」が有効化されているので有効化できません。'

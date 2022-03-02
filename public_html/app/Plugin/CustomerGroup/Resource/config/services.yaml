@@ -1,0 +1,34 @@
+services:
+  Plugin\CustomerGroup\Security\Authorization\Voter\ProductVoter:
+    autowire: true
+    tags:
+      - { name: security.voter }
+
+  Plugin\CustomerGroup\Security\Authorization\Voter\CategoryVoter:
+    autowire: true
+    tags:
+      - { name: security.voter }
+
+  Plugin\CustomerGroup\Service\Access\Gate\Product\StartGate:
+    tags:
+      - { name: plugin.customer.group.gate, priority: 100}
+
+  Plugin\CustomerGroup\Service\Access\Gate\Product\FinishGate:
+    tags:
+      - { name: plugin.customer.group.gate, priority: -100}
+
+  Plugin\CustomerGroup\Service\Access\Gate\Category\StartGate:
+    tags:
+      - { name: plugin.customer.group.gate, priority: 100}
+
+  Plugin\CustomerGroup\Service\Access\Gate\Category\FinishGate:
+    tags:
+      - { name: plugin.customer.group.gate, priority: -100}
+
+  Plugin\CustomerGroup\Service\Access\Gate\Cart\StartGate:
+    tags:
+      - { name: plugin.customer.group.gate, priority: 100}
+
+  Plugin\CustomerGroup\Service\Access\Gate\Page\StartGate:
+    tags:
+      - { name: plugin.customer.group.gate, priority: 100}

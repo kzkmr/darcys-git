@@ -1,0 +1,134 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['customer_class_price4', 'customer_class_price4_customer_class'] %}
+
+{% block title %}{{'特定会員価格プラグイン'|trans}}{% endblock %}
+{% block sub_title %}{{'会員種別登録'|trans}}{% endblock %}
+
+{% block stylesheet %}{% endblock stylesheet %}
+
+{% block javascript %}{% endblock javascript %}
+
+{% block main %}
+    <div class="c-contentsArea__cols">
+        <div class="c-contentsArea__primaryCol">
+            <div class="c-primaryCol">
+                <div id="ex-member-new" class="d-block mb-3">
+                    <a class="btn btn-ec-regular" href="{{ url('plg_ccp_customer_class_new') }}">{{ 'admin.common.registration__new'|trans }}</a>
+                </div>
+                <div class="card rounded border-0 mb-4">
+                    <div class="card-body p-0" id="closed_list_box__body">
+                        <form name="form1" id="form1" method="post" action="">
+                            <table class="table table-sm" id="search_result">
+                                <thead>
+                                    <tr>
+                                        <th class="border-top-0 pt-2 pb-2 text-center" id="closed_list__header_id">
+                                            ID
+                                        </th>
+                                        <th class="border-top-0 pt-2 pb-2 text-center" id="closed_list__header_name">
+                                            会員種別名
+                                        </th>
+                                        <th class="border-top-0 pt-2 pb-2 text-center" id="closed_list__header_name">
+                                            割引率
+                                        </th>
+                                        <th class="border-top-0 pt-2 pb-2 text-center" id="closed_list__header_menu_box"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for CustomerClass in CustomerClasses %}
+                                        <tr>
+                                            <td class="align-middle text-center pl-3" id="closed_list__id--{{ CustomerClass.id }}">
+                                                {{ CustomerClass.id }}
+                                            </td>
+                                            <td class="align-middle text-center pl-3" id="closed_list__name--{{ CustomerClass.id }}">
+                                                {{ CustomerClass.name }}
+                                            </td>
+                                            <td class="align-middle text-center pl-3" id="closed_list__name--{{ CustomerClass.id }}">
+                                                {% if CustomerClass.discount_rate %}
+                                                {{ CustomerClass.discount_rate }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </td>
+                                            <td class="align-middle text-center" id="closed_list__menu_box--{{ CustomerClass.id }}">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-auto text-center">
+                                                        <a class="btn btn-ec-actionIcon action-edit"
+                                                           href="{{ url('plg_ccp_customer_class_edit', { 'id' : CustomerClass.id }) }}"
+                                                           data-toggle="tooltip"
+                                                           data-placement="top"
+                                                           data-original-title="{{'admin.setting.system.member.691'|trans}}">
+                                                            <i class="fa fa-pencil fa-lg text-secondary" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-auto text-center">
+                                                        <div class="d-inline-block mr-3" data-tooltip="true" data-placement="top"
+                                                             title="{{ 'admin.common.delete'|trans }}">
+                                                            <a class="btn btn-ec-actionIcon action-delete"
+                                                               data-toggle="modal"
+                                                               data-target="#closed_user_delete_{{ CustomerClass.id }}">
+                                                                <i class="fa fa-close fa-lg text-secondary" aria-hidden="true"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="modal fade" id="closed_user_delete_{{ CustomerClass.id }}" tabindex="-1"
+                                                             role="dialog"
+                                                             aria-labelledby="closed_delete_{{ CustomerClass.id }}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title font-weight-bold">
+                                                                            {{ '会員種別を削除します。'|trans }}</h5>
+                                                                        <button class="close" type="button"
+                                                                                data-dismiss="modal"
+                                                                                aria-label="Close"><span
+                                                                                aria-hidden="true">×</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body text-left">
+                                                                        <p class="text-left">
+                                                                            {{ '会員種別を削除してよろしいですか？'|trans }}</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn btn-ec-sub" type="button" data-dismiss="modal">{{ 'admin.common.cancel'|trans }}
+                                                                        </button>
+                                                                        <a class="btn btn-ec-delete"
+                                                                           href="{{ url('plg_ccp_customer_class_delete', {id: CustomerClass.id}) }}"
+                                                                           {{ csrf_token_for_anchor() }}
+                                                                           data-method="delete" data-confirm="false">
+                                                                            {{ 'admin.common.delete'|trans }}
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c-conversionArea">
+        <div class="c-conversionArea__container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-6">
+                    <div class="c-conversionArea__leftBlockItem">
+                        <a class="c-baseLink"
+                           href="{{ url('admin_store_plugin') }}">
+                            <i class="fa fa-backward" aria-hidden="true"></i>
+                            <span>{{ 'admin.store.plugin.plugin_list'|trans }}</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
