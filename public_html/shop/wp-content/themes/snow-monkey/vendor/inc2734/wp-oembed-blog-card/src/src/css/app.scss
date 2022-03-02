@@ -1,0 +1,91 @@
+@charset 'UTF-8';
+
+@import '../../../node_modules/sass-basis/src/css/basis-core';
+
+.wp-oembed-blog-card {
+  background-color: _var-color-white();
+  box-shadow: 0 0 4px 0 rgba(#000, .1);
+  border-radius: _var-border-radius();
+  overflow: hidden;
+  transition: all _var-transition-duration() _var-transition-function-timing();
+
+  @include _hover(lg) {
+    box-shadow: 0 1px 6px 0 rgba(#000, .1);
+  }
+
+  > a,
+  > span {
+    display: block;
+    color: _var-color-black();
+    text-decoration: none;
+    overflow: hidden;
+    @include _padding(.5);
+
+    @include _media-min(lg) {
+      @include _padding(.75);
+    }
+  }
+
+  &__figure {
+    float: right;
+    position: relative;
+    overflow: hidden;
+    @include _margin(0, 0, 0, .5);
+    width: 40%;
+
+    @media (min-width: 481px) {
+      @include _margin(0, 0, 0, .75);
+      width: 20%;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      padding: 75% 0 0;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    overflow: hidden;
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+
+  &__description {
+    display: none;
+    margin-top: 10px;
+    @include _font-size-line-height(14px);
+
+    @media (min-width: 481px) {
+      display: block;
+    }
+  }
+
+  &__domain {
+    margin-top: 15px;
+    clear: both;
+    color: _var-color-gray();
+    font-size: 12px;
+    padding-top: 5px;
+  }
+
+  &__favicon {
+    position: relative;
+    top: -1px;
+    height: 13px;
+    margin-right: 3px;
+  }
+}

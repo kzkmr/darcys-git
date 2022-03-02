@@ -1,0 +1,22 @@
+.#{$_prefix}l-body > .#{$_prefix}c-drawer {
+  background-color: _var-color-text();
+  @include _padding(.5);
+  color: _var-color-white();
+
+  a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    @include _padding(.25, 0);
+  }
+
+  ul {
+    @include _list-unstyled();
+  }
+
+  li {
+    li {
+      @include _padding(0, 0, 0, .5);
+    }
+  }
+}

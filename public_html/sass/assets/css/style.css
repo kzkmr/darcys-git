@@ -369,6 +369,7 @@ template {
 body {
   font-family: "Courier", "TsukuARdGothic-Regular", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "メイリオ", Meiryo, "Yu Gothic UI", YuGothic, "Yu Gothic", sans-serif;
   line-height: 1.6;
+  letter-spacing: 0.05em;
   color: #231815;
   transition: z-index 0ms 5.28455ms;
   background: #fff;
@@ -9695,12 +9696,21 @@ Styleguide 23
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 100%;
   max-width: 1600px;
   margin: 0 auto;
   z-index: 0;
   aspect-ratio: 20/9;
   overflow: hidden;
+}
+@media only screen and (min-width: 768px) {
+  .c-page-header {
+    margin: 0 calc(50% - 50vw);
+  }
+}
+@media (min-width: 1600px) {
+  .c-page-header {
+    margin: 0 -235px;
+  }
 }
 .c-page-header img {
   position: absolute;
@@ -9711,15 +9721,15 @@ Styleguide 23
   transform: translate(-50%, -50%);
 }
 .c-page-header__title {
-  font-size: 28px;
-  letter-spacing: 0.1em;
+  font-size: 34px;
+  font-weight: bold;
   text-align: center;
+  color: #fff;
 }
-.c-page-header__text {
-  margin-top: 25px;
-  font-size: 17px;
-  line-height: 1.333;
-  text-align: center;
+.c-page-header__title span {
+  display: block;
+  margin-top: 18px;
+  font-size: 20px;
 }
 .c-static-page-header {
   display: flex;

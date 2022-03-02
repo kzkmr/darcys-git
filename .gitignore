@@ -1,9 +1,7 @@
 /.env
 /.ht*
 .DS_Store
-vendor/
 var/
 bin/
 app/Plugin/.composer/cache/
-app/PluginData/
 node_modules/

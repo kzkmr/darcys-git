@@ -16,12 +16,19 @@ Styleguide 23
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 100%;
   max-width: 1600px;
   margin: 0 auto;
   z-index: 0;
   aspect-ratio: 20/9;
   overflow: hidden;
+
+  @include media_desktop {
+    margin: 0 calc(50% - 50vw);
+  }
+
+  @media (min-width:1600px) {
+    margin: 0 -235px;
+  }
 
   img {
     position: absolute;
@@ -33,16 +40,16 @@ Styleguide 23
   }
 
   &__title {
-    font-size: 28px;
-    letter-spacing: .1em;
+    font-size: 34px;
+    font-weight: bold;
     text-align: center;
-  }
+    color: #fff;
 
-  &__text {
-    margin-top: 25px;
-    font-size: 17px;
-    line-height: 1.333;
-    text-align: center;
+    span {
+      display: block;
+      margin-top: 18px;
+      font-size: 20px;
+    }
   }
 }
 

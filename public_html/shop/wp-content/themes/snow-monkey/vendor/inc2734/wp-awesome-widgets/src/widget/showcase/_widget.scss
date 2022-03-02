@@ -1,0 +1,72 @@
+.wpaw-showcase {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+
+  &__bgimage {
+    @include cover-img();
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    background-color: rgba(#000, .2);
+  }
+
+  &__inner {
+    position: relative;
+  }
+
+  &__figure {
+    text-align: center;
+  }
+
+  &__title {
+    color: _var-color-white();
+  }
+
+  &__lead {
+    color: _var-color-white();
+  }
+
+  &__action {
+    text-align: center;
+  }
+
+  &__more {
+    display: inline-block;
+    background-color: _var-color-white();
+    line-height: 1;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /**
+   * For right image
+   */
+  &--format-1 {
+  }
+
+  /**
+   * For left image
+   */
+  &--format-2 {
+  }
+
+  /**
+   * For bottom image
+   */
+  &--format-3 {
+  }
+}

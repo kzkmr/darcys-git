@@ -1,0 +1,79 @@
+@charset 'UTF-8';
+
+@import '../../../node_modules/sass-basis/src/css/basis-core';
+
+.wpaw-term {
+  display: inline-block;
+  background-color: _var-color-black();
+  color: _var-color-white();
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 6px 2px;
+}
+
+@mixin cover-img() {
+  position: relative;
+  overflow: hidden;
+
+  > img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+}
+
+.wpaw-posts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    margin: 0;
+    padding: 0;
+
+    > a {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      text-decoration: none;
+    }
+  }
+
+  &__figure {
+    @include cover-img();
+    margin-right: 1em;
+    flex: none;
+    height: 90px;
+    width: 90px;
+    background-color: _var-lighter-color-gray();
+  }
+
+  &__body {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    > * {
+      flex: none;
+    }
+  }
+
+  &__date {
+    margin-top: auto;
+  }
+}
+
+@import '../../widget/slider/widget';
+@import '../../widget/pr-box/widget';
+@import '../../widget/showcase/widget';
+@import '../../widget/pickup-slider/widget';
+@import '../../widget/google-adsense/widget';
+@import '../../widget/carousel-any-posts/widget';
+@import '../../widget/local-nav/widget';
