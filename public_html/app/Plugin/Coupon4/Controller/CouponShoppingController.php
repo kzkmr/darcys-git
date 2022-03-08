@@ -82,6 +82,68 @@ class CouponShoppingController extends AbstractController
     }
 
     /**
+     * クーポン登録.
+     *
+     * @Route("/plugin/coupon/shopping/apply/{couponCd}", name="plugin_coupon_shopping_apply", methods={"POST"})
+     * 
+     * @param Request $request
+     * 
+     * @return JsonResponse
+     */
+    public function applyCoupon(Request $request, $couponCd)
+    {
+        $preOrderId = $this->cartService->getPreOrderId();
+        /** @var Order $Order */
+        $Order = $this->orderHelper->getPurchaseProcessingOrder($preOrderId);
+
+        if (!$Order) {
+            return $this->json(['status' => '1']);
+        }
+
+        if ($this->isGranted('ROLE_USER')) {
+            $Customer = $this->getUser();
+        }else{
+            return $this->json(['status' => '2']);
+        }
+
+        // サービスの取得
+        /** @var CouponService $service */
+        $service = $this->couponService;
+        
+        // クーポンコードを取得する
+        $CouponOrder = $this->couponOrderRepository->getCouponOrder($Order->getPreOrderId());
+        if ($CouponOrder) {
+            $this->couponService->removeCouponOrder($Order);
+        }
+
+        if($couponCd != "X"){
+            // ---------------------------------
+            // クーポンコード入力項目追加
+            // ----------------------------------
+            // クーポン情報を取得
+            $Coupon = $this->couponRepository->findActiveCoupon($couponCd);
+            if ($Coupon) {
+                $couponProducts = $service->existsCouponProduct($Coupon, $Order);
+                // 値引き額を取得
+                $discount = $service->recalcOrder($Coupon, $couponProducts);
+                // クーポン情報を登録
+                $service->saveCouponOrder($Order, $Coupon, $couponCd, $Customer, $discount);
+                $Order->setUseCoupon("Y");
+                $this->entityManager->flush($Order);
+                return $this->json(['status' => '0']);
+            }
+        }else{
+            $Order->setUseCoupon("N");
+
+            $this->entityManager->flush($Order);
+
+            return $this->json(['status' => '0']);
+        }
+
+        return $this->json(['status' => '9']);
+    }
+
+    /**
      * クーポン入力、登録画面.
      *
      * @param Request     $request
@@ -153,11 +215,13 @@ class CouponShoppingController extends AbstractController
                     }
                 }
 
-                $couponUsedOrNot = $this->couponService->checkCouponUsedOrNot($formCouponCd, $Customer);
-                if ($Coupon && $couponUsedOrNot) {
-                    // 既に存在している
-                    $form->get('coupon_cd')->addError(new FormError(trans('plugin_coupon.front.shopping.sameuser')));
-                    $error = true;
+                if ($Coupon->getReuse() != 'Y') {
+                    $couponUsedOrNot = $this->couponService->checkCouponUsedOrNot($formCouponCd, $Customer);
+                    if ($Coupon && $couponUsedOrNot) {
+                        // 既に存在している
+                        $form->get('coupon_cd')->addError(new FormError(trans('plugin_coupon.front.shopping.sameuser')));
+                        $error = true;
+                    }
                 }
 
                 // ----------------------------------

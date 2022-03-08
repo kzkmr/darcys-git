@@ -1,0 +1,351 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'registration_page' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+	<style>
+        .dzx-header{
+            font-size: 18px;
+            font-weight: bold;
+            background: #eee;
+            padding: 5px 10px;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script>
+        $(function() {
+            $("#bank_id").on("change", function(){
+                var t = $(this);
+                var bankid = t.text() || '0';
+                $.ajax({
+                    type: "POST",
+                    url: "/bank/list/" + bankid,
+                    data: JSON.stringify({"id": bankid}),
+                    dataType : "json",
+                }).done(function(data){
+                    console.log(data);
+                    if(data.status!="OK") return;
+
+                    var txt = $("#bank_branch_code");
+                    var id = $("#bank_branch_id");
+
+                    $.each(data.data, function(i, dt){
+                        if( txt.text() == dt.id ){
+                            id.text(dt.branchCode);
+                            txt.text(dt.name);
+                        }
+                    });
+                    return true;
+                });
+            });
+
+            $("#bank_id").trigger("change");
+        });
+
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    <div class="ec-registerRole">
+        {% if ChainStoreTypeErr %}
+            <div class="ec-off1Grid">
+                <div class="ec-off1Grid__cell">
+                    <div class="alert alert-danger" role="alert">無効な販売店URLです</div>
+                </div>
+            </div>
+        {% else %}    
+            <div class="ec-pageHeader">
+                <h1>新規会員登録({{ChainstoreType.name}})(確認)</h1>
+            </div>
+            <div class="ec-off1Grid">
+                <div class="ec-off1Grid__cell">
+                    <form method="post" action="{{ url('entry_chainstore', {'chainstore_type': ChainstoreType.url_parameter}) }}" novalidate class="h-adr">
+                        {{ form_widget(form._token) }}
+                        <p>{{ 'front.entry.confirm_message'|trans|nl2br }}</p>
+                        <div class="dzx-header">
+                            販売店情報
+                        </div>
+                        <div class="ec-borderedDefs">
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.contract_type, 'admin.chainstore.contract_type', { 'label_attr': { 'class': 'ec-label' }}) }}                                </dt>
+                                <dd>
+                                    {{ form.chain_store.contract_type.vars.data }}
+                                    {{ form_widget(form.chain_store.contract_type, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.name, 'common.representative.name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.name.name01.vars.data }}
+                                    {{ form.chain_store.name.name02.vars.data }}
+                                    {{ form_widget(form.chain_store.name.name01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.name.name02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.kana, 'common.representative.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.kana.kana01.vars.data }}
+                                    {{ form.chain_store.kana.kana02.vars.data }}
+                                    {{ form_widget(form.chain_store.kana.kana01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.kana.kana02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.company_name, 'admin.common.chainstore_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.company_name.vars.data }}
+                                    {{ form_widget(form.chain_store.company_name, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.company_name_kana, 'admin.common.chainstore_name_kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.company_name_kana.vars.data }}
+                                    {{ form_widget(form.chain_store.company_name_kana, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.stock_number, 'admin.chainstore.stock_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.stock_number.vars.data }}
+                                    {{ form_widget(form.chain_store.stock_number, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.contract_begin_ymd, 'admin.chainstore.contract_begin_ymd', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.contract_begin_ymd.vars.data ? form.chain_store.contract_begin_ymd.vars.data|date_day() }}
+                                    {{ form_widget(form.chain_store.contract_begin_ymd.year, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.contract_begin_ymd.month, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.contract_begin_ymd.day, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl style="display:none;">
+                                <dt>
+                                    {{ form_label(form.chain_store.dealer_code, 'admin.chainstore.dealer_code', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.dealer_code.vars.data }}
+                                    {{ form_widget(form.chain_store.dealer_code, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.bank, 'admin.chainstore.chainstore_bank_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <span id="bank_id" style="display:none;">{{ form.chain_store.bank.vars.value }}</span>
+                                    {{ form.chain_store.bank.vars.data }}
+                                    {{ form_widget(form.chain_store.bank, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.bank_branch, '支店名', { 'label_attr': {'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <span id="bank_branch_id"></span>
+                                    <span id="bank_branch_code">{{ form.chain_store.bank_branch.vars.data }}</span>
+                                    {{ form_widget(form.chain_store.bank_branch, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.bank_account_type, 'admin.chainstore.chainstore_bank_account_type', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.bank_account_type.vars.data }}
+                                    {{ form_widget(form.chain_store.bank_account_type, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.bank_account, 'admin.chainstore.chainstore_bank_account', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.bank_account.vars.data }}
+                                    {{ form_widget(form.chain_store.bank_account, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.chain_store.bank_holder, 'admin.chainstore.chainstore_bank_holder', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.bank_holder.vars.data }}
+                                    {{ form_widget(form.chain_store.bank_holder, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="dzx-header">
+                            会員情報
+                        </div>
+                        <div class="ec-borderedDefs">
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.name, 'common.supervisor.name', { 'label_attr': { 'class': 'ec-label '}}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.name.name01.vars.data }} {# form.vars.value = form.vars.data = Customer #}
+                                    {{ form.name.name02.vars.data }}
+                                    {{ form_widget(form.name.name01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.name.name02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.kana, 'common.supervisor.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.kana.kana01.vars.data }}
+                                    {{ form.kana.kana02.vars.data }}
+                                    {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label'}}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.company_name.vars.data }}
+                                    {{ form_widget(form.company_name, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {# 郵便番号 #}
+                                    <span>{{ 'common.postal_symbol'|trans }}</span>{{ form.postal_code.vars.data }}
+                                    {{ form_widget(form.postal_code, { type : 'hidden' }) }}
+                                    {# 都道府県・住所 #}
+                                    {{ form.address.pref.vars.data }} {{ form.address.addr01.vars.data }} {{ form.address.addr02.vars.data }}
+                                    {{ form_widget(form.address.pref, { type : 'hidden' }) }}
+                                    {{ form_widget(form.address.addr01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.address.addr02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>{{ form.phone_number.vars.data }}
+                                    {{ form_widget(form.phone_number, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.email, 'common.mail_address', {'label_attr': {'class': 'ec-label'}}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.email.vars.data }}
+                                    {{ form_widget(form.email.first, { type : 'hidden' }) }}
+                                    {{ form_widget(form.email.second, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.password, 'common.password', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    ********
+                                    {{ form_widget(form.password.first, { type : 'hidden' }) }}
+                                    {{ form_widget(form.password.second, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.birth, 'common.birth_day', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.birth.vars.data ? form.birth.vars.data|date_day() }}
+                                    {{ form_widget(form.birth.year, { type : 'hidden' }) }}
+                                    {{ form_widget(form.birth.month, { type : 'hidden' }) }}
+                                    {{ form_widget(form.birth.day, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.sex, 'common.gender', {'label_attr': {'class': 'ec-label'}}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.sex.vars.data }}
+                                    {{ form_widget(form.sex, { type: 'hidden'}) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.job, 'common.job', {'label_attr': {'class': 'ec-label'}}) }}
+                                </dt>
+                                <dd>{{ form.job.vars.data }}
+                                    {{ form_widget(form.job, { type: 'hidden'}) }}
+                                </dd>
+                            </dl>
+
+                            {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
+
+                            {# エンティティ拡張の自動出力 #}
+                            {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
+                                {% if f.vars.eccube_form_options.form_theme %}
+                                    {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                    {{ form_row(f) }}
+                                {% else %}
+                                    <dl>
+                                        <dt>
+                                            {{ form_label(f) }}
+                                        </dt>
+                                        <dd>
+                                            <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                                {{ f.vars.data }}
+                                                {{ form_widget(f, { type: 'hidden'}) }}
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="ec-registerRole__actions">
+                            <div class="ec-off4Grid">
+                                <div class="ec-off4Grid__cell">
+                                    <button class="ec-blockBtn--action" type="submit" name="mode" value="complete">{{ 'front.entry.do_register'|trans }}</button>
+                                    <button class="ec-blockBtn--cancel" type="submit" name="mode" value="back">{{ 'common.back'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

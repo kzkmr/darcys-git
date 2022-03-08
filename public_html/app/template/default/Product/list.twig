@@ -85,6 +85,13 @@ file that was distributed with this source code.
                     $('.add-cart').prop('disabled', false);
                 });
             });
+
+            var cat = $(".hide_class_category1 select,.hide_class_category2 select");
+            $.each(cat, function(){
+                var select = $(this);
+                select.val(select.find("option:last").val());
+                select.trigger("change");
+            });
         });
 
         $('.ec-modal-wrap').on('click', function(e) {
@@ -188,12 +195,22 @@ file that was distributed with this source code.
                                 <form name="form{{ Product.id }}" id="productForm{{ Product.id }}" action="{{ url('product_add_cart', {id:Product.id}) }}" method="post">
                                     <div class="ec-productRole__actions">
                                         {% if form.classcategory_id1 is defined %}
-                                            <div class="ec-select">
+                                            {% if Product.hide_class_category1 %}
+                                                <div class="ec-select hide_class_category1" style="display:none;">
+                                            {% else %}
+                                                <div class="ec-select">
+                                            {% endif %}
+                                                
                                                 {{ form_widget(form.classcategory_id1) }}
                                                 {{ form_errors(form.classcategory_id1) }}
                                             </div>
                                             {% if form.classcategory_id2 is defined %}
-                                                <div class="ec-select">
+                                                {% if Product.hide_class_category2 %}
+                                                    <div class="ec-select hide_class_category2" style="display:none;">
+                                                {% else %}
+                                                    <div class="ec-select">
+                                                {% endif %}
+
                                                     {{ form_widget(form.classcategory_id2) }}
                                                     {{ form_errors(form.classcategory_id2) }}
                                                 </div>

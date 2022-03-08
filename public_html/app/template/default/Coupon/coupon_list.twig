@@ -1,0 +1,120 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'coupon_list' %}
+
+{% set body_class = 'mypage' %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        .dzx-right {
+            float: right;
+        }
+
+        .c-static-intro-coupon{
+            font-size:14px;
+            color:#383838;
+            margin-bottom: 8px;
+        }
+        .c-static-intro-coupon span.title{
+            font-weight:bold;
+        }
+        .ec-inlineBtn img {
+            height: 1em;
+            width: 1em;
+        }
+        .c-static-detail span.title{
+            font-weight:bold;
+        }
+        .c-static-detail {
+            font-size:12px;
+        }
+        .ec-imageGrid__content {
+            width: 49%;
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1>{{ 'マイページ'|trans }}/{{ 'クーポン一覧'|trans }}</h1>
+            </div>
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <div class="ec-mypageRole">
+            {% if isActive %}
+                {% if pagination.totalItemCount > 0 %}
+                    <p class="ec-para-normal">{{ '%count%件のクーポンがあります'|trans({'%count%':pagination.totalItemCount}) }}</p>
+                    {% for CustomerCoupon in pagination %}
+                        {% set Coupon = CustomerCoupon.Coupon %}
+                        <div class="ec-historyRole">
+                            <div class="ec-historyRole__contents">
+                                <div class="ec-historyRole__header">
+                                    <div class="ec-historyListHeader">
+                                        <p class="ec-historyListHeader__date">{{ Coupon.coupon_name }}</p>
+                                    </div>
+                                </div>
+                                <div class="ec-historyRole__detail">
+                                    <div class="ec-imageGrid__content">
+                                        <p class="c-static-intro-coupon">
+                                            <span class="title">クーポンの対象商品</span><br>
+                                                {% if Coupon.coupon_type == 1 %}
+                                                    一部の製品
+                                                {% elseif Coupon.coupon_type == 2 %}
+                                                    カテゴリ
+                                                {% else %}
+                                                    全商品
+                                                {% endif %}<br>
+                                            <span class="title">クーポン対象期間</span><br>
+                                            {% if Coupon.available_to_date >= date('9999/12/31') %}
+                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} から<br>
+                                            {% else %}
+                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}<br>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="ec-imageGrid__content">
+                                        <a class="ec-inlineBtn dzx-right" href="{{ url('mypage_coupon_delete', {coupon_code: Coupon.coupon_cd}) }}"><img src="{{ asset('assets/icon/cross.svg') }}"> 削除</a>
+                                        <p class="c-static-intro-coupon">
+                                            <span class="title">クーポンの獲得日</span><br>
+                                            {{ CustomerCoupon.create_date | date_format('', 'Y/m/d') }}<br>
+                                            <span class="title">値引き</span><br>
+                                            {% if Coupon.discount_type == 1 %}
+                                                {{ Coupon.discount_price | price }}
+                                            {% else %}
+                                                {{ Coupon.discount_rate }}% OFF
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="ec-pagerRole">
+                        {% include "pager.twig" with {'pages': pagination.paginationData} %}
+                    </div>
+                {% else %}
+                    <p class="ec-para-normal">{{ 'クーポンはありません。'|trans }}</p>
+                {% endif %}
+            {% else %}
+                <h1 class="c-static-page-header__title">クーポンが無効です</h1>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

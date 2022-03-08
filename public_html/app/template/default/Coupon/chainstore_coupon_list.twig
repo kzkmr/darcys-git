@@ -1,0 +1,286 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'chainstore_coupon_list' %}
+
+{% set body_class = 'mypage' %}
+
+{% block javascript %}
+    <script src="{{ asset('assets/js/qrcode.min.js') }}"></script>
+    <script>
+        $(function() {
+            function download(url, code){
+                var a = $("<a>")
+                            .attr("href", url)
+                            .attr("download", code + ".png")
+                            .appendTo("body");
+
+                        a[0].click();
+
+                        a.remove();
+            };
+            $(".qrcode").each(function(){
+                var qr = $(this);
+                var url = qr.data("url");
+                var code = qr.data("code");
+                var qrcode = new QRCode(qr.get(0), {
+                    text: url,
+                    width: 200,
+                    height: 200,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+
+                qr.parent().find(".qrdownload").off("click").on("click", function(){
+                    var img = qr.find("img");
+                    download(img.attr("src"), code);
+                    return false;
+                });
+            });
+            
+            $(".share-link a").each(function(){
+                var block = $(this).parent();
+                var url = block.data("url");
+                var code = block.data("code");
+                var sns = $(this);
+
+                if(sns.hasClass("sns-link")){
+                    sns.prop("href", url);
+                    sns.off("click").on("click", function(){
+                        var copydone = sns.parent().parent().find(".copy-finished");
+                        copyTextToClipboard(url);
+                        copydone.show();
+
+                        setTimeout(function(){
+                            copydone.hide();
+                        }, 2000);
+                        return false;
+                    });
+                }
+                if(sns.hasClass("sns-line")){
+                    sns.prop("href", "https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(url));
+                }
+                if(sns.hasClass("sns-facebook")){
+                    sns.prop("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
+                }
+                if(sns.hasClass("sns-twitter")){
+                    sns.prop("href", "https://twitter.com/intent/tweet?text=" + encodeURIComponent(url));   //encodeURIComponent(subject) + "%0a" + 
+                }
+            });
+
+            function fallbackCopyTextToClipboard(text) {
+                var textArea = document.createElement("textarea");
+                textArea.value = text;
+                
+                // Avoid scrolling to bottom
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    var msg = successful ? 'successful' : 'unsuccessful';
+                    console.log('Fallback: Copying text command was ' + msg);
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+
+                document.body.removeChild(textArea);
+            }
+            function copyTextToClipboard(text) {
+                if (!navigator.clipboard) {
+                    fallbackCopyTextToClipboard(text);
+                    return;
+                }
+                navigator.clipboard.writeText(text).then(function() {
+                    console.log('Async: Copying to clipboard was successful!');
+                }, function(err) {
+                    console.error('Async: Could not copy text: ', err);
+                });
+            }
+        });
+    </script>
+{% endblock javascript %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        .dzx-right {
+            float: right;
+        }
+        .c-static-intro-coupon-title{
+            font-weight:bold;
+            display:inline-block;
+            vertical-align: top;
+        }
+        .c-static-intro-coupon{
+            font-size:14px;
+            color:#383838;
+            margin-bottom: 8px;
+            display:inline-block;
+        }
+        .c-static-intro-coupon span.title{
+            font-weight:bold;
+        }
+        .ec-inlineBtn img {
+            height: 1em;
+            width: 1em;
+        }
+        .c-static-detail span.title{
+            font-weight:bold;
+        }
+        .c-static-detail {
+            font-size:12px;
+        }
+        .ec-imageGrid__content {
+            width: 49%;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .ec-historyRole__detail.qrblock {
+            width:33%;
+            max-width:200px;
+        }
+        .ec-modal-title {
+            font-weight: bold;
+
+        }
+        .share-link a{
+            display:inline-block;
+            width:48px;
+        }
+        .ec-historyRole__detail.share {
+            text-align:center;
+            width:33%;
+        }
+        .ec-historyRole__detail.coupon{
+            width:40%;
+        }
+        .copy-finished{
+            width: 80%;
+            margin: 5px auto;
+            font-size: 12px;
+            padding: 10px;
+        }
+        @media all and (max-width:760px) {
+            .c-static-intro-coupon-title {
+                display:block;
+                font-size: 22px;
+                background: #ccc;
+                text-align: center;
+            }
+            .c-static-intro-coupon {
+                display:block;
+            }
+            .ec-historyRole__detail.qrblock {
+                width:100%;
+                max-width:100%;
+            }
+            .ec-historyRole__detail.share {
+                width:100%;
+            }
+            .ec-historyRole__detail.coupon{
+                width:100%;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1>{{ 'マイページ'|trans }}/{{ '販売店クーポン一覧'|trans }}</h1>
+            </div>
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <div class="ec-mypageRole">
+            {% if isActive %}
+                {% if isActive %}
+                    {% if pagination.totalItemCount > 0 %}
+                        <p class="ec-para-normal">{{ '%count%件のクーポンがあります'|trans({'%count%':pagination.totalItemCount}) }}</p>
+                        {% for Coupon in pagination %}
+                            <div class="ec-historyRole">
+                                <div class="ec-historyRole__contents">
+                                    <div class="ec-historyRole__detail coupon">
+                                        <p class="c-static-intro-coupon-title">{{ Coupon.coupon_name }}</p>
+                                        <p class="c-static-intro-coupon">
+                                            <span class="title">クーポンの対象商品</span><br>
+                                                {% if Coupon.coupon_type == 1 %}
+                                                    一部の製品
+                                                {% elseif Coupon.coupon_type == 2 %}
+                                                    カテゴリ
+                                                {% else %}
+                                                    全商品
+                                                {% endif %}<br>
+                                            <span class="title">クーポン対象期間</span><br>
+                                            {% if Coupon.available_to_date >= date('9999/12/31') %}
+                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} から<br>
+                                            {% else %}
+                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}<br>
+                                            {% endif %}
+                                            <span class="title">値引き</span><br>
+                                            {% if Coupon.discount_type == 1 %}
+                                                {{ Coupon.discount_price | price }}
+                                            {% else %}
+                                                {{ Coupon.discount_rate }}% OFF
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="ec-historyRole__detail qrblock">
+                                        <p class="c-static-intro-coupon qrcode" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
+
+                                        </p>
+                                        <button type="submit" class="ec-blockBtn--cancel qrdownload">QRダウンロード</button>
+                                    </div>
+                                    <div class="ec-historyRole__detail share">
+                                        <p class="ec-modal-title">Twitter,LINE,Facebookよりシェア</p>
+                                        <div class="share-link" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
+                                            <a href="#" class="sns-twitter" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/twitter.svg') }}" alt=""/></span></a>
+                                            <a href="#" class="sns-line" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/line.svg') }}" alt=""/></span></a>
+                                            <a href="#" class="sns-facebook" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/facebook.svg') }}" alt=""/></span></a>
+                                        </div>
+                                        <br />
+                                        <p class="ec-modal-title">クーポンURLをコピー</p>
+                                        <div class="share-link" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
+                                            <input type="text" id="sns-hidden" class="sns-hidden" value="" style="display:none;">
+                                            <a href="#" class="sns-link" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/link.svg') }}" alt=""/></span></a>
+                                            <div class="alert alert-danger copy-finished" style="display:none;" role="alert">
+                                                販売店クーポンのURLをコピーしました
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="ec-pagerRole">
+                            {% include "pager.twig" with {'pages': pagination.paginationData} %}
+                        </div>
+                    {% else %}
+                        <p class="ec-para-normal">{{ 'クーポンはありません。'|trans }}</p>
+                    {% endif %}
+                {% else %}
+                    <p class="ec-para-normal">{{ '販売店が見つかりませんでした。'|trans }}</p>
+                {% endif %}
+            {% else %}
+                <h1 class="c-static-page-header__title">クーポンが無効です</h1>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

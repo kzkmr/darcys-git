@@ -15,6 +15,7 @@ namespace Plugin\Coupon4\Form\Type;
 
 use Carbon\Carbon;
 use Eccube\Form\Type\PriceType;
+use Customize\Form\Type\ChainStoreDropDownType;
 use Plugin\Coupon4\Entity\Coupon;
 use Plugin\Coupon4\Repository\CouponRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -76,7 +77,12 @@ class CouponType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $unlimited_val = array("N", "Y");
+        $unlimited_name = array("制限なし", "制限あり");
+        $reuse_val = array("N", "Y");
+        $reuse_name = array("一回のみ", "クーポン再利用");
         $currency = $this->container->getParameter('currency');
+
         $builder
             ->add('coupon_cd', TextType::class, [
                 'label' => 'plugin_coupon.admin.label.coupon_cd',
@@ -187,27 +193,68 @@ class CouponType extends AbstractType
             ])
             ->add('coupon_release', IntegerType::class, [
                 'label' => 'plugin_coupon.admin.label.coupon_release',
-                'required' => true,
+                'required' => false,
                 'constraints' => [
-                    new Assert\NotBlank(),
                     new Assert\Range([
-                        'min' => 1,
-                        'max' => 1000000,
+                        'min' => 0,
+                        'max' => 9999999999,
                     ]),
                 ],
             ])
             ->add('coupon_use_time', HiddenType::class, [])
+            ->add('reuse', ChoiceType::class, [
+                'label' => 'plugin_coupon.admin.label.reuse',
+                'required' => true,
+                'expanded' => true,
+                'choices' => array_combine($reuse_name, $reuse_val),
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
+            ])
+            ->add('unlimited', ChoiceType::class, [
+                'label' => 'plugin_coupon.admin.label.unlimited',
+                'required' => true,
+                'expanded' => true,
+                'choices' => array_combine($unlimited_name, $unlimited_val),
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
+            ])
             ->add('CouponDetails', CollectionType::class, [
                 'entry_type' => CouponDetailType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
             ])
+            ->add('chain_store', ChainStoreDropDownType::class, [
+                'label' => 'plugin_coupon.admin.label.chain_store',
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank()
+                ],
+            ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $form = $event->getForm();
                 $data = $form->getData();
                 if (count($data['CouponDetails']) == 0 && $data['coupon_type'] != Coupon::ALL) {
                     $form['coupon_type']->addError(new FormError(trans('plugin_coupon.admin.coupontype')));
+                }
+
+                if ($data['unlimited'] == "Y"){
+                    if ($data['coupon_release'] <= 0){
+                        $errors = $this->validator->validate($data['coupon_release'], [
+                            new Assert\NotBlank(),
+                            new Assert\Range([
+                                'min' => 1,
+                                'max' => 9999999999,
+                            ]),
+                        ]);
+                        if ($errors->count() > 0) {
+                            foreach ($errors as $error) {
+                                $form['coupon_release']->addError(new FormError($error->getMessage()));
+                            }
+                        }
+                    }
                 }
 
                 if ($data['discount_type'] == Coupon::DISCOUNT_PRICE) {

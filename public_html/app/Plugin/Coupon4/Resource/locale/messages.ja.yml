@@ -8,6 +8,7 @@ plugin_coupon.admin.index.col03: クーポン名
 plugin_coupon.admin.index.col04: 種別
 plugin_coupon.admin.index.col05: 会員のみ
 plugin_coupon.admin.index.col06: 値引き
+plugin_coupon.admin.index.col13: 再利用
 plugin_coupon.admin.index.col07: 残発行枚数
 plugin_coupon.admin.index.col08: 下限金額
 plugin_coupon.admin.index.col09: 有効期間
@@ -49,6 +50,8 @@ plugin_coupon.admin.label.coupon_release: 発行枚数
 plugin_coupon.admin.label.coupon_lower_limit: 下限金額(円)
 plugin_coupon.admin.label.available_from_date: 有効期間
 plugin_coupon.admin.label.available_to_date: 有効期間日(TO)
+plugin_coupon.admin.label.unlimited: 発行制限
+plugin_coupon.admin.label.reuse: 再利用
 plugin_coupon.admin.notfound: クーポンが存在しません。
 plugin_coupon.admin.coupon_id.notexists: クーポンIDがありません。
 plugin_coupon.admin.duplicate: 既に利用されているクーポンコードです。
@@ -72,9 +75,10 @@ plugin_coupon.front.shopping.member: このクーポンは会員のみ利用で�
 plugin_coupon.front.shopping.lowerlimit: このクーポンを利用するためには、対象商品をlowerLimit円以上購入してください。
 plugin_coupon.front.shopping.changeorder: 注文内容が変更になりました。クーポンをご利用の場合は再度設定をお願いいたします。
 plugin_coupon.front.shopping.notfound: このクーポンコードは利用できません。
+plugin_coupon.front.shopping.notallow: クーポンは利用できません。
 plugin_coupon.front.shopping.header: クーポン
-plugin_coupon.front.shopping.message.use_code: クーポンコード %code% を利用しています。
-plugin_coupon.front.shopping.message.empty: クーポンをお持ちの方はクーポンコードを入力してください。
+plugin_coupon.front.shopping.message.use_code: code のクーポンを利用しています。
+plugin_coupon.front.shopping.message.empty: クーポンをお持ちの方はクーポンコードを選択してください。
 plugin_coupon.front.shopping.button.add_coupon: クーポンを変更する
 plugin_coupon.front.shopping_coupon.header: クーポンコードの入力
 plugin_coupon.front.shopping_coupon.body: 利用するクーポンコードを入力してください。
@@ -85,3 +89,4 @@ plugin_coupon.front.mypage.header: ご利用クーポンコード
 plugin_coupon.front.mypage.body: クーポンコード
 plugin_coupon.front.code: クーポンコード
 
+plugin_coupon.admin.label.chain_store: 販売店

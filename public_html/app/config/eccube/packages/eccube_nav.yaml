@@ -48,6 +48,16 @@ parameters:
                 customer_edit:
                     name: admin.customer.customer_registration
                     url: admin_customer_new
+        chainstore:
+            name: admin.chainstore.chainstore_management
+            icon: fa-building
+            children:
+                chainstore_master:
+                    name: admin.chainstore.chainstore_list
+                    url: admin_chainstore
+                chainstore_edit:
+                    name: admin.chainstore.chainstore_registration
+                    url: admin_chainstore_new
         content:
             name: admin.content.contents_management
             icon: fa-file-text-o

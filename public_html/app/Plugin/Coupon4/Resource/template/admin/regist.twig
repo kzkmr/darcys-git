@@ -23,6 +23,30 @@
         .col-sm-2 {
             max-width: none;
         }
+        .btn-search_chainstore {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        .dzx-table_row_detail {
+            min-width: auto;
+            width:100%;
+        }
+        .dzx-table_row_detail th{
+            border: 1px solid #d0d0d0;
+            background: #48382b;
+            color: #fff;
+            text-align:center;
+            padding:5px;
+            font-weight: normal;
+        }
+        .dzx-table_row_detail td{
+            border: 1px solid #d0d0d0;
+            padding:5px;
+        }
+        .tempurl {
+            font-size:12px;
+            padding: 5px 10px;
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -160,6 +184,14 @@
                 $('#coupon_discount_type_0').attr('checked', 'checked');
             }
 
+            if ($('input[name~="coupon[reuse]"]:checked').length == 0) {
+                $('#coupon_reuse_1').attr('checked', 'checked');
+            }
+
+            if ($('input[name~="coupon[unlimited]"]:checked').length == 0) {
+                $('#coupon_unlimited_0').attr('checked', 'checked');
+            }
+
             // ==================================
             // クリック時の処理
             // ==================================
@@ -249,6 +281,110 @@
                     showTodayButton: true
                 });
             }
+
+            var checkUnlimited = function(){
+                if( $('input[name="coupon\\[unlimited\\]"]:checked').val() != "Y" ){
+                    $("#coupon_coupon_release").attr("readonly", true);
+                    //$("#coupon_coupon_release").val("0");
+                }else{
+                    $("#coupon_coupon_release").attr("readonly", false);
+                    //$("#coupon_coupon_release").val("1");
+                }
+            }
+            $('input[name="coupon\\[unlimited\\]"]').on("click", checkUnlimited);
+            checkUnlimited();
+
+           $(".btn-search_chainstore").on("click", function(){
+                $('#searchChainStore').modal('show');
+                return false;
+            });
+
+            $(".btn_chainstore_query").on("click", function(){
+                var table = $(".chainstore_list");
+                var tbody = $("<tbody></tbody>");
+
+                table.find("tbody").remove().end();
+
+                if($("#chainstore_keyword").val() == ""){
+                    var tr = $('<tr><td colspan=6>キーワードを入力してください</td></tr>');
+                    tbody.append(tr);
+                    table.append(tbody);
+                    return;
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/chainstore/api/list/" + $("#chainstore_keyword").val(),
+                    data: JSON.stringify({"keyword": $("#chainstore_keyword").val()}),
+                    dataType : "json",
+                }).done(function(data){
+                    if(data.status!="OK") return;
+
+                    $.each(data.data, function(i, dt){
+                        var tr = $("<tr></tr>");
+                        var btn = $('<a class="btn btn-sm btn-ec-conversion bank_branch_select" href="#">選択する</a>');
+                        var csSel = $('<td style="width:90px;text-align:center;"></td>');
+                        var csName = $("<td></td>");    //販売店名
+                        var csStockNumber = $("<td></td>");//証券番号
+                        var csUserName = $("<td></td>");//お名前
+                        var csContractType = $("<td></td>");   //契約区分
+                        //var csContractDate = $("<td></td>");     //契約開始年月
+                        var csDealer = $("<td></td>");  //ディーラーコード
+
+                        var cName = "";
+
+                        if(dt.name01){
+                            cName += dt.name01;
+                        }
+                        if(dt.name02){
+                            cName += dt.name02;
+                        }
+
+                        btn.data("value", dt.id);
+                        csName.text(dt.companyName);
+                        csStockNumber.text(dt.stock_number);
+                        csUserName.html(cName);
+                        csContractType.text(dt.ContractTypeName);
+                        //csContractDate.text(dt.contractBeginYmd);
+                        csDealer.text(dt.dealerCode);
+
+                        csSel.append(btn);
+                        tr.append(csSel);
+                        tr.append(csName);
+                        tr.append(csStockNumber);
+                        tr.append(csUserName);
+                        tr.append(csContractType);
+                        //tr.append(csContractDate);
+                        tr.append(csDealer);
+
+                        btn.on("click", function(){
+                            var $this = $(this);
+                            $('#coupon_chain_store').val(btn.data("value"));
+                            $('#searchChainStore').modal("hide");
+                            return false;
+                        });
+
+                        tbody.append(tr);
+                    });
+
+                    if(tbody.find("tr").length==0){
+                        var tr = $('<tr><td colspan=6>販売店が見つかりません</td></tr>');
+                        tbody.append(tr);
+                    }
+
+                    table.append(tbody);
+                });
+
+                return false;
+            });
+
+            $("#coupon_coupon_cd").on("keyup change", function(){
+                var url = $(".likeurl").data("url");
+                url = url.slice(0, -1);
+                $(".likeurl").text(url + $(this).val());
+            });
+
+            $("#coupon_coupon_cd").trigger("keyup");
         });
     </script>
 {% endblock javascript %}
@@ -271,6 +407,14 @@
                                 <div class="col mb-2">
                                     {{ form_widget(form.coupon_cd) }}
                                     {{ form_errors(form.coupon_cd) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col mb-2">
+                                    <div class="alert alert-danger tempurl" role="alert">
+                                        クーポン発行のURL => <span class="likeurl" data-url="{{ url('coupon', {"coupon_code": 'a'}) }}"></span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -325,6 +469,22 @@
                                     <span id="discount_type_rate_description" class="small">{{ 'plugin_coupon.admin.regist.discount_rate.note'|trans }}</span>
                                 </div>
                             </div>
+                            {# クーポン再利用 #}
+                            <div class="row">
+                                <div class="col-3">{{ form_label(form.reuse) }}</div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.reuse,  {'label_attr': {'class': 'radio-inline'}}) }}
+                                    {{ form_errors(form.reuse) }}
+                                </div>
+                            </div>
+                            {# 使用回数制限 #}
+                            <div class="row">
+                                <div class="col-3">{{ form_label(form.unlimited) }}</div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.unlimited,  {'label_attr': {'class': 'radio-inline'}}) }}
+                                    {{ form_errors(form.unlimited) }}
+                                </div>
+                            </div>
                             {# 使用回数 #}
                             <div class="row">
                                 <div class="col-3">{{ form_label(form.coupon_release) }}</div>
@@ -357,6 +517,23 @@
                                         <div class="col-4">
                                             {{ form_widget(form.available_to_date) }}
                                             {{ form_errors(form.available_to_date) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {# 販売店 #}
+                            <div class="row">
+                                <div class="col-3">{{ form_label(form.chain_store) }}</div>
+                                <div class="col mb-2">
+                                    <div class="row justify-content-start">
+                                        <div class="col-6">
+                                            {{ form_widget(form.chain_store) }}
+                                        </div>
+                                        <div class="col-1">
+                                            <a class="btn btn-search_chainstore" href="#" target="_chainstore"><i class="fa fa-search fa-lg text-secondary" aria-hidden="true"></i></a>
+                                        </div>
+                                        <div class="col-12">
+                                            {{ form_errors(form.chain_store) }}
                                         </div>
                                     </div>
                                 </div>
@@ -565,6 +742,49 @@
                     </div>
                     <div class="form-group" id="searchCategoryModalList">
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="searchChainStore" tabindex="-1" role="dialog" aria-labelledby="searchChainStore" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">販売店を選択</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ec-borderedDefs">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <span>販売店名、証券番号、お名前、ディーラーコード</span>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" id="chainstore_keyword" class="form-control" placeholder="キーワードを入力">
+                            </div>
+                            <div class="col-2">
+                                <a class="btn btn-ec-conversion btn_chainstore_query" href="#">検索</a>
+                            </div>
+                        </div>
+                        <table class="dzx-table_row_detail chainstore_list">
+                        <thead>
+                            <tr>
+                                <th style="width:90px;text-align:center;">選択</th>
+                                <th>販売店名</th>
+                                <th>証券番号</th>
+                                <th>お名前</th>
+                                <th>契約区分</th>
+                                <th>ディーラーコード</th>
+                            </tr>
+                        </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
                 </div>
             </div>
         </div>
