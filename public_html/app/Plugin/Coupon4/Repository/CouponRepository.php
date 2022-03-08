@@ -110,6 +110,40 @@ class CouponRepository extends AbstractRepository
     }
 
     /**
+     * 販売店の特別会員有効なクーポンを全取得する.
+     *
+     * @return array
+     */
+    public function findChainStoreActiveCouponAll($ChainStore)
+    {
+        $currenDateTime = new \DateTime();
+
+        // 時分秒を0に設定する
+        $currenDateTime->setTime(0, 0, 0);
+
+        $qb = $this->createQueryBuilder('c')->select('c')->Where('c.visible = true');
+
+        // クーポンコード有効
+        $qb->andWhere('c.enable_flag = :enable_flag')
+            ->setParameter('enable_flag', Constant::ENABLED);
+
+        // 有効期間(FROM)
+        $qb->andWhere('c.available_from_date <= :cur_date_time OR c.available_from_date IS NULL')
+            ->setParameter('cur_date_time', $currenDateTime);
+
+        // 有効期間(TO)
+        $qb->andWhere(':cur_date_time <= c.available_to_date OR c.available_to_date IS NULL')
+            ->setParameter('cur_date_time', $currenDateTime);
+
+        // 販売店の特別会員
+        $qb->andWhere('c.ChainStore = :ChainStore')
+            ->setParameter('ChainStore', $ChainStore);
+
+        // 実行
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * クーポン情報を有効/無効にする.
      *
      * @param Coupon $Coupon
@@ -168,7 +202,11 @@ class CouponRepository extends AbstractRepository
     {
         /** @var Coupon $Coupon */
         $Coupon = $this->findOneBy(['coupon_cd' => $couponCd]);
-        // クーポンの発行枚数は購入完了時に減算される、一枚以上残っていれば利用できる
-        return $Coupon->getCouponUseTime() >= 1;
+        if ($Coupon->getUnlimited() == 'Y') {
+            // クーポンの発行枚数は購入完了時に減算される、一枚以上残っていれば利用できる
+            return $Coupon->getCouponUseTime() >= 1;
+        }else{
+            return true;
+        }
     }
 }

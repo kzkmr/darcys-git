@@ -1,0 +1,156 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        .c-static-page-header {
+            background: transparent url('{{ asset('assets/img/coupon/coupon_bg.jpg') }}') no-repeat center center;
+            height: 350px;
+        }
+        .c-static-page-highlight {
+            color: #f71600;
+            font-weight: bold;
+            font-size:24px;
+        }
+        .c-static-page-memo{
+            color: #545151;
+            margin-top: 15px;
+            text-align: left;
+            width: 60%;
+            margin-left: 15%;
+            vertical-align:top;
+        }
+        .c-static-get-button {
+            background-color: #de5d50;
+            border-color: #bd473b;
+            color:#fff;
+        }
+        .c-static-cancel-button {
+            background-color: #a3a2a2;
+            border-color: #626262;
+            color:#fff;
+        }
+        .c-static-page-link {
+            margin-top: 5px;
+            color: #1a2a9b;
+            font-weight: bold;
+        }
+        .c-static-form {
+            width:960px;
+            height:350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .c-desc-item {
+            width:49%;
+            display:inline-block;
+            vertical-align: top;
+        }
+        .coupon-title{
+            display:block;
+            font-weight:bold;
+        }
+        .coupon-desc{
+            padding-left:12px;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="ec-role">
+    <div class="ec-pageHeader">
+        <h1>{{ 'クーポン獲得'|trans }}</h1>
+    </div>
+    <div class="c-static-page-header">
+        {% if isActive %}
+            {% if Coupon is null %}
+                {% if CanGetCoupon %}
+                    <h1 class="c-static-page-header__title">クーポンが見つかりません</h1>
+                {% else %}
+                    <h1 class="c-static-page-header__title">ご利用のアカウントではクーポンを獲得できません</h1>
+                {% endif %}
+            {% else %}
+                {% if hasCoupon  %}
+                    <p class="c-static-page-header__text c-static-page-highlight">
+                        <span class="c-coupon-name">{{Coupon.coupon_name}}</span>
+                    </p>
+                    <div class="c-static-page-header__text c-static-page-memo">
+                        <div class="c-desc-item">
+                            <span class="coupon-title">■クーポンの対象商品</span>
+                            <span class="coupon-desc">全商品</span>
+                            <span class="coupon-title">■クーポン対象期間</span>
+                            <span class="coupon-desc">{{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}</span>
+                        </div>
+                        <div class="c-desc-item">
+                            <span class="coupon-title">■値引き</span>
+                            <span class="coupon-desc">{% if Coupon.discount_type == 1 %}
+                                    {{ Coupon.discount_price | price }}
+                            {% else %}
+                                {{ Coupon.discount_rate }}% OFF
+                            {% endif %}</span>
+                            <span class="coupon-title">■クーポンの獲得日</span>
+                            <span class="coupon-desc">{{ CustomerCoupon.create_date | date_format('', 'Y/m/d') }}</span>
+                        </div>
+                    </div>
+                    <h1 class="c-static-page-header__title">
+                        <div class="ec-login__actions">
+                            <button type="button" class="ec-blockBtn disabled c-static-cancel-button">獲得済み</button>
+                        </div>
+                    </h1>
+                    <p class="c-static-page-header__text c-static-page-link"><a href="{{ url('mypage_coupon_list') }}">獲得したクーポンを確認する</a></p>
+                {% else %}
+                    <form method="post" action="{{ url('coupon', {coupon_code: CouponCode}) }}" class="c-static-form" novalidate>
+                        <p class="c-static-page-header__text c-static-page-highlight">
+                            <span class="c-coupon-name">{{Coupon.coupon_name}}</span><br>
+                        </p>
+                        <div class="c-static-page-header__text c-static-page-memo">
+                            <div class="c-desc-item">
+                                <span class="coupon-title">■クーポンの対象商品</span>
+                                <span class="coupon-desc">
+                                    {% if Coupon.coupon_type == 1 %}
+                                        一部の製品
+                                    {% elseif Coupon.coupon_type == 2 %}
+                                        カテゴリ
+                                    {% else %}
+                                        全商品
+                                    {% endif %}
+                                    </span>
+                                <span class="coupon-title">■クーポン対象期間</span>
+                                <span class="coupon-desc">{{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}</span>
+                            </div>
+                            <div class="c-desc-item">
+                                <span class="coupon-title">■値引き</span>
+                                <span class="coupon-desc">{% if Coupon.discount_type == 1 %}
+                                        {{ Coupon.discount_price | price }}
+                                {% else %}
+                                    {{ Coupon.discount_rate }}% OFF
+                                {% endif %}</span>
+                            </div>
+                        </div>
+                        <h1 class="c-static-page-header__title">
+                            <div class="ec-login__actions">
+                                <button type="submit" class="ec-blockBtn c-static-get-button">クーポンを獲得</button>
+                            </div>
+                        </h1>
+                        <p class="c-static-page-header__text c-static-page-link"><a href="{{ url('mypage_coupon_list') }}">獲得したクーポンを確認する</a></p>
+                    </form>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <h1 class="c-static-page-header__title">クーポンが無効です</h1>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

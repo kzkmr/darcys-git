@@ -82,6 +82,27 @@ class Coupon extends AbstractEntity
     private $coupon_use_time;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reuse", type="string", nullable=true)
+     */
+    private $reuse;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unlimited", type="string", nullable=true)
+     */
+    private $unlimited;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="unlimited_use_time", type="integer", nullable=true)
+     */
+    private $unlimited_use_time;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="discount_price", type="decimal", nullable=true, precision=12, scale=2, options={"unsigned":true,"default":0})
@@ -142,7 +163,7 @@ class Coupon extends AbstractEntity
      *
      * @var int
      *
-     * @ORM\Column(name="coupon_release", type="integer", nullable=false)
+     * @ORM\Column(name="coupon_release", type="integer", nullable=true)
      */
     private $coupon_release;
 
@@ -166,6 +187,20 @@ class Coupon extends AbstractEntity
      * @ORM\OneToMany(targetEntity="Plugin\Coupon4\Entity\CouponDetail", mappedBy="Coupon", cascade={"persist","remove"})
      */
     private $CouponDetails;
+
+    /**
+     * @var \Customize\Entity\ChainStore
+     *
+     * @ORM\ManyToOne(targetEntity="Customize\Entity\ChainStore")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="chain_store_id", referencedColumnName="id")
+     * })
+     */
+    private $ChainStore;
+
+    //Private use
+    private $order_discount_price;
+    private $can_delete;
 
     /**
      * Constructor.
@@ -303,6 +338,79 @@ class Coupon extends AbstractEntity
     public function getCouponUseTime()
     {
         return $this->coupon_use_time;
+    }
+
+    /**
+     * Set reuse.
+     *
+     * @param string $reuse
+     *
+     * @return Coupon
+     */
+    public function setReuse($reuse)
+    {
+        $this->reuse = $reuse;
+
+        return $this;
+    }
+
+    /**
+     * Get reuse.
+     *
+     * @return string
+     */
+    public function getReuse()
+    {
+        return $this->reuse;
+    }
+
+
+    /**
+     * Set unlimited.
+     *
+     * @param string $unlimited
+     *
+     * @return Coupon
+     */
+    public function setUnlimited($unlimited)
+    {
+        $this->unlimited = $unlimited;
+
+        return $this;
+    }
+
+    /**
+     * Get unlimited.
+     *
+     * @return string
+     */
+    public function getUnlimited()
+    {
+        return $this->unlimited;
+    }
+
+    /**
+     * Set Unlimited Use Time.
+     *
+     * @param int $unlimitedUseTime
+     *
+     * @return Coupon
+     */
+    public function setUnlimitedUseTime($unlimitedUseTime)
+    {
+        $this->unlimited_use_time = $unlimitedUseTime;
+
+        return $this;
+    }
+
+    /**
+     * Get Unlimited Use Time.
+     *
+     * @return int
+     */
+    public function getUnlimitedUseTime()
+    {
+        return $this->unlimited_use_time;
     }
 
     /**
@@ -577,5 +685,53 @@ class Coupon extends AbstractEntity
     public function setCouponRelease($coupon_release)
     {
         $this->coupon_release = $coupon_release;
+    }
+
+    /**
+     * @return \Customize\Entity\ChainStore
+     */
+    public function getChainStore()
+    {
+        return $this->ChainStore;
+    }
+
+    /**
+     * @param \Customize\Entity\ChainStore $chainStore
+     */
+    public function setChainStore($chainStore)
+    {
+        $this->ChainStore = $chainStore;
+    }
+
+    /**
+     * @param int $orderDiscountPrice
+     */
+    public function setOrderDiscountPrice($orderDiscountPrice)
+    {
+        $this->order_discount_price = $orderDiscountPrice;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrderDiscountPrice()
+    {
+        return $this->order_discount_price;
+    }
+
+    /**
+     * @param bool $canDelete
+     */
+    public function setCanDelete($canDelete)
+    {
+        $this->can_delete = $canDelete;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanDelete()
+    {
+        return $this->can_delete;
     }
 }

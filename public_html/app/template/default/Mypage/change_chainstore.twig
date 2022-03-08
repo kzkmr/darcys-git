@@ -1,0 +1,471 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'mypage' %}
+
+{% set mypageno = 'change_chainstore' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+	<style>
+        .dzx-table_row_detail {
+            min-width: auto;
+            width:100%;
+        }
+        .dzx-table_row_detail th{
+            border: 1px solid #d0d0d0;
+            background: #48382b;
+            color: #fff;
+            text-align:center;
+            padding:5px;
+            font-weight: normal;
+        }
+        .dzx-table_row_detail td{
+            border: 1px solid #d0d0d0;
+            padding:5px;
+        }
+        .bank_branch_list tbody {
+            display:block;
+            height:195px;
+            overflow-y:scroll;
+        }
+
+        .bank_branch_list thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;
+        }
+
+        .bank_branch_list thead {
+            width: calc( 100% - 1em )
+        }
+        .bank_branch_select {
+            padding: 5px;
+            font-size: 12px;
+        }
+        .ec-select select {
+            width:100%;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script>
+        var sys_AllowIsApp = true;
+        $(function() {
+            var branchList = null;
+
+            $("#entry_chainstore_bank").on("change", function(){
+                var t = $(this);
+                var bankid = t.val() || '0';
+                branchList=null;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/bank/list/" + bankid,
+                    data: JSON.stringify({"id": bankid}),
+                    dataType : "json",
+                }).done(function(data){
+                    var isSelected = false;
+                    if(data.status!="OK") return;
+
+                    var opt = $("#bank_branch_code");
+                    var txt = $("#entry_chainstore_bank_branch");
+                    opt.find("option").remove().end();
+                    opt.append('<option value="">支店を選択</option>');
+
+                    $.each(data.data, function(i, dt){
+                        var item = $("<option></option>");
+                        item.prop("value", dt.id);
+                        item.text(dt.name);
+                        if( txt.val() == dt.id ){
+                            isSelected = true;
+                            item.prop("selected", true);
+                            $("#entry_chainstore_bank_branch").val( dt.id );
+                            $("#bank_branch_id").val(dt.branchCode);
+                        }
+                        item.data("branchCode", dt.branchCode);
+                        opt.append(item);
+                    });
+
+                    branchList = data.data;
+
+                    if(!isSelected){
+                        $("#entry_chainstore_bank_branch").val("");
+                        $("#bank_branch_id").val("");
+                    }
+                    return true;
+                });
+            });
+
+            $("#bank_branch_code").on("change", function(){
+                var opt = $(this).find(":selected");
+                $("#entry_chainstore_bank_branch").val( $(this).val() );
+                $("#bank_branch_id").val(opt.data("branchCode"));
+            });
+            $("#bank_branch_id").on("keyup", function(){
+                var isSelected = false;
+                var opt = $("#bank_branch_code").find("option");
+                $("#bank_branch_code").find("option").prop("selected", false);
+                $("#entry_chainstore_bank_branch").val("");
+
+                $.each(opt, function(){
+                    var o = $(this);
+                    if(o.data("branchCode") == $("#bank_branch_id").val()){
+                        o.prop("selected", true);
+                        isSelected = true;
+                        $("#entry_chainstore_bank_branch").val(o.val());
+                    }
+                });
+
+                if(!isSelected){
+                    if($("#bank_branch_id").val().length >= 3){
+                        $('#bankNotFoundError').modal("show");
+                    }
+                }
+            });
+            $("#entry_chainstore_bank").trigger("change");
+
+           $(".btn_bank_search").on("click", function(){
+                if(branchList == null || branchList.length <= 0){
+                    $('#bankNoSelectError').modal('show');
+                }else{
+                    $('#bankSearchModal').modal('show');
+                    $(".bank_branch_list").hide();
+                }
+                return false;
+            });
+
+            $(".btn_bank_query").on("click", function(){
+                var table = $(".bank_branch_list");
+                var tbody = $("<tbody></tbody>");
+
+                table.find("tbody").remove().end();
+
+                $.each(branchList, function(i, dt){
+                    if(  dt.name.indexOf($("#branch_keyword").val()) >= 0 || dt.branchCode.indexOf($("#branch_keyword").val()) >= 0 ){
+                        var tr = $("<tr></tr>");
+                        var btn = $('<a class="ec-inlineBtn bank_branch_select" href="#">選択する</a>');
+                        var branchSel = $('<td style="width:70px;"></td>');
+                        var branchCode = $('<td style="width:120px;"></td>');
+                        var branchName = $("<td></td>");
+
+                        btn.data("value", dt.branchCode);
+                        branchCode.text(dt.branchCode);
+                        branchName.text(dt.name);
+
+                        branchSel.append(btn);
+                        tr.append(branchSel);
+                        tr.append(branchCode);
+                        tr.append(branchName);
+
+                        btn.on("click", function(){
+                            var $this = $(this);
+                            $('#bank_branch_id').val(btn.data("value"));
+                            $('#bank_branch_id').trigger("keyup");
+                            $('#bankSearchModal').modal("hide");
+                            return false;
+                        });
+
+                        tbody.append(tr);
+                    }
+                });
+
+                if(tbody.find("tr").length==0){
+                    var tr = $('<tr><td colspan=3>支店が見つかりません</td></tr>');
+                    tbody.append(tr);
+                }
+
+                table.append(tbody);
+
+                $(".bank_branch_list").show();
+                return false;
+            });
+
+            $(".ec-modal-close, .ec-inlineBtn--cancel").on("click", function(){
+                $(this).parents(".ec-modal").modal('hide');
+            });
+        });
+
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1>{{ 'マイページ'|trans }}/{{ '販売店情報編集'|trans }}</h1>
+            </div>
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <div class="ec-mypageRole">
+            <div class="ec-editRole">
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <form method="post" action="{{ url('mypage_change_chainstore') }}" novalidate class="h-adr">
+                            <span class="p-country-name" style="display:none;">Japan</span>
+                            {{ form_widget(form._token) }}
+                            <div class="ec-borderedDefs">
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.company_name, '販売店名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
+                                            {{ form_widget(form.company_name) }}
+                                            {{ form_errors(form.company_name) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.company_name_kana, '販売店名(カナ)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput{{ has_errors(form.company_name_kana) ? ' error' }}">
+                                            {{ form_widget(form.company_name_kana) }}
+                                            {{ form_errors(form.company_name_kana) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.stock_number, '証券番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput{{ has_errors(form.stock_number) ? ' error' }}">
+                                            {{ form_widget(form.stock_number, { 'attr': { 'maxlength':'10','placeholder': '証券番号' }}) }}
+                                            {{ form_errors(form.stock_number) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.name, 'お名前（代表者）', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput{{ has_errors(form.name.name01, form.name.name02) ? ' error'}}">
+                                            {{ form_widget(form.name.name01, { 'attr': { 'placeholder': '姓' }}) }}
+                                            {{ form_widget(form.name.name02, { 'attr': { 'placeholder': '名' }}) }}
+                                            {{ form_errors(form.name.name01) }}
+                                            {{ form_errors(form.name.name02) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.kana, 'お名前（代表者）(カナ)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error'}}">
+                                            {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': 'セイ' }}) }}
+                                            {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': 'メイ' }}) }}
+                                            {{ form_errors(form.kana.kana01) }}
+                                            {{ form_errors(form.kana.kana02) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                {% if EntryChainStore.contract_type %}
+                                    <dl>
+                                        <dt>
+                                            <label class="ec-label" for="entry_contract_type">契約区分</label>
+                                        </dt>
+                                        <dd>
+                                            {{EntryChainStore.contract_type}}
+                                            {{ form_widget(form.contract_type, { type : 'hidden' }) }}
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>
+                                            <label class="ec-label" for="entry_contract_type">契約開始年月</label>
+                                        </dt>
+                                        <dd>
+                                            {{EntryChainStore.contract_begin_ymd |date_format('', 'Y/m/d')}}
+                                            {{ form_widget(form.contract_begin_ymd.year, { type : 'hidden' }) }}
+                                            {{ form_widget(form.contract_begin_ymd.month, { type : 'hidden' }) }}
+                                            {{ form_widget(form.contract_begin_ymd.day, { type : 'hidden' }) }}
+                                        </dd>
+                                    </dl>
+                                {% endif %}
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.bank, '金融機関名', { 'label_attr': {'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-select{{ has_errors(form.bank) ? ' error' }}">
+                                            {{ form_widget(form.bank) }}
+                                            {{ form_errors(form.bank) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.bank_branch, '支店名', { 'label_attr': {'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput">
+                                            <input type="text" id="bank_branch_id" maxlength=3 class="form-control" placeholder="支店番号">
+                                            <button class="ec-headerSearch__keywordBtn btn_bank_search" type="submit" style="width:36px;height:36px;">
+                                                <div class="ec-icon">
+                                                    <img src="/html/template/default/assets/icon/search-dark.svg" alt="">
+                                                </div>
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="ec-select{{ has_errors(form.bank_branch) ? ' error' }}">
+                                            <select id="bank_branch_code" name="bank_branch_code" class="p-bank-name form-control" placeholder="支店名">
+                                            </select>
+
+                                            {{ form_widget(form.bank_branch, { 'attr': { 'style': 'display:none;' }}) }}
+                                            {{ form_errors(form.bank_branch) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.bank_account_type, '振込先の科目', { 'label_attr': {'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-select{{ has_errors(form.bank_account_type) ? ' error' }}">
+                                            {{ form_widget(form.bank_account_type) }}
+                                            {{ form_errors(form.bank_account_type) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.bank_account, 'admin.chainstore.chainstore_bank_account', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput{{ has_errors(form.bank_account) ? ' error' }}">
+                                            {{ form_widget(form.bank_account, { 'attr': { 'placeholder': 'admin.common.bank_account' }}) }}
+                                            {{ form_errors(form.bank_account) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.bank_holder, 'admin.chainstore.chainstore_bank_holder', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-halfInput{{ has_errors(form.bank_holder) ? ' error' }}">
+                                            {{ form_widget(form.bank_holder, { 'attr': { 'placeholder': 'admin.common.bank_holder' }}) }}
+                                            {{ form_errors(form.bank_holder) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                {# エンティティ拡張の自動出力 #}
+                                {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
+                                    {% if f.vars.eccube_form_options.form_theme %}
+                                        {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                        {{ form_row(f) }}
+                                    {% else %}
+                                        <dl>
+                                            <dt>
+                                                {{ form_label(f) }}
+                                            </dt>
+                                            <dd>
+                                                <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                                    {{ form_widget(f) }}
+                                                    {{ form_errors(f) }}
+                                                </div>
+                                            </dd>
+                                        </dl>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <div class="ec-RegisterRole__actions">
+                                <div class="ec-off4Grid">
+                                    <div class="ec-off4Grid__cell">
+                                        <button type="submit"
+                                                class="ec-blockBtn--cancel">{{ '登録する'|trans }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ec-modal" id="bankNotFoundError">
+        <div class="ec-modal-overlay">
+            <label for="ec-modal-checkbox" class="ec-modal-overlay-close"></label>
+            <div class="ec-modal-wrap">
+                <label for="ec-modal-checkbox" class="ec-modal-close"><span class="ec-icon"><img src="/html/template/default/assets/icon/cross-dark.svg" alt=""/></span></label>
+                <div id="ec-modal-header" class="text-center">支店番号が見つかりません</div>
+                <div class="ec-modal-box">
+                    <div class="ec-role">
+                        <label for="ec-modal-checkbox" class="ec-inlineBtn--cancel">閉じる</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ec-modal" id="bankNoSelectError">
+        <div class="ec-modal-overlay">
+            <label for="ec-modal-bank" class="ec-modal-overlay-close"></label>
+            <div class="ec-modal-wrap">
+                <label for="ec-modal-bank" class="ec-modal-close"><span class="ec-icon"><img src="/html/template/default/assets/icon/cross-dark.svg" alt=""/></span></label>
+                <div id="ec-modal-header" class="text-center">金融機関名を選択してください</div>
+                <div class="ec-modal-box">
+                    <div class="ec-role">
+                        <label for="ec-modal-bank" class="ec-inlineBtn--cancel">閉じる</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ec-modal" id="bankSearchModal" >
+        <div class="ec-modal-overlay">
+            <label for="ec-modal-banksearch" class="ec-modal-overlay-close"></label>
+            <div class="ec-modal-wrap">
+                <label for="ec-modal-banksearch" class="ec-modal-close"><span class="ec-icon"><img src="/html/template/default/assets/icon/cross-dark.svg" alt=""/></span></label>
+                <div id="ec-modal-header">
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                支店番号または支店名
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput">
+                                    <input type="text" id="branch_keyword" class="form-control" placeholder="番号または支店名を入力">
+                                    <a class="ec-inlineBtn btn_bank_query" href="#">検索</a>
+                                </div>
+                            </dd>
+                        </dl>
+                        <table class="dzx-table_row_detail bank_branch_list">
+                        <thead>
+                            <tr>
+                                <th style="width:70px;">選択</th>
+                                <th style="width:120px;">支店番号</th>
+                                <th>支店名</th>
+                            </tr>
+                        </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="ec-modal-box">
+                    <div class="ec-role">
+                        <label for="ec-modal-banksearch" class="ec-inlineBtn--cancel">閉じる</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

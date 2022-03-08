@@ -15,6 +15,98 @@
 {% block title %}{{ 'plugin_coupon.admin.index.title'|trans }}{% endblock %}
 {% block sub_title %}{{ 'plugin_coupon.admin.index.subtitle'|trans }}{% endblock %}
 
+{% block javascript %}
+
+<script src="{{ asset('assets/js/qrcode.min.js') }}"></script>
+<script>
+    $(function() {
+        function download(url, code){
+            var a = $("<a>")
+                        .attr("href", url)
+                        .attr("download", code + ".png")
+                        .appendTo("body");
+
+                    a[0].click();
+
+                    a.remove();
+        };
+
+        $("table td.coupon_cd a").on("click", function(){
+            var url = $(this).data("url");
+            var code = $(this).data("code");
+            //var qrcode = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + encodeURIComponent(url) + "&choe=UTF-8";
+
+            $(".qrcode").html("");
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 256,
+                height: 256,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            //var img = $("<img />");
+
+            //img.attr("src", qrcode);
+            
+            $(".coupon-url").text(url).attr("href", url);
+            $(".btn-coupon-url").off("click").on("click", function(){
+                copyTextToClipboard(url);
+                $(".copy-finished").show();
+
+                setTimeout(function(){
+                    $(".copy-finished").hide();
+                }, 2000);
+            });
+
+            $(".qrdownload").off("click").on("click", function(){
+                var img = $("#qrcode").find("img");
+                download(img.attr("src"), code);
+                return false;
+            });
+            $('#showRelease').modal('show');
+            return false;
+        });
+    });
+
+    function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
+    }
+    function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+    }
+    navigator.clipboard.writeText(text).then(function() {
+        console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+        console.error('Async: Could not copy text: ', err);
+    });
+    }
+</script>
+
+{% endblock javascript %}
+
 {% block main %}
 <form name="search_form" id="search_form" method="post" action="">
     <div class="c-contentsArea__cols">
@@ -32,6 +124,7 @@
                                     <th>{{ 'plugin_coupon.admin.index.col04'|trans }}</th>
                                     <th>{{ 'plugin_coupon.admin.index.col05'|trans }}</th>
                                     <th>{{ 'plugin_coupon.admin.index.col06'|trans }}</th>
+                                    <th>{{ 'plugin_coupon.admin.index.col13'|trans }}</th>
                                     <th>{{ 'plugin_coupon.admin.index.col07'|trans }}</th>
                                     <th>{{ 'plugin_coupon.admin.index.col08'|trans }}</th>
                                     <th>{{ 'plugin_coupon.admin.index.col09'|trans }}</th>
@@ -44,7 +137,12 @@
                                 {% for Coupon in Coupons %}
                                 <tr class="{% if Coupon.enable_flag == 0 %}active{% endif %}">
                                     <td class="coupon_id">{{ Coupon.id }}</td>
-                                    <td class="coupon_cd">{{ Coupon.coupon_cd }}</td>
+                                    <td class="coupon_cd">
+                                        {{ Coupon.coupon_cd }}
+                                        <a href="#" class="btn btn-ec-actionIcon" data-code="{{ Coupon.coupon_cd }}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
+                                            <i class="fa fa-eye fa-lg text-secondary" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
                                     <td class="coupon_name">{{ Coupon.coupon_name }}</td>
                                     {% if Coupon.coupon_type == 1 %}
                                         <td class="coupon_type">{{ 'plugin_coupon.admin.coupon_type.product'|trans }}</td>
@@ -69,8 +167,20 @@
                                     {% else %}
                                         <td class="coupon_discount"></td>
                                     {% endif %}
-
-                                    <td>{{ Coupon.coupon_use_time|number_format }} / {{ Coupon.coupon_release|number_format }}</td>
+                                    <td>
+                                        {% if Coupon.reuse == 'Y' %}
+                                            再利用できる
+                                        {% else %}
+                                            一回のみ
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if Coupon.unlimited == 'Y' %}
+                                            {{ Coupon.coupon_use_time|number_format }} / {{ Coupon.coupon_release|number_format }}
+                                        {% else %}
+                                            無制限
+                                        {% endif %}
+                                    </td>
                                     <td>{{ Coupon.coupon_lower_limit|price }}</td>
                                     <td>{{ Coupon.available_from_date|date_format }} ～ {{ Coupon.available_to_date|date_format }}</td>
 
@@ -136,4 +246,47 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="showRelease" tabindex="-1" role="dialog" aria-labelledby="showRelease" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">販売店クーポンを発行</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="ec-borderedDefs">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <span>販売店クーポンのURL</span>
+                        </div>
+                        <div class="col-12">
+                            <a href="#" target="_blank" class="coupon-url">#</a>
+                            <a href="#" class="btn btn-ec-regular pl-4 pr-4 btn-coupon-url">コピーする</a>
+                        </div>
+                        <div class="col-12">
+                            <div class="alert alert-danger copy-finished" style="display:none;" role="alert">
+                                販売店クーポンのURLをコピーしました
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <span>QR Code</span>
+                        </div>
+                        <div class="col-12">
+                            <div id="qrcode" class="qrcode" style="display: inline-block;"></div>
+                            <a href="#" class="btn btn-ec-regular pl-4 pr-4 qrdownload">QRダウンロード</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

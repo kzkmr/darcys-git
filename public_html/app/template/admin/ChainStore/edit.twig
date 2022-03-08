@@ -1,0 +1,676 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['chainstore', 'chainstore_edit'] %}
+
+{% block title %}{{ 'admin.chainstore.chain_store_registration'|trans }}{% endblock %}
+{% block sub_title %}{{ 'admin.chainstore.chain_store_management'|trans }}{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block stylesheet %}
+    <style>
+        .btn-ec-banksearch {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        .dzx-table_row_detail {
+            min-width: auto;
+            width:100%;
+        }
+        .dzx-table_row_detail th{
+            border: 1px solid #d0d0d0;
+            background: #48382b;
+            color: #fff;
+            text-align:center;
+            padding:5px;
+            font-weight: normal;
+        }
+        .dzx-table_row_detail td{
+            border: 1px solid #d0d0d0;
+            padding:5px;
+        }
+        .bank_branch_list tbody {
+            display:block;
+            height:195px;
+            overflow-y:scroll;
+        }
+
+        .bank_branch_list thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;
+        }
+
+        .bank_branch_list thead {
+            width: calc( 100% - 1em )
+        }
+        .bank_branch_select {
+            padding: 5px;
+            font-size: 12px;
+        }
+        .show-loading {
+            position: absolute;
+            display: flex;
+            z-index: 9999;
+            background: #ebebebab;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            justify-content:center;
+        }
+        .lds-facebook {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .lds-facebook div {
+            display: inline-block;
+            position: absolute;
+            left: 8px;
+            width: 16px;
+            background: #b5b5b5;
+            animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+        }
+        .lds-facebook div:nth-child(1) {
+            left: 8px;
+            animation-delay: -0.24s;
+        }
+        .lds-facebook div:nth-child(2) {
+            left: 32px;
+            animation-delay: -0.12s;
+        }
+        .lds-facebook div:nth-child(3) {
+            left: 56px;
+            animation-delay: 0;
+        }
+        @keyframes lds-facebook {
+            0% {
+                top: 8px;
+                height: 44px;
+            }
+            50%, 100% {
+                top: 24px;
+                height: 22px;
+            }
+        }
+
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+
+    <script>
+        $(function() {
+            var branchList = null;
+
+            var showLoading = function(show){
+                $(".show-loading").remove();
+                if(show){
+                    $(".bloading").append('<div class="show-loading"><div class="lds-facebook"><div></div><div></div><div></div></div></div>');
+                }
+            };
+
+            $("#admin_chain_store_bank").on("change", function(){
+                var t = $(this);
+                var bankid = t.val() || '0';
+                branchList=null;
+
+                if(bankid == '0') return;
+
+                showLoading(true);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/bank/list/" + bankid,
+                    data: JSON.stringify({"id": bankid}),
+                    dataType : "json",
+                }).done(function(data){
+                    showLoading(false);
+                    var isSelected = false;
+                    if(data.status!="OK") return;
+
+                    var opt = $("#bank_branch_code");
+                    var txt = $("#admin_chain_store_bank_branch");
+                    opt.find("option").remove().end();
+                    opt.append('<option value="">支店を選択</option>');
+
+                    $.each(data.data, function(i, dt){
+                        var item = $("<option></option>");
+                        item.prop("value", dt.id);
+                        item.text(dt.name);
+                        if( txt.val() == dt.id ){
+                            isSelected = true;
+                            item.prop("selected", true);
+                            $("#admin_chain_store_bank_branch").val( dt.id );
+                            $("#bank_branch_id").val(dt.branchCode);
+                        }
+                        item.data("branchCode", dt.branchCode);
+                        opt.append(item);
+                    });
+
+                    branchList = data.data;
+                    
+                    if(!isSelected){
+                        $("#admin_chain_store_bank_branch").val("");
+                        $("#bank_branch_id").val("");
+                    }
+                    
+                    return true;
+                });
+            });
+
+            $("#bank_branch_code").on("change", function(){
+                var opt = $(this).find(":selected");
+                $("#admin_chain_store_bank_branch").val( $(this).val() );
+                $("#bank_branch_id").val(opt.data("branchCode"));
+            });
+            $("#bank_branch_id").on("keyup", function(){
+                var isSelected = false;
+                var opt = $("#bank_branch_code").find("option");
+                $("#bank_branch_code").find("option").prop("selected", false);
+                $("#admin_chain_store_bank_branch").val("");
+
+                $.each(opt, function(){
+                    var o = $(this);
+                    if(o.data("branchCode") == $("#bank_branch_id").val()){
+                        o.prop("selected", true);
+                        isSelected = true;
+                        $("#admin_chain_store_bank_branch").val( o.val() );
+                    }
+                });
+
+                if(!isSelected){
+                    if($("#bank_branch_id").val().length >= 3){
+                        var modal = $('#bankError');
+                        modal.modal();
+                    }
+                }
+            });
+            $("#admin_chain_store_bank").trigger("change");
+            
+            $("#customer_form").on("submit", function(){
+                $(this).find("input, textarea, select").removeAttr("disabled");
+                return true;
+            });
+
+           $(".btn-ec-banksearch").on("click", function(){
+                if(branchList == null || branchList.length <= 0){
+                    $('#bankNoSelectError').modal('show');
+                }else{
+                    $('#bankSearchModal').modal('show');
+                    $(".bank_branch_list").hide();
+                }
+                return false;
+            });
+
+            $("#bank_branch_id").on("keyup", function(){
+                var isSelected = false;
+                var opt = $("#bank_branch_code").find("option");
+                $("#bank_branch_code").find("option").prop("selected", false);
+                $("#entry_bank_branch").val("");
+
+                $.each(opt, function(){
+                    var o = $(this);
+                    if(o.data("branchCode") == $("#bank_branch_id").val()){
+                        o.prop("selected", true);
+                        isSelected = true;
+                        $("#entry_bank_branch").val(o.val());
+                    }
+                });
+
+                if(!isSelected){
+                    if($("#bank_branch_id").val().length >= 3){
+                        $('#bankNotFoundError').modal("show");
+                    }
+                }
+            });
+            $(".btn_bank_query").on("click", function(){
+                var table = $(".bank_branch_list");
+                var tbody = $("<tbody></tbody>");
+
+                table.find("tbody").remove().end();
+
+                $.each(branchList, function(i, dt){
+                    if(  dt.name.indexOf($("#branch_keyword").val()) >= 0 || dt.branchCode.indexOf($("#branch_keyword").val()) >= 0 ){
+                        var tr = $("<tr></tr>");
+                        var btn = $('<a class="btn btn-sm btn-ec-conversion bank_branch_select" href="#">選択する</a>');
+                        var branchSel = $('<td style="width:90px;text-align:center;"></td>');
+                        var branchCode = $('<td style="width:120px;"></td>');
+                        var branchName = $("<td></td>");
+
+                        btn.data("value", dt.branchCode);
+                        branchCode.text(dt.branchCode);
+                        branchName.text(dt.name);
+
+                        branchSel.append(btn);
+                        tr.append(branchSel);
+                        tr.append(branchCode);
+                        tr.append(branchName);
+
+                        btn.on("click", function(){
+                            var $this = $(this);
+                            $('#bank_branch_id').val(btn.data("value"));
+                            $('#bank_branch_id').trigger("keyup");
+                            $('#bankSearchModal').modal("hide");
+                            return false;
+                        });
+
+                        tbody.append(tr);
+                    }
+                });
+
+                if(tbody.find("tr").length==0){
+                    var tr = $('<tr><td colspan=3>支店が見つかりません</td></tr>');
+                    tbody.append(tr);
+                }
+
+                table.append(tbody);
+
+                $(".bank_branch_list").show();
+                return false;
+            });
+
+            //Make Code
+            function makeid(length) {
+                var result           = '';
+                var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                var charactersLength = characters.length;
+                for ( var i = 0; i < length; i++ ) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+
+            if($("#admin_chain_store_shop_code").val() == ""){
+                $("#admin_chain_store_shop_code").val(makeid(10));
+            }
+        });
+
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    <form name="chain_store_form" role="form" id="chain_store_form" method="post" class="h-adr"
+          action="{%- if ChainStore.id %}{{ url('admin_chainstore_edit', { id : ChainStore.id }) }}{% else %}{{ url('admin_chainstore_new') }}{% endif -%}"
+          novalidate>
+        <span class="p-country-name" style="display:none;">Japan</span>
+        {{ form_widget(form._token) }}
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8"><span class="card-title">{{ 'admin.chainstore.chain_store_info'|trans }}</span>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a data-toggle="collapse" href="#ordererInfo"
+                                       aria-expanded="false" aria-controls="ordererInfo">
+                                        <i class="fa fa-angle-up fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse show ec-cardCollapse" id="ordererInfo">
+                            <div class="card-body">
+                                {% if ChainStore.id %}
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                                 title="{{ 'tooltip.chain_store.chain_store_id'|trans }}">
+                                                <span>{{ 'admin.chainstore.chain_store_id'|trans }}</span>
+                                                <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <p>{{ ChainStore.id }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.chainstore_name'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.company_name, { attr : { placeholder : 'admin.common.chainstore_name' }}) }}
+                                        {{ form_errors(form.company_name) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.chainstore_name_kana'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.company_name_kana, { attr : { placeholder : 'admin.common.chainstore_name_kana' }}) }}
+                                        {{ form_errors(form.company_name_kana) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.representative.name'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                {{ form_widget(form.name.name01) }}
+                                            </div>
+                                            <div class="col">
+                                                {{ form_widget(form.name.name02) }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                {{ form_errors(form.name.name01) }}
+                                            </div>
+                                            <div class="col">
+                                                {{ form_errors(form.name.name02) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.representative.kana'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                {{ form_widget(form.kana.kana01) }}
+                                            </div>
+                                            <div class="col">
+                                                {{ form_widget(form.kana.kana02) }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                {{ form_errors(form.kana.kana01) }}
+                                            </div>
+                                            <div class="col">
+                                                {{ form_errors(form.kana.kana02) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.stock_number'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.stock_number, { attr : { 'maxlength':'10', placeholder : 'admin.chainstore.stock_number' }}) }}
+                                        {{ form_errors(form.stock_number) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.contract_type'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.contract_type) }}
+                                        {{ form_errors(form.contract_type) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.contract_begin_ymd'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.contract_begin_ymd) }}
+                                        {{ form_errors(form.contract_begin_ymd) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.dealer_code'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.dealer_code, { attr : { placeholder : 'admin.common.dealer_code_ex' }}) }}
+                                        {{ form_errors(form.dealer_code) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8"><span class="card-title">{{ 'admin.chainstore.chainstore_bank_info'|trans }}</span>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a data-toggle="collapse" href="#bankInfo"
+                                    aria-expanded="false" aria-controls="bankInfo">
+                                        <i class="fa fa-angle-up fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="collapse show ec-cardCollapse" id="bankInfo">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.chainstore_bank_name'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.bank) }}
+                                        {{ form_errors(form.bank) }}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.chainstore_bank_branch_name'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col bloading">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <input type="text" id="bank_branch_id" maxlength=3 class="form-control" placeholder="支店番号">
+                                            </div>
+                                            <div class="col-1">
+                                                <a class="btn btn-ec-banksearch" href="#" target="_blank"><i class="fa fa-search fa-lg text-secondary" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <select id="bank_branch_code" name="bank_branch_code" class="p-bank-name form-control" placeholder="支店名">
+                                                </select>
+                                                {{ form_widget(form.bank_branch, { attr : { style : 'display:none' }}) }}
+                                                {{ form_errors(form.bank_branch) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.chainstore_bank_account_type'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.bank_account_type) }}
+                                        {{ form_errors(form.bank_account_type) }}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.chainstore_bank_account'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.bank_account, { attr : { placeholder : 'admin.common.bank_account' }}) }}
+                                        {{ form_errors(form.bank_account) }}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.chainstore_bank_holder'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.bank_holder, { attr : { placeholder : 'admin.common.bank_holder' }}) }}
+                                        {{ form_errors(form.bank_holder) }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="{{ 'tooltip.chain_store.shop_memo'|trans }}">
+                                        <span class="card-title">{{ 'admin.common.shop_memo'|trans }}</span>
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a data-toggle="collapse" href="#shopMemo" aria-expanded="false"
+                                       aria-controls="shopMemo">
+                                        <i class="fa fa-angle-up fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse show ec-cardCollapse" id="shopMemo">
+                            <div class="card-body">
+                                {{ form_widget(form.note, { 'attr': { 'row': 8 }}) }}
+                                {{ form_errors(form.note) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="c-conversionArea">
+            <div class="c-conversionArea__container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-6">
+                        <div class="c-conversionArea__leftBlockItem">
+                            <a class="c-baseLink"
+                               href="{{ url('admin_chainstore_page', { page_no : app.session.get('eccube.admin.chainstore.search.page_no')|default('1') } ) }}?resume=1">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                                <span>{{ 'admin.chainstore.chain_store_list'|trans }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div id="ex-conversion-action" class="row align-items-center justify-content-end">
+                            <div class="col-auto">
+                                {{ form_widget(form.status) }}
+                                {{ form_errors(form.status) }}
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-ec-conversion px-5"
+                                        type="submit">{{ 'admin.common.registration'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="modal fade" id="bankNotFoundError" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="ec-modal-header" class="text-center">支店番号が見つかりません</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="bankNoSelectError" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="ec-modal-header" class="text-center">金融機関名を選択してください</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="bankSearchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">支店名を選択</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ec-borderedDefs">
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <span>支店番号または支店名</span>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="branch_keyword" class="form-control" placeholder="番号または支店名を入力">
+                            </div>
+                            <div class="col-2">
+                                <a class="btn btn-ec-conversion btn_bank_query" href="#">検索</a>
+                            </div>
+                        </div>
+                        <table class="dzx-table_row_detail bank_branch_list">
+                        <thead>
+                            <tr>
+                                <th style="width:90px;text-align:center;">選択</th>
+                                <th style="width:120px;">支店番号</th>
+                                <th>支店名</th>
+                            </tr>
+                        </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

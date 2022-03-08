@@ -1,0 +1,91 @@
+
+#------------------------------------------------------------------------------------
+# 追加
+#------------------------------------------------------------------------------------
+common.representative.name: お名前（代表者）
+common.representative.kana: お名前（代表者）(カナ)
+common.supervisor.name: お名前（担当者）
+common.supervisor.kana: お名前（担当者）(カナ)
+common.select__bank: 銀行を選択
+common.select__bank_branch: 支店を選択
+common.select__bank_account_type: 振込先の科目を選択
+common.select__contract_type: 契約区分を選択
+common.select__chain_store: 販売店を選択
+
+admin.common.representative.name: お名前（代表者）
+admin.common.representative.kana: お名前（代表者）(カナ)
+admin.common.chainstore_name: 販売店名
+admin.common.chainstore_name_kana: 販売店名(カナ)
+admin.common.dealer_code_ex: ディーラーコード(例：12345678)
+admin.common.chainstore_shop_code: 販売店
+admin.common.shop_code: 識別番号
+admin.common.shop_code_ex: 識別番号(例：AB12345678)
+admin.common.related_chainstore: 関連販売店
+admin.common.related_customer: 関連会員
+admin.common.shop_name: 営業店名称
+admin.common.bank_name: 金融機関名(例：ゆうちょ銀行)
+admin.common.bank_branch_name: 支店名(例：１３９支店)
+admin.common.bank_account: 口座番号(例：0000000)
+admin.common.bank_holder: 口座名義(例：ダシーズアイス)
+admin.home.shop_status_chainstores: 販売店数
+admin.label.storechain_member: 販売店会員
+
+# 機能名称
+admin.chainstore.chainstore_management: 販売店管理
+admin.chainstore.chainstore_list: 販売店一覧
+admin.chainstore.chainstore_registration: 販売店登録
+admin.chainstore.stock_number: 証券番号
+admin.chainstore.contract_type: 契約区分
+admin.chainstore.contract_begin_ymd: 契約開始年月
+admin.chainstore.dealer_code: ディーラーコード
+admin.chainstore.chainstore_bank_info: 金融機関情報
+admin.chainstore.chainstore_bank_name: 金融機関名
+admin.chainstore.chainstore_bank_branch_name: 支店名
+admin.chainstore.chainstore_bank_account_type: 振込先の科目
+admin.chainstore.chainstore_bank_account: 口座番号
+admin.chainstore.chainstore_bank_holder: 口座名義
+admin.customer.cb_month: 対象月
+admin.customer.cb_is_read: 出力結果
+admin.customer.cb.id: キャシュバックID
+admin.customer.cb.customer_id: 会員ID
+admin.customer.cb.reference_date: 対象月
+admin.customer.cb.customer_name: 会員名称
+admin.customer.cb.product_name: 商品名称
+admin.customer.cb.final_amt: キャシュバック金額
+admin.customer.cb.cashback_data_build: キャッシュバックデータ出力
+
+#------------------------------------------------------------------------------------
+# 販売店
+#------------------------------------------------------------------------------------
+# 機能名称
+admin.chainstore.chain_store_management: 販売店管理
+admin.chainstore.chain_store_list: 販売店一覧
+admin.chainstore.chain_store_registration: 販売店登録
+admin.chainstore.chain_store_address_registration: お届け先登録
+
+# ラベル/メッセージ
+admin.chainstore.chain_store_id: 販売店ID
+admin.chainstore.chain_store_info: 販売店情報
+admin.chainstore.purchase_history: 注文履歴
+admin.chainstore.purchase_history__not_found: 注文履歴がありません
+admin.chainstore.chain_store_address: お届け先住所
+admin.chainstore.chain_store_address__not_found: お届け先住所がありません
+admin.chainstore.chain_store_address__add: お届け先住所を追加
+admin.chainstore.chain_store_address_count_is_over: 'お届け先登録の上限の%eccube_deliv_addr_max%件に達しています。お届け先を入力したい場合は、削除か変更を行ってください。'
+admin.chainstore.chain_store_address_id: お届け先ID
+admin.chainstore.chain_store_address_info: お届け先情報
+admin.chainstore.multi_search_label: 販売店ID・会社名・お名前・ディーラーコード・証券番号
+admin.chainstore.chain_store_status: 販売店種別
+admin.chainstore.chain_store_contract_type: 契約区分
+admin.chainstore.birth_month: 誕生月
+admin.chainstore.resend: 仮販売店メール再送
+admin.chainstore.resend_confirm_title: 仮販売店メールを再送します。
+admin.chainstore.resend_confirm_message: 仮登録メールを再送してもよろしいですか？
+admin.chainstore.no_customer_address: この販売店のお届け先がありません
+admin.chainstore.no_purchase_history: この販売店の購入履歴がありません
+admin.chainstore.notfound: この販売店が見つかりません
+admin.chainstore.has_registered: この販売店識別番号として既に登録されていて使用できない
+
+tooltip.chain_store.multi_search_label: 情報を入力して一覧の絞り込み検索ができます。より詳細な条件を指定するには［詳細検索］を開いてください。
+tooltip.chain_store.chain_store_id: 自動的に採番される販売店のIDです。
+tooltip.chain_store.shop_memo: 店舗用のメモ欄です。フロント側には表示されません。
