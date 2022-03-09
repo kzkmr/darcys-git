@@ -174,7 +174,7 @@ add_action(
 
 
 /*
-  「products_type」で絞り込むためのドロップダウンを追加する
+
 */
 
 add_filter( 'snow_monkey_recent_posts_widget_args_ice', function( $query_args ) {

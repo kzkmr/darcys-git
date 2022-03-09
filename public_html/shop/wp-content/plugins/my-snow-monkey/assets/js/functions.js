@@ -1,5 +1,41 @@
 $(function() {
 
+$('.pagetop').hide();
+
+$(window).on('scroll', function() {
+    // ページトップフェードイン
+    if ($(this).scrollTop() > 300) {
+        $('.pagetop').fadeIn();
+    } else {
+        $('.pagetop').fadeOut();
+    }
+
+    // PC表示の時のみに適用
+    if (window.innerWidth > 767) {
+
+        if ($('.ec-orderRole').length) {
+
+            var side = $(".ec-orderRole__summary"),
+                wrap = $(".ec-orderRole").first(),
+                min_move = wrap.offset().top,
+                max_move = wrap.height(),
+                margin_bottom = max_move - min_move;
+
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > min_move && scrollTop < max_move) {
+                var margin_top = scrollTop - min_move;
+                side.css({"margin-top": margin_top});
+            } else if (scrollTop < min_move) {
+                side.css({"margin-top": 0});
+            } else if (scrollTop > max_move) {
+                side.css({"margin-top": margin_bottom});
+            }
+
+        }
+    }
+    return false;
+});
+
 $('.ec-header-sp-btn').on('click', function() {
     $('.ec-layoutRole').toggleClass('is_active');
     $('.ec-drawer-role').toggleClass('is_active');

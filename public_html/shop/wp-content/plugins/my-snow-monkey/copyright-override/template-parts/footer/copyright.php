@@ -1,3 +1,4 @@
+<div class="ec-block-top-btn pagetop"><img src="/html/template/default/assets/img/common/totop.svg" alt="" width="40" height="46"></div>
 
 <div class="ec-footer-role">
     <div class="ec-footer-role__inner">

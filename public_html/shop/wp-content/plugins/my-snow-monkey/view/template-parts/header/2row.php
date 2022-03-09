@@ -108,7 +108,7 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
                 <span class="p-global-navi__jp">製品の誕生ものがたり</span>
                 <ul class="p-global-navi-child">
                   <li class="p-global-navi-child__item">
-                    <a href="">- ICE CREAM</a>
+                    <a href="<?php echo esc_url(home_url('/story/story-ice-cream/')); ?>">- ICE CREAM</a>
                   </li>
                   <li class="p-global-navi-child__item">
                     <a href="">- COFFEE</a>
@@ -133,9 +133,10 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
                   </li>
                 </ul>
               </li>
-              <li class="p-global-navi__item has-child">
+              <!-- <li class="p-global-navi__item has-child"> -->
+              <li class="p-global-navi__item">
                 <a href="<?php echo esc_url(home_url('/products-list/')); ?>">PRODUCTS</a>
-                <span class="p-global-navi__jp">商品ラインアップ</span>
+                <!-- <span class="p-global-navi__jp">商品ラインアップ</span>
                 <ul class="p-global-navi-child">
                   <li class="p-global-navi-child__item">
                     <a href="">- ICE CREAM</a>
@@ -146,7 +147,7 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
                   <li class="p-global-navi-child__item">
                     <a href="">- BREAD</a>
                   </li>
-                </ul>
+                </ul> -->
               </li>
               <li class="p-global-navi__item">
                 <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
