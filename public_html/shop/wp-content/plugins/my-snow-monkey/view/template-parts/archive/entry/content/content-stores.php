@@ -24,12 +24,13 @@ $entries_layout   = get_theme_mod( get_post_type() . '-entries-layout' );
 
 	<div class="p-stores-content__list">
 		<?php foreach ( $terms as $term ) : ?>
+
 			<h3><?php echo esc_html( $term->name ); ?></h3>
 			<div class="p-archive p-archive--stores">
 				<?php
 				$store_posts = get_posts(
 					[
-						'post_type'      => get_post_type(),
+						'post_type'      => 'stores',
 						'posts_per_page' => -1,
 						'tax_query'      => [
 							[
@@ -56,6 +57,7 @@ $entries_layout   = get_theme_mod( get_post_type() . '-entries-layout' );
 									</div>
 									<div class="c-entry-summary__body">
 										<p class="c-entry-summary__title"><?php the_title(); ?></p>
+                    <?php /* echo $term->slug ; */ ?>
 										<p class="c-entry-summary__product-title">取扱商品</p>
 										<div class="c-entry-summary__term-wrap">
 											<?php

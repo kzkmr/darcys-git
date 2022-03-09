@@ -19,6 +19,28 @@ h3 {
   border: none !important;
 }
 
+/*トップへ戻る*/
+.ec-block-top-btn {
+  display: none;
+  position: fixed;
+  width: 40px;
+  height: 46px;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  background-color: transparent;
+}
+@media only screen and (min-width: 768px) {
+  .ec-block-top-btn {
+    right: 30px;
+    bottom: 30px;
+  }
+}
+
+.c-entry__content > * {
+  width: 100% !important;
+}
+
 .c-entry__header {
   display: none !important;
 }
@@ -1279,6 +1301,12 @@ Styleguide 11.3.2
 .breadcrumb-wrapper {
   max-width: 1080px;
   margin: 1.8rem auto 0;
+  padding: 0 5.333%;
+}
+@media only screen and (min-width: 768px) {
+  .breadcrumb-wrapper {
+    padding: 0;
+  }
 }
 .breadcrumb-wrapper .breadcrumb {
   display: flex;
@@ -1449,6 +1477,7 @@ Styleguide 11.3.2
 
 .p-stores-search {
   display: flex;
+  flex-wrap: wrap;
   padding: 0 5.333%;
 }
 @media only screen and (min-width: 768px) {
@@ -1464,7 +1493,12 @@ Styleguide 11.3.2
   background-color: #727171;
 }
 .p-stores-search__item + .p-stores-search__item {
-  margin-left: 20px;
+  margin: 15px 0 0 0;
+}
+@media only screen and (min-width: 768px) {
+  .p-stores-search__item + .p-stores-search__item {
+    margin: 0 0 0 20px;
+  }
 }
 .p-stores-search__item select {
   padding: 5px 15px 5px 7px;
@@ -1521,13 +1555,19 @@ Styleguide 11.3.2
 }
 .p-stores-content .c-entries--stores .c-entry-summary__term-list {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 .p-stores-content .c-entries--stores .c-entry-summary__term-list li {
-  margin-right: 7px;
+  margin: 0 7px 5px 0;
   padding: 5px 8px;
   line-height: 1;
   color: #fff;
+}
+@media only screen and (min-width: 768px) {
+  .p-stores-content .c-entries--stores .c-entry-summary__term-list li {
+    margin: 0 7px 0 0;
+  }
 }
 .p-stores-content .c-entries--stores .c-entry-summary__term-list li.cat-ice {
   background-color: #ef857d;
