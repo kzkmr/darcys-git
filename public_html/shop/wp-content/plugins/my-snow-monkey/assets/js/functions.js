@@ -9,30 +9,10 @@ $(window).on('scroll', function() {
     } else {
         $('.pagetop').fadeOut();
     }
+});
 
-    // PC表示の時のみに適用
-    if (window.innerWidth > 767) {
-
-        if ($('.ec-orderRole').length) {
-
-            var side = $(".ec-orderRole__summary"),
-                wrap = $(".ec-orderRole").first(),
-                min_move = wrap.offset().top,
-                max_move = wrap.height(),
-                margin_bottom = max_move - min_move;
-
-            var scrollTop = $(window).scrollTop();
-            if (scrollTop > min_move && scrollTop < max_move) {
-                var margin_top = scrollTop - min_move;
-                side.css({"margin-top": margin_top});
-            } else if (scrollTop < min_move) {
-                side.css({"margin-top": 0});
-            } else if (scrollTop > max_move) {
-                side.css({"margin-top": margin_bottom});
-            }
-
-        }
-    }
+$('.pagetop').click(function () {
+    $('body, html').animate({ scrollTop: 0 }, 500);
     return false;
 });
 
@@ -142,3 +122,15 @@ $(function() {
 //     }
 //   });
 // });
+
+
+// 時刻表示
+$(function() {
+  var time = $('.c-meta__item--published');
+  time.each(function() {
+    var timeText = $(this).text();
+    var result = timeText.replaceAll('-', '.');
+    console.log(result);
+    $(this).text(result);
+  });
+});

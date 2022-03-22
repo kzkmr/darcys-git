@@ -22,175 +22,183 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 ?>
 
 <div class="l-<?php echo esc_attr( $header_type ); ?>" data-has-global-nav="<?php echo esc_attr( $data_has_global_nav ); ?>">
-	<div class="<?php echo esc_attr( $container_class ); ?>">
 
-    <?php /*
-		<div class="l-<?php echo esc_attr( $header_type ); ?>__row">
-			<div class="c-row c-row--margin-s c-row--lg-margin c-row--middle c-row--nowrap">
-				<?php if ( $has_drawer_nav && 'left' === $hamburger_btn_position ) : ?>
-				<div class="c-row__col c-row__col--fit u-invisible-lg-up">
-					<?php
-						Helper::get_template_part(
-							'template-parts/header/hamburger-btn',
-							null,
-							[
-								'_id' => false,
-							]
-						);
-						?>
-				</div>
-				<?php endif; ?>
-			</div>
-		</div>
-    */ ?>
-
-		<!-- スマホ/タブレット 用 -->
-		<div class="c-row u-invisible-lg-up ec-header-navi-sp">
-			<div class="ec-header-navi-sp__logo">
-				<a href="<?php echo ec_url(); ?>">
-					<img src="<?php echo ec_asset_url(); ?>/img/common/logo_sp.png" width="80">
-				</a>
-			</div>
-			<!-- <div class="ec-header-navi-sp__login">
-				{% if is_granted('ROLE_USER') %}
-					<a href="{{ url('logout') }}">
-						<img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
-					</a>
-				{% else %}
-					<a href="{{ url('mypage_login') }}">
-						<img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
-					</a>
-				{% endif %}
-			</div>
-			<div class="ec-header-navi-sp__cart">
-				<div class="ec-headerRole__cart">
-						{{ include('Block/cart.twig') }}
-				</div>
-			</div> -->
-			<div class="ec-header-navi-sp__store">
-				<a href="<?php echo ec_url(); ?>">
-					<p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
-					<img src="<?php echo ec_asset_url(); ?>/img/common/icon_online_store.png" width="32">
-				</a>
-			</div>
-			<div class="ec-header-navi-sp__btn">
-				<div class="ec-header-sp-btn">
-					<div class="ec-header-sp-btn__text">
-						<span>MENU</span>
-					</div>
-					<div class="ec-header-sp-btn__bars">
-						<span></span>
-						<span></span>
-						<span></span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- PC 用 -->
-    <div class="c-row p-custom-header u-invisible-md-down">
-      <div class="ec-header-bottom">
-        <div class="ec-header-bottom__logo">
-          <p class="ec-header-bottom__img">
-            <a href="<?php echo ec_url(); ?>">
-              <img src="<?php echo ec_asset_url(); ?>/img/common/logo_header.png">
-            </a>
-          </p>
+  <!-- スマホ/タブレット 用 -->
+  <div class="c-row ec-header-navi-sp pc-none">
+    <div class="ec-header-navi-sp__logo">
+      <a href="<?php echo ec_url(); ?>">
+        <img src="<?php echo ec_asset_url(); ?>/img/common/logo_sp.png" width="80">
+      </a>
+    </div>
+    <!-- <div class="ec-header-navi-sp__login">
+      {% if is_granted('ROLE_USER') %}
+        <a href="{{ url('logout') }}">
+          <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+        </a>
+      {% else %}
+        <a href="{{ url('mypage_login') }}">
+          <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+        </a>
+      {% endif %}
+    </div>
+    <div class="ec-header-navi-sp__cart">
+      <div class="ec-headerRole__cart">
+          {{ include('Block/cart.twig') }}
+      </div>
+    </div> -->
+    <div class="ec-header-navi-sp__store">
+      <a href="<?php echo ec_url(); ?>">
+        <p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
+        <img src="<?php echo ec_asset_url(); ?>/img/common/icon_online_store.png" width="32">
+      </a>
+    </div>
+    <div class="ec-header-navi-sp__btn">
+      <div class="ec-header-sp-btn">
+        <div class="ec-header-sp-btn__text">
+          <span>MENU</span>
         </div>
-        <div class="ec-header-bottom__center">
-          <div class="ec-header-bottom__gnav">
-            <ul class="p-global-navi">
-              <li class="p-global-navi__item">
-                <a href="<?php echo esc_url(home_url('/news/')); ?>">NEWS</a>
-              </li>
-              <li class="p-global-navi__item has-child">
-                <a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
-                <span class="p-global-navi__jp">製品の誕生ものがたり</span>
-                <ul class="p-global-navi-child">
-                  <li class="p-global-navi-child__item">
-                    <a href="<?php echo esc_url(home_url('/story/story-ice-cream/')); ?>">- ICE CREAM</a>
-                  </li>
-                  <li class="p-global-navi-child__item">
-                    <a href="">- COFFEE</a>
-                  </li>
-                  <li class="p-global-navi-child__item">
-                    <a href="">- BREAD</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="p-global-navi__item has-child">
-                <a href="<?php echo esc_url(home_url('/concept/')); ?>">CONCEPT</a>
-                <span class="p-global-navi__jp">製品のこだわり</span>
-                <ul class="p-global-navi-child">
-                  <li class="p-global-navi-child__item">
-                    <a href="">- ICE CREAM</a>
-                  </li>
-                  <li class="p-global-navi-child__item">
-                    <a href="">- COFFEE</a>
-                  </li>
-                  <li class="p-global-navi-child__item">
-                    <a href="">- BREAD</a>
-                  </li>
-                </ul>
-              </li>
-              <!-- <li class="p-global-navi__item has-child"> -->
-              <li class="p-global-navi__item">
-                <a href="<?php echo esc_url(home_url('/products-list/')); ?>">PRODUCTS</a>
-                <!-- <span class="p-global-navi__jp">商品ラインアップ</span>
-                <ul class="p-global-navi-child">
-                  <li class="p-global-navi-child__item">
-                    <a href="">- ICE CREAM</a>
-                  </li>
-                  <li class="p-global-navi-child__item">
-                    <a href="">- COFFEE</a>
-                  </li>
-                  <li class="p-global-navi-child__item">
-                    <a href="">- BREAD</a>
-                  </li>
-                </ul> -->
-              </li>
-              <li class="p-global-navi__item">
-                <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
-              </li>
-              <li class="p-global-navi__item">
-                <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORE</a>
-              </li>
-            </ul>
-          </div>
+        <div class="ec-header-sp-btn__bars">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <div class="ec-header-bottom__right">
-          <div class="ec-header-bottom__store-link">
-            <a href="<?php echo ec_url(); ?>/products/list">
-              <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" alt="" width="34">
-              <span>ONLINE SHOP</span>
-            </a>
-          </div>
-        </div>
-          <?php /* <div class="ec-headerNaviRoleTop__btn">
-            <a href="">
-              <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" width="28" height="28">
-              ONLINE SHOP
-            </a>
-          </div>
-        </div> */ ?>
       </div>
     </div>
+  </div>
 
-		<?php /* if ( $has_global_nav ) : ?>
-			<div class="l-<?php echo esc_attr( $header_type ); ?>__row u-invisible-md-down p-global-nav-wrap">
-				<?php
-				Helper::get_template_part(
-					'template-parts/nav/global',
-					null,
-					[
-						'_vertical'          => false,
-						'_gnav-hover-effect' => get_theme_mod( 'gnav-hover-effect' ),
-					]
-				);
-				?>
-			</div>
-		<?php endif; */ ?>
-	</div>
+  <!-- PC 用 -->
+  <div class="p-custom-header sp-none">
+    <div class="ec-header-top">
+      <div class="ec-header-search">
+        <form method="get" class="searchform" action="<?php echo ec_url(); ?>/products/list">
+          <div class="ec-header-search__keyword">
+            <div class="ec-input">
+              <input type="search" name="name" maxlength="50" class="search-name" placeholder="キーワードを入力">
+              <button class="ec-header-search__keyword-btn" type="submit">
+                <div class="ec-icon">
+                  <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/search-dark.svg" alt="">
+                </div>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="ec-header-top__login">
+        <div class="ec-header-nav">
+          <div class="ec-header-nav__item">
+            <a href="<?php echo ec_url(); ?>/entry">
+              <span class="ec-header-nav__item-link">新規会員登録</span>
+            </a>
+          </div>
+          <div class="ec-header-nav__item">
+            <a href="<?php echo ec_url(); ?>/mypage/login">
+              <span class="ec-header-nav__item-link">ログイン</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ec-header-bottom">
+      <div class="ec-header-bottom__logo">
+        <p class="ec-header-bottom__img">
+          <a href="<?php echo ec_url(); ?>">
+            <img src="<?php echo ec_asset_url(); ?>/img/common/logo_header.png">
+          </a>
+        </p>
+      </div>
+      <div class="ec-header-bottom__center">
+        <div class="ec-header-bottom__gnav">
+          <ul class="p-global-navi">
+            <li class="p-global-navi__item">
+              <a href="<?php echo esc_url(home_url('/news/')); ?>">NEWS</a>
+            </li>
+            <li class="p-global-navi__item has-child">
+              <a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
+              <a href="<?php echo esc_url(home_url('/story/')); ?>" class="p-global-navi__jp">製品の誕生ものがたり</a>
+              <ul class="p-global-navi-child">
+                <li class="p-global-navi-child__item">
+                  <a href="<?php echo esc_url(home_url('/story/story-ice-cream/')); ?>">- ICE CREAM</a>
+                </li>
+                <li class="p-global-navi-child__item">
+                  <a href="">- COFFEE</a>
+                </li>
+                <li class="p-global-navi-child__item">
+                  <a href="">- BREAD</a>
+                </li>
+              </ul>
+            </li>
+            <li class="p-global-navi__item has-child">
+              <a href="<?php echo esc_url(home_url('/concept/')); ?>">CONCEPT</a>
+              <a href="<?php echo esc_url(home_url('/concept/')); ?>" class="p-global-navi__jp">製品のこだわり</a>
+              <ul class="p-global-navi-child">
+                <li class="p-global-navi-child__item">
+                  <a href="">- ICE CREAM</a>
+                </li>
+                <li class="p-global-navi-child__item">
+                  <a href="">- COFFEE</a>
+                </li>
+                <li class="p-global-navi-child__item">
+                  <a href="">- BREAD</a>
+                </li>
+              </ul>
+            </li>
+            <!-- <li class="p-global-navi__item has-child"> -->
+            <li class="p-global-navi__item">
+              <a href="<?php echo esc_url(home_url('/products-list/')); ?>">PRODUCTS</a>
+              <!-- <span class="p-global-navi__jp">商品ラインアップ</span>
+              <ul class="p-global-navi-child">
+                <li class="p-global-navi-child__item">
+                  <a href="">- ICE CREAM</a>
+                </li>
+                <li class="p-global-navi-child__item">
+                  <a href="">- COFFEE</a>
+                </li>
+                <li class="p-global-navi-child__item">
+                  <a href="">- BREAD</a>
+                </li>
+              </ul> -->
+            </li>
+            <li class="p-global-navi__item">
+              <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
+            </li>
+            <li class="p-global-navi__item">
+              <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORE</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="ec-header-bottom__right">
+        <div class="ec-header-bottom__store-link">
+          <a href="<?php echo ec_url(); ?>/products/list">
+            <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" alt="" width="34">
+            <span>ONLINE SHOP</span>
+          </a>
+        </div>
+      </div>
+        <?php /* <div class="ec-headerNaviRoleTop__btn">
+          <a href="">
+            <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" width="28" height="28">
+            ONLINE SHOP
+          </a>
+        </div>
+      </div> */ ?>
+    </div>
+  </div>
+
+  <?php /* if ( $has_global_nav ) : ?>
+    <div class="l-<?php echo esc_attr( $header_type ); ?>__row u-invisible-md-down p-global-nav-wrap">
+      <?php
+      Helper::get_template_part(
+        'template-parts/nav/global',
+        null,
+        [
+          '_vertical'          => false,
+          '_gnav-hover-effect' => get_theme_mod( 'gnav-hover-effect' ),
+        ]
+      );
+      ?>
+    </div>
+  <?php endif; */ ?>
 </div>
 
 <?php /* if ( ! is_front_page() ) : ?>

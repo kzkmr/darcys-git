@@ -43,7 +43,7 @@ Styleguide 14.1
   }
 
   &__tags {
-    margin-top: 16px;
+    margin: 16px 0;
     padding: 0;
     padding-bottom: 16px;
     border-bottom: 1px dotted #ccc;
@@ -147,6 +147,11 @@ Styleguide 14.1
 
   .kokokara_select_product_left {
     flex: 0 0 100%;
+    margin-top: 30px;
+
+    @include media_desktop {
+      margin-top: 50px;
+    }
 
     .ec-sliderItemRole {
       width: 50%;

@@ -23,10 +23,12 @@ Styleguide 12.1
 .ec-sliderItemRole{
   @include container;
   margin-bottom: 24px;
+
   ul{
     padding: 0;
     list-style: none;
   }
+
   .item_nav {
     display: none;
     @include media_desktop {
@@ -37,6 +39,7 @@ Styleguide 12.1
     }
 
   }
+
   .slideThumb{
     margin-bottom: 25px;
     width: 33%;
@@ -70,8 +73,8 @@ Styleguide 12.1
       figure {
         position: relative;
         margin: 0 !important;
+        padding-top: 56.25%;
         overflow: hidden;
-        aspect-ratio: 16/9;
 
         video {
           position: absolute;
@@ -82,7 +85,6 @@ Styleguide 12.1
           height: auto;
           min-height: 100%;
           transform: translate(-50%, -50%);
-          
         }
       }
 

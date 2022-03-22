@@ -22,6 +22,22 @@ add_action(
 
 
 /*
+  Google Fontsを読み込む
+*/
+
+add_action( 'wp_head', function() {
+    ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <?php
+  },
+  10,
+  3
+);
+
+
+/*
   uploadディレクトリのURLを返す e.g.)http://hogehoge/wp-content/uploads
 */
 function shortcode_getUploadsURL() {
@@ -103,6 +119,20 @@ add_action( 'admin_menu', 'ChangeAdminLabel' );
 */
 
 add_filter(
+	'snow_monkey_recent_posts_widget_args_info',
+	function( $query_args ) {
+		$tax_query               = array(
+			array(
+				'taxonomy' => 'category',
+				'field'    => 'slug',
+				'terms'    => 'info',
+			),
+		);
+		$query_args['tax_query'] = $tax_query;
+		return $query_args;
+	}
+);
+add_filter(
 	'snow_monkey_recent_posts_widget_args_ice',
 	function( $query_args ) {
 		$tax_query               = array(
@@ -144,6 +174,20 @@ add_filter(
 		return $query_args;
 	}
 );
+add_filter(
+	'snow_monkey_recent_posts_widget_args_other',
+	function( $query_args ) {
+		$tax_query               = array(
+			array(
+				'taxonomy' => 'category',
+				'field'    => 'slug',
+				'terms'    => 'other',
+			),
+		);
+		$query_args['tax_query'] = $tax_query;
+		return $query_args;
+	}
+);
 
 
 /*
@@ -177,7 +221,7 @@ add_action(
 
 */
 
-add_filter( 'snow_monkey_recent_posts_widget_args_ice', function( $query_args ) {
+add_filter( 'snow_monkey_recent_posts_widget_args_product-ice', function( $query_args ) {
     $query_args = [
       'tax_query' => [
         [
@@ -201,6 +245,10 @@ add_action(
   'snow_monkey_prepend_contents',
   function() {
     if ( is_singular('products') ) {
+      echo do_shortcode( '[call_php file=pageheader]' );
+      echo do_shortcode( '[call_php file=breadcrumb]' );
+    }
+    if ( is_singular('post') ) {
       echo do_shortcode( '[call_php file=pageheader]' );
       echo do_shortcode( '[call_php file=breadcrumb]' );
     }

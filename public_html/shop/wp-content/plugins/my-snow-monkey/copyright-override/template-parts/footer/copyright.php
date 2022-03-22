@@ -1,4 +1,6 @@
-<div class="ec-block-top-btn pagetop"><img src="/html/template/default/assets/img/common/totop.svg" alt="" width="40" height="46"></div>
+<div class="ec-block-top-btn pagetop">
+  <img src="/html/template/default/assets/img/common/totop.svg" alt="" width="40" height="46">
+</div>
 
 <div class="ec-footer-role">
     <div class="ec-footer-role__inner">
@@ -70,34 +72,32 @@
                     <a href="">サイトマップ</a>
                 </li>
             </ul>
+        </div>
+        <div class="ec-footer-role__sns">
             <ul class="ec-footer-sns-navi">
                 <li class="ec-footer-sns-navi__link">
                     <a href="https://twitter.com/benechanshop" target="_blank" rel="noopener noreferrer">
-                        <img src="/html/template/default/assets/icon/icon_tw.png" width="35" height="29">
-                        <span>Twitter</span>
+                        <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_tw.png" width="35" height="29">
                     </a>
                 </li>
                 <li class="ec-footer-sns-navi__link">
                     <a href="" target="_blank" rel="noopener noreferrer">
-                        <img src="/html/template/default/assets/icon/icon_insta.png" width="32" height="32">
-                        <span>INSTAGRAM</span>
+                        <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_insta.png" width="32" height="32">
                     </a>
                 </li>
                 <li class="ec-footer-sns-navi__link">
                     <a href="https://www.facebook.com/benechan.shop/" target="_blank" rel="noopener noreferrer">
-                        <img src="/html/template/default/assets/icon/icon_fb.png" width="32" height="32">
-                        <span>Facebook</span>
+                        <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_fb.png" width="32" height="32">
                     </a>
                 </li>
                 <li class="ec-footer-sns-navi__link">
                     <a href="" target="_blank" rel="noopener noreferrer">
-                        <img src="/html/template/default/assets/icon/icon_youtube.png" width="32" height="32">
-                        <span>YouTube</span>
+                        <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_youtube.png" width="32" height="32">
                     </a>
                 </li>
             </ul>
         </div>
-        <div class="ec-footer-title">
+        <div class="ec-footer-title" class="">
             <div class="ec-footer-title__copyright">&copy; Darcy’S Factry Co., Ltd. All rights reserved.</div>
         </div>
     </div>

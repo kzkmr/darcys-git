@@ -116,6 +116,29 @@
       </li>
     </ol>
   </div>
+<?php elseif ( is_singular('post') ): ?>
+  <div class="breadcrumb-wrapper">
+    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+          <span itemprop="name">HOME</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/news/')); ?>">
+          <span itemprop="name">NEWS</span>
+        </a>
+        <meta itemprop="position" content="2" />
+      </li>
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php get_the_permalink(); ?>">
+          <span itemprop="name"><?php single_post_title(); ?></span>
+        </a>
+        <meta itemprop="position" content="2" />
+      </li>
+    </ol>
+  </div>
 <?php elseif ( is_singular('products') ): ?>
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">

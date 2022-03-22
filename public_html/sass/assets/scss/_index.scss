@@ -1,7 +1,12 @@
 @import url('./normalize.css/normalize.css');
 
+html {
+  font-size: 16px;
+}
 body {
-  font-family: 'Courier','TsukuARdGothic-Regular','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'Yu Gothic UI',YuGothic,'Yu Gothic',sans-serif;
+  //font-family: 'Courier','TsukuARdGothic-Regular','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'Yu Gothic UI',YuGothic,'Yu Gothic',sans-serif;
+  font-family: 'Courier','Noto Sans JP','TsukuARdGothic-Regular','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'Yu Gothic UI',YuGothic,'Yu Gothic',sans-serif;
+  font-weight: 400;
   line-height: 1.6;
   letter-spacing: .05em;
   color:#231815;
@@ -9,7 +14,6 @@ body {
   background: #fff;
   margin: 0;
 }
-
 
 ul,
 ol {
@@ -44,17 +48,14 @@ img {
   height: auto;
 }
 
-.pc-none {
-
-  @media (min-width:768px) {
+@media (max-width:767px) {
+  .sp-none {
     display: none !important;
   }
 }
 
-.sp-none {
-  display: none !important;
-
-  @media (min-width:768px) {
-    display: block !important;
+@media (min-width:768px) {
+  .pc-none {
+    display: none !important;
   }
 }

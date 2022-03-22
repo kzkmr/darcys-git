@@ -35,7 +35,7 @@ Styleguide 11.2
     margin-left: auto;
     padding-top: 60px;
     width: 100%;
-    max-width: 1130px;
+    max-width: 1060px;
     display: flex;
     flex-wrap: nowrap;
 
@@ -90,18 +90,22 @@ Styleguide 11.2
   @include media_desktop {
     @include clearfix;
   }
+
   &::before {
     display: none;
   }
+
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: auto;
+
   @include media_desktop {
     width: 100%;
     @include clearfix;
   }
-  & &__title {
+
+  &__title {
     width: 100%;
   }
 }
@@ -124,11 +128,11 @@ Styleguide 11.2
     padding-bottom: 40px;
   }
 
-  & &__left {
+  &__left {
     width: calc(100% / 3);
   }
 
-  & &__search {
+  &__search {
     display: none;
     @include media_desktop() {
       display: inline-block;
@@ -136,7 +140,8 @@ Styleguide 11.2
       @include reset_link;
     }
   }
-  & &__navSP {
+
+  &__navSP {
     display: block;
     @include media_desktop() {
       display: none;
@@ -144,30 +149,31 @@ Styleguide 11.2
     }
   }
 
-  & &__right {
+  &__right {
     width: calc(100% * 2 / 3);
     display: flex;
     justify-content: flex-end;
     align-items: center;
   }
 
-  & &__nav {
+  &__nav {
     display: inline-block;
     @include reset_link;
   }
-  & &__cart {
+
+  &__cart {
     display: inline-block;
     @include reset_link;
   }
 }
 
 .ec-header-top {
-
-  @include media_desktop {
-    display: flex !important;
-    justify-content: flex-end;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5px 0 0;
 
   &__nav {
     margin-right: 20px;
@@ -186,41 +192,57 @@ Styleguide 11.2
 }
 
 .ec-header-bottom {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
-  max-width: 960px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 40px 0 20px;
+  padding: 40px 20px 20px;
 
-  @include media_desktop() {
-    display: flex;
-  }
+  &__logo {
+    position: absolute;
+    top: -22px;
+    left: 20px;
 
-  &__center {
-    display: none;
-
-    @include media_desktop() {
-      display: flex;
-      align-items: center;
-      margin: 0 auto;
+    @media (min-width:1240px) {
+      left: 0;
     }
   }
 
-  &__right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 30px;
-    height: 32px;
-    margin: auto 0;
+  &__center {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  }
 
-    @include media_desktop() {
-      position: relative;
+  &__right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -30px;
+    bottom: 0;
+    right: 20px;
+    width: 140px;
+    height: 54px;
+    margin: auto 0;
+    padding: 12px 20px;
+    border-radius: 27px;
+    background-color: #ddd;
+
+    @media (min-width:896px) {
+      top: 36px;
+      right: 20px;
+    }
+
+    @media (min-width:1240px) {
       right: 0;
-      margin: 0;
+    }
+
+    span {
+      @include font(12px,400,1,0);
     }
   }
 
@@ -240,18 +262,21 @@ Styleguide 11.2
   &__gnav {
 
     .p-global-navi {
-      display: none;
+      display: flex;
+      padding-top: 60px;
+      list-style: none;
 
-      @include media_desktop() {
-        display: flex;
-        gap: 30px;
+      @media (min-width:896px) {
         padding-top: 20px;
-        list-style: none;
       }
 
       &__item {
         position: relative;
         z-index: 1;
+
+        & + .p-global-navi__item {
+          margin-left: 30px;
+        }
 
         a {
           font-size: 16px;
@@ -431,58 +456,6 @@ Styleguide 11.2
 
 
 /*
-ヘッダー：タイトル
-
-ヘッダー内で使用されるタイトルコンポーネントです。
-
-Markup:
-include /assets/tmpl/elements/11.2.header.pug
-+ec-headerTitle
-
-Styleguide 11.2.1
-*/
-// .ec-headerTitle {
-//   @include commonStyle();
-//   & &__title {
-//     text-align: center;
-//     h1 {
-//       margin: 0;
-//       padding: 0;
-//     }
-//     a {
-//       display: inline-block;
-//       margin-bottom: 30px;
-//       text-decoration: none;
-//       font-size: 20px;
-
-//       @include media_desktop() {
-//         font-size: 40px;
-//       }
-//       font-weight: bold;
-//       color: black;
-
-//       &:hover {
-//         opacity: .8;
-//       }
-//     }
-//   }
-//   & &__subtitle {
-//     font-size: 10px;
-//     text-align: center;
-//     @include media_desktop() {
-//       font-size: 16px;
-//       margin-bottom: 10px;
-//     }
-//     a {
-//       display: inline-block;
-//       color: #0092C4;
-//       text-decoration: none;
-//       cursor: pointer;
-//     }
-//   }
-// }
-
-/*
 ヘッダー：ユーザナビゲーション
 
 ヘッダー内でユーザに関与するナビゲーションコンポーネントです。
@@ -507,10 +480,22 @@ Styleguide 11.2.3
   align-items: center;
 
   &__item {
-    display: block;
     margin-left: 5px;
-    padding: 14px 20px;
-    background-color: #efefef;
+
+    a {
+      display: block;
+      padding: 7px 20px;
+      border-radius: 25px;
+      background-color: $base;
+
+      &:hover {
+        opacity: .7;
+      }
+
+      span {
+        color: #fff;
+      }
+    }
   }
 
   &__item-link {
@@ -696,34 +681,6 @@ Styleguide 11.2.5
   height: 100%;
   text-align: center;
 }
-
-// .ec-item-nav__nav {
-//   display: block;
-//   margin: 0 auto;
-//   padding: 0;
-//   width: auto;
-//   height: auto;
-//   list-style-type: none;
-//   text-align: center;
-
-//   @include media_desktop {
-//     display: inline-block;
-//   }
-// }
-
-// .ec-item-nav__nav li {
-//   position: relative;
-//   float: none;
-//   width: 100%;
-//   margin: 0;
-//   padding: 0;
-//   text-align: left;
-
-//   @include media_desktop {
-//     float: left;
-//     width: auto;
-//   }
-// }
 
 .ec-item-nav__nav li a,
 .ec-item-nav__nav li span {

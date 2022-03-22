@@ -20,12 +20,12 @@ Styleguide 23
 
   &__btn {
     position: absolute;
-    top: 5px;
-    right: 15px;
+    top: 10px;
+    right: 18px;
 
     a {
-      font-weight: 800;
-      color: #525263;
+      @include font(14px,500,1,.1em);
+      color: #231815;
 
       &:hover {
         color: #aaa;
@@ -41,14 +41,14 @@ Styleguide 23
       flex: 0 0 100%;
       padding: 0 15px;
 
-      @include media_desktop {
+      @media (min-width:640px) {
         flex: 0 0 33.333%;
       }
 
       & + .col-3 {
         margin-top: 15px;
 
-        @include media_desktop {
+        @media (min-width:640px) {
           margin-top: 0;
         }
       }
@@ -56,7 +56,7 @@ Styleguide 23
       a {
         display: flex;
 
-        @include media_desktop {
+        @media (min-width:640px) {
           display: block;
         }
 
@@ -69,7 +69,7 @@ Styleguide 23
           aspect-ratio: 1/1;
           overflow: hidden;
 
-          @include media_desktop {
+          @media (min-width:640px) {
             flex: none;
             height: auto;
           }
@@ -88,7 +88,7 @@ Styleguide 23
           display: block;
           padding: 8px 0 0 15px;
 
-          @include media_desktop {
+          @media (min-width:640px) {
             flex: none;
             padding: 8px 0 0;
           }
@@ -101,15 +101,17 @@ Styleguide 23
               color: $bl;
               margin-right: 15px;
 
-              @include media_desktop {
+              @media (min-width:640px) {
                 margin-right: auto;
               }
             }
           }
 
           .category {
+            min-width: 80px;
             padding: 5px 12px;
             @include font(15px,500,1,0);
+            text-align: center;
             color: #fff;
 
             &_ice {
@@ -126,7 +128,7 @@ Styleguide 23
           }
 
           .title {
-            color: #525263;
+            color: #231815;
           }
         }
       }
@@ -169,26 +171,22 @@ Styleguide 23
         transition: .3s;
       }
 
-      &:hover * {
-        opacity: .7;
-        text-decoration: none;
+      &:hover {
+        opacity: .8;
+
+        & * {
+          text-decoration: none;
+        }
       }
     }
 
     &__inner {
-      display: flex;
-      align-items: center;
       position: relative;
       width: 100%;
-      padding: 0 0 0 40px;
+      padding: 45.455% 0 0;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      aspect-ratio: 275/125;
-
-      @include media_desktop {
-        justify-content: center;
-      }
     }
 
     &__title {
@@ -196,22 +194,30 @@ Styleguide 23
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 40px;
+      right: auto;
       width: 140px;
       height: 140px;
+      margin: auto 0;
       font-size: 18px;
-      background-color: rgba(255,255,255,.7);
+      background-color: rgba(255,255,255,.95);
       color: #555;
-      aspect-ratio: 1/1;
 
       @include media_desktop {
-        width: 27%;
-        height: auto;
+        left: 0;
+        right: 0;
+        margin: auto;
+        padding: 14px 5px;
       }
 
       span {
         display: block;
         margin-top: 7px;
         font-size: 12px;
+        line-height: 1.5;
 
         @include media_desktop {
           font-size: 13px;

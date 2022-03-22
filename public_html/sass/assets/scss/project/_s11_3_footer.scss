@@ -68,21 +68,29 @@ Styleguide 11.3.1
   list-style: none;
 
   @include media_desktop {
-    flex: 0 0 12%;
+    flex: 0 0 17%;
     margin-bottom: 5px;
   }
 
   a {
     font-size: 16px;
+    font-weight: 800;
     color: $bl;
     text-decoration: none;
+  }
+
+  &:nth-of-type(5) {
+
+    @include media_desktop {
+      flex: 0 0 15%;
+    }
   }
 
   &:nth-of-type(6) {
     flex: 0 0 100%;
 
     @include media_desktop {
-      flex: 0 0 20%;
+      flex: 0 0 17%;
     }
 
     a {
@@ -117,6 +125,7 @@ Styleguide 11.3.1
 
     a {
       font-size: 90%;
+      font-weight: 500;
 
       @include media_desktop {
         font-size: 100%;
@@ -138,49 +147,25 @@ Styleguide 11.3.1
   }
 }
 
-.ec-footer-sns-navi {
-  flex: 0 0 100%;
+.ec-footer-role__sns {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+}
+
+.ec-footer-sns-navi {
+  flex: 0 0 190px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-top: 25px;
   list-style: none;
 
   @include media_desktop {
-    flex: 0 0 20%;
-    display: block;
-    margin: 0;
+    margin-top: 35px;
   }
 
   a {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: $bl;
-    text-decoration: none;
-
-    span {
-      display: none;
-
-      @include media_desktop {
-        display: inline-block;
-      }
-    }
-  }
-
-  &__link {
-
-    & + .ec-footer-sns-navi__link {
-      margin: 0 0 0 12px;
-
-      @include media_desktop {
-        margin: 20px 0 0;
-      }
-    }
-
-    img {
-      margin-right: 15px;
-    }
+    display: block;
   }
 }
 

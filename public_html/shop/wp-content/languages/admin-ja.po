@@ -32,7 +32,7 @@ msgid "Continue"
 msgstr "次へ"
 
 #. translators: %s: Learn WordPress link.
-#: wp-admin/about.php:273
+#: wp-admin/about.php:329
 msgid "Want to dive into 5.9 but don&#8217;t know where to start? Visit <a href=\"%s\">learn.wordpress.org</a> for expanding resources on new features in WordPress 5.9."
 msgstr "5.9 を試してみたいが、どこから始めればよいかわからない方は、<a href=\"%s\">learn.wordpress.org</a> にアクセスし、WordPress 5.9 の新機能の参考情報をご覧ください。"
 
@@ -105,144 +105,144 @@ msgstr "バージョン %s について学ぶ。"
 msgid "WordPress is free and open source software"
 msgstr "WordPress はフリーのオープンソースソフトウエアです。"
 
-#: wp-admin/about.php:268
+#: wp-admin/about.php:324
 msgid "Learn more about the new features in 5.9"
 msgstr "5.9の新機能について学ぶ"
 
 #. translators: %s: Gallery Refactor dev note link.
-#: wp-admin/about.php:253
+#: wp-admin/about.php:309
 msgid "The changes to the Gallery block listed above are the result of a near-complete refactoring. Have you built a plugin or theme on the Gallery block functionality? Be sure to read the <a href=\"%s\">Gallery block compatibility dev note</a>."
 msgstr "上に挙げたギャラリーブロックの変更は、ほぼ完全なリファクタリングによるものです。ギャラリーブロックの機能を基にプラグインやテーマを作成した方は、<a href=\"%s\">ギャラリーブロックの互換性に関する Dev Note</a>を参照ください。"
 
-#: wp-admin/about.php:247
+#: wp-admin/about.php:303
 msgid "A refactored Gallery block"
 msgstr "ギャラリーブロックのリファクタリング"
 
-#: wp-admin/about.php:242
+#: wp-admin/about.php:298
 msgid "Now you can lock any block (or a few of them) in a pattern, just by adding a lock attribute to its settings in block.json &#8212; leaving the rest of the pattern free for site editors to adapt to their content."
 msgstr "パターン内の任意のブロック (複数も可) をロックできます。block.json の設定で lock 属性を追加してください。パターンの残りはサイトエディターでコンテンツに合わせて自由に調整できます。"
 
-#: wp-admin/about.php:239
+#: wp-admin/about.php:295
 msgid "Block&#8209;level locking"
 msgstr "ブロックレベルのロック"
 
 #. translators: %s: Multiple stylesheets dev note link.
-#: wp-admin/about.php:229
+#: wp-admin/about.php:285
 msgid "Now you can register more than one stylesheet per block. You can use this to share styles across blocks you write, or to load styles for individual blocks, so your styles are only loaded when the block is used. Find out more about <a href=\"%s\">using multiple stylesheets in a block</a>."
 msgstr "ブロックに複数のスタイルシートを登録できます。作成したブロックでスタイルを共有したり、個別のブロックにスタイルをロードしたり。スタイルはブロックが使用される場合のみロードされます。詳細については、<a href=\"%s\">ブロックでの複数のスタイルシートの使用</a>を参照してください。"
 
-#: wp-admin/about.php:223
+#: wp-admin/about.php:279
 msgid "Multiple stylesheets for a block"
 msgstr "ブロックの複数のスタイルシート"
 
 #. translators: %s: Block-based themes dev note link.
-#: wp-admin/about.php:215
+#: wp-admin/about.php:271
 msgid "A new way to build themes: Block themes use blocks to define the templates that structure your entire site. The new templates and template parts are defined in HTML and use the custom styling offered in theme.json. More information is available in the <a href=\"%s\">block themes dev note</a>."
 msgstr "テーマ構築の新しい方法「ブロックテーマ」では、サイト全体を構成するテンプレートの定義にブロックを使用します。新しいテンプレートとテンプレートパーツは HTML で定義し、theme.json に記述したカスタムスタイルを使用します。詳細については <a href=\"%s\">ブロックテーマ Dev Note</a> を参照してください。"
 
-#: wp-admin/about.php:209
+#: wp-admin/about.php:265
 msgid "Introducing block themes"
 msgstr "ブロックテーマの導入"
 
 #. translators: %s: Version number.
-#: wp-admin/about.php:199
+#: wp-admin/about.php:255
 msgid "WordPress %s for developers"
 msgstr "WordPress %sの開発者向け情報"
 
-#: wp-admin/about.php:184
+#: wp-admin/about.php:240
 msgid "Style every image in your gallery differently from the next (with different crops, or duotones, for instance) or make them all the same. And change the layout with drag-and-drop."
 msgstr "ギャラリー内のすべての画像を個別に、あるいはすべて同じように、切り取りやデュオトーン等でスタイリングできます。またレイアウトをドラッグ & ドロップで変更できます。"
 
-#: wp-admin/about.php:181
+#: wp-admin/about.php:237
 msgid "Treat every image in a Gallery block the same way you would treat it in the Image block."
 msgstr "ギャラリーブロックのすべての画像を、画像ブロック内の画像と同じように加工できます。"
 
-#: wp-admin/about.php:178
+#: wp-admin/about.php:234
 msgid "A better Gallery block"
 msgstr "ギャラリーブロックの改善"
 
-#: wp-admin/about.php:170
+#: wp-admin/about.php:226
 msgid "In 5.9, the List View lets you drag and drop your content exactly where you want it. Managing complex documents is easier, too: simple controls let you expand and collapse sections as you build your site &#8212; and add HTML anchors to your blocks to help users get around the page."
 msgstr "5.9のリストビューでは、コンテンツを思ったとおりにドラッグ & ドロップできます。複雑なドキュメントの管理も簡単です。また、サイトの構築中にシンプルなコントロールでセクションを拡張、縮小でき、ブロックに HTML アンカーを追加して、ページの移動を助けます。"
 
-#: wp-admin/about.php:167
+#: wp-admin/about.php:223
 msgid "A revamped List View"
 msgstr "リストビューの改善"
 
-#: wp-admin/about.php:153
+#: wp-admin/about.php:209
 msgid "With a near full-screen view that draws you in to see fine details, the Pattern Explorer makes it easy to compare patterns and choose the one your users will expect."
 msgstr "パターンエクスプローラーは、ほぼフルスクリーンで表示され、細かい部分まで見ることができるため、簡単にパターンを比較したり、希望するパターンを選択できます。"
 
-#: wp-admin/about.php:150
+#: wp-admin/about.php:206
 msgid "The WordPress Pattern Directory is the home of a wide range of block patterns built to save you time and add core site functionality. And you can edit them as you see fit. Need something different in the header or footer for your theme? Swap it out with a new one in a few clicks."
 msgstr "WordPress パターンディレクトリは、さまざまなブロックパターンのホームです。時間を節約し、サイトのコア機能を追加するために構築されたブロックパターンは、自由に編集できます。テーマのヘッダーやフッターを何か別のものに変えたければ、数回のクリックで新しいものに交換できます。"
 
-#: wp-admin/about.php:147
+#: wp-admin/about.php:203
 msgid "The power of patterns"
 msgstr "パターンのパワー"
 
-#: wp-admin/about.php:139
+#: wp-admin/about.php:195
 msgid "WordPress 5.9 features new typography tools, flexible layout controls, and finer control over details like spacing, borders, and more &#8212; to help you get not just the look, but the polish that says you care about details."
 msgstr "WordPress 5.9では、新しいタイポグラフィツール、柔軟なレイアウトコントロール、スペーシングやボーダーなどの詳細なコントロールをサポートし、見た目だけでなく、細部にまでこだわった洗練されたデザインを実現します。"
 
-#: wp-admin/about.php:136
+#: wp-admin/about.php:192
 msgid "Better block controls"
 msgstr "ブロックコントロールの改良"
 
-#: wp-admin/about.php:124
+#: wp-admin/about.php:180
 msgid "Do you love to blog or produce content? New tweaks to the publishing flow help you say more, faster."
 msgstr "公開フローの改良により、ブログの執筆やコンテンツの制作をスピードアップします。"
 
-#: wp-admin/about.php:121
+#: wp-admin/about.php:177
 msgid "More improvements and updates"
 msgstr "さらなる改良と更新"
 
-#: wp-admin/about.php:112
+#: wp-admin/about.php:168
 msgid "The new Navigation block gives you the power to choose: an always-on responsive menu or one that adapts to your user&#8217;s screen size. Whatever you create, know it&#8217;s there to reuse wherever you like, whether in a brand new template or after switching themes."
 msgstr "新しいナビゲーションブロックには、常時レスポンシブなメニューや、ユーザーの画面サイズに合わせたメニューなど、さまざまな選択肢があります。作成したものは、新しいテンプレートでも、テーマを変えた後でも、好きな場所で再利用できます。"
 
-#: wp-admin/about.php:109
+#: wp-admin/about.php:165
 msgid "Blocks come to site navigation, the heart of user experience."
 msgstr "ユーザー体験の中心、サイトナビゲーションでもブロックを使用できます。"
 
-#: wp-admin/about.php:106
+#: wp-admin/about.php:162
 msgid "The Navigation block"
 msgstr "ナビゲーションブロック"
 
-#: wp-admin/about.php:92
+#: wp-admin/about.php:148
 msgid "When you use any of those new themes, you no longer need the Customizer. Instead, you have all the power of the Styles interface inside the Site Editor. Just as in Twenty Twenty&#8209;Two, you build your site&#8217;s look and feel there, with the tools you need for the job in a fluid interface that practically comes alive in your hands."
 msgstr "これらの新しいテーマを使用する場合、カスタマイザーはもう必要ありません。代わりに、サイトエディター内のスタイルインターフェイスのすべての機能を利用できます。Twenty Twenty-Twoと同様、親しんだ流れるようなインターフェースでサイトのルック & フィールを構築できます。"
 
-#: wp-admin/about.php:89
+#: wp-admin/about.php:145
 msgid "More block themes built for full site editing features are in the Theme Directory alongside the Twenty Twenty&#8209;Two theme, just waiting to be explored. Expect more to come!"
 msgstr "多くのフルサイト編集対応のブロックテーマが、Twenty Twenty-Two と共にテーマディレクトリ内にあって、ダウンロードを待っています。ブロックテーマはこれからも増えていくでしょう。"
 
-#: wp-admin/about.php:86
+#: wp-admin/about.php:142
 msgid "Your personal paintbox awaits"
 msgstr "あなただけの絵の具箱が待っています"
 
 #. translators: %s: Link to Themes screen.
-#: wp-admin/about.php:74
+#: wp-admin/about.php:130
 msgid "The Twenty Twenty&#8209;Two theme is already available to you. It came installed with WordPress 5.9, and you will find it with <a href=\"%s\">your other installed themes</a>."
 msgstr "Twenty Twenty&#8209;Two テーマはすでに利用可能です。WordPress 5.9と一緒に、<a href=\"%s\">他のテーマ</a>と共にインストールされました。"
 
-#: wp-admin/about.php:67
+#: wp-admin/about.php:123
 msgid "Block themes put a wide array of visual choices in your hands, from color schemes and typeface combinations to page templates and image filters &#8212; all together, in the site editing interface. By making changes in one place, you can give Twenty Twenty&#8209;Two the same look and feel as your brand or other websites &#8212; or take your site&#8217;s look in another direction."
 msgstr "ブロックテーマは、配色や書体の組み合わせからページテンプレートや画像フィルターまで、さまざまなビジュアルの選択肢をサイト編集インターフェイスにまとめました。一箇所で変更を加えることで、Twenty Twenty-Twoをあなたのブランドや他のサイトと同じ外観や雰囲気にしたり、まったく別の方向へ持っていくことができます。"
 
-#: wp-admin/about.php:64
+#: wp-admin/about.php:120
 msgid "And say hello to the first default block theme in the history of WordPress. This is more than just a new default theme. It&#8217;s a brand-new way to work with WordPress themes."
 msgstr "WordPress の歴史において初のデフォルトブロックテーマのお目見えです。単なる新しいデフォルトテーマであるだけでなく、まったく新しい WordPress テーマの操作方法を導入します。"
 
-#: wp-admin/about.php:61
+#: wp-admin/about.php:117
 msgid "Say hello to Twenty Twenty&#8209;Two"
 msgstr "こんにちは、Twenty Twenty-Two"
 
-#: wp-admin/about.php:49
+#: wp-admin/about.php:105
 msgid "It puts you in control of your whole site, right in the WordPress Admin."
 msgstr "WordPress の管理画面上でサイト全体をコントロールできます。"
 
-#: wp-admin/about.php:46
+#: wp-admin/about.php:102
 msgid "Full Site Editing is here"
 msgstr "フルサイト編集登場"
 
@@ -936,7 +936,7 @@ msgid "https://developer.wordpress.org/rest-api/frequently-asked-questions/#why-
 msgstr "https://developer.wordpress.org/rest-api/frequently-asked-questions/#why-is-authentication-not-working"
 
 #. translators: %s: WordPress 5.9 Field Guide link.
-#: wp-admin/about.php:290
+#: wp-admin/about.php:346
 msgid "Check out the latest version of the WordPress Field Guide. It highlights developer notes for each change you may want to be aware of. <a href=\"%s\">WordPress 5.9 Field Guide.</a>"
 msgstr "WordPress フィールドガイドの最新バージョンを参照してください。各変更の開発者向けノートをまとめた必読のガイドです。<a href=\"%s\">WordPress 5.9 フィールドガイド</a>。"
 
@@ -1007,7 +1007,7 @@ msgstr "新しいアプリケーションパスワードを追加"
 msgid "Required to create an Application Password, but not to update the user."
 msgstr "アプリケーションパスワードの作成に必要ですが、ユーザーの更新には不要です。"
 
-#: wp-admin/about.php:303
+#: wp-admin/about.php:359
 msgid "Go to Updates"
 msgstr "更新へ移動"
 
@@ -1349,7 +1349,7 @@ msgstr "\"%1$s\" の値が \"%2$s\" の値より小さくなっています"
 msgid "Environment type"
 msgstr "環境タイプ"
 
-#: wp-admin/about.php:285
+#: wp-admin/about.php:341
 msgid "Check the Field Guide for more!"
 msgstr "詳細はフィールドガイドを参照してください。"
 
@@ -4353,8 +4353,9 @@ msgid "Cannot Install"
 msgstr "インストール不可"
 
 #. translators: %s: WordPress version.
-#: wp-admin/includes/update.php:302 wp-admin/index.php:119
-#: wp-admin/install.php:238 wp-admin/update-core.php:94 wp-admin/upgrade.php:80
+#: wp-admin/about.php:64 wp-admin/about.php:89 wp-admin/includes/update.php:302
+#: wp-admin/index.php:119 wp-admin/install.php:238 wp-admin/update-core.php:94
+#: wp-admin/upgrade.php:80
 msgid "https://wordpress.org/support/wordpress-version/version-%s/"
 msgstr "https://wordpress.org/support/wordpress-version/version-%s/"
 
@@ -6746,7 +6747,7 @@ msgid "(Currently set to: %s)"
 msgstr "(現在の設定: %s)"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:327
+#: wp-admin/about.php:383
 msgid "<strong>Version %s</strong> addressed one security issue."
 msgstr "<strong>バージョン %s</strong> ではセキュリティ問題1件に対応しました。"
 
@@ -6758,15 +6759,15 @@ msgstr "https://ja.gravatar.com/"
 msgid "Profile Picture"
 msgstr "プロフィール写真"
 
-#: wp-admin/about.php:324
+#: wp-admin/about.php:44 wp-admin/about.php:380
 msgid "Maintenance and Security Releases"
 msgstr "メンテナンスとセキュリティのリリース"
 
-#: wp-admin/about.php:321
+#: wp-admin/about.php:377
 msgid "Security Releases"
 msgstr "セキュリティリリース"
 
-#: wp-admin/about.php:318
+#: wp-admin/about.php:374
 msgid "Maintenance Releases"
 msgstr "メンテナンスリリース"
 
@@ -10135,45 +10136,47 @@ msgstr "サイトネットワーク上の既存のユーザーをこのサイト
 msgid "Show Toolbar when viewing site"
 msgstr "サイトを見るときにツールバーを表示する"
 
+#. translators: %s: HelpHub URL.
 #. translators: %s: Documentation URL.
-#: wp-admin/about.php:350
+#: wp-admin/about.php:61 wp-admin/about.php:86 wp-admin/about.php:406
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "詳しくは<a href=\"%s\">リリースノート</a>をご覧ください。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:344
+#: wp-admin/about.php:49 wp-admin/about.php:400
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はいくつかのセキュリティ問題に対応し、%2$s個のバグを修正しました。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:338
+#: wp-admin/about.php:394
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はセキュリティ問題に対応し、%2$s個のバグを修正しました。"
 
+#. translators: 1: WordPress version number, 2: plural number of bugs.
 #. translators: 1: WordPress version number, 2: Plural number of bugs.
-#: wp-admin/about.php:332
+#: wp-admin/about.php:74 wp-admin/about.php:388
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> では%2$s個のバグを修正しました。"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:329
+#: wp-admin/about.php:385
 msgid "<strong>Version %s</strong> addressed some security issues."
 msgstr "<strong>バージョン %s</strong> では複数のセキュリティ問題に対応しました。"
 
-#: wp-admin/about.php:323
+#: wp-admin/about.php:379
 msgid "Maintenance and Security Release"
 msgstr "メンテナンスとセキュリティのリリース"
 
-#: wp-admin/about.php:320
+#: wp-admin/about.php:376
 msgid "Security Release"
 msgstr "セキュリティリリース"
 
-#: wp-admin/about.php:317
+#: wp-admin/about.php:373
 msgid "Maintenance Release"
 msgstr "メンテナンスリリース"
 
@@ -10458,11 +10461,11 @@ msgstr "<strong>編集</strong>をクリックするとその投稿の編集画�
 msgid "Because this is a multisite installation, you may add accounts that already exist on the Network by specifying a username or email, and defining a role. For more options, such as specifying a password, you have to be a Network Administrator and use the hover link under an existing user&#8217;s name to Edit the user profile under Network Admin > All Users."
 msgstr "このサイトはマルチサイトインストールのため、サイトネットワーク上にすでに存在するアカウントのユーザー名またはメールアドレスを指定し、権限グループを選択して追加することができます。パスワードを設定するといった追加オプションを使うには、「ネットワーク管理 > ユーザー一覧」ページで、サイトネットワーク管理者として既存のユーザーの名前をマウスオーバーしたときに表示される「編集」リンクを使う必要があります。"
 
-#: wp-admin/about.php:306
+#: wp-admin/about.php:362
 msgid "Go to Dashboard &rarr; Home"
 msgstr "ダッシュボード &rarr; ホームへ移動"
 
-#: wp-admin/about.php:303
+#: wp-admin/about.php:359
 msgid "Go to Dashboard &rarr; Updates"
 msgstr "ダッシュボード &rarr; 更新へ移動"
 
@@ -12258,7 +12261,7 @@ msgstr "WordPress の更新"
 msgid "Edit menu item"
 msgstr "メニュー項目を編集"
 
-#: wp-admin/about.php:306 wp-admin/includes/network.php:148
+#: wp-admin/about.php:362 wp-admin/includes/network.php:148
 msgid "Go to Dashboard"
 msgstr "ダッシュボードへ移動"
 
