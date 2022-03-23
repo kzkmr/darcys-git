@@ -3,16 +3,18 @@
 html {
   font-size: 16px;
 }
+
 body {
   //font-family: 'Courier','TsukuARdGothic-Regular','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'Yu Gothic UI',YuGothic,'Yu Gothic',sans-serif;
   font-family: 'Courier','Noto Sans JP','TsukuARdGothic-Regular','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'Yu Gothic UI',YuGothic,'Yu Gothic',sans-serif;
+  margin: 0;
   font-weight: 400;
   line-height: 1.6;
   letter-spacing: .05em;
   color:#231815;
   transition: z-index 0ms 5.28455ms;
   background: #fff;
-  margin: 0;
+  overflow-x: hidden;
 }
 
 ul,

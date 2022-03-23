@@ -72,11 +72,13 @@
     </h1>
   </div>
 <?php elseif ( get_post_type() == 'products' ): ?>
-  <div class="pageheader">
-    <img src="<?php echo wp_upload_dir()['url']; ?>/products-detail.jpg" alt="">
-    <h1 class="pageheader__title">
-      PRODUCTS
-      <span>ICE CREAM</span>
-    </h1>
+  <div class="pageheader-wrap">
+    <div class="pageheader">
+      <img src="<?php echo wp_upload_dir()['url']; ?>/products-detail.jpg" alt="">
+      <h1 class="pageheader__title">
+        PRODUCTS
+        <span>ICE CREAM</span>
+      </h1>
+    </div>
   </div>
 <?php endif; ?>

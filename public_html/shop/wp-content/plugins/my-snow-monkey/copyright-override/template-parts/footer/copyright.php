@@ -60,16 +60,16 @@
             </ul>
             <ul class="ec-footer-navi">
                 <li class="ec-footer-navi__link">
-                    <a href="">プライバシーポリシー</a>
+                    <a href="<?php echo ec_url(); ?>/help/privacy">プライバシーポリシー</a>
                 </li>
                 <li class="ec-footer-navi__link">
-                    <a href="">特商法取引に基づく表記</a>
+                    <a href="<?php echo ec_url(); ?>/help/tradelaw">特商法取引に基づく表記</a>
                 </li>
                 <li class="ec-footer-navi__link">
-                    <a href="">お問い合わせ</a>
+                    <a href="<?php echo esc_url(home_url('/contact/')); ?>">お問い合わせ</a>
                 </li>
                 <li class="ec-footer-navi__link">
-                    <a href="">サイトマップ</a>
+                    <a href="<?php echo esc_url(home_url('/sitemap/')); ?>">サイトマップ</a>
                 </li>
             </ul>
         </div>
