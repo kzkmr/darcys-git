@@ -81,7 +81,7 @@ file that was distributed with this source code.
                                                 {% endif %}<br>
                                             <span class="title">クーポン対象期間</span><br>
                                             {% if Coupon.available_to_date >= date('9999/12/31') %}
-                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} から<br>
+                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ～<br>
                                             {% else %}
                                                 {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}<br>
                                             {% endif %}

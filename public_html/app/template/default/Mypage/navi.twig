@@ -29,6 +29,9 @@ file that was distributed with this source code.
                 <li class="ec-navlistRole__item {% if mypageno|default('') == 'chainstore_coupon_list' %}active{% endif %}">
                     <a href="{{ url('mypage_chainstore_coupon_list') }}">{{ '販売店クーポン'|trans }}</a>
                 </li>
+                <li class="ec-navlistRole__item {% if mypageno|default('') == 'chainstore_coupon_jisseki' %}active{% endif %}">
+                    <a href="{{ url('mypage_chainstore_coupon_jisseki') }}">{{ 'クーポン売上履歴'|trans }}</a>
+                </li>
             {% endif %}
         {% else %}
             <li class="ec-navlistRole__item {% if mypageno|default('') == 'coupon_list' %}active{% endif %}">

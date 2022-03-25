@@ -323,16 +323,6 @@ file that was distributed with this source code.
                                     </div>
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
-                                <dt>
-                                    {{ form_label(form.chain_store.dealer_code, 'admin.chainstore.dealer_code', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                </dt>
-                                <dd>
-                                    <div class="ec-halfInput{{ has_errors(form.chain_store.dealer_code) ? ' error' }}">
-                                        {{ form_widget(form.chain_store.dealer_code, { type : 'hidden' }) }}
-                                    </div>
-                                </dd>
-                            </dl>
                             <dl>
                                 <dt>
                                     {{ form_label(form.chain_store.bank, 'admin.chainstore.chainstore_bank_name', { 'label_attr': { 'class': 'ec-label' }}) }}

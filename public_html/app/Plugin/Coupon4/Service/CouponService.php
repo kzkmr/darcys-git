@@ -401,7 +401,7 @@ class CouponService
         $snippet .= '　クーポン情報                                 '.PHP_EOL;
         $snippet .= '***********************************************'.PHP_EOL;
         $snippet .= PHP_EOL;
-        $snippet .= 'クーポンコード: ';
+        $snippet .= 'クーポン名: ';
 
         $message = $Order->getCompleteMailMessage();
         if ($message) {
@@ -411,7 +411,7 @@ class CouponService
         }
 
         if ($couponCd && $couponName) {
-            $snippet .= $couponCd.' '.$couponName.PHP_EOL;
+            $snippet .= $couponName.PHP_EOL;
             $Order->appendCompleteMailMessage($snippet);
         }
     }

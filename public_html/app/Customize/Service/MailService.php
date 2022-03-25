@@ -23,6 +23,7 @@ use Eccube\Entity\MailTemplate;
 use Eccube\Entity\Order;
 use Eccube\Entity\OrderItem;
 use Eccube\Entity\Shipping;
+use Customize\Entity\ChainStore;
 use Customize\Entity\Master\ContractType;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
@@ -168,20 +169,27 @@ class MailService extends BaseMailService
      *
      * @param $Customer 会員情報
      */
-    public function sendChainStoreConfirmAdminMail(Member $Member, Customer $Customer, ContractType $ContractType = null)
+    public function sendChainStoreConfirmAdminMail(Member $Member, Customer $Customer, ChainStore $ChainStore = null, ContractType $ContractType = null)
     {
         log_info('販売店会員登録メール送信開始');
 
         $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_confirm_admin_mail_template_id']);
 
         $body = $this->twig->render($MailTemplate->getFileName(), [
+            'Member' => $Member,
             'Customer' => $Customer,
+            'ChainStore' => $ChainStore,
             'ContractType' => $ContractType,
             'BaseInfo' => $this->BaseInfo,
         ]);
 
+        $MailSubject = $MailTemplate->getMailSubject();
+        $CustomerName = $Customer->getName01()." ".$Customer->getName02();
+
+        $MailSubject = str_replace("[@NAME]", $CustomerName, $MailSubject);
+
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailSubject)
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Member->getEmail()]);
             //->setBcc($this->BaseInfo->getEmail01())
@@ -192,7 +200,9 @@ class MailService extends BaseMailService
         $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
         if (!is_null($htmlFileName)) {
             $htmlBody = $this->twig->render($htmlFileName, [
+                'Member' => $Member,
                 'Customer' => $Customer,
+                'ChainStore' => $ChainStore,
                 'ContractType' => $ContractType,
                 'BaseInfo' => $this->BaseInfo,
             ]);
@@ -208,6 +218,70 @@ class MailService extends BaseMailService
         $count = $this->mailer->send($message, $failures);
 
         log_info('販売店会員登録メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+
+
+    /**
+     * Send check chainstore mail to admin.
+     *
+     * @param $Customer 会員情報
+     */
+    public function sendCheckChainStoreMail(Member $Member, $DealerCodeList, $CouponCodeList)
+    {
+        log_info('チェック販売店会員登録メール送信開始');
+
+        $YYYY = date("Y");
+        $MM = date("m");
+        $DD = date("d");
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_check_chainstore_admin_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'Member' => $Member,
+            'DealerCodeList' => $DealerCodeList,
+            'CouponCodeList' => $CouponCodeList,
+            'YYYY' => $YYYY,
+            'MM' => $MM,
+            'DD' => $DD,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        $MailSubject = $MailTemplate->getMailSubject();
+        $MailSubject = str_replace("[@YYYY]", $YYYY, $MailSubject);
+        $MailSubject = str_replace("[@MM]", $MM, $MailSubject);
+        $MailSubject = str_replace("[@DD]", $DD, $MailSubject);
+
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailSubject)
+            ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
+            ->setTo([$Member->getEmail()]);
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'Member' => $Member,
+                'DealerCodeList' => $DealerCodeList,
+                'CouponCodeList' => $CouponCodeList,
+                'YYYY' => $YYYY,
+                'MM' => $MM,
+                'DD' => $DD,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $count = $this->mailer->send($message, $failures);
+
+        log_info('チェック販売店会員登録メール送信完了', ['count' => $count]);
 
         return $count;
     }

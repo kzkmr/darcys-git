@@ -29,8 +29,11 @@ doctrine:
         dql:
             string_functions:
                 NORMALIZE: Eccube\Doctrine\ORM\Query\Normalize
+                REPLACE: Customize\Doctrine\ORM\Query\Replace
             numeric_functions:
                 EXTRACT: Eccube\Doctrine\ORM\Query\Extract
+            datetime_functions:
+                DATE_FORMAT: Customize\Doctrine\ORM\Query\DateFormat
         filters:
             option_nostock_hidden:
                 class: Eccube\Doctrine\Filter\NoStockHiddenFilter

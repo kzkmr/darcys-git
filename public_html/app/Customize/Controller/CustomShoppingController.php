@@ -26,6 +26,7 @@ use Eccube\Form\Type\Front\ShoppingShippingType;
 use Eccube\Form\Type\Shopping\CustomerAddressType;
 use Eccube\Form\Type\Shopping\OrderType;
 use Eccube\Repository\OrderRepository;
+use Customize\Repository\Master\ContractTypeRepository;
 use Eccube\Service\CartService;
 use Eccube\Service\MailService;
 use Eccube\Service\OrderHelper;
@@ -63,16 +64,23 @@ class CustomShoppingController extends AbstractShoppingController
      */
     protected $orderRepository;
 
+    /**
+     * @var ContractTypeRepository
+     */
+    protected $contractTypeRepository;
+
     public function __construct(
         CartService $cartService,
         MailService $mailService,
         OrderRepository $orderRepository,
-        OrderHelper $orderHelper
+        OrderHelper $orderHelper,
+        ContractTypeRepository $contractTypeRepository
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;
         $this->orderRepository = $orderRepository;
         $this->orderHelper = $orderHelper;
+        $this->contractTypeRepository = $contractTypeRepository;
     }
 
     /**
@@ -141,10 +149,14 @@ class CustomShoppingController extends AbstractShoppingController
 
         $form = $this->createForm(OrderType::class, $Order);
 
+        //一般会員
+        $NormalContractType = $this->contractTypeRepository->findOneBy(['id' => 4]);
+
         return [
             'form' => $form->createView(),
             'Order' => $Order,
             'Customer' => $Customer,
+            'NormalContractType' => $NormalContractType,
         ];
     }
 
@@ -320,9 +332,13 @@ class CustomShoppingController extends AbstractShoppingController
         // FIXME @Templateの差し替え.
         $request->attributes->set('_template', new Template(['template' => 'Shopping/index.twig']));
 
+        //一般会員
+        $NormalContractType = $this->contractTypeRepository->findOneBy(['id' => 4]);
+
         return [
             'form' => $form->createView(),
             'Order' => $Order,
+            'NormalContractType' => $NormalContractType,
         ];
     }
 

@@ -314,7 +314,7 @@
                 
                 $.ajax({
                     type: "POST",
-                    url: "/chainstore/api/list/" + $("#chainstore_keyword").val(),
+                    url: "/chainstore/api/main/list/" + $("#chainstore_keyword").val(),
                     data: JSON.stringify({"keyword": $("#chainstore_keyword").val()}),
                     dataType : "json",
                 }).done(function(data){
@@ -425,6 +425,7 @@
                                 <div class="col mb-2">
                                     {{ form_widget(form.coupon_name) }}
                                     {{ form_errors(form.coupon_name) }}
+                                    <span id="coupon_name_description" class="small">クーポン名の推奨文字数は15文字となります。</span>
                                 </div>
                             </div>
                             {# クーポン種別 #}

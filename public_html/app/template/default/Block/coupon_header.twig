@@ -8,21 +8,13 @@ http://www.ec-cube.co.jp/
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 #}
-<div class="ec-headerNaviRole">
-    <div class="ec-headerNaviRole__left">
-        <div class="ec-headerNaviRole__search">
-            {{ render(path('block_search_product')) }}
-        </div>
-        <div class="ec-headerRole__navSP">
-            {{ include('Block/nav_sp.twig') }}
-        </div>
-    </div>
-    <div class="ec-headerNaviRole__right">
-        <div class="ec-headerNaviRole__nav">
-            {{ include('Block/login.twig') }}
-        </div>
-        <div class="ec-headerRole__cart">
-            {{ include('Block/cart.twig') }}
-        </div>
-    </div>
+
+<div class="ec-header-bottom">
+  <div class="ec-header-bottom__logo">
+    <p class="ec-header-bottom__img">
+      <a href="{{ url('homepage') }}">
+        <img src="{{ asset('assets/img/common/logo_header.png') }}" alt="">
+      </a>
+    </p>
+  </div>
 </div>

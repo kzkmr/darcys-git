@@ -174,7 +174,7 @@ trait  ProductTrait
                             continue;
                         }else{
                             if(is_object($ClassCategory2) && $ClassCategory->getId() != $ClassCategory2->getId()){
-                                continue;
+                                //continue;
                             }
                         }
                     }

@@ -1,0 +1,171 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        table td {
+            border:1px solid #ccc;
+            padding:5px;
+            font-size:12px;
+        }
+        .c-static-page-header {
+            height:auto;
+        }
+        .ec-layoutRole__contents, .ec-role {
+            max-width: inherit;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="ec-role">
+    <div class="ec-pageHeader">
+        <h1>{{ 'キャッシュバック 計算'|trans }}</h1>
+    </div>
+    <div class="c-static-page-header">
+        {% if Error %}
+            <h1 class="c-static-page-header__title c-static-error">{{Error}}</h1>
+        {% else %}
+            {% if CashbackResult %}
+                <strong>販売店契約、応援プログラム向けマージン</strong>
+                {% if CashbackResult.MarginList %}
+                    <table>
+                    <tr>
+                        <td>契約区分</td>
+                        <td>販売店ID</td>
+                        <td>販売店名</td>
+                        <td>証券番号</td>
+                        <td>公式サイト受注金額</td>
+                        <td>クーポンマージン</td>
+                        <td>仕入れサイト受注金額(販売店)</td>
+                        <td>仕入れサイト受注金額(応援)</td>
+                        <td>仕入れサイト受注金額(小売店)</td>
+                        <td>応援プログラム適用マージン</td>
+                        <td>マージン合算</td>
+                    </tr>
+                    {% for MarginList in CashbackResult.MarginList %}
+                        <tr>
+                            <td>{{MarginList.contract_type_name}}</td>
+                            <td>{{MarginList.id}}</td>
+                            <td>{{MarginList.company_name}}</td>
+                            <td>{{MarginList.stock_number}}</td>
+                            <td>{{MarginList.coupon_total| price }}</td>
+                            <td>{{MarginList.coupon_margin| price }}</td>
+                            <td>{{MarginList.self_total| price }}</td>
+                            <td>{{MarginList.oen_self_total| price }}</td>
+                            <td>{{MarginList.kouri_self_total| price }}</td>
+                            <td>{{MarginList.support_total| price }}</td>
+                            <td>{{MarginList.margin_total| price }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% else %}
+                    データがありません
+                {% endif %}
+                <br/>
+                <strong>ディーラー向けマージン</strong>
+                {% if CashbackResult.DealerList %}
+                    <table>
+                    <tr>
+                        <td>契約区分</td>
+                        <td>販売店ID</td>
+                        <td>ディーラー</td>
+                        <td>販売店名</td>
+                        <td>証券番号</td>
+                        <td>公式サイト受注金額</td>
+                        <td>通販売上マージン</td>
+                        <td>仕入れサイト受注金額(販売店)</td>
+                        <td>仕入れサイト受注金額(応援)</td>
+                        <td>仕入れサイト受注金額(小売店)</td>
+                        <td>店舗売上マージン</td>
+                        <td>マージン合算</td>
+                    </tr>
+                    {% for DealerList in CashbackResult.DealerList %}
+                        <tr>
+                            <td>{{DealerList.contract_type_name}}</td>
+                            <td>{{DealerList.id}}</td>
+                            <td>{{DealerList.dealer_code}}</td>
+                            <td>{{DealerList.company_name}}</td>
+                            <td>{{DealerList.stock_number}}</td>
+                            <td>{{DealerList.sales_total| price }}</td>
+                            <td>{{DealerList.sales_margin| price }}</td>
+                            <td>{{DealerList.self_total| price }}</td>
+                            <td>{{DealerList.oen_self_total| price }}</td>
+                            <td>{{DealerList.kouri_self_total| price }}</td>
+                            <td>{{DealerList.chain_total| price }}</td>
+                            <td>{{DealerList.margin_total| price }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% else %}
+                    データがありません
+                {% endif %}
+                <br/>
+                <strong>マージンデータ出力</strong>
+                {% if CashbackResult.Cashback %}
+                    <table>
+                    <tr>
+                        <td>対象月</td>
+                        <td>契約区分</td>
+                        <td>販売店ID</td>
+                        <td>ディーラー</td>
+                        <td>販売店名</td>
+                        <td>証券番号</td>
+                        <td>マージン</td>
+                        <td>前月繰り越しマージン</td>
+                        <td>仕入れ金額</td>
+                        <td>請求金額</td>
+                        <td>マージン残高</td>
+                        <td>繰り越しマージン</td>
+                        <td>出力結果</td>
+                    </tr>
+                    {% for Cashback in CashbackResult.Cashback %}
+                        <tr>
+                            <td>{{Cashback.referenceYm}}</td>
+                            {% if Cashback.ChainStore %}
+                                <td>{{Cashback.ChainStore.ContractType.name}}</td>
+                                <td>{{Cashback.ChainStore.id}}</td>
+                                <td>{{Cashback.ChainStore.dealer_code}}</td>
+                                <td>{{Cashback.ChainStore.company_name}}</td>
+                                <td>{{Cashback.ChainStore.stock_number}}</td>
+                            {% else %}
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>未登録</td>
+                                <td>&nbsp;</td>
+                            {% endif %}
+                            <td>{{Cashback.margin_price| price }}</td>
+                            <td>{{Cashback.previous_margin_price| price }}</td>
+                            <td>{{Cashback.purchase_amount| price }}</td>
+                            <td>{{Cashback.request_amount| price }}</td>
+                            <td>{{Cashback.margin_balance| price }}</td>
+                            <td>{{Cashback.carried_forward| price }}</td>
+                            <td>{{Cashback.export_cnt }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% else %}
+                    データがありません
+                {% endif %}
+                <br /><br /><br /><br />
+            {% else %}
+                <h1 class="c-static-page-header__title c-static-error">キャッシュバック計算結果が見つかりません</h1>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

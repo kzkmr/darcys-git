@@ -201,6 +201,12 @@ class ChainStoreRepository extends AbstractRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function getResultByMainSearchKeyword($keyword){
+        $searchData = ["multi" => $keyword, "contract_type" => [1,2]];
+        $qb = $this->getQueryBySearchData($searchData);
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * ユニークなシークレットキーを返す.
      *

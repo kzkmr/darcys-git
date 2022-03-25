@@ -57,6 +57,10 @@
             $('.modal-backdrop').remove();
             $('.ec-modal').hide();
         });
+
+        {% if RefreshPage == 'Y' %}
+            location.href= location.href;
+        {% endif %}
     })
 </script>
 
@@ -79,7 +83,7 @@
         color:red;
     }
     .coupon-item {
-        width: 320px;
+        width: 400px;
     }
     .coupon-item-left {
         float:left;
@@ -88,12 +92,27 @@
     .coupon-item-right {
         float:right;
         width: 80px;
+        text-align:right;
     }
     .coupon-item a{
         border-bottom: 1px solid #bbb;
     }
     .coupon-item:last-child a{
         border-bottom: none;
+    }
+    @media all and (max-width:650px) {
+        .btn-group, .btn-group-vertical {
+            position: initial;
+        }
+        .open>.dropdown-menu {
+            right: 0;
+        }
+        .coupon-item {
+            width: 100%;
+        }
+        #customer_detail_box {
+            position:relative;
+        }
     }
 </style>
 
@@ -122,7 +141,7 @@
                     <li class="coupon-item">
                         <a href="#" onclick="javascript:return false;" class="clearfix">
                             <div class="coupon-item-left">
-                                <span class="coupon-field">使用せず</span>
+                                <span class="coupon-field">クーポンを利用しない</span>
                             </div>
                             <div class="coupon-item-right">
                                 {% if CouponOrder is not null %}

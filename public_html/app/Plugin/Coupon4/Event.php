@@ -16,13 +16,21 @@ namespace Plugin\Coupon4;
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Entity\Order;
 use Eccube\Event\TemplateEvent;
+use Eccube\Entity\OrderItem;
 use Customize\Repository\CustomerCouponRepository;
 use Eccube\Repository\OrderRepository;
 use Plugin\Coupon4\Service\CouponService;
 use Plugin\Coupon4\Entity\Coupon;
+use Plugin\Coupon4\Entity\CouponOrder;
 use Plugin\Coupon4\Repository\CouponOrderRepository;
 use Plugin\Coupon4\Repository\CouponRepository;
+use Eccube\Entity\Master\OrderItemType;
+use Eccube\Entity\Master\TaxDisplayType;
+use Eccube\Entity\Master\TaxType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Event.
@@ -64,6 +72,10 @@ class Event implements EventSubscriberInterface
      */
     private $couponService;
 
+    protected $container;
+
+    protected $router;
+
     /**
      * Event constructor.
      *
@@ -81,7 +93,8 @@ class Event implements EventSubscriberInterface
                                 CouponRepository $couponRepository, 
                                 OrderRepository $orderRepository, 
                                 CustomerCouponRepository $customerCouponRepository, 
-                                \Twig_Environment $twig)
+                                \Twig_Environment $twig,
+                                ContainerInterface $container)
     {
         $this->couponOrderRepository = $couponOrderRepository;
         $this->entityManager = $entityManager;
@@ -90,6 +103,8 @@ class Event implements EventSubscriberInterface
         $this->orderRepository = $orderRepository;
         $this->customerCouponRepository = $customerCouponRepository;
         $this->twig = $twig;
+        $this->container = $container;
+        $this->router = $this->container->get('router');
     }
 
     /**
@@ -121,6 +136,8 @@ class Event implements EventSubscriberInterface
         $Customer = $parameters['Customer'];
 
         $CustomerCouponList = null;
+
+        $parameters['RefreshPage'] = "N";
 
         if(is_object($Customer)){
             if(!is_object($Customer->getChainStore())){
@@ -154,6 +171,15 @@ class Event implements EventSubscriberInterface
                     if($Order->getUseCoupon() == null){
                         if($couponCd != null){
                             $this->applyCoupon($Order, $Customer, $couponCd);
+
+                            $CouponOrder = $this->couponOrderRepository->getCouponOrder($Order->getPreOrderId());
+                            $this->addCouponDiscountItem($Order, $CouponOrder);
+                            //$Order = $this->orderRepository->findOneBy(["id" => $Order->getId()]);
+                            //$parameters['Order'] = $Order;
+                            //$url = $this->router->generate('shopping');
+                            //$response = new RedirectResponse($url);
+                            //$event->setResponse($response);
+                            //$parameters['RefreshPage'] = "Y";
                         }
                     }
                 }
@@ -281,5 +307,55 @@ class Event implements EventSubscriberInterface
 
             $this->entityManager->flush();
         }
+    }
+
+    /**
+     * 明細追加処理. --> CouponProcessor.php
+     *
+     * 値引額の場合の計算方法
+     * クーポンで設定した価格で、クーポン値引の明細を生成する(税込価格、税率0%、課税)
+     * 税込1080円の商品に、1000円のクーポンを使用すると、980円の支払いになるイメージ
+     *
+     * 明細ごとに税込の値引額を集計し、クーポン値引の明細を生成する(税込価格、税率0%、課税)
+     * 軽減税率適用により税率が混在する場合もあるため、税込価格、税率0%で明細を生成する
+     * 税込1080円の商品に、10%OFFのクーポンを使用すると、100円の値引きになり、980円の支払いになるイメージ
+     *
+     * @see https://github.com/EC-CUBE/coupon-plugin/pull/77
+     *
+     * @param CouponOrder $CouponOrder
+     */
+    private function addCouponDiscountItem($Order, CouponOrder $CouponOrder)
+    {
+        $Coupon = $this->couponRepository->find($CouponOrder->getCouponId());
+
+        $taxDisplayType = TaxDisplayType::INCLUDED; // 税込
+        $taxType = TaxType::NON_TAXABLE; // 不課税
+        $tax = 0;
+        $taxRate = 0;
+        $taxRuleId = null;
+        $roundingType = null;
+        $DiscountType = $this->entityManager->find(OrderItemType::class, OrderItemType::DISCOUNT);
+        $TaxInclude = $this->entityManager->find(TaxDisplayType::class, $taxDisplayType);
+        $Taxation = $this->entityManager->find(TaxType::class, $taxType);
+
+        $OrderItem = new OrderItem();
+        $OrderItem->setProductName($CouponOrder->getCouponName())
+            ->setPrice($CouponOrder->getDiscount() * -1)
+            ->setQuantity(1)
+            ->setTax($tax)
+            ->setTaxRate($taxRate)
+            ->setTaxRuleId($taxRuleId)
+            ->setRoundingType($roundingType)
+            ->setOrderItemType($DiscountType)
+            ->setTaxDisplayType($TaxInclude)
+            ->setTaxType($Taxation)
+            ->setOrder($Order)
+            ->setProcessorName(CouponProcessor::class);
+
+        $Order->addItem($OrderItem);
+
+        $paymentTotal = $Order->getPaymentTotal() - $CouponOrder->getDiscount();
+
+        $Order->setPaymentTotal($paymentTotal);
     }
 }

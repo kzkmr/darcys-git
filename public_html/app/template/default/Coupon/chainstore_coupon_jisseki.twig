@@ -1,0 +1,248 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'chainstore_coupon_jisseki' %}
+
+{% set body_class = 'mypage' %}
+
+{% block javascript %}
+    <script src="{{ asset('assets/js/qrcode.min.js') }}"></script>
+    <script>
+        $(function() {
+            function download(url, code){
+                var a = $("<a>")
+                            .attr("href", url)
+                            .attr("download", code + ".png")
+                            .appendTo("body");
+
+                        a[0].click();
+
+                        a.remove();
+            };
+            $(".qrcode").each(function(){
+                var qr = $(this);
+                var url = qr.data("url");
+                var code = qr.data("code");
+                var qrcode = new QRCode(qr.get(0), {
+                    text: url,
+                    width: 200,
+                    height: 200,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+
+                qr.parent().find(".qrdownload").off("click").on("click", function(){
+                    var img = qr.find("img");
+                    download(img.attr("src"), code);
+                    return false;
+                });
+            });
+            
+            $(".share-link a").each(function(){
+                var block = $(this).parent();
+                var url = block.data("url");
+                var code = block.data("code");
+                var sns = $(this);
+
+                if(sns.hasClass("sns-link")){
+                    sns.prop("href", url);
+                    sns.off("click").on("click", function(){
+                        var copydone = sns.parent().parent().find(".copy-finished");
+                        copyTextToClipboard(url);
+                        copydone.show();
+
+                        setTimeout(function(){
+                            copydone.hide();
+                        }, 2000);
+                        return false;
+                    });
+                }
+                if(sns.hasClass("sns-line")){
+                    sns.prop("href", "https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(url));
+                }
+                if(sns.hasClass("sns-facebook")){
+                    sns.prop("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
+                }
+                if(sns.hasClass("sns-twitter")){
+                    sns.prop("href", "https://twitter.com/intent/tweet?text=" + encodeURIComponent(url));   //encodeURIComponent(subject) + "%0a" + 
+                }
+            });
+
+            function fallbackCopyTextToClipboard(text) {
+                var textArea = document.createElement("textarea");
+                textArea.value = text;
+                
+                // Avoid scrolling to bottom
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    var msg = successful ? 'successful' : 'unsuccessful';
+                    console.log('Fallback: Copying text command was ' + msg);
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+
+                document.body.removeChild(textArea);
+            }
+            function copyTextToClipboard(text) {
+                if (!navigator.clipboard) {
+                    fallbackCopyTextToClipboard(text);
+                    return;
+                }
+                navigator.clipboard.writeText(text).then(function() {
+                    console.log('Async: Copying to clipboard was successful!');
+                }, function(err) {
+                    console.error('Async: Could not copy text: ', err);
+                });
+            }
+        });
+    </script>
+{% endblock javascript %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        .dzx-table_row_detail {
+            font-size: 90%;
+            width:100%;
+        }
+        .dzx-table_row_detail th {
+            border: 1px solid #d0d0d0;
+            background: #585858;
+            color: #fff;
+            text-align: center;
+            padding: 5px;
+            font-weight: normal;
+        }
+        .dzx-table_row_detail td {
+            border: 1px solid #d0d0d0;
+            padding: 5px;
+        }
+        .dzx-detail_title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .dzx-btn-func {
+            padding: 6px 16px;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1>{{ 'マイページ'|trans }}/{{ 'クーポン売上履歴'|trans }}</h1>
+            </div>
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <div class="ec-mypageRole">
+            {% if isActive %}
+                {% if isActive %}
+                    <div class="ec-historyRole">
+                        <div class="dzx-historyRole__rowcontents">
+                            <div class="dzx-historyRole__row_detail">
+                                {% if pagination is not null and pagination.totalItemCount > 0 %}
+                                    <form name="mypage_chainstore_coupon_jisseki" id="mypage_chainstore_coupon_jisseki" method="post" action="{{ url('mypage_chainstore_coupon_jisseki') }}">
+                                        <p class="dzx-detail_title">対象月 
+                                            <select name="selDate" class="selDate">
+                                            {% for curDate in listDate %}
+                                                {% if selDate == curDate['dateVal'] %}
+                                                    <option value="{{ curDate['dateVal'] }}" selected>{{ curDate['dateName'] }}</option>
+                                                {% else %}
+                                                    <option value="{{ curDate['dateVal'] }}">{{ curDate['dateName'] }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </select>
+                                            
+                                            <a class="ec-inlineBtn dzx-btn-func" href="#" onclick="$('#mypage_chainstore_coupon_jisseki').submit();return false;">検索</a>
+
+                                        </p>
+                                    </form>
+                                    <table class="dzx-table_row_detail">
+                                    <tr>
+                                        <th style="width:320px;" class="col_product" >クーポン名称</th>
+                                        <th style="width:140px;">売上回数</th>
+                                        <th style="width:200px;">売上金額</th>
+                                    </tr>
+
+                                    {% for Coupon in pagination %}
+                                        <tr>
+                                            <td class="dzx-row_image">
+                                                <p class="ec-historyRole__detailTitle">{{ Coupon.coupon_name }}</p>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                {{ Coupon.coupon_cnt|number_format }}
+                                            </td>
+                                            <td style="text-align:right;">
+                                                {{ Coupon.total|price }}
+                                            </td>
+                                        </tr>
+
+                                    {% endfor %}
+                                        
+                                    </table>
+
+                                    <div class="ec-pagerRole">
+                                        {% include "pager.twig" with {'pages': pagination.paginationData} %}
+                                    </div>
+                                {% else %}
+                                    <p class="ec-para-normal">{{ 'クーポン売上履歴はありません。'|trans }}</p>
+                                {% endif %}
+                                
+                            </div>
+                            <br /><br />
+                            <div class="dzx-historyRole__row_detail">
+                                <p class="dzx-detail_title">2022年3月のマージン情報
+                                    
+                                </p>
+                                <table class="dzx-table_row_detail">
+                                <tr>
+                                    <th style="width:180px;">マージン</th>
+                                    <th style="width:200px;">繰り越しマージン</th>
+                                    <th style="width:120px;">振込日付</th>
+                                </tr>
+                                <tr>
+                                    <td  style="text-align:right;">
+                                        <p class="ec-historyRole__detailPrice">￥10,990</p>
+                                    </td>
+                                    <td  style="text-align:right;">
+                                        <p class="ec-historyRole__detailPrice">￥100,990</p>
+                                    </td>
+                                    <td style="text-align:right;">
+                                        2022/03/01
+                                    </td>
+                                </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <p class="ec-para-normal">{{ '販売店が見つかりませんでした。'|trans }}</p>
+                {% endif %}
+            {% else %}
+                <h1 class="c-static-page-header__title">クーポン機能が無効です</h1>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

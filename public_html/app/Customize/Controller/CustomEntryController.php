@@ -410,7 +410,7 @@ class CustomEntryController extends BaseEntryController
 
                 foreach($MemberList as $Member){
                     // 販売店会員メール送信
-                    $this->mailService->sendChainStoreConfirmAdminMail($Member, $Customer, $ContractType);
+                    $this->mailService->sendChainStoreConfirmAdminMail($Member, $Customer, $ChainStore, $ContractType);
                 }
             }
         }

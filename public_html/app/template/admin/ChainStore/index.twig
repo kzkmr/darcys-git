@@ -240,7 +240,13 @@ file that was distributed with this source code.
                                             <td class="align-middle">{{ ChainStore.kana01 }} {{ ChainStore.kana02 }}</td>
                                             <td class="align-middle">{{ ChainStore.contract_type.name }}</td>
                                             <td class="align-middle">{{ ChainStore.contract_begin_ymd |date_format('', 'Y/m/d') }}</td>
-                                            <td class="align-middle">{{ ChainStore.dealer_code }}</td>
+                                            <td class="align-middle">
+                                                {% if ChainStore.dealer_code == '00000000' %}
+                                                    
+                                                {% else %}
+                                                    {{ ChainStore.dealer_code }}
+                                                {% endif %}
+                                            </td>
                                             <td class="align-middle pr-3">
                                                 <div class="text-right">
                                                     <div class="px-1 d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'admin.common.delete'|trans }}">

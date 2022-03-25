@@ -63,6 +63,13 @@ class ContractType extends \Eccube\Entity\Master\AbstractMasterEntity
     protected $show_product;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="payment_limit", type="string", length=255)
+     */
+    protected $paymentLimit;
+
+    /**
      * @var \Eccube\Entity\ClassCategory
      *
      * @ORM\ManyToOne(targetEntity="Eccube\Entity\ClassCategory")
@@ -193,6 +200,30 @@ class ContractType extends \Eccube\Entity\Master\AbstractMasterEntity
         return $this->show_product;
     }
 
+    /**
+     * Set Payment Limit.
+     *
+     * @param string $paymentLimit
+     *
+     * @return ContractType
+     */
+    public function setPaymentLimit($paymentLimit)
+    {
+        $this->paymentLimit = $paymentLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get Payment Limit.
+     *
+     * @return string
+     */
+    public function getPaymentLimit()
+    {
+        return $this->paymentLimit;
+    }
+    
     /**
      * Set Class Category.
      *

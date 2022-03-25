@@ -31,6 +31,7 @@ use Eccube\Repository\PageRepository;
 use Eccube\Repository\PageLayoutRepository;
 use Eccube\Repository\BlockPositionRepository;
 use Eccube\Request\Context;
+use Eccube\Service\CartService;
 use SunCat\MobileDetectBundle\DeviceDetector\MobileDetector;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -117,6 +118,11 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
     private $chainStoreRepository;
 
     /**
+     * @var CartService
+     */
+    protected $cartService;
+
+    /**
      * TwigInitializeListener constructor.
      *
      * @param Environment $twig
@@ -133,6 +139,7 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
      * @param LayoutRepository $layoutRepository
      * @param TokenStorageInterface $tokenStorage
      * @param ChainStoreRepository $chainStoreRepository
+     * @param CartService $cartService
      */
     public function __construct(
         Environment $twig,
@@ -148,7 +155,8 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
         UrlGeneratorInterface $router,
         LayoutRepository $layoutRepository,
         TokenStorageInterface $tokenStorage,
-        ChainStoreRepository $chainStoreRepository
+        ChainStoreRepository $chainStoreRepository,
+        CartService $cartService
     ) {
         $this->twig = $twig;
         $this->baseInfoRepository = $baseInfoRepository;
@@ -164,6 +172,7 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
         $this->layoutRepository = $layoutRepository;
         $this->tokenStorage = $tokenStorage;
         $this->chainStoreRepository = $chainStoreRepository;
+        $this->cartService = $cartService;
     }
 
     /**

@@ -24,9 +24,12 @@ use Eccube\Repository\PageRepository;
 use Eccube\Repository\PluginRepository;
 use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\CustomerCouponRepository;
+use Customize\Repository\CashbackSummaryRepository;
+use Customize\Repository\ShippingRepository;
 use Eccube\Service\MailService;
 use Plugin\Coupon4\Entity\Coupon;
 use Plugin\Coupon4\Repository\CouponRepository;
+use Plugin\Coupon4\Repository\CouponOrderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,6 +59,11 @@ class CouponController extends AbstractController
     private $couponRepository;
 
     /**
+     * @var CouponOrderRepository
+     */
+    private $couponOrderRepository;
+
+    /**
      * @var ChainStoreRepository
      */
     private $chainStoreRepository;
@@ -66,30 +74,62 @@ class CouponController extends AbstractController
     private $customerCouponRepository;
 
     /**
+     * @var ShippingRepository
+     */
+    private $shippingRepository;
+
+    /**
+     * @var CashbackSummaryRepository
+     */
+    private $cashbackSummaryRepository;
+    
+    /**
      * CouponController constructor.
      *
      * @param MailService $mailService
      * @param PageRepository $pageRepository
      * @param PluginRepository $pluginRepository
      * @param CouponRepository $couponRepository
+     * @param CouponOrderRepository $couponOrderRepository
      * @param ChainStoreRepository $chainStoreRepository
      * @param CustomerCouponRepository $customerCouponRepository
+     * @param ShippingRepository $shippingRepository
+     * @param CashbackSummaryRepository $cashbackSummaryRepository
      */
     public function __construct(
         MailService $mailService,
         PageRepository $pageRepository,
         PluginRepository $pluginRepository,
         CouponRepository $couponRepository,
+        CouponOrderRepository $couponOrderRepository,
         ChainStoreRepository $chainStoreRepository,
-        CustomerCouponRepository $customerCouponRepository)
+        CustomerCouponRepository $customerCouponRepository,
+        ShippingRepository $shippingRepository,
+        CashbackSummaryRepository $cashbackSummaryRepository)
     {
         $this->mailService = $mailService;
         $this->pageRepository = $pageRepository;
         $this->pluginRepository = $pluginRepository;
         $this->couponRepository = $couponRepository;
+        $this->couponOrderRepository = $couponOrderRepository;
         $this->chainStoreRepository = $chainStoreRepository;
         $this->customerCouponRepository = $customerCouponRepository;
+        $this->shippingRepository = $shippingRepository;
+        $this->cashbackSummaryRepository = $cashbackSummaryRepository;
     }
+
+
+    /**
+     * クーポン画面.
+     *
+     * @Route("/coupon_demo/{coupon_code}", name="coupon_demo", methods={"GET", "POST"})
+     * @Template("Coupon/index_demo.twig")
+     */
+    public function index_demo(Request $request, SessionInterface $session, $coupon_code)
+    {
+        return $this->index_get($request, $session, $coupon_code, false);
+    }
+
 
     /**
      * クーポン画面.
@@ -265,6 +305,82 @@ class CouponController extends AbstractController
     }
 
     /**
+     * クーポン実績画面.(販売店の特別会員)
+     *
+     * @Route("/mypage/chainstore_coupon_jisseki", name="mypage_chainstore_coupon_jisseki", methods={"GET", "POST"})
+     * @Template("Coupon/chainstore_coupon_jisseki.twig")
+     */
+    public function chainstore_coupon_jisseki(Request $request, PaginatorInterface $paginator)
+    {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY') && !$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirectToRoute('mypage_login');
+        }
+
+        $Customer = $this->getUser();
+        $ChainStore = $Customer->getChainStore();
+
+        if(!is_object($ChainStore)){
+            return $this->redirectToRoute('mypage_login');
+        }
+
+        $Coupon4Plugin = $this->getCouponPluginInfo();
+        $isActive = (is_object($Coupon4Plugin));
+        $pagination = null;
+        $Cashback = null;
+        $selDate = "";  //date("Y-m");
+        $selDateName = "";
+        $listDate = [];
+
+        if($isActive){
+            if($ChainStore->getContractType()->getPageCouponList() != "Y"){
+                return $this->redirectToRoute('mypage_login');
+            }
+            
+            if(!empty($_SESSION["selDate"])){
+                $selDate = $_SESSION["selDate"];
+            }
+            if(!empty($_POST)){
+                if(!empty($_POST["selDate"])){
+                    $selDate = $_POST["selDate"];
+                    $_SESSION["selDate"]=$selDate;
+                }
+            }
+
+            $selDateName = str_replace("-", "年", $selDate)."月";
+
+            $listDate1 = $this->shippingRepository->getChainStoreUseCouponJissekiListDate($ChainStore);
+            $listDate2 = $this->cashbackSummaryRepository->getDateList($ChainStore);
+            $listDate = $this->mergeDateList($listDate1, $listDate2);
+
+            if(count($listDate) > 0){
+                if($selDate == ""){
+                    $selDate = $listDate[0]["dateVal"];
+                    $selDateName = $listDate[0]["dateName"];
+                }
+
+                $CouponJisseki = $this->shippingRepository->findChainStoreUseCouponJisseki($ChainStore, $selDate);
+                $Cashback = $this->cashbackSummaryRepository->findOneBy(["ChainStore" => $ChainStore, "referenceYm" => $selDate]);
+
+                $pagination = $paginator->paginate(
+                    $CouponJisseki,
+                    $request->get('pageno', 1),
+                    $this->eccubeConfig['eccube_search_pmax']
+                );
+            }
+        }
+
+        return [
+            'isActive' => $isActive,
+            'listDate' => $listDate,
+            'selDate' => $selDate,
+            'selDateName' => $selDateName,
+            'ChainStore' => $ChainStore,
+            'pagination' => $pagination,
+            'Cashback' => $Cashback
+        ];
+    }
+
+    /**
      * クーポン削除画面.(一般会員)
      *
      * @Route("/mypage/coupon_delete/{coupon_code}", name="mypage_coupon_delete", methods={"GET"})
@@ -294,4 +410,41 @@ class CouponController extends AbstractController
         return $Coupon4Plugin;
     }
 
+    public function mergeDateList($list1, $list2)
+    {
+        $listDate = [];
+
+        if($list1){
+            foreach($list1 as $lst){
+                $item = [];
+                $item["dateVal"] = $lst["dateVal"];
+                $item["dateName"] = $lst["dateName"];
+
+                $listDate[] = $item;
+            }
+        }
+
+        if($list2){
+            foreach($list2 as $lst){
+                $item = [];
+                $item["dateVal"] = $lst["dateVal"];
+                $item["dateName"] = $lst["dateName"];
+
+                if (!$this->hasDateItem($listDate, $item)) {
+                    $listDate[] = $item;
+                }
+            }
+        }
+
+        return $listDate;
+    }
+
+    public function hasDateItem($lstDate, $item)
+    {
+        foreach($lstDate as $lst){
+            if($lst["dateVal"] == $item["dateVal"]) return true;
+        }
+
+        return false;
+    }
 }

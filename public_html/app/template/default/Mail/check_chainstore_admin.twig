@@ -1,0 +1,26 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+ご担当者様
+
+{{YYYY}}年{{MM}}月{{DD}}日マスタ登録チェック
+
+ディーラーコード未登録販売店：{{DealerCode}}件
+クーポン未登録販売店：{{CouponCode}}件
+
+詳細リストをご確認下さい。
+{{ Result }}
+
+管理画面はコチラより
+https://icecream.dzx.co.jp/darcysadmin/
+
+
+{% endautoescape %}

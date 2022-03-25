@@ -123,6 +123,7 @@ class ChainStoreType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ])
+            /*
             ->add('dealer_code', TextType::class, [
                 'required' => false,
                 'constraints' => [
@@ -131,6 +132,7 @@ class ChainStoreType extends AbstractType
                     ]),
                 ],
             ])
+            */
             ->add('bank', BankType::class, [
                 'required' => true,
                 'constraints' => [

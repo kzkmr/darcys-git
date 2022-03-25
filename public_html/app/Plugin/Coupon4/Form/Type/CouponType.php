@@ -15,9 +15,11 @@ namespace Plugin\Coupon4\Form\Type;
 
 use Carbon\Carbon;
 use Eccube\Form\Type\PriceType;
-use Customize\Form\Type\ChainStoreDropDownType;
 use Plugin\Coupon4\Entity\Coupon;
 use Plugin\Coupon4\Repository\CouponRepository;
+use Customize\Entity\ChainStore;
+use Customize\Form\Type\ChainStoreDropDownType;
+use Customize\Repository\ChainStoreRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -30,6 +32,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -56,17 +59,26 @@ class CouponType extends AbstractType
     private $container;
 
     /**
+     * @var ChainStoreRepository
+     */
+    protected $chainStoreRepository;
+
+    /**
      * CouponType constructor.
      *
      * @param CouponRepository $couponRepository
      * @param ValidatorInterface $validator
      * @param ContainerInterface $container
      */
-    public function __construct(CouponRepository $couponRepository, ValidatorInterface $validator, ContainerInterface $container)
+    public function __construct(CouponRepository $couponRepository, 
+                                ValidatorInterface $validator, 
+                                ContainerInterface $container,
+                                ChainStoreRepository $chainStoreRepository)
     {
         $this->couponRepository = $couponRepository;
         $this->validator = $validator;
         $this->container = $container;
+        $this->chainStoreRepository = $chainStoreRepository;
     }
 
     /**
@@ -82,6 +94,7 @@ class CouponType extends AbstractType
         $reuse_val = array("N", "Y");
         $reuse_name = array("一回のみ", "クーポン再利用");
         $currency = $this->container->getParameter('currency');
+        $chainStore = $this->chainStoreRepository->findBy(['ContractType' => array(1, 2)], ['company_name' => 'ASC']);
 
         $builder
             ->add('coupon_cd', TextType::class, [
@@ -226,9 +239,11 @@ class CouponType extends AbstractType
                 'allow_delete' => true,
                 'prototype' => true,
             ])
-            ->add('chain_store', ChainStoreDropDownType::class, [
+            ->add('chain_store', EntityType::class, [
+                'class' => ChainStore::class,
                 'label' => 'plugin_coupon.admin.label.chain_store',
                 'required' => true,
+                'choices' => $chainStore,
                 'constraints' => [
                     new Assert\NotBlank()
                 ],

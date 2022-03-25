@@ -169,6 +169,7 @@ class ProductRepository extends AbstractRepository
 
             if($ClassCategory){
                 $qb->innerJoin('p.ProductClasses', 'pc1');
+                $qb->andWhere('pc1.visible = true');
                 $qb->andWhere('pc1.ClassCategory1 = :ClassCategory1')
                     ->setParameter('ClassCategory1', $ClassCategory);
             }

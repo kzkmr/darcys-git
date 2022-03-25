@@ -24,16 +24,23 @@ file that was distributed with this source code.
                 <tr>
                     <td class="container-padding content" align="left" style="border-collapse:collapse;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff;">
                         <br>
-                        <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550;">この度は会員登録依頼をいただきまして、有り難うございます。</div>
-                        <br>
                         <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333;">
-                            {{ Customer.name01 }} {{ Customer.name02 }} 様<br>
+                            ご担当者様<br>
                             <br>
-                            現在は仮登録の状態です。<br/><br/>
-                            <br/>
-                            ご登録内容ご確認メールをお送り致します。
-                            <br/>
-                            <br/>
+                            {{ Customer.name01 }} {{ Customer.name02 }}様販売店登録が完了しました<br>
+                            証券番号：BN{{ChainStore.stock_number}}<br>
+                            販売店マスタ登録画面にてディーラーコードの設定をして下さい。<br>
+                            <br>
+                            {% if not ContractType.id == 3 %}
+                            また、クーポンが未登録の場合はクーポン登録画面より<br>
+                            {{ Customer.name01 }} {{ Customer.name02 }}様専用クーポンの新規登録をして下さい。<br>
+                            <br>
+                            {% endif %}
+                            管理画面はコチラより<br>
+                            <a href="{{ url('admin_chainstore_edit', {"id": ChainStore.id}) }}">{{ url('admin_chainstore_edit', {"id": ChainStore.id}) }}</a><br>
+                            <br>
+                            ※本メールは自動配信メールです。<br>
+
                         </div>
                     </td>
                 </tr>

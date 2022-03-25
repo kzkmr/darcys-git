@@ -15,6 +15,7 @@ namespace Plugin\Coupon4\Repository;
 
 use Eccube\Repository\AbstractRepository;
 use Plugin\Coupon4\Entity\CouponOrder;
+use Eccube\Entity\Order;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
