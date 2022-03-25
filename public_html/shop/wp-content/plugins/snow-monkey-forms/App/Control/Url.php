@@ -20,6 +20,7 @@ class Url extends Contract\Control {
 	 *  - boolean disabled
 	 *  - int     maxlength
 	 *  - int     size
+	 *  - string  url
 	 *  - string  id
 	 *  - string  class
 	 *  - boolean data-invalid
@@ -31,6 +32,7 @@ class Url extends Contract\Control {
 		'disabled'     => false,
 		'maxlength'    => 0,
 		'size'         => 0,
+		'autocomplete' => 'url',
 		'id'           => '',
 		'class'        => 'smf-text-control__control',
 		'data-invalid' => false,
@@ -63,7 +65,8 @@ class Url extends Contract\Control {
 	 * @return string
 	 */
 	public function input() {
-		$attributes = $this->_generate_attributes( $this->get_property( 'attributes' ) );
+		$attributes = $this->get_property( 'attributes' );
+		$attributes = $this->_normalize_attributes( $attributes );
 
 		$description = $this->get_property( 'description' );
 		if ( $description ) {
@@ -100,7 +103,7 @@ class Url extends Contract\Control {
 						'value' => $this->get_attribute( 'value' ),
 					],
 				]
-			)->input()
+			)->confirm()
 		);
 	}
 

@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '14.1.0',
-        'version' => '14.1.0.0',
+        'pretty_version' => '15.0.1',
+        'version' => '15.0.1.0',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '3128325ac04d92b85fe1b01cda24abac96e8ebd9',
+        'reference' => 'c1cfa8b987cbdc1d02b2b739b63377e33746ce94',
         'name' => '__root__',
         'dev' => false,
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '14.1.0',
-            'version' => '14.1.0.0',
+            'pretty_version' => '15.0.1',
+            'version' => '15.0.1.0',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '3128325ac04d92b85fe1b01cda24abac96e8ebd9',
+            'reference' => 'c1cfa8b987cbdc1d02b2b739b63377e33746ce94',
             'dev_requirement' => false,
         ),
     ),

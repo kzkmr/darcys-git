@@ -19,6 +19,7 @@ class Textarea extends Contract\Control {
 	 *  - string  placeholder
 	 *  - boolean disabled
 	 *  - int     maxlength
+	 *  - string  autocomplete
 	 *  - string  id
 	 *  - string  class
 	 *  - boolean data-invalid
@@ -29,6 +30,7 @@ class Textarea extends Contract\Control {
 		'placeholder'  => '',
 		'disabled'     => false,
 		'maxlength'    => 0,
+		'autocomplete' => '',
 		'id'           => '',
 		'class'        => 'smf-textarea-control__control',
 		'data-invalid' => false,
@@ -64,7 +66,8 @@ class Textarea extends Contract\Control {
 	 * @return string
 	 */
 	public function input() {
-		$attributes = $this->_generate_attributes( $this->get_property( 'attributes' ) );
+		$attributes = $this->get_property( 'attributes' );
+		$attributes = $this->_normalize_attributes( $attributes );
 		if ( isset( $attributes['value'] ) ) {
 			$this->set_property( 'value', $attributes['value'] );
 			unset( $attributes['value'] );
@@ -106,7 +109,7 @@ class Textarea extends Contract\Control {
 						'value' => $this->get_property( 'value' ),
 					],
 				]
-			)->input()
+			)->confirm()
 		);
 	}
 

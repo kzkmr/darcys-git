@@ -56,20 +56,22 @@
     </h1>
   </div>
 <?php elseif ( is_singular('post') ): ?>
-  <div class="pageheader">
-    <?php
-    if (has_post_thumbnail($post_id)) {
-        the_post_thumbnail($post_id);// サムネイルタグを出力
-        $thumbnail = get_the_post_thumbnail($post_id);// サムネイル画像情報を変数に格納
-    } else {
-      ?>
-        <img src="<?php echo wp_upload_dir()['url']; ?>/products-detail.jpg" alt="">
+  <div class="pageheader-wrap">
+    <div class="pageheader">
       <?php
-    }
-    ?>
-    <h1 class="pageheader__title">
-      <?php single_post_title(); ?>
-    </h1>
+      if (has_post_thumbnail($post_id)) {
+          the_post_thumbnail($post_id);// サムネイルタグを出力
+          $thumbnail = get_the_post_thumbnail($post_id);// サムネイル画像情報を変数に格納
+      } else {
+        ?>
+          <img src="<?php echo wp_upload_dir()['url']; ?>/products-detail.jpg" alt="">
+        <?php
+      }
+      ?>
+      <h1 class="pageheader__title">
+        <?php single_post_title(); ?>
+      </h1>
+    </div>
   </div>
 <?php elseif ( get_post_type() == 'products' ): ?>
   <div class="pageheader-wrap">

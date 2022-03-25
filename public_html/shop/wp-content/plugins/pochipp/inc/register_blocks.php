@@ -126,38 +126,39 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 
 	// ※ 定期的に、データの再取得も行う
 	$pdata = array_merge([
-		'pid'                => 0,
-		'className'          => '',
-		'keywords'           => '',
-		'searched_at'        => '',
-		'asin'               => '',
-		'itemcode'           => '',
+		'pid'                  => 0,
+		'className'            => '',
+		'keywords'             => '',
+		'searched_at'          => '',
+		'asin'                 => '',
+		'itemcode'             => '',
 		// 'seller_id'     => '',
-		'amazon_affi_url'    => '',
-		'rakuten_detail_url' => '',
-		'yahoo_detail_url'   => '',
-		'is_paypay'          => '',
-		'info'               => '',
-		'price'              => 0,
-		'price_at'           => '',
-		'image_url'          => '',
-		'image_id'           => '',
-		'custom_btn_url'     => '',
-		'custom_btn_text'    => '',
-		'custom_btn_url_2'   => '',
-		'custom_btn_text_2'  => '',
-		'hideInfo'           => false,
-		'hidePrice'          => false,
-		'showPrice'          => false,
-		'hideAmazon'         => false,
-		'hideRakuten'        => false,
-		'hideYahoo'          => false,
-		'hideCustom'         => false,
-		'hideCustom2'        => false,
-		'btnLayoutPC'        => '',
-		'btnLayoutSP'        => '',
-		'isCount'            => false,
-		'cvKey'              => '',
+		'amazon_affi_url'      => '',
+		'rakuten_detail_url'   => '',
+		'yahoo_detail_url'     => '',
+		'is_paypay'            => '',
+		'info'                 => '',
+		'price'                => 0,
+		'price_at'             => '',
+		'image_url'            => '',
+		'image_id'             => '',
+		'custom_btn_url'       => '',
+		'custom_btn_text'      => '',
+		'custom_btn_url_2'     => '',
+		'custom_btn_text_2'    => '',
+		'is_all_search_result' => false,
+		'hideInfo'             => false,
+		'hidePrice'            => false,
+		'showPrice'            => false,
+		'hideAmazon'           => false,
+		'hideRakuten'          => false,
+		'hideYahoo'            => false,
+		'hideCustom'           => false,
+		'hideCustom2'          => false,
+		'btnLayoutPC'          => '',
+		'btnLayoutSP'          => '',
+		'isCount'              => false,
+		'cvKey'                => '',
 	], $pdata );
 
 	$pid               = $pdata['pid'];
@@ -193,21 +194,24 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	// AmazonボタンURL
 	if ( apply_filters( 'pochipp_show_amazon_btn', ! $pdata['hideAmazon'], $pid ) ) {
 		// $pdata['amazon_custom_url']
-		$amazon_url = $asin ? 'https://www.amazon.co.jp/dp/' . $asin : \POCHIPP::get_amazon_searched_url( $keywords );
-		$amazon_url = \POCHIPP::get_amazon_affi_url( $pdata['amazon_affi_url'], $amazon_url, $amazon_aid );
+		$show_detail_url = $asin && ! $pdata['is_all_search_result'];
+		$amazon_url      = $show_detail_url ? 'https://www.amazon.co.jp/dp/' . $asin : \POCHIPP::get_amazon_searched_url( $keywords );
+		$amazon_url      = \POCHIPP::get_amazon_affi_url( $pdata['amazon_affi_url'], $amazon_url, $amazon_aid );
 	}
 
 	// 楽天ボタンURL
 	if ( apply_filters( 'pochipp_show_rakuten_btn', ! $pdata['hideRakuten'], $pid ) ) {
 		// $pdata['rakuten_custom_url']
-		$rakuten_url = $pdata['rakuten_detail_url'] ?: \POCHIPP::get_rakuten_searched_url( $keywords );
-		$rakuten_url = \POCHIPP::get_rakuten_affi_url( $rakuten_url, $rakuten_aid );
+		$show_detail_url = $pdata['rakuten_detail_url'] && ! $pdata['is_all_search_result'];
+		$rakuten_url     = $show_detail_url ? $pdata['rakuten_detail_url'] : \POCHIPP::get_rakuten_searched_url( $keywords );
+		$rakuten_url     = \POCHIPP::get_rakuten_affi_url( $rakuten_url, $rakuten_aid );
 	}
 
 	// YahooボタンURL
 	if ( apply_filters( 'pochipp_show_yahoo_btn', ! $pdata['hideYahoo'], $pid ) ) {
-		$yahoo_url = $pdata['yahoo_detail_url'] ?: \POCHIPP::get_yahoo_searched_url( $keywords );
-		$yahoo_url = \POCHIPP::get_yahoo_affi_url( $yahoo_url, $yahoo_aid );
+		$show_detail_url = $pdata['yahoo_detail_url'] && ! $pdata['is_all_search_result'];
+		$yahoo_url       = $show_detail_url ? $pdata['yahoo_detail_url'] : \POCHIPP::get_yahoo_searched_url( $keywords );
+		$yahoo_url       = \POCHIPP::get_yahoo_affi_url( $yahoo_url, $yahoo_aid );
 	}
 
 	// カスタムボタン

@@ -16,6 +16,7 @@ class Select extends Contract\Control {
 	 * @var array
 	 *  - string  name
 	 *  - boolean disabled
+	 *  - string  autocomplete
 	 *  - string  id
 	 *  - string  class
 	 *  - boolean data-invalid
@@ -23,6 +24,7 @@ class Select extends Contract\Control {
 	protected $attributes = [
 		'name'         => '',
 		'disabled'     => false,
+		'autocomplete' => '',
 		'id'           => '',
 		'class'        => 'smf-select-control__control',
 		'data-invalid' => false,
@@ -92,7 +94,8 @@ class Select extends Contract\Control {
 	 * @return string
 	 */
 	public function input() {
-		$attributes = $this->_generate_attributes( $this->get_property( 'attributes' ) );
+		$attributes = $this->get_property( 'attributes' );
+		$attributes = $this->_normalize_attributes( $attributes );
 		if ( isset( $attributes['value'] ) ) {
 			$this->set_property( 'value', $attributes['value'] );
 			unset( $attributes['value'] );

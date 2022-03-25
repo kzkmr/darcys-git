@@ -7,7 +7,7 @@ Author: JP-Secure
 Author URI: http://www.jp-secure.com/eng/
 Text Domain: siteguard
 Domain Path: /languages/
-Version: 1.6.0
+Version: 1.6.1
 */
 
 /*  Copyright 2014 JP-Secure Inc

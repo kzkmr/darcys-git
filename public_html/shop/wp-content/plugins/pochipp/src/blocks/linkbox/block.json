@@ -74,6 +74,10 @@
         "custom_btn_text_2": {
             "type": "string"
         },
+        "is_all_search_result": {
+            "type": "boolean",
+            "default": false
+        },
         "btnLayoutPC": {
             "type": "string",
             "default": ""

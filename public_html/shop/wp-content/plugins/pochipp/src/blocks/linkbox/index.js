@@ -60,6 +60,7 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 			custom_btn_url: undefined,
 			custom_btn_text_2: undefined,
 			custom_btn_url_2: undefined,
+			is_all_search_result: undefined,
 		});
 	} else {
 		// pid: undefined,
@@ -115,11 +116,15 @@ registerBlockType(name, {
 		const hasItem = !!pid || !!title;
 
 		useEffect(() => {
-			const sameKeyBlocks = document.querySelectorAll(`[data-cvkey-id="${cvKey}"]`);
-			if (sameKeyBlocks.length > 1) {
-				const newID = clientId.split('-');
-				setAttributes({ cvKey: newID[0] || '' });
+			if (!isSelected) {
+				return;
 			}
+
+			const newID = clientId.split('-');
+			setAttributes({
+				cvKey: newID[0] || '',
+				isCount: true,
+			});
 		}, [clientId]);
 
 		// ブロックprops
@@ -192,6 +197,7 @@ registerBlockType(name, {
 						custom_btn_url: undefined,
 						custom_btn_text_2: undefined,
 						custom_btn_url_2: undefined,
+						is_all_search_result: undefined,
 					});
 					alert('登録が完了しました！');
 				} else {
@@ -257,6 +263,16 @@ registerBlockType(name, {
 								seller_id: undefined,
 								is_paypay: undefined,
 								yahoo_detail_url: undefined,
+							});
+						}}
+					/>
+					<CheckboxControl
+						className='pchpp-searchResultCheck'
+						label='リンク先をすべて検索結果ページにする'
+						checked={attributes.is_all_search_result}
+						onChange={(checked) => {
+							setAttributes({
+								is_all_search_result: checked,
 							});
 						}}
 					/>

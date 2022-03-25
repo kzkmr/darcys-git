@@ -190,11 +190,8 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 	        if ( $user_id = wp_validate_auth_cookie( '',  $scheme) ) {
 	            return $scheme;
 	        }
-
-	        global $wp_query;
-	        $wp_query->set_404();
-	        get_template_part( 404 );
-	        exit();
+			wp_safe_redirect( home_url( ) );
+	        exit;
 	    }
 	}
 }

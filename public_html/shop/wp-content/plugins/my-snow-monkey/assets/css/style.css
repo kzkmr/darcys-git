@@ -1683,6 +1683,116 @@ Styleguide 11.3.2
   text-align: center;
 }
 
+.recommend-list {
+  margin: 30px auto 0;
+  padding-top: 30px;
+  border-top: 1px solid #ddd;
+}
+@media only screen and (min-width: 768px) {
+  .recommend-list {
+    margin: 50px auto 0;
+    padding-top: 50px;
+  }
+}
+.recommend-list__title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+}
+.recommend-list__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 15px 0 0;
+}
+@media only screen and (min-width: 768px) {
+  .recommend-list__list {
+    margin: 20px 0 0;
+  }
+}
+.recommend-list .recommend-item {
+  flex: 0 0 100%;
+  margin-bottom: 30px;
+}
+@media only screen and (min-width: 768px) {
+  .recommend-list .recommend-item {
+    flex: 0 0 50%;
+  }
+}
+.recommend-list .recommend-item a {
+  display: flex;
+  width: 100%;
+}
+.recommend-list .recommend-item__img {
+  flex: 0 0 120px;
+  position: relative;
+  padding-top: 120px;
+}
+.recommend-list .recommend-item__img img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+.recommend-list .recommend-item__body {
+  flex: 0 0 calc(100% - 120px);
+  padding: 14px 40px 0 20px;
+}
+.recommend-list .recommend-item__meta {
+  display: flex;
+  align-items: center;
+}
+.recommend-list .recommend-item__date {
+  margin-right: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #231815;
+}
+.recommend-list .recommend-item__cat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 84px;
+  height: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #fff;
+  background-color: #898989;
+}
+.recommend-list .recommend-item__cat.color-info {
+  background-color: #898989;
+}
+.recommend-list .recommend-item__cat.color-ice {
+  background-color: #ef857e;
+}
+.recommend-list .recommend-item__cat.color-coffee {
+  background-color: #6a3906;
+}
+.recommend-list .recommend-item__cat.color-bread {
+  background-color: #f8b62d;
+}
+.recommend-list .recommend-item__cat.color-other {
+  background-color: #898989;
+}
+.recommend-list .recommend-item__text {
+  margin-top: 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0;
+  color: #231815;
+}
+
 .section-story-list .smb-container__body {
   margin-top: 20px;
 }

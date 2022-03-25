@@ -3,8 +3,8 @@ Contributors: jp-secure
 Donate link: -
 Tags: security, waf, brute force, password list, login lock, login alert, captcha, pingback, fail once
 Requires at least: 3.9
-Tested up to: 5.8
-Stable tag: 1.6.0
+Tested up to: 5.9
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,6 +106,8 @@ If you have created your own language pack, or have an update of an existing one
 [Japanese Page](https://www.jp-secure.com/siteguard_wp_plugin/faq/)
 
 == Changelog ==
+= 1.6.1 =
+* Fix the problem that an error occurs when suppressing the redirect from the management page to the login page
 = 1.6.0 =
 * Add the "Block Author Query" feature
 = 1.5.2 =

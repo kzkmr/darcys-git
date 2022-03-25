@@ -4,63 +4,92 @@
 import { memo } from '@wordpress/element';
 import { Button } from '@wordpress/components';
 import { Icon, external, search, closeSmall } from '@wordpress/icons';
+import { genSerchedResultLink } from '@blocks/helper';
+
+const labels = {
+	amazon: 'Amazon',
+	rakuten: '楽天',
+	yahoo: 'Yahoo',
+};
 
 /**
  * UrlConfBtn
  */
-const UrlConfBtn = memo(({ url, hasSearchedLink }) => {
+const UrlConfBtn = memo(({ url, isProductPage }) => {
 	return (
 		<span className='__urlConfBtn'>
 			<span>リンク先 : </span>
 			<a href={url} target='_blank' rel='noreferrer noopener'>
-				{hasSearchedLink ? '商品ページ' : '検索結果ページ'}
+				{isProductPage ? '商品ページ' : '検索結果ページ'}
 				<Icon icon={external} />
 			</a>
 		</span>
 	);
 });
 
-/**
- * AdditionalSearchBtn
- */
-const AdditionalSearchBtn = memo(({ type, openThickbox, hasSearchedLink }) => {
-	let label = '';
-	if ('amazon' === type) {
-		label = 'Amazon';
-	} else if ('rakuten' === type) {
-		label = '楽天';
-	} else if ('yahoo' === type) {
-		label = 'Yahoo';
-	}
+const SearchConfField = ({ type, isSearchedSource, isProductPage, showSearchConf, openThickbox, deleteSearchResult }) => {
+	const label = labels[type];
 
 	return (
-		<Button
-			icon={<Icon icon={search} />}
-			isSecondary={true}
-			onClick={() => {
-				openThickbox(type);
-			}}
-		>
-			{hasSearchedLink ? label + 'で再検索' : label + 'でも検索'}
-		</Button>
+		<>
+			{isSearchedSource && <span className='__mainLabel'>検索元</span>}
+			{!isSearchedSource && <>
+				{showSearchConf && (
+					<>
+						<Button
+							icon={<Icon icon={search} />}
+							isSecondary={true}
+							onClick={() => {
+								openThickbox(type);
+							}}
+						>
+							{isProductPage ? `${label}で再検索` : `${label}でも検索`}
+						</Button>
+						<Button
+							className={!isProductPage ? '-hide' : ''}
+							icon={<Icon icon={closeSmall} />}
+							isSecondary={true}
+							onClick={() => {
+								deleteSearchResult();
+							}}
+						>
+							詳細リンクを削除
+						</Button>
+					</>
+				)}
+				{!showSearchConf && (
+					<span className='__mainLabel'>「すべて検索結果ページを表示」するため検索できません</span>
+				)}
+			</>}
+		</>
 	);
-});
+};
 
 /**
- * DeleteDetailLinkBtn
+ * LinkTableRow
  */
-const DeleteDetailLinkBtn = ({ isHide, onClick }) => {
+const LinkTableRow = ({ current, searchedAt, link, isProductPage, showSearchConf, openThickBox, deleteFunc }) => {
+	const isSearchedSource = current === searchedAt;
+
 	return (
-		<Button
-			className={isHide ? '-hide' : ''}
-			icon={<Icon icon={closeSmall} />}
-			isSecondary={true}
-			onClick={() => {
-				onClick();
-			}}
-		>
-			詳細リンクを削除
-		</Button>
+		<tr>
+			<th>{labels[current]}</th>
+			<td>
+				<UrlConfBtn url={link} isProductPage={isProductPage} />
+			</td>
+			<td>
+				<SearchConfField
+					type={current}
+					isSearchedSource={isSearchedSource}
+					isProductPage={isProductPage}
+					showSearchConf={showSearchConf}
+					openThickbox={type => openThickBox(type)}
+					deleteSearchResult={() => {
+						deleteFunc();
+					}}
+				/>
+			</td>
+		</tr>
 	);
 };
 
@@ -74,17 +103,24 @@ export default ({ attrs, openThickbox, deleteAmazon, deleteRakuten, deleteYahoo 
 
 	// 商品が検索された状態かどうか
 	const searchedAt = attrs.searched_at;
-	// const hasSearchedItem = !!searchedAt;
+
+	// 商品の検索結果を全て検索結果ページにするか
+	const isAllSearchResult = !!attrs.is_all_search_result;
 
 	// 各APIから検索済みかどうか
 	const amazonDetailUrl = amazonAsin ? `https://www.amazon.co.jp/dp/${amazonAsin}` : '';
-	const amazonSearchedLink = amazonDetailUrl || '';
-	const rakutenSearchedLink = attrs.rakuten_detail_url || '';
-	const yahooSearchedLink = attrs.yahoo_detail_url || '';
+	const rakutenDetailUrl = attrs.rakuten_detail_url || '';
+	const yahooDetailUrl = attrs.yahoo_detail_url || '';
 
-	const amazonLink = amazonSearchedLink || 'https://www.amazon.co.jp/s?k=' + encodeURIComponent(keywords);
-	const rakutenLink = rakutenSearchedLink || 'https://search.rakuten.co.jp/search/mall/' + encodeURIComponent(keywords);
-	const yahooLink = yahooSearchedLink || 'https://shopping.yahoo.co.jp/search?p=' + encodeURIComponent(keywords);
+	// 個別ページに遷移するかどうか
+	const isAmazonToProductPage = !isAllSearchResult && amazonDetailUrl !== '';
+	const isRakutenToProductPage = !isAllSearchResult && rakutenDetailUrl !== '';
+	const isYahooToProductPage = !isAllSearchResult && yahooDetailUrl !== '';
+
+	// 最終的に遷移するリンク先
+	const amazonLink = isAmazonToProductPage ? amazonDetailUrl : genSerchedResultLink('amazon', keywords);
+	const rakutenLink = isRakutenToProductPage ? rakutenDetailUrl : genSerchedResultLink('rakuten', keywords);
+	const yahooLink = isYahooToProductPage ? yahooDetailUrl : genSerchedResultLink('yahoo', keywords);
 
 	const hasAffi = window.pchppVars.hasAffi;
 
@@ -94,81 +130,37 @@ export default ({ attrs, openThickbox, deleteAmazon, deleteRakuten, deleteYahoo 
 			<table className='__table'>
 				<tbody>
 					{hasAffi.amazon ? (
-						<tr>
-							<th>Amazon</th>
-							<td>
-								<UrlConfBtn url={amazonLink} hasSearchedLink={amazonSearchedLink} />
-							</td>
-							<td>
-								{'amazon' === searchedAt ? (
-									<span className='__mainLabel'>検索元</span>
-								) : (
-									<>
-										<AdditionalSearchBtn
-											type='amazon'
-											openThickbox={openThickbox}
-											hasSearchedLink={amazonSearchedLink}
-										/>
-										<DeleteDetailLinkBtn
-											isHide={!amazonSearchedLink}
-											onClick={() => {
-												deleteAmazon();
-											}}
-										/>
-									</>
-								)}
-							</td>
-						</tr>
+						<LinkTableRow
+							current='amazon'
+							searchedAt={searchedAt}
+							link={amazonLink}
+							isProductPage={isAmazonToProductPage}
+							showSearchConf={!isAllSearchResult}
+							openThickBox={openThickbox}
+							deleteFunc={deleteAmazon}
+						/>
 					) : null}
 					{hasAffi.rakuten ? (
-						<tr>
-							<th>楽天</th>
-							<td>
-								<UrlConfBtn url={rakutenLink} hasSearchedLink={rakutenSearchedLink} />
-							</td>
-							<td>
-								{'rakuten' === searchedAt ? (
-									<span className='__mainLabel'>検索元</span>
-								) : (
-									<>
-										<AdditionalSearchBtn
-											type='rakuten'
-											openThickbox={openThickbox}
-											hasSearchedLink={rakutenSearchedLink}
-										/>
-										<DeleteDetailLinkBtn
-											isHide={!rakutenSearchedLink}
-											onClick={() => {
-												deleteRakuten();
-											}}
-										/>
-									</>
-								)}
-							</td>
-						</tr>
+						<LinkTableRow
+							current='rakuten'
+							searchedAt={searchedAt}
+							link={rakutenLink}
+							isProductPage={isRakutenToProductPage}
+							showSearchConf={!isAllSearchResult}
+							openThickBox={openThickbox}
+							deleteFunc={deleteRakuten}
+						/>
 					) : null}
 					{hasAffi.yahoo ? (
-						<tr>
-							<th>Yahoo</th>
-							<td>
-								<UrlConfBtn url={yahooLink} hasSearchedLink={yahooSearchedLink} />
-							</td>
-							<td>
-								{'yahoo' === searchedAt ? (
-									<span className='__mainLabel'>検索元</span>
-								) : (
-									<>
-										<AdditionalSearchBtn type='yahoo' openThickbox={openThickbox} hasSearchedLink={yahooSearchedLink} />
-										<DeleteDetailLinkBtn
-											isHide={!yahooSearchedLink}
-											onClick={() => {
-												deleteYahoo();
-											}}
-										/>
-									</>
-								)}
-							</td>
-						</tr>
+						<LinkTableRow
+							current='yahoo'
+							searchedAt={searchedAt}
+							link={yahooLink}
+							isProductPage={isYahooToProductPage}
+							showSearchConf={!isAllSearchResult}
+							openThickBox={openThickbox}
+							deleteFunc={deleteYahoo}
+						/>
 					) : null}
 				</tbody>
 			</table>

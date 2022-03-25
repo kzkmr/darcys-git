@@ -74,3 +74,19 @@ export const sendUpdateAjax = async (params, doneFunc, failFunc) => {
 			failFunc(error);
 		});
 };
+
+/**
+ * 検索結果ページのリンクを返す
+ */
+export const genSerchedResultLink = (shop, keywords) => {
+	if ('amazon' === shop) {
+		return 'https://www.amazon.co.jp/s?k=' + encodeURIComponent(keywords);
+	}
+	if ('rakuten' === shop) {
+		return 'https://search.rakuten.co.jp/search/mall/' + encodeURIComponent(keywords);
+	}
+	if ('yahoo' === shop) {
+		return 'https://shopping.yahoo.co.jp/search?p=' + encodeURIComponent(keywords);
+	}
+	return '';
+};

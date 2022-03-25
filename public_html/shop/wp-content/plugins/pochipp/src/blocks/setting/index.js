@@ -7,7 +7,6 @@ import { useCallback, useMemo, useState } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, CheckboxControl } from '@wordpress/components';
-
 /**
  * @Internal dependencies
  */
@@ -253,6 +252,14 @@ registerBlockType(name, {
 											updateMetadata('seller_id', '');
 											updateMetadata('is_paypay', '');
 											updateMetadata('yahoo_detail_url', '');
+										}}
+									/>
+									<CheckboxControl
+										className='__searchResultCheck'
+										label='リンク先をすべて検索結果ページにする'
+										checked={parsedMeta.is_all_search_result}
+										onChange={(checked) => {
+											updateMetadata('is_all_search_result', checked);
 										}}
 									/>
 								</div>
