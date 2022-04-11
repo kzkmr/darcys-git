@@ -58,22 +58,6 @@
                     <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORE</a>
                 </li>
             </ul>
-            <ul class="ec-footer-navi">
-                <li class="ec-footer-navi__link">
-                    <a href="<?php echo ec_url(); ?>/help/privacy">プライバシーポリシー</a>
-                </li>
-                <li class="ec-footer-navi__link">
-                    <a href="<?php echo ec_url(); ?>/help/tradelaw">特商法取引に基づく表記</a>
-                </li>
-                <li class="ec-footer-navi__link">
-                    <a href="<?php echo esc_url(home_url('/contact/')); ?>">お問い合わせ</a>
-                </li>
-                <li class="ec-footer-navi__link">
-                    <a href="<?php echo esc_url(home_url('/sitemap/')); ?>">サイトマップ</a>
-                </li>
-            </ul>
-        </div>
-        <div class="ec-footer-role__sns">
             <ul class="ec-footer-sns-navi">
                 <li class="ec-footer-sns-navi__link">
                     <a href="https://twitter.com/benechanshop" target="_blank" rel="noopener noreferrer">
@@ -94,6 +78,22 @@
                     <a href="" target="_blank" rel="noopener noreferrer">
                         <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_youtube.png" width="32" height="32">
                     </a>
+                </li>
+            </ul>
+        </div>
+        <div class="ec-footer-role__bottom">
+            <ul class="ec-footer-bottom-navi">
+                <li class="ec-footer-bottom-navi__link">
+                    <a href="<?php echo ec_url(); ?>/help/privacy">プライバシーポリシー</a>
+                </li>
+                <li class="ec-footer-bottom-navi__link">
+                    <a href="<?php echo ec_url(); ?>/help/tradelaw">特商法取引に基づく表記</a>
+                </li>
+                <li class="ec-footer-bottom-navi__link">
+                    <a href="<?php echo esc_url(home_url('/contact/')); ?>">お問い合わせ</a>
+                </li>
+                <li class="ec-footer-bottom-navi__link">
+                    <a href="<?php echo esc_url(home_url('/sitemap/')); ?>">サイトマップ</a>
                 </li>
             </ul>
         </div>

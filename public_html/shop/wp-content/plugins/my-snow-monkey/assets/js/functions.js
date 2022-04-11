@@ -41,14 +41,18 @@ $('.ec-drawer-role-close').on('click', function() {
 
 // ヘッダードロップダウンメニュー
 $(function() {
-  $('.has-child').hover(
+  $('.p-global-navi__item').hover(
     function() {
       $(this).find('.p-global-navi__jp').addClass('active');
-      $(this).find('.p-global-navi-child').stop().slideDown(200);
+      if( $(this).hasClass('has-child') ) {
+        $(this).find('.p-global-navi-child').stop().slideDown(200);
+      }
     },
     function() {
       $(this).find('.p-global-navi__jp').removeClass('active');
-      $(this).find('.p-global-navi-child').stop().slideUp(200);
+      if( $(this).hasClass('has-child') ) {
+        $(this).find('.p-global-navi-child').stop().slideUp(200);
+      }
     }
   );
 });

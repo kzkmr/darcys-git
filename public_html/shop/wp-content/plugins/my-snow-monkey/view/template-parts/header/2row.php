@@ -111,6 +111,7 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
           <ul class="p-global-navi">
             <li class="p-global-navi__item">
               <a href="<?php echo esc_url(home_url('/news/')); ?>">NEWS</a>
+              <a href="<?php echo esc_url(home_url('/news/')); ?>" class="p-global-navi__jp">お知らせ</a>
             </li>
             <li class="p-global-navi__item has-child">
               <a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
@@ -145,6 +146,7 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
             <!-- <li class="p-global-navi__item has-child"> -->
             <li class="p-global-navi__item">
               <a href="<?php echo esc_url(home_url('/products-list/')); ?>">PRODUCTS</a>
+              <a href="<?php echo esc_url(home_url('/products-list/')); ?>" class="p-global-navi__jp">商品ラインアップ</a>
               <!-- <span class="p-global-navi__jp">商品ラインアップ</span>
               <ul class="p-global-navi-child">
                 <li class="p-global-navi-child__item">
@@ -160,20 +162,28 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
             </li>
             <li class="p-global-navi__item">
               <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
+              <a href="<?php echo ec_url(); ?>/company" class="p-global-navi__jp">会社概要</a>
             </li>
             <li class="p-global-navi__item">
               <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORE</a>
+              <a href="<?php echo esc_url(home_url('/stores/')); ?>" class="p-global-navi__jp">実店舗のご紹介</a>
             </li>
           </ul>
         </div>
       </div>
       <div class="ec-header-bottom__right">
-        <div class="ec-header-bottom__store-link">
-          <a href="<?php echo ec_url(); ?>/products/list">
-            <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" alt="" width="34">
-            <span>ONLINE SHOP</span>
-          </a>
-        </div>
+        <ul class="ec-header-bottom__store-link">
+          <li class="ec-header-bottom__store-link-item">
+            <a href="<?php echo ec_url(); ?>/cart">
+              <img src="<?php echo ec_asset_url(); ?>/img/common/icon_store.png" alt="" width="34">
+            </a>
+          </li>
+          <li class="ec-header-bottom__store-link-item">
+            <a href="<?php echo ec_url(); ?>/products/list">
+              <span>ONLINE SHOP</span>
+            </a>
+          </li>
+        </ul>
       </div>
         <?php /* <div class="ec-headerNaviRoleTop__btn">
           <a href="">
