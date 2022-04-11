@@ -5092,8 +5092,8 @@ Styleguide 11.1
 */
 .ec-role {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -5126,6 +5126,12 @@ Styleguide 11.1
 }
 .ec-role img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-role {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 /*
 マイページセクション
@@ -5219,20 +5225,21 @@ Styleguide 11.2
   padding: 0;
 }
 .ec-layoutRole__contents {
-  margin-right: auto;
-  margin-left: auto;
-  padding-top: 60px;
-  width: 100%;
-  max-width: 1060px;
   display: flex;
   flex-wrap: nowrap;
+  padding-top: 60px;
+  width: 100%;
 }
 @media only screen and (min-width: 768px) {
   .ec-layoutRole__contents {
-    padding-top: 0;
+    padding-top: 30px;
+    border-top: 1px solid #ddd;
   }
 }
 .ec-layoutRole__main {
+  max-width: 1100px;
+  margin-right: auto;
+  margin-left: auto;
   width: 100%;
 }
 .ec-layoutRole__mainWithColumn {
@@ -5261,12 +5268,18 @@ Styleguide 11.2
   }
 }
 .ec-layoutRole__header {
-  padding-bottom: 40px;
+  margin-bottom: 30px;
+}
+@media only screen and (min-width: 768px) {
+  #page_homepage .ec-layoutRole__contents {
+    padding-top: 0;
+    border-top: none;
+  }
 }
 .ec-headerRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -5307,6 +5320,12 @@ Styleguide 11.2
 .ec-headerRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-headerRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-headerRole:after {
   display: none;
 }
@@ -5339,8 +5358,8 @@ Styleguide 11.2
 }
 .ec-headerNaviRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -5377,6 +5396,12 @@ Styleguide 11.2
 }
 .ec-headerNaviRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-headerNaviRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .ec-headerNaviRole .fa-bars {
   position: absolute;
@@ -5484,9 +5509,10 @@ Styleguide 11.2
   top: -22px;
   left: 20px;
 }
-@media (min-width: 1240px) {
+@media (min-width: 1080px) {
   .ec-header-bottom__logo {
-    left: 0;
+    top: auto;
+    left: 5%;
   }
 }
 .ec-header-bottom__center {
@@ -5495,36 +5521,22 @@ Styleguide 11.2
   margin: 0 auto;
 }
 .ec-header-bottom__right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
-  top: -30px;
+  top: 18px;
   bottom: 0;
   right: 20px;
-  width: 140px;
-  height: 54px;
   margin: auto 0;
-  padding: 12px 20px;
-  border-radius: 27px;
-  background-color: #ddd;
 }
-@media (min-width: 896px) {
+@media (min-width: 1080px) {
   .ec-header-bottom__right {
-    top: 36px;
+    top: 40px;
     right: 20px;
   }
 }
-@media (min-width: 1240px) {
+@media (min-width: 1284px) {
   .ec-header-bottom__right {
     right: 0;
   }
-}
-.ec-header-bottom__right span {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0;
 }
 .ec-header-bottom__img {
   text-align: center;
@@ -5543,7 +5555,7 @@ Styleguide 11.2
   padding-top: 60px;
   list-style: none;
 }
-@media (min-width: 896px) {
+@media (min-width: 1080px) {
   .ec-header-bottom__gnav .p-global-navi {
     padding-top: 20px;
   }
@@ -5567,8 +5579,10 @@ Styleguide 11.2
   display: block;
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -10px;
+  padding: 15px 0 4px;
   font-size: 16px;
+  line-height: 1;
   letter-spacing: 0.06em;
   color: #555;
   line-height: 20px;
@@ -5580,26 +5594,54 @@ Styleguide 11.2
 @media only screen and (min-width: 768px) {
   .ec-header-bottom__gnav .p-global-navi-child {
     position: absolute;
-    top: calc(100% + 20px);
+    top: calc(100% + 35px);
     left: -20px;
     width: 150px;
     padding: 10px 14px;
     border: 1px solid #fbfbfb;
-    background-color: #fff;
+    background-color: #e7c4b9;
     visibility: visible;
     opacity: 1;
     transition: none;
     z-index: 100;
   }
 }
-.ec-header-bottom__store-link a {
+.ec-header-bottom__store-link {
   display: flex;
   align-items: center;
 }
-.ec-header-bottom__store-link a img {
-  margin-right: 12px;
+.ec-header-bottom__store-link-item {
+  width: 105px;
+  height: 54px;
 }
-.ec-header-bottom__store-link a span {
+.ec-header-bottom__store-link-item + .ec-header-bottom__store-link-item {
+  margin-left: 15px;
+}
+.ec-header-bottom__store-link-item a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 27px;
+  background-color: #ddd;
+}
+.ec-header-bottom__store-link-item a .ec-cartNavi-badge {
+  position: absolute;
+  top: 3px;
+  right: calc(50% - 24px);
+  padding: 3px 4px;
+  border-radius: 50%;
+  font-weight: 800;
+  background-color: red;
+  color: #fff;
+}
+.ec-header-bottom__store-link-item span {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
   color: #231815;
 }
 /* スマホヘッダー */
@@ -6337,19 +6379,8 @@ Styleguide 11.3.1
 }
 @media only screen and (min-width: 768px) {
   .ec-footer-navi:nth-of-type(5) {
-    flex: 0 0 15%;
+    flex: 0 0 12%;
   }
-}
-.ec-footer-navi:nth-of-type(6) {
-  flex: 0 0 100%;
-}
-@media only screen and (min-width: 768px) {
-  .ec-footer-navi:nth-of-type(6) {
-    flex: 0 0 17%;
-  }
-}
-.ec-footer-navi:nth-of-type(6) a {
-  font-size: 15px;
 }
 .ec-footer-navi__link {
   line-height: 2;
@@ -6396,21 +6427,61 @@ Styleguide 11.3.1
   left: 0;
   margin: auto 0;
 }
-.ec-footer-role__sns {
-  display: flex;
-  justify-content: flex-end;
+.ec-footer-role__bottom {
+  margin-top: 40px;
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  .ec-footer-role__bottom {
+    margin-top: 60px;
+  }
+}
+.ec-footer-role__bottom .ec-footer-bottom-navi {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ec-footer-role__bottom .ec-footer-bottom-navi__link {
+  margin: 0 8px 6px;
+}
+@media only screen and (min-width: 768px) {
+  .ec-footer-role__bottom .ec-footer-bottom-navi__link {
+    margin: 0 12px;
+  }
+}
+.ec-footer-role__bottom .ec-footer-bottom-navi a {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  color: #aaa;
+}
+@media only screen and (min-width: 768px) {
+  .ec-footer-role__bottom .ec-footer-bottom-navi a {
+    font-size: 13px;
+  }
 }
 .ec-footer-sns-navi {
-  flex: 0 0 190px;
+  flex: 0 0 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
   margin-top: 25px;
   list-style: none;
 }
 @media only screen and (min-width: 768px) {
   .ec-footer-sns-navi {
-    margin-top: 35px;
+    flex: 0 0 20%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+}
+.ec-footer-sns-navi__link {
+  margin: 0 12px;
+}
+@media only screen and (min-width: 768px) {
+  .ec-footer-sns-navi__link {
+    margin: 0 6px 12px;
   }
 }
 .ec-footer-sns-navi a {
@@ -6435,17 +6506,17 @@ sg-wrapper:
 Styleguide 11.3.2
 */
 .ec-footer-title {
-  padding: 40px 0 20px;
+  padding: 16px 0 0;
   text-align: center;
   color: #444;
 }
 @media only screen and (min-width: 768px) {
   .ec-footer-title {
-    padding: 50px 0 20px;
+    padding: 12px 0 20px;
   }
 }
 .ec-footer-title__copyright {
-  font-size: 10px;
+  font-size: 12px;
 }
 @media only screen and (min-width: 768px) {
   .ec-footer-title__copyright {
@@ -6467,8 +6538,8 @@ Styleguide 12.1
 */
 .ec-sliderRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -6503,14 +6574,20 @@ Styleguide 12.1
 .ec-sliderRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-sliderRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-sliderRole ul {
   padding: 0;
   list-style: none;
 }
 .ec-sliderItemRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -6544,6 +6621,12 @@ Styleguide 12.1
 }
 .ec-sliderItemRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-sliderItemRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .ec-sliderItemRole ul {
   padding: 0;
@@ -7323,8 +7406,8 @@ Styleguide 13.1
 @media only screen and (min-width: 768px) {
   .ec-searchnavRole {
     margin: 0 auto;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 5.333%;
+    padding-right: 5.333%;
     box-sizing: border-box;
     font-size: 16px;
     line-height: 1.6;
@@ -7359,10 +7442,16 @@ Styleguide 13.1
     width: 100%;
   }
 }
+@media only screen and (min-width: 768px) and (min-width: 768px) {
+  .ec-searchnavRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-searchnavRole .ec-searchnavRole__infos {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -7400,6 +7489,12 @@ Styleguide 13.1
 }
 .ec-searchnavRole .ec-searchnavRole__infos img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-searchnavRole .ec-searchnavRole__infos {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 @media only screen and (min-width: 768px) {
   .ec-searchnavRole .ec-searchnavRole__infos {
@@ -7446,8 +7541,8 @@ Styleguide 13.2
 */
 .ec-shelfRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -7481,6 +7576,12 @@ Styleguide 13.2
 .ec-shelfRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-shelfRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 /*
 商品一覧グリッド
 
@@ -7496,6 +7597,31 @@ include /assets/tmpl/elements/13.2.shelf.pug
 Styleguide 13.2.1
 
 */
+.ec-products-top-area:not(:first-of-type) {
+  margin-top: 15px;
+}
+@media only screen and (min-width: 768px) {
+  .ec-products-top-area:not(:first-of-type) {
+    margin-top: 30px;
+  }
+}
+.ec-products-top-area .ec-product-category-title {
+  padding: 0 20px;
+}
+.ec-products-top-area .ec-product-category-title + .ec-shelfRole {
+  margin-top: 15px;
+}
+@media only screen and (min-width: 768px) {
+  .ec-products-top-area .ec-product-category-title + .ec-shelfRole {
+    margin-top: 30px;
+  }
+}
+.ec-products-top-area .ec-product-category-title__title {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.12em;
+}
 .ec-shelfGrid {
   display: flex;
   margin-left: 0;
@@ -7513,61 +7639,89 @@ Styleguide 13.2.1
 }
 @media only screen and (min-width: 768px) {
   .ec-shelfGrid {
-    margin-left: -16px;
-    margin-right: -16px;
+    margin-left: -10px;
+    margin-right: -10px;
   }
 }
-.ec-shelfGrid .ec-shelfGrid__item {
-  margin-bottom: 36px;
-  width: 50%;
+.ec-shelfGrid__item {
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin: 0 10px 45px;
+  padding: 0 0 96px;
+  width: calc(50% - 20px);
 }
-.ec-shelfGrid .ec-shelfGrid__item-image {
+@media only screen and (min-width: 768px) {
+  .ec-shelfGrid__item {
+    padding: 0 0 118px;
+    width: calc(25% - 20px);
+  }
+}
+.ec-shelfGrid__item-image {
   height: 150px;
   margin-bottom: 10px;
   text-align: center;
 }
 @media only screen and (min-width: 768px) {
-  .ec-shelfGrid .ec-shelfGrid__item-image {
+  .ec-shelfGrid__item-image {
     height: 250px;
   }
 }
-.ec-shelfGrid .ec-shelfGrid__item img {
+.ec-shelfGrid__item img {
   width: auto;
   max-height: 100%;
 }
-@media only screen and (min-width: 768px) {
-  .ec-shelfGrid .ec-shelfGrid__item {
-    padding: 0 16px;
-    width: 25%;
-  }
+.ec-shelfGrid__title {
+  font-weight: 800;
 }
-.ec-shelfGrid .ec-shelfGrid__item .ec-productRole__btn {
-  margin-top: auto;
-  margin-bottom: 15px;
+.ec-shelfGrid .price02-default {
+  margin-top: 12px;
+  text-align: right;
 }
-.ec-shelfGrid .ec-shelfGrid__item:nth-child(odd) {
-  padding-right: 8px;
+.ec-shelfGrid .price02-default span {
+  font-size: 85%;
 }
-@media only screen and (min-width: 768px) {
-  .ec-shelfGrid .ec-shelfGrid__item:nth-child(odd) {
-    padding: 0 16px;
-  }
+.ec-shelfGrid__form {
+  position: absolute;
+  bottom: 38px;
 }
-.ec-shelfGrid .ec-shelfGrid__item:nth-child(even) {
-  padding-left: 8px;
+.ec-shelfGrid__form .ec-productRole__actions {
+  padding: 0;
 }
-@media only screen and (min-width: 768px) {
-  .ec-shelfGrid .ec-shelfGrid__item:nth-child(even) {
-    padding: 0 16px;
-  }
+.ec-shelfGrid__btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
 }
-.ec-shelfGrid .ec-shelfGrid__title {
-  margin-bottom: 7px;
-}
-.ec-shelfGrid .ec-shelfGrid__plice {
+.ec-shelfGrid__btn button,
+.ec-shelfGrid__btn a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 38px;
+  border-radius: 5px;
+  border: 1px solid #9f6e72;
+  font-size: 14px;
   font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background-color: #9f6e72;
+  touch-action: manipulation;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: 0.3s;
+}
+.ec-shelfGrid__btn button:hover,
+.ec-shelfGrid__btn a:hover {
+  color: #9f6e72;
+  background-color: #fff;
 }
 /*
 13.2.2 商品一覧グリッド（中央寄せ）
@@ -7757,8 +7911,8 @@ Styleguide 14.1
 */
 .ec-productRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -7791,6 +7945,12 @@ Styleguide 14.1
 }
 .ec-productRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-productRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .ec-productRole__img {
   margin-right: 0;
@@ -7959,8 +8119,8 @@ Styleguide 15.1
 */
 .ec-cartRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -7996,6 +8156,12 @@ Styleguide 15.1
 }
 .ec-cartRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-cartRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .ec-cartRole::before {
   display: none;
@@ -8132,8 +8298,8 @@ Styleguide 15.1.3
 }
 .ec-cartCompleteRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -8166,6 +8332,12 @@ Styleguide 15.1.3
 }
 .ec-cartCompleteRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-cartCompleteRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 /*
 カート内商品
@@ -8465,8 +8637,8 @@ Styleguide 15.2
 */
 .ec-orderRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -8502,6 +8674,12 @@ Styleguide 15.2
 }
 .ec-orderRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-orderRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 @media only screen and (min-width: 768px) {
   .ec-orderRole {
@@ -9056,8 +9234,8 @@ Styleguide 18.1
 */
 .ec-forgotRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9091,6 +9269,12 @@ Styleguide 18.1
 .ec-forgotRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-forgotRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-forgotRole .ec-forgotRole__intro {
   font-size: 16px;
 }
@@ -9113,8 +9297,8 @@ Styleguide 19.1
 */
 .ec-registerRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9148,6 +9332,12 @@ Styleguide 19.1
 .ec-registerRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-registerRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-registerRole .ec-registerRole__actions {
   padding-top: 20px;
   text-align: center;
@@ -9165,8 +9355,8 @@ Styleguide 19.1
 }
 .ec-registerCompleteRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9200,6 +9390,12 @@ Styleguide 19.1
 .ec-registerCompleteRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-registerCompleteRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 /*
 お問い合わせ
 
@@ -9216,8 +9412,8 @@ Styleguide 19.2
 */
 .ec-contactRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9251,6 +9447,12 @@ Styleguide 19.2
 .ec-contactRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-contactRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-contactRole .ec-contactRole__actions {
   padding-top: 20px;
 }
@@ -9259,8 +9461,8 @@ Styleguide 19.2
 }
 .ec-contactConfirmRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9294,6 +9496,12 @@ Styleguide 19.2
 .ec-contactConfirmRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-contactConfirmRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-contactConfirmRole .ec-contactConfirmRole__actions {
   padding-top: 20px;
 }
@@ -9302,8 +9510,8 @@ Styleguide 19.2
 }
 .ec-contactCompleteRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9337,6 +9545,12 @@ Styleguide 19.2
 .ec-contactCompleteRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-contactCompleteRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 /*
 お客様情報の入力
 
@@ -9354,8 +9568,8 @@ Styleguide 19.3
 */
 .ec-customerRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9389,6 +9603,12 @@ Styleguide 19.3
 .ec-customerRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-customerRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-customerRole .ec-customerRole__actions {
   padding-top: 20px;
 }
@@ -9402,8 +9622,8 @@ Styleguide 19.3
 }
 .ec-contactConfirmRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9437,6 +9657,12 @@ Styleguide 19.3
 .ec-contactConfirmRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-contactConfirmRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-contactConfirmRole .ec-contactConfirmRole__actions {
   padding-top: 20px;
 }
@@ -9445,8 +9671,8 @@ Styleguide 19.3
 }
 .ec-contactCompleteRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9479,6 +9705,12 @@ Styleguide 19.3
 }
 .ec-contactCompleteRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-contactCompleteRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 /*
 404ページ
@@ -9547,8 +9779,8 @@ Styleguide 21.1
 */
 .ec-withdrawRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9583,6 +9815,12 @@ Styleguide 21.1
 }
 .ec-withdrawRole img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-withdrawRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .ec-withdrawRole .ec-withdrawRole__title {
   margin-bottom: 16px;
@@ -9643,8 +9881,8 @@ Styleguide 22.1
 */
 .ec-userEditCompleteRole {
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9680,6 +9918,12 @@ Styleguide 22.1
 .ec-userEditCompleteRole img {
   width: 100%;
 }
+@media only screen and (min-width: 768px) {
+  .ec-userEditCompleteRole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
 .ec-userEditCompleteRole .ec-userEditCompleteRole__title {
   margin-bottom: 16px;
   font-weight: bold;
@@ -9703,42 +9947,57 @@ Styleguide 23
 /* components common
 **************************************/
 /*ページヘッダー*/
-.c-page-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.page-header {
   position: relative;
-  max-width: 1600px;
-  margin: 0 auto;
+  width: auto !important;
+  max-width: 1400px;
+  margin: 0 calc(50% - 50vw);
+  padding-top: 45%;
   z-index: 0;
-  aspect-ratio: 20/9;
   overflow: hidden;
 }
-@media only screen and (min-width: 768px) {
-  .c-page-header {
-    margin: 0 calc(50% - 50vw);
+@media (min-width: 1401px) {
+  .page-header {
+    width: 1400px !important;
+    margin: 0 -170px;
   }
 }
-@media (min-width: 1600px) {
-  .c-page-header {
-    margin: 0 -235px;
-  }
-}
-.c-page-header img {
+.page-header img {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   min-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  filter: brightness(75%);
   z-index: -1;
-  transform: translate(-50%, -50%);
 }
-.c-page-header__title {
+.page-header__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
   font-size: 34px;
   font-weight: bold;
   text-align: center;
   color: #fff;
 }
-.c-page-header__title span {
+.page-header__title span {
   display: block;
   margin-top: 18px;
   font-size: 20px;
@@ -9763,6 +10022,73 @@ Styleguide 23
   line-height: 1.333;
   text-align: center;
 }
+/*パンくず*/
+.breadcrumb-wrapper {
+  max-width: 1060px;
+  margin: 0.8rem auto 0;
+  padding: 0 5.333%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.breadcrumb-wrapper::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 1080px) {
+  .breadcrumb-wrapper {
+    padding: 0;
+  }
+}
+.breadcrumb-wrapper .breadcrumb {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #fff !important;
+}
+@media only screen and (min-width: 768px) {
+  .breadcrumb-wrapper .breadcrumb {
+    width: 100%;
+  }
+}
+.breadcrumb-wrapper .breadcrumb__item {
+  position: relative;
+}
+.breadcrumb-wrapper .breadcrumb__item + .breadcrumb__item {
+  margin-left: 1.5em;
+}
+.breadcrumb-wrapper .breadcrumb__item + .breadcrumb__item::before {
+  content: ">";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1.1em;
+  padding: 0 !important;
+  color: #333;
+}
+.breadcrumb-wrapper .breadcrumb__item a {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.333;
+  letter-spacing: 0;
+  color: #333;
+}
+@media only screen and (min-width: 768px) {
+  .breadcrumb-wrapper .breadcrumb__item a {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.333;
+    letter-spacing: 0;
+  }
+}
+.breadcrumb-wrapper .breadcrumb__item a:hover {
+  color: #999;
+}
 /*
 Basic Figure Customized(2021.11.01~)
 
@@ -9774,8 +10100,8 @@ Styleguide 23
 .ec-top-blog {
   position: relative;
   margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 5.333%;
+  padding-right: 5.333%;
   box-sizing: border-box;
   font-size: 16px;
   line-height: 1.6;
@@ -9809,6 +10135,12 @@ Styleguide 23
 }
 .ec-top-blog img {
   width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .ec-top-blog {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 @media only screen and (min-width: 768px) {
   .ec-top-blog {
