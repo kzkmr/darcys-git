@@ -31,20 +31,21 @@ Styleguide 11.2
   }
 
   &__contents {
-    margin-right: auto;
-    margin-left: auto;
-    padding-top: 60px;
-    width: 100%;
-    max-width: 1060px;
     display: flex;
     flex-wrap: nowrap;
+    padding-top: 60px;
+    width: 100%;
 
     @include media_desktop() {
-      padding-top: 0;
+      padding-top: 30px;
+      border-top: 1px solid #ddd;
     }
   }
 
   &__main {
+    max-width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
     width: 100%;
   }
 
@@ -72,10 +73,23 @@ Styleguide 11.2
   }
 
   &__header {
-    padding-bottom: 40px;
+    margin-bottom: 30px;
   }
 }
 
+#page_homepage {
+
+  .ec-layoutRole {
+
+    &__contents {
+
+      @include media_desktop() {
+        padding-top: 0;
+        border-top: none;
+      }
+    }
+  }
+}
 
 .ec-headerRole {
   @include container;
@@ -206,8 +220,9 @@ Styleguide 11.2
     top: -22px;
     left: 20px;
 
-    @media (min-width:1240px) {
-      left: 0;
+    @media (min-width:1080px) {
+      top: auto;
+      left: 5%;
     }
   }
 
@@ -218,31 +233,19 @@ Styleguide 11.2
   }
 
   &__right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: absolute;
-    top: -30px;
+    top: 18px;
     bottom: 0;
     right: 20px;
-    width: 140px;
-    height: 54px;
     margin: auto 0;
-    padding: 12px 20px;
-    border-radius: 27px;
-    background-color: #ddd;
 
-    @media (min-width:896px) {
-      top: 36px;
+    @media (min-width:1080px) {
+      top: 40px;
       right: 20px;
     }
 
-    @media (min-width:1240px) {
+    @media (min-width:1284px) {
       right: 0;
-    }
-
-    span {
-      @include font(12px,400,1,0);
     }
   }
 
@@ -266,7 +269,7 @@ Styleguide 11.2
       padding-top: 60px;
       list-style: none;
 
-      @media (min-width:896px) {
+      @media (min-width:1080px) {
         padding-top: 20px;
       }
 
@@ -292,8 +295,10 @@ Styleguide 11.2
           display: block;
           position: absolute;
           top: 100%;
-          left: 0;
+          left: -10px;
+          padding: 15px 0 4px;
           font-size: 16px;
+          line-height: 1;
           letter-spacing: .06em;
           color: #555;
           line-height: 20px;
@@ -307,12 +312,12 @@ Styleguide 11.2
 
       @include media_desktop() {
         position: absolute;
-        top: calc(100% + 20px);
+        top: calc(100% + 35px);
         left: -20px;
         width: 150px;
         padding: 10px 14px;
         border: 1px solid #fbfbfb;
-        background-color: #fff;
+        background-color: #e7c4b9;
         visibility: visible;
         opacity: 1;
         transition: none;
@@ -322,20 +327,43 @@ Styleguide 11.2
   }
 
   &__store-link {
+    display: flex;
+    align-items: center;
+  }
+
+  &__store-link-item {
+    width: 105px;
+    height: 54px;
+
+    & + .ec-header-bottom__store-link-item {
+      margin-left: 15px;
+    }
 
     a {
       display: flex;
+      justify-content: center;
       align-items: center;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 27px;
+      background-color: #ddd;
 
-      &
-
-      img {
-        margin-right: 12px;
+      .ec-cartNavi-badge {
+        position: absolute;
+        top: 3px;
+        right: calc(50% - 24px);
+        padding: 3px 4px;
+        border-radius: 50%;
+        font-weight: 800;
+        background-color: red;
+        color: #fff;
       }
+    }
 
-      span {
-        color: $bl;
-      }
+    span {
+      @include font(13px,400,1,0);
+      color: $bl;
     }
   }
 }

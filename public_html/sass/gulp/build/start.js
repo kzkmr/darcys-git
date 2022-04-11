@@ -9,11 +9,12 @@ const ftpDeploy = new FtpDeploy();
 
 const ftpOptions = {
 //FTPユーザー名
-  user: 'arie001@test-darcys-factory.xyz',
+  user: 'twcm000@test-darcys-factory.xyz',
 //FTPパスワード
-  password: '9nfoB3n3s33d',
+  password: '1nf0B3n3seed',
 //FTPホスト
-  host: 'sv7553.xserver.jp',
+  host: 'sv13223.xserver.jp',
+  port: 21,
 //アップロードフォルダを指定
   localRoot: process.cwd() + "/assets/css",
 //サーバーのアップロード先を指定

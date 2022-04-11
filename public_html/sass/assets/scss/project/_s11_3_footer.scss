@@ -82,19 +82,7 @@ Styleguide 11.3.1
   &:nth-of-type(5) {
 
     @include media_desktop {
-      flex: 0 0 15%;
-    }
-  }
-
-  &:nth-of-type(6) {
-    flex: 0 0 100%;
-
-    @include media_desktop {
-      flex: 0 0 17%;
-    }
-
-    a {
-      font-size: 15px;
+      flex: 0 0 12%;
     }
   }
 
@@ -147,21 +135,61 @@ Styleguide 11.3.1
   }
 }
 
-.ec-footer-role__sns {
-  display: flex;
-  justify-content: flex-end;
+.ec-footer-role__bottom {
+  margin-top: 40px;
+  text-align: center;
+
+  @include media_desktop {
+    margin-top: 60px;
+  }
+
+  .ec-footer-bottom-navi {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    &__link {
+      margin: 0 8px 6px;
+
+      @include media_desktop {
+        margin: 0 12px;
+      }
+    }
+
+    a {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1;
+      color: #aaa;
+
+      @include media_desktop {
+        font-size: 13px;
+      }
+    }
+  }
 }
 
 .ec-footer-sns-navi {
-  flex: 0 0 190px;
+  flex: 0 0 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
   margin-top: 25px;
   list-style: none;
 
   @include media_desktop {
-    margin-top: 35px;
+    flex: 0 0 20%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+
+  &__link {
+    margin: 0 12px;
+
+    @include media_desktop {
+      margin: 0 6px 12px;
+    }
   }
 
   a {
@@ -188,16 +216,16 @@ sg-wrapper:
 Styleguide 11.3.2
 */
 .ec-footer-title{
-  padding: 40px 0 20px;
+  padding: 16px 0 0;
   text-align: center;
   color: #444;
 
   @include media_desktop {
-    padding: 50px 0 20px;
+    padding: 12px 0 20px;
   }
 
   &__copyright{
-    font-size: 10px;
+    font-size: 12px;
 
     @include media_desktop {
       font-size: 14px;
