@@ -8,7 +8,7 @@ http://www.ec-cube.co.jp/
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 #}
-
+{% set totalQuantity = get_carts_total_quantity() %}
 <div class="ec-header-navi-sp pc-none">
   <div class="ec-header-navi-sp__logo">
     <a href="">
@@ -62,6 +62,7 @@ file that was distributed with this source code.
       <ul class="p-global-navi">
         <li class="p-global-navi__item">
           <a href="/shop/news/">NEWS</a>
+          <a href="/shop/news/" class="p-global-navi__jp">お知らせ</a>
         </li>
         <li class="p-global-navi__item has-child">
           <a href="/shop/story/">STORY</a>
@@ -96,6 +97,7 @@ file that was distributed with this source code.
         {# <li class="p-global-navi__item has-child"> #}
         <li class="p-global-navi__item">
           <a href="/shop/products-list/">PRODUCTS</a>
+          <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
           {# <span class="p-global-navi__jp">商品ラインアップ</span>
           <ul class="p-global-navi-child">
             <li class="p-global-navi-child__item">
@@ -111,19 +113,28 @@ file that was distributed with this source code.
         </li>
         <li class="p-global-navi__item">
           <a href="{{ url('company') }}">ABOUT US</a>
+          <a href="{{ url('company') }}" class="p-global-navi__jp">会社概要</a>
         </li>
         <li class="p-global-navi__item">
           <a href="/shop/stores/">STORE</a>
+          <a href="/shop/stores/" class="p-global-navi__jp">実店舗のご紹介</a>
         </li>
       </ul>
     </div>
   </div>
   <div class="ec-header-bottom__right">
-    <div class="ec-header-bottom__store-link">
-      <a href="{{ url('product_list') }}">
-        <img src="{{ asset('assets/img/common/icon_store.png') }}" alt="" width="34">
-        <span>ONLINE SHOP</span>
-      </a>
-    </div>
+    <ul class="ec-header-bottom__store-link">
+      <li class="ec-header-bottom__store-link-item">
+        <a href="{{ url('cart') }}">
+          <span class="ec-cartNavi-badge">{{ totalQuantity|number_format }}</span>
+          <img src="{{ asset('assets/img/common/icon_store.png') }}" alt="" width="34">
+        </a>
+      </li>
+      <li class="ec-header-bottom__store-link-item">
+        <a href="{{ url('product_list') }}">
+          <span>ONLINE SHOP</span>
+        </a>
+      </li>
+    </ul>
   </div>
 </div>

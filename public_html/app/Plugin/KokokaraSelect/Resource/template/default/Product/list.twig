@@ -506,42 +506,6 @@ file that was distributed with this source code.
                             </div>
                         {% endif %}
 
-                        <div class="kokokara_select_cart_btn_area">
-                            {% if Product.stock_find %}
-                                <div class="ec-productRole__btn">
-                                    <button type="button" class="ec-blockBtn--action add-cart" disabled="disabled">
-                                        {% if editId is empty %}
-                                            {{ 'カートに入れる'|trans }}
-                                        {% else %}
-                                            {{ '選択商品を変更する'|trans }}
-                                        {% endif %}
-                                    </button>
-                                </div>
-                            {% else %}
-                                <div class="ec-productRole__btn">
-                                    <button type="button" class="ec-blockBtn--action" disabled="disabled">
-                                        {{ 'ただいま品切れ中です。'|trans }}
-                                    </button>
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        {% if BaseInfo.option_favorite_product %}
-                            <div>
-                                <div class="ec-productRole__btn">
-                                    {% if is_favorite == false %}
-                                        <button type="button" id="favorite" class="ec-blockBtn--cancel" onclick="addFavorite('{{ url('product_add_favorite', {id:Product.id}) }}')">
-                                            {{ 'お気に入りに追加'|trans }}
-                                        </button>
-                                    {% else %}
-                                        <button type="button" id="favorite" class="ec-blockBtn--cancel"
-                                                disabled="disabled">{{ 'お気に入りに追加済です。'|trans }}
-                                        </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-
                         <div class="ec-productRole__description">{{ Product.description_detail|raw|nl2br }}</div>
                     </div>
                 </div>
@@ -625,6 +589,43 @@ file that was distributed with this source code.
             </div>
         </div>
         </form>
+
+        <div class="kokokara_select_cart_btn_area">
+            {% if Product.stock_find %}
+                <div class="ec-productRole__btn">
+                    <button type="button" class="ec-blockBtn--action add-cart" disabled="disabled">
+                        {% if editId is empty %}
+                            {{ 'カートに入れる'|trans }}
+                        {% else %}
+                            {{ '選択商品を変更する'|trans }}
+                        {% endif %}
+                    </button>
+                </div>
+            {% else %}
+                <div class="ec-productRole__btn">
+                    <button type="button" class="ec-blockBtn--action" disabled="disabled">
+                        {{ 'ただいま品切れ中です。'|trans }}
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if BaseInfo.option_favorite_product %}
+            <div>
+                <div class="ec-productRole__btn">
+                    {% if is_favorite == false %}
+                        <button type="button" id="favorite" class="ec-blockBtn--cancel" onclick="addFavorite('{{ url('product_add_favorite', {id:Product.id}) }}')">
+                            {{ 'お気に入りに追加'|trans }}
+                        </button>
+                    {% else %}
+                        <button type="button" id="favorite" class="ec-blockBtn--cancel"
+                                disabled="disabled">{{ 'お気に入りに追加済です。'|trans }}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
         <div class="ec-modal">
             {% if is_kokokara_select_version405() == false %}
             <input type="checkbox" id="ec-modal-checkbox" class="checkbox">

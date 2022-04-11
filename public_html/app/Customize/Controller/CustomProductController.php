@@ -193,7 +193,7 @@ class CustomProductController extends BaseProductController
         foreach ($pagination as $Product) {
             /* @var $builder \Symfony\Component\Form\FormBuilderInterface */
             $Product->setHiddenClassCategory($ContractTypeAll);
-            
+
             $builder = $this->formFactory->createNamedBuilder(
                 '',
                 AddCartType::class,
@@ -304,7 +304,7 @@ class CustomProductController extends BaseProductController
 
         if(is_object($ContractType)){
             if($ContractType->getShowProduct() != "Y"){
-                throw new NotFoundHttpException();    
+                throw new NotFoundHttpException();
             }
         }
 
@@ -348,7 +348,7 @@ class CustomProductController extends BaseProductController
         $Customer = null;
         $ChainStore = null;
         $ContractType = null;
-        
+
         if ($this->isGranted('IS_AUTHENTICATED_FULLY') || $this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $Customer = $this->getUser();
             $ChainStore = $Customer->getChainStore();

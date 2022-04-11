@@ -107,12 +107,31 @@ file that was distributed with this source code.
 {% block main %}
 
     {% if Category is null %}
-      <div class="c-page-header">
-        <img src="https://test-darcys-factory.xyz/shop/wp-content/uploads/products.jpg" alt="">
-        <h1 class="c-page-header__title">
+      <div class="page-header">
+        <img src="{{ asset('assets/img/product/product_main.jpg') }}" alt="">
+        <h1 class="page-header__title">
           ONLINE SHOP
           <span>ダシーズファクトリー製品のご購入</span>
         </h1>
+      </div>
+    {% endif %}
+
+    {% if Category is null %}
+      <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+          <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{{ url('homepage') }}">
+              <span itemprop="name">HOME</span>
+            </a>
+            <meta itemprop="position" content="1" />
+          </li>
+          <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="/shop/products-list/">
+              <span itemprop="name">ONLINE SHOP</span>
+            </a>
+            <meta itemprop="position" content="2" />
+          </li>
+        </ol>
       </div>
     {% endif %}
 
@@ -131,7 +150,8 @@ file that was distributed with this source code.
             </form>
             <div class="ec-searchnavRole__topicpath">
                 <ol class="ec-topicpath">
-                    <li class="ec-topicpath__item"><a href="{{ url('product_list') }}">{{ 'front.product.all_category'|trans }}</a></li>
+                    {# <li class="ec-topicpath__item"><a href="{{ url('product_list') }}">{{ 'front.product.all_category'|trans }}</a></li> #}
+                    <li class="ec-topicpath__item"><a href="{{ url('product_list') }}">商品一覧</a></li>
                     {% if Category is not null %}
                         {% for Path in Category.path %}
                             <li class="ec-topicpath__divider">|</li>
@@ -146,116 +166,415 @@ file that was distributed with this source code.
                     {% endif %}
                 </ol>
             </div>
-            <div class="ec-searchnavRole__infos">
-                <div class="ec-searchnavRole__counter">
+            {% if Category is not null %}
+                <div class="ec-searchnavRole__infos">
+                    <div class="ec-searchnavRole__counter">
+                        {% if pagination.totalItemCount > 0 %}
+                            {{ 'front.product.search_result__detail'|trans({ '%count%': pagination.totalItemCount })|raw }}
+                        {% else %}
+                            <span>{{ 'front.product.search__product_not_found'|trans }}</span>
+                        {% endif %}
+                    </div>
                     {% if pagination.totalItemCount > 0 %}
-                        {{ 'front.product.search_result__detail'|trans({ '%count%': pagination.totalItemCount })|raw }}
-                    {% else %}
-                        <span>{{ 'front.product.search__product_not_found'|trans }}</span>
+                        <div class="ec-searchnavRole__actions">
+                            <div class="ec-select">
+                                {# {{ form_widget(disp_number_form, {'id': '', 'attr': {'class': 'disp-number'}}) }} #}
+                                {{ form_widget(order_by_form, {'id': '', 'attr': {'class': 'order-by'}}) }}
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
-                {% if pagination.totalItemCount > 0 %}
-                    <div class="ec-searchnavRole__actions">
-                        <div class="ec-select">
-                            {{ form_widget(disp_number_form, {'id': '', 'attr': {'class': 'disp-number'}}) }}
-                            {{ form_widget(order_by_form, {'id': '', 'attr': {'class': 'order-by'}}) }}
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
-        {% if pagination.totalItemCount > 0 %}
-            <div class="ec-shelfRole">
-                <ul class="ec-shelfGrid">
-                    {% for Product in pagination %}
-                        <li class="ec-shelfGrid__item">
-                            <a href="{{ url('product_detail', {'id': Product.id}) }}">
-                                <p class="ec-shelfGrid__item-image">
-                                    <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
-                                </p>
-                                <p>{{ Product.name }}</p>
-                                {% if Product.description_list %}
-                                    <p>{{ Product.description_list|raw|nl2br }}</p>
-                                {% endif %}
-                                <p class="price02-default">
-                                    {% if Product.hasProductClass %}
-                                        {% if Product.getPrice02Min == Product.getPrice02Max %}
-                                            {{ Product.getPrice02IncTaxMin|price }}
-                                        {% else %}
-                                            {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}
-                                        {% endif %}
-                                    {% else %}
-                                        {{ Product.getPrice02IncTaxMin|price }}
+        {% if Category is not null %}
+            {% if pagination.totalItemCount > 0 %}
+                <div class="ec-shelfRole">
+                    <ul class="ec-shelfGrid">
+                        {% for Product in pagination %}
+                            <li class="ec-shelfGrid__item">
+                                <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                    <p class="ec-shelfGrid__item-image">
+                                        <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                    </p>
+                                    <p class="ec-shelfGrid__title">{{ Product.name }}</p>
+                                    {% if Product.description_list %}
+                                        <p class="ec-shelfGrid__description">{{ Product.description_list|raw|nl2br }}</p>
                                     {% endif %}
-                                </p>
-                            </a>
-
-                            {% if Product.stock_find %}
-                                {% set form = forms[Product.id] %}
-                                <form name="form{{ Product.id }}" id="productForm{{ Product.id }}" action="{{ url('product_add_cart', {id:Product.id}) }}" method="post">
-                                    <div class="ec-productRole__actions">
-                                        {% if form.classcategory_id1 is defined %}
-                                            {% if Product.hide_class_category1 %}
-                                                <div class="ec-select hide_class_category1" style="display:none;">
+                                    <p class="price02-default">
+                                        {% if Product.hasProductClass %}
+                                            {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                                {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
                                             {% else %}
-                                                <div class="ec-select">
+                                                {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
                                             {% endif %}
-                                                
-                                                {{ form_widget(form.classcategory_id1) }}
-                                                {{ form_errors(form.classcategory_id1) }}
-                                            </div>
-                                            {% if form.classcategory_id2 is defined %}
-                                                {% if Product.hide_class_category2 %}
-                                                    <div class="ec-select hide_class_category2" style="display:none;">
+                                        {% else %}
+                                            {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                        {% endif %}
+                                    </p>
+                                </a>
+
+                                {% if Product.stock_find %}
+                                    {% set form = forms[Product.id] %}
+                                    <form class="ec-shelfGrid__form" name="form{{ Product.id }}" id="productForm{{ Product.id }}" action="{{ url('product_add_cart', {id:Product.id}) }}" method="post">
+                                        <div class="ec-productRole__actions">
+                                            {% if form.classcategory_id1 is defined %}
+                                                {% if Product.hide_class_category1 %}
+                                                    <div class="ec-select hide_class_category1" style="display:none;">
                                                 {% else %}
                                                     <div class="ec-select">
                                                 {% endif %}
 
-                                                    {{ form_widget(form.classcategory_id2) }}
-                                                    {{ form_errors(form.classcategory_id2) }}
+                                                    {{ form_widget(form.classcategory_id1) }}
+                                                    {{ form_errors(form.classcategory_id1) }}
                                                 </div>
+                                                {% if form.classcategory_id2 is defined %}
+                                                    {% if Product.hide_class_category2 %}
+                                                        <div class="ec-select hide_class_category2" style="display:none;">
+                                                    {% else %}
+                                                        <div class="ec-select">
+                                                    {% endif %}
+
+                                                        {{ form_widget(form.classcategory_id2) }}
+                                                        {{ form_errors(form.classcategory_id2) }}
+                                                    </div>
+                                                {% endif %}
                                             {% endif %}
-                                        {% endif %}
-                                        <div class="ec-numberInput"><span>{{ 'common.quantity'|trans }}</span>
-                                            {{ form_widget(form.quantity, {'attr': {'class': 'quantity'}}) }}
-                                            {{ form_errors(form.quantity) }}
+                                            <div class="ec-numberInput"><span>{{ 'common.quantity'|trans }}</span>
+                                                {{ form_widget(form.quantity, {'attr': {'class': 'quantity'}}) }}
+                                                {{ form_errors(form.quantity) }}
+                                            </div>
                                         </div>
+                                        {{ form_rest(form) }}
+                                    </form>
+                                    <div class="ec-shelfGrid__btn">
+                                        <button type="submit" class="ec-blockBtn--action add-cart" data-cartid="{{ Product.id }}" form="productForm{{ Product.id }}">
+                                            {{ 'front.product.add_cart'|trans }}
+                                        </button>
                                     </div>
-                                    {{ form_rest(form) }}
-                                </form>
-                                <div class="ec-productRole__btn">
-                                    <button type="submit" class="ec-blockBtn--action add-cart" data-cartid="{{ Product.id }}" form="productForm{{ Product.id }}">
-                                        {{ 'front.product.add_cart'|trans }}
-                                    </button>
+                                {% else %}
+                                    <div class="ec-shelfGrid__btn">
+                                        <button type="button" class="ec-blockBtn--action" disabled="disabled">
+                                            {{ 'front.product.out_of_stock'|trans }}
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="ec-modal">
+                    <div class="ec-modal-overlay">
+                        <div class="ec-modal-wrap">
+                            <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                            <div id="ec-modal-header" class="text-center">{{ 'front.product.add_cart_complete'|trans }}</div>
+                            <div class="ec-modal-box">
+                                <div class="ec-role">
+                                    <span class="ec-inlineBtn--cancel">{{ 'front.product.continue'|trans }}</span>
+                                    <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'common.go_to_cart'|trans }}</a>
                                 </div>
-                            {% else %}
-                                <div class="ec-productRole__btn">
-                                    <button type="button" class="ec-blockBtn--action" disabled="disabled">
-                                        {{ 'front.product.out_of_stock'|trans }}
-                                    </button>
-                                </div>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="ec-modal">
-                <div class="ec-modal-overlay">
-                    <div class="ec-modal-wrap">
-                        <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
-                        <div id="ec-modal-header" class="text-center">{{ 'front.product.add_cart_complete'|trans }}</div>
-                        <div class="ec-modal-box">
-                            <div class="ec-role">
-                                <span class="ec-inlineBtn--cancel">{{ 'front.product.continue'|trans }}</span>
-                                <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'common.go_to_cart'|trans }}</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="ec-pagerRole">
-                {% include "pager.twig" with {'pages': pagination.paginationData} %}
-            </div>
+                <div class="ec-pagerRole">
+                    {% include "pager.twig" with {'pages': pagination.paginationData} %}
+                </div>
+            {% endif %}
+        {% else %}
+            {% set IceProducts = CustomizeIceProduct() %}
+            {% set CoffeeProducts = CustomizeCoffeeProduct() %}
+            {% set BreadProducts = CustomizeBreadProduct() %}
+            {% if IceProducts|length > 0 %}
+                <div class="ec-products-top-area">
+                    <div class="ec-product-category-title">
+                      <h2 class="ec-product-category-title__title">ICE CREAM</h2>
+                    </div>
+                    <div class="ec-shelfRole">
+                        <ul class="ec-shelfGrid">
+                            {% for Product in IceProducts %}
+                                <li class="ec-shelfGrid__item">
+                                    <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                        <p class="ec-shelfGrid__item-image">
+                                            <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                        </p>
+                                        <p class="ec-shelfGrid__title">{{ Product.name }}</p>
+                                        {% if Product.description_list %}
+                                            <p class="ec-shelfGrid__description">{{ Product.description_list|raw|nl2br }}</p>
+                                        {% endif %}
+                                        <p class="price02-default">
+                                            {% if Product.hasProductClass %}
+                                                {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                                    {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                                {% else %}
+                                                    {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
+                                                {% endif %}
+                                            {% else %}
+                                                {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                            {% endif %}
+                                        </p>
+                                    </a>
+
+                                    {% if Product.stock_find %}
+                                        {% set form = forms[Product.id] %}
+                                        <form class="ec-shelfGrid__form" name="form{{ Product.id }}" id="productForm{{ Product.id }}" action="{{ url('product_add_cart', {id:Product.id}) }}" method="post">
+                                            <div class="ec-productRole__actions">
+                                                {% if form.classcategory_id1 is defined %}
+                                                    {% if Product.hide_class_category1 %}
+                                                        <div class="ec-select hide_class_category1" style="display:none;">
+                                                    {% else %}
+                                                        <div class="ec-select">
+                                                    {% endif %}
+
+                                                        {{ form_widget(form.classcategory_id1) }}
+                                                        {{ form_errors(form.classcategory_id1) }}
+                                                    </div>
+                                                    {% if form.classcategory_id2 is defined %}
+                                                        {% if Product.hide_class_category2 %}
+                                                            <div class="ec-select hide_class_category2" style="display:none;">
+                                                        {% else %}
+                                                            <div class="ec-select">
+                                                        {% endif %}
+
+                                                            {{ form_widget(form.classcategory_id2) }}
+                                                            {{ form_errors(form.classcategory_id2) }}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                <div class="ec-numberInput"><span>{{ 'common.quantity'|trans }}</span>
+                                                    {{ form_widget(form.quantity, {'attr': {'class': 'quantity'}}) }}
+                                                    {{ form_errors(form.quantity) }}
+                                                </div>
+                                            </div>
+                                            {{ form_rest(form) }}
+                                        </form>
+                                        {% if is_kokokara_select_product(Product) %}
+                                            <div class="ec-shelfGrid__btn">
+                                                <a href="{{ url('product_detail', {'id': Product.id}) }}">商品を選択する</a>
+                                            </div>
+                                        {% else %}
+                                            <div class="ec-shelfGrid__btn">
+                                                <button type="submit" class="ec-blockBtn--action add-cart" data-cartid="{{ Product.id }}" form="productForm{{ Product.id }}">
+                                                    {{ 'front.product.add_cart'|trans }}
+                                                </button>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="ec-shelfGrid__btn">
+                                            <button type="button" class="ec-blockBtn--action" disabled="disabled">
+                                                {{ 'front.product.out_of_stock'|trans }}
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="ec-modal">
+                        <div class="ec-modal-overlay">
+                            <div class="ec-modal-wrap">
+                                <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                                <div id="ec-modal-header" class="text-center">{{ 'front.product.add_cart_complete'|trans }}</div>
+                                <div class="ec-modal-box">
+                                    <div class="ec-role">
+                                        <span class="ec-inlineBtn--cancel">{{ 'front.product.continue'|trans }}</span>
+                                        <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'common.go_to_cart'|trans }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if CoffeeProducts|length > 0 %}
+                <div class="ec-products-top-area">
+                    <div class="ec-product-category-title">
+                      <h2 class="ec-product-category-title__title">COFFEE</h2>
+                    </div>
+                    <div class="ec-shelfRole">
+                        <ul class="ec-shelfGrid">
+                            {% for Product in CoffeeProducts %}
+                                <li class="ec-shelfGrid__item">
+                                    <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                        <p class="ec-shelfGrid__item-image">
+                                            <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                        </p>
+                                        <p class="ec-shelfGrid__title">{{ Product.name }}</p>
+                                        {% if Product.description_list %}
+                                            <p class="ec-shelfGrid__description">{{ Product.description_list|raw|nl2br }}</p>
+                                        {% endif %}
+                                        <p class="price02-default">
+                                            {% if Product.hasProductClass %}
+                                                {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                                    {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                                {% else %}
+                                                    {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
+                                                {% endif %}
+                                            {% else %}
+                                                {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                            {% endif %}
+                                        </p>
+                                    </a>
+
+                                    {% if Product.stock_find %}
+                                        {% set form = forms[Product.id] %}
+                                        <form class="ec-shelfGrid__form" name="form{{ Product.id }}" id="productForm{{ Product.id }}" action="{{ url('product_add_cart', {id:Product.id}) }}" method="post">
+                                            <div class="ec-productRole__actions">
+                                                {% if form.classcategory_id1 is defined %}
+                                                    {% if Product.hide_class_category1 %}
+                                                        <div class="ec-select hide_class_category1" style="display:none;">
+                                                    {% else %}
+                                                        <div class="ec-select">
+                                                    {% endif %}
+
+                                                        {{ form_widget(form.classcategory_id1) }}
+                                                        {{ form_errors(form.classcategory_id1) }}
+                                                    </div>
+                                                    {% if form.classcategory_id2 is defined %}
+                                                        {% if Product.hide_class_category2 %}
+                                                            <div class="ec-select hide_class_category2" style="display:none;">
+                                                        {% else %}
+                                                            <div class="ec-select">
+                                                        {% endif %}
+
+                                                            {{ form_widget(form.classcategory_id2) }}
+                                                            {{ form_errors(form.classcategory_id2) }}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                <div class="ec-numberInput"><span>{{ 'common.quantity'|trans }}</span>
+                                                    {{ form_widget(form.quantity, {'attr': {'class': 'quantity'}}) }}
+                                                    {{ form_errors(form.quantity) }}
+                                                </div>
+                                            </div>
+                                            {{ form_rest(form) }}
+                                        </form>
+                                        <div class="ec-ec-shelfGrid__btn">
+                                            <button type="submit" class="ec-blockBtn--action add-cart" data-cartid="{{ Product.id }}" form="productForm{{ Product.id }}">
+                                                {{ 'front.product.add_cart'|trans }}
+                                            </button>
+                                        </div>
+                                    {% else %}
+                                        <div class="ec-shelfGrid__btn">
+                                            <button type="button" class="ec-blockBtn--action" disabled="disabled">
+                                                {{ 'front.product.out_of_stock'|trans }}
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="ec-modal">
+                        <div class="ec-modal-overlay">
+                            <div class="ec-modal-wrap">
+                                <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                                <div id="ec-modal-header" class="text-center">{{ 'front.product.add_cart_complete'|trans }}</div>
+                                <div class="ec-modal-box">
+                                    <div class="ec-role">
+                                        <span class="ec-inlineBtn--cancel">{{ 'front.product.continue'|trans }}</span>
+                                        <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'common.go_to_cart'|trans }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if BreadProducts|length > 0 %}
+                <div class="ec-products-top-area">
+                    <div class="ec-product-category-title">
+                      <h2 class="ec-product-category-title__title">BREAD</h2>
+                    </div>
+                    <div class="ec-shelfRole">
+                        <ul class="ec-shelfGrid">
+                            {% for Product in BreadProducts %}
+                                <li class="ec-shelfGrid__item">
+                                    <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                        <p class="ec-shelfGrid__item-image">
+                                            <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                        </p>
+                                        <p class="ec-shelfGrid__title">{{ Product.name }}</p>
+                                        {% if Product.description_list %}
+                                            <p class="ec-shelfGrid__title">{{ Product.description_list|raw|nl2br }}</p>
+                                        {% endif %}
+                                        <p class="price02-default">
+                                            {% if Product.hasProductClass %}
+                                                {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                                    {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                                {% else %}
+                                                    {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
+                                                {% endif %}
+                                            {% else %}
+                                                {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                            {% endif %}
+                                        </p>
+                                    </a>
+
+                                    {% if Product.stock_find %}
+                                        {% set form = forms[Product.id] %}
+                                        <form class="ec-shelfGrid__form" name="form{{ Product.id }}" id="productForm{{ Product.id }}" action="{{ url('product_add_cart', {id:Product.id}) }}" method="post">
+                                            <div class="ec-productRole__actions">
+                                                {% if form.classcategory_id1 is defined %}
+                                                    {% if Product.hide_class_category1 %}
+                                                        <div class="ec-select hide_class_category1" style="display:none;">
+                                                    {% else %}
+                                                        <div class="ec-select">
+                                                    {% endif %}
+
+                                                        {{ form_widget(form.classcategory_id1) }}
+                                                        {{ form_errors(form.classcategory_id1) }}
+                                                    </div>
+                                                    {% if form.classcategory_id2 is defined %}
+                                                        {% if Product.hide_class_category2 %}
+                                                            <div class="ec-select hide_class_category2" style="display:none;">
+                                                        {% else %}
+                                                            <div class="ec-select">
+                                                        {% endif %}
+
+                                                            {{ form_widget(form.classcategory_id2) }}
+                                                            {{ form_errors(form.classcategory_id2) }}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                <div class="ec-numberInput"><span>{{ 'common.quantity'|trans }}</span>
+                                                    {{ form_widget(form.quantity, {'attr': {'class': 'quantity'}}) }}
+                                                    {{ form_errors(form.quantity) }}
+                                                </div>
+                                            </div>
+                                            {{ form_rest(form) }}
+                                        </form>
+                                        <div class="ec-shelfGrid__btn">
+                                            <button type="submit" class="ec-blockBtn--action add-cart" data-cartid="{{ Product.id }}" form="productForm{{ Product.id }}">
+                                                {{ 'front.product.add_cart'|trans }}
+                                            </button>
+                                        </div>
+                                    {% else %}
+                                        <div class="ec-shelfGrid__btn">
+                                            <button type="button" class="ec-blockBtn--action" disabled="disabled">
+                                                {{ 'front.product.out_of_stock'|trans }}
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="ec-modal">
+                        <div class="ec-modal-overlay">
+                            <div class="ec-modal-wrap">
+                                <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                                <div id="ec-modal-header" class="text-center">{{ 'front.product.add_cart_complete'|trans }}</div>
+                                <div class="ec-modal-box">
+                                    <div class="ec-role">
+                                        <span class="ec-inlineBtn--cancel">{{ 'front.product.continue'|trans }}</span>
+                                        <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'common.go_to_cart'|trans }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endblock %}
