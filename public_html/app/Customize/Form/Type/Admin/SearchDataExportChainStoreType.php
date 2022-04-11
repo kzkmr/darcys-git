@@ -23,6 +23,7 @@ use Eccube\Form\Type\Master\MailTemplateType;
 use Eccube\Repository\Master\CustomerStatusRepository;
 use Eccube\Repository\MailTemplateRepository;
 use Customize\Repository\CashbackSummaryRepository;
+use Customize\Repository\Master\ContractTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,10 +32,11 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class SearchCashbackType extends AbstractType
+class SearchDataExportChainStoreType extends AbstractType
 {
     /**
      * @var EccubeConfig
@@ -57,23 +59,31 @@ class SearchCashbackType extends AbstractType
     protected $cashbackSummaryRepository;
 
     /**
+     * @var ContractTypeRepository
+     */
+    protected $contractTypeRepository;
+
+    /**
      * SearchCashbackType constructor.
      *
      * @param EccubeConfig $eccubeConfig
      * @param CustomerStatusRepository $customerStatusRepository
      * @param MailTemplateRepository $mailTemplateRepository
      * @param CashbackSummaryRepository $cashbackSummaryRepository
+     * @param ContractTypeRepository $contractTypeRepository
      */
     public function __construct(
         EccubeConfig $eccubeConfig,
         CustomerStatusRepository $customerStatusRepository,
         MailTemplateRepository $mailTemplateRepository,
-        CashbackSummaryRepository $cashbackSummaryRepository
+        CashbackSummaryRepository $cashbackSummaryRepository,
+        ContractTypeRepository $contractTypeRepository
     ) {
         $this->eccubeConfig = $eccubeConfig;
         $this->customerStatusRepository = $customerStatusRepository;
         $this->mailTemplateRepository = $mailTemplateRepository;
         $this->cashbackSummaryRepository = $cashbackSummaryRepository;
+        $this->contractTypeRepository = $contractTypeRepository;
     }
 
     /**
@@ -92,21 +102,38 @@ class SearchCashbackType extends AbstractType
             array_push($datename, $item['dateName']);
         }
 
+        $contract_list = $this->contractTypeRepository->findBy(["is_hidden"=>"N"]);
+        $contractval = [];
+        $contractname = [];
+        foreach($contract_list as $item){
+            array_push($contractval, $item['id']);
+            array_push($contractname, $item['name']);
+        }
+
         $builder
-            // 会員ID・メールアドレス・名前・名前(フリガナ)
+            // 販売店ID・会社名・お名前・ディーラーコード・証券番号
             ->add('multi', TextType::class, [
-                'label' => 'admin.customer.multi_search_label',
+                'label' => 'admin.chainstore.multi_search_label',
                 'required' => false,
                 'constraints' => [
                     new Assert\Length(['max' => $this->eccubeConfig['eccube_stext_len']]),
                 ],
             ])
-            ->add('cashback_ym', ChoiceType::class, [
-                'label' => 'admin.cashback.cashback_ym',
+            ->add('data_ym', ChoiceType::class, [
+                'label' => 'admin.dataexport.data_ym',
                 'placeholder' => 'admin.common.select',
                 'required' => true,
                 'choices' => array_combine($datename, $dateval),
                 'data' => (count($dateval)>0?$dateval[0]:''),
+            ])
+            ->add('contract_type', ChoiceType::class, [
+                'label' => 'admin.chainstore.chain_store_contract_type',
+                'placeholder' => 'admin.common.select',
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => array_combine($contractname, $contractval),
+                'data' => [$contractval[0], $contractval[1]],
             ])
             ->add('cb_is_read', ChoiceType::class, [
                 'label' => 'admin.customer.cb_is_read',
@@ -114,57 +141,9 @@ class SearchCashbackType extends AbstractType
                 'required' => false,
                 'choices' => array_combine($isread_name, $isread_val),
             ])
-            ->add('sex', SexType::class, [
-                'label' => 'admin.common.gender',
+            ->add('transfer_ym', TextType::class, [
+                'label' => 'admin.dataexport.transfer_ym',
                 'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-            ])
-            ->add('birth_month', ChoiceType::class, [
-                'label' => 'admin.customer.birth_month',
-                'placeholder' => 'admin.common.select',
-                'required' => false,
-                'choices' => array_combine($months, $months),
-            ])
-            ->add('birth_start', BirthdayType::class, [
-                'label' => 'admin.common.birth_day__start',
-                'required' => false,
-                'input' => 'datetime',
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
-                'attr' => [
-                    'class' => 'datetimepicker-input',
-                    'data-target' => '#'.$this->getBlockPrefix().'_birth_start',
-                    'data-toggle' => 'datetimepicker',
-                ],
-            ])
-            ->add('birth_end', BirthdayType::class, [
-                'label' => 'admin.common.birth_day__end',
-                'required' => false,
-                'input' => 'datetime',
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
-                'attr' => [
-                    'class' => 'datetimepicker-input',
-                    'data-target' => '#'.$this->getBlockPrefix().'_birth_end',
-                    'data-toggle' => 'datetimepicker',
-                ],
-            ])
-            ->add('pref', PrefType::class, [
-                'label' => 'admin.common.pref',
-                'required' => false,
-            ])
-            ->add('phone_number', TextType::class, [
-                'label' => 'admin.common.phone_number',
-                'required' => false,
-                'constraints' => [
-                    new Assert\Regex([
-                        'pattern' => "/^[\d-]+$/u",
-                        'message' => 'form_error.graph_and_hyphen_only',
-                    ]),
-                ],
             ])
         ;
     }

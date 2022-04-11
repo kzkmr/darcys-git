@@ -21,10 +21,42 @@ use Eccube\Annotation\EntityExtension;
  */
 trait  ProductTrait
 {
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="option_margin_activate", type="boolean", options={"default":true})
+     */
+    private $option_margin_activate = true;
+    
     private $hide_class_category1 = false;
     private $hide_class_category2 = false;
     private $LoginTypeInfo;
     private $ContractTypeList;
+
+
+        /**
+         * Set optionMarginActivate.
+         *
+         * @param boolean $optionMarginActivate
+         *
+         * @return BaseInfo
+         */
+        public function setOptionMarginActivate($optionMarginActivate)
+        {
+            $this->option_margin_activate = $optionMarginActivate;
+
+            return $this;
+        }
+
+        /**
+         * Get optionMarginActivate.
+         *
+         * @return boolean
+         */
+        public function isOptionMarginActivate()
+        {
+            return $this->option_margin_activate;
+        }
 
     /**
      * Set HideClassCategory1.

@@ -46,13 +46,14 @@ admin.chainstore.chainstore_bank_account: 口座番号
 admin.chainstore.chainstore_bank_holder: 口座名義
 admin.customer.cb_month: 対象月
 admin.customer.cb_is_read: 出力結果
+admin.customer.with_zero: マージン合算が0
 admin.customer.cb.id: キャシュバックID
 admin.customer.cb.customer_id: 会員ID
 admin.customer.cb.reference_date: 対象月
 admin.customer.cb.customer_name: 会員名称
 admin.customer.cb.product_name: 商品名称
 admin.customer.cb.final_amt: キャシュバック金額
-admin.customer.cb.cashback_data_build: キャッシュバックデータ出力
+admin.customer.cb.cashback_data_build: マージンデータ出力
 
 #------------------------------------------------------------------------------------
 # 販売店
@@ -89,3 +90,12 @@ admin.chainstore.has_registered: この販売店識別番号として既に登�
 tooltip.chain_store.multi_search_label: 情報を入力して一覧の絞り込み検索ができます。より詳細な条件を指定するには［詳細検索］を開いてください。
 tooltip.chain_store.chain_store_id: 自動的に採番される販売店のIDです。
 tooltip.chain_store.shop_memo: 店舗用のメモ欄です。フロント側には表示されません。
+
+admin.dataexport.chainstore: 販売店向けマージンデータ出力
+admin.dataexport.dealer: ディーラー向けマージンデータ出力
+admin.dataexport.data_ym: 対象月
+admin.dataexport.data_output: データ出力
+admin.dataexport.transfer_ym: 振込日付
+admin.dataexport.transfer_ym_save: 登録
+admin.dataexport.transfer_ym_setting: 振込日付設定
+admin.setting.shop.shop.option_margin_activate: 商品ごとにマージン対象

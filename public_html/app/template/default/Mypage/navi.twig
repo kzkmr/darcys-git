@@ -41,9 +41,11 @@ file that was distributed with this source code.
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
             <a href="{{ url('mypage_delivery') }}">{{ 'front.mypage.nav__customer_address'|trans }}</a>
         </li>
-        <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
-            <a href="{{ url('mypage_withdraw') }}">{{ 'front.mypage.nav__withdrow'|trans }}</a>
-        </li>
+        {% if not ChainStore %}
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
+                <a href="{{ url('mypage_withdraw') }}">{{ 'front.mypage.nav__withdrow'|trans }}</a>
+            </li>
+        {% endif %}
     </ul>
 </div>
 

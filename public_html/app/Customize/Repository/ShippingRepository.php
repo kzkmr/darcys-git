@@ -146,9 +146,14 @@ class ShippingRepository extends AbstractRepository
         //$conn = $this->getEntityManager()->getConnection();
         $sql = "SELECT c.coupon_id, c.coupon_name, COUNT(c.coupon_id) coupon_cnt, SUM(discount) discount, SUM(total) total
                 FROM (
-                        SELECT c.coupon_id, c.coupon_name, SUM(co.discount)/COUNT(o.id) discount, SUM((o.subtotal/1.1))/COUNT(o.id) total
+                        SELECT c.coupon_id, c.coupon_name, SUM(co.discount)/COUNT(o.id) discount, SUM((o.subtotal))/COUNT(o.id) total
                         FROM `dtb_shipping` s 
-                                INNER JOIN dtb_order o ON s.order_id = o.id
+                                INNER JOIN (
+                                    SELECT oo.id, oo.order_status_id, SUM(oi.price * oi.quantity) subtotal, SUM(oi.tax) taxtotal
+                                      FROM dtb_order oo LEFT JOIN dtb_order_item oi ON oo.id = oi.order_id
+                                     WHERE oi.order_item_type_id = 1
+                                   GROUP BY oi.order_id, oo.order_status_id
+                                ) o ON s.order_id = o.id
                                 INNER JOIN plg_coupon_order co ON o.id = co.order_id
                                 INNER JOIN plg_coupon c ON co.coupon_id = c.coupon_id
                         WHERE o.order_status_id = 5
@@ -198,29 +203,36 @@ class ShippingRepository extends AbstractRepository
                     /* 販売店契約と販売店契約（応援プログラム適用）のみ */
                     SELECT IFNULL(sum_coupon.chain_store_id, 'SYS') AS chain_store_id,
                             sum_coupon.contract_type_id,
-                            SUM(CASE WHEN contract_type_id = 1 OR contract_type_id = 2 OR contract_type_id IS NULL THEN
+                            SUM(CASE WHEN sum_coupon.contract_type_id = 1 OR sum_coupon.contract_type_id = 2 OR sum_coupon.contract_type_id IS NULL THEN
                                 sum_coupon.coupon_total
                             ELSE
                                 0
                             END)  AS coupon_total
-                    FROM   (
+                    FROM   base LEFT JOIN (
                         SELECT c.chain_store_id
                                 ,cs.contract_type_id
-                                ,FLOOR(SUM((o.subtotal/1.1))/COUNT(o.id)) coupon_total
+                                ,FLOOR(SUM((o.subtotal))/COUNT(o.id)) coupon_total
                         FROM `dtb_shipping` s 
-                                INNER JOIN dtb_order o ON s.order_id = o.id
+                                INNER JOIN (
+                                        SELECT oo.id, oo.customer_id, oo.order_status_id, SUM(oi.price * oi.quantity) subtotal, SUM(oi.tax) taxtotal
+                                        FROM dtb_order oo LEFT JOIN dtb_order_item oi ON oo.id = oi.order_id
+                                                LEFT JOIN dtb_product p ON oi.product_id = p.id
+                                        WHERE oi.order_item_type_id = 1
+                                          AND p.option_margin_activate = 1
+                                    GROUP BY oi.order_id, oo.customer_id, oo.order_status_id
+                                    ) o ON s.order_id = o.id
                                 LEFT JOIN plg_coupon_order co ON o.id = co.order_id
                                 LEFT JOIN plg_coupon c ON co.coupon_id = c.coupon_id
                                 LEFT JOIN dtb_chain_store cs ON c.chain_store_id = cs.id
                         WHERE o.order_status_id = 5
-                        AND DATE_FORMAT(s.shipping_date, '%Y-%m') = ?
+                          AND DATE_FORMAT(s.shipping_date, '%Y-%m') = ? 
                         GROUP BY c.chain_store_id, cs.contract_type_id, o.id
-                    ) sum_coupon
+                    ) sum_coupon ON base.id = sum_coupon.chain_store_id OR sum_coupon.chain_store_id IS NULL
                     GROUP BY sum_coupon.chain_store_id, sum_coupon.contract_type_id
                 ), chain AS (
                     SELECT c.chain_store_id
                             , cs.contract_type_id
-                            ,FLOOR(SUM((o.subtotal/1.1))/COUNT(o.id)) AS self_total
+                            ,FLOOR(SUM(o.payment_total)) AS self_total
                     FROM `dtb_shipping` s 
                             INNER JOIN dtb_order o ON s.order_id = o.id
                             INNER JOIN dtb_customer c ON o.customer_id = c.id
@@ -234,9 +246,9 @@ class ShippingRepository extends AbstractRepository
                     FROM   chain
                     WHERE  contract_type_id = 3
                 ), support_cnt AS (
-                    SELECT COUNT(coupon.chain_store_id) cnt
-                    FROM   coupon
-                    WHERE  coupon.contract_type_id = 2
+                    SELECT COUNT(id) cnt
+                    FROM   base
+                    WHERE  contract_type_id = 2
                 ), result AS (
                     SELECT base.*,
                         SUM(coupon.coupon_total) AS coupon_total,
@@ -275,8 +287,9 @@ class ShippingRepository extends AbstractRepository
                             LEFT JOIN chain ON base.id = chain.chain_store_id
                             LEFT JOIN chain_total ON 1 = 1
                             LEFT JOIN support_cnt ON 1 = 1
-                    WHERE coupon_total != 0
-                    OR self_total != 0
+                    WHERE (coupon_total != 0
+                            OR self_total != 0)
+                        OR base.contract_type_id = 2
                     GROUP BY base.id, base.company_name, base.stock_number, base.contract_type_name
                     ORDER BY base.contract_type_name, base.company_name
                 )
@@ -335,9 +348,16 @@ class ShippingRepository extends AbstractRepository
                     FROM   (
                         SELECT c.chain_store_id
                                 ,cs.contract_type_id
-                                ,FLOOR(SUM((o.subtotal/1.1))/COUNT(o.id)) sales_total
+                                ,FLOOR(SUM((o.subtotal))/COUNT(o.id)) sales_total
                         FROM `dtb_shipping` s 
-                                INNER JOIN dtb_order o ON s.order_id = o.id
+                                INNER JOIN (
+                                        SELECT oo.id, oo.customer_id, oo.order_status_id, SUM(oi.price * oi.quantity) subtotal, SUM(oi.tax) taxtotal
+                                        FROM dtb_order oo LEFT JOIN dtb_order_item oi ON oo.id = oi.order_id
+                                                        LEFT JOIN dtb_product p ON oi.product_id = p.id
+                                        WHERE oi.order_item_type_id = 1
+                                          AND p.option_margin_activate = 1
+                                    GROUP BY oi.order_id, oo.customer_id, oo.order_status_id
+                                    ) o ON s.order_id = o.id
                                 LEFT JOIN plg_coupon_order co ON o.id = co.order_id
                                 LEFT JOIN plg_coupon c ON co.coupon_id = c.coupon_id
                                 LEFT JOIN dtb_chain_store cs ON c.chain_store_id = cs.id
@@ -349,7 +369,7 @@ class ShippingRepository extends AbstractRepository
                 ), chain AS (
                     SELECT c.chain_store_id
                             , cs.contract_type_id
-                            ,FLOOR(SUM((o.subtotal/1.1))/COUNT(o.id)) AS self_total
+                            ,FLOOR(SUM(o.payment_total)) AS self_total
                     FROM `dtb_shipping` s 
                             INNER JOIN dtb_order o ON s.order_id = o.id
                             INNER JOIN dtb_customer c ON o.customer_id = c.id

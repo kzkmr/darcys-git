@@ -26,13 +26,17 @@ use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\CustomerCouponRepository;
 use Customize\Repository\CashbackSummaryRepository;
 use Customize\Repository\ShippingRepository;
+use Customize\Repository\BankTransferInfoRepository;
 use Eccube\Service\MailService;
 use Plugin\Coupon4\Entity\Coupon;
 use Plugin\Coupon4\Repository\CouponRepository;
 use Plugin\Coupon4\Repository\CouponOrderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Asset\Packages;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -84,6 +88,11 @@ class CouponController extends AbstractController
     private $cashbackSummaryRepository;
     
     /**
+     * @var BankTransferInfoRepository
+     */
+    protected $bankTransferInfoRepository;
+
+    /**
      * CouponController constructor.
      *
      * @param MailService $mailService
@@ -95,6 +104,7 @@ class CouponController extends AbstractController
      * @param CustomerCouponRepository $customerCouponRepository
      * @param ShippingRepository $shippingRepository
      * @param CashbackSummaryRepository $cashbackSummaryRepository
+     * @param BankTransferInfoRepository $bankTransferInfoRepository
      */
     public function __construct(
         MailService $mailService,
@@ -105,7 +115,8 @@ class CouponController extends AbstractController
         ChainStoreRepository $chainStoreRepository,
         CustomerCouponRepository $customerCouponRepository,
         ShippingRepository $shippingRepository,
-        CashbackSummaryRepository $cashbackSummaryRepository)
+        CashbackSummaryRepository $cashbackSummaryRepository,
+        BankTransferInfoRepository $bankTransferInfoRepository)
     {
         $this->mailService = $mailService;
         $this->pageRepository = $pageRepository;
@@ -116,6 +127,7 @@ class CouponController extends AbstractController
         $this->customerCouponRepository = $customerCouponRepository;
         $this->shippingRepository = $shippingRepository;
         $this->cashbackSummaryRepository = $cashbackSummaryRepository;
+        $this->bankTransferInfoRepository = $bankTransferInfoRepository;
     }
 
 
@@ -174,7 +186,7 @@ class CouponController extends AbstractController
                 //POST
                 if ($_SERVER['REQUEST_METHOD'] == 'POST' || $isget){
                     if( is_object($ChainStore) ){
-                        $Coupon = null;
+                        //$Coupon = null;
                         $CanGetCoupon = false;
                     }else{
                         if (!$this->isGranted('IS_AUTHENTICATED_FULLY') && !$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -327,8 +339,11 @@ class CouponController extends AbstractController
         $isActive = (is_object($Coupon4Plugin));
         $pagination = null;
         $Cashback = null;
+        $transferDate = null;
+        $currentYear = date("Y");
         $selDate = "";  //date("Y-m");
         $selDateName = "";
+        $paymentDate = "";
         $listDate = [];
 
         if($isActive){
@@ -340,13 +355,14 @@ class CouponController extends AbstractController
                 $selDate = $_SESSION["selDate"];
             }
             if(!empty($_POST)){
-                if(!empty($_POST["selDate"])){
-                    $selDate = $_POST["selDate"];
+                if(!empty($_POST["selYear"])){
+                    $selDate = $_POST["selYear"]."-".$_POST["selMonth"];
                     $_SESSION["selDate"]=$selDate;
                 }
             }
 
             $selDateName = str_replace("-", "年", $selDate)."月";
+            $paymentDate = date('Y/m/d', strtotime("+1 months", strtotime($selDate."-15")));
 
             $listDate1 = $this->shippingRepository->getChainStoreUseCouponJissekiListDate($ChainStore);
             $listDate2 = $this->cashbackSummaryRepository->getDateList($ChainStore);
@@ -356,10 +372,12 @@ class CouponController extends AbstractController
                 if($selDate == ""){
                     $selDate = $listDate[0]["dateVal"];
                     $selDateName = $listDate[0]["dateName"];
+                    $paymentDate = date('Y/m/d', strtotime("+1 months", strtotime($selDate."-15")));
                 }
 
                 $CouponJisseki = $this->shippingRepository->findChainStoreUseCouponJisseki($ChainStore, $selDate);
                 $Cashback = $this->cashbackSummaryRepository->findOneBy(["ChainStore" => $ChainStore, "referenceYm" => $selDate]);
+                $transferDate = $this->bankTransferInfoRepository->findOneBy(["referenceYm" => $selDate]);
 
                 $pagination = $paginator->paginate(
                     $CouponJisseki,
@@ -374,9 +392,12 @@ class CouponController extends AbstractController
             'listDate' => $listDate,
             'selDate' => $selDate,
             'selDateName' => $selDateName,
+            'currentYear' => $currentYear,
+            'paymentDate' => $paymentDate,
             'ChainStore' => $ChainStore,
             'pagination' => $pagination,
-            'Cashback' => $Cashback
+            'Cashback' => $Cashback,
+            'TransferDate' => $transferDate
         ];
     }
 
@@ -403,6 +424,121 @@ class CouponController extends AbstractController
         }
 
         return $this->redirectToRoute('mypage_coupon_list');
+    }
+
+    /**
+     * クーポン Image
+     *
+     * @Route("/coupon_img/{size}/{coupon_code}", name="coupon_img", methods={"GET"})
+     * 
+     * @param Request $request
+     * 
+     * @return JsonResponse
+     */
+    public function coupon_image(Request $request, Packages $assetsManager, $size, $coupon_code)
+    {
+        //Default
+        //Value
+        $discount = "0";                                    
+        $discountColor = [249,11,50];
+        $discountSize = ($size=="s"?140:280);
+        $discountPaddingTop = 0;
+        //Coupon Name
+        $couponNameColor = [249,11,50];
+        $couponName = "クーポンが見つかりません";           
+        $couponNameSize = ($size=="s"?20:40);
+        //Unit
+        $unitColor = [249,11,50];
+        $unitName = "";
+        $unitSize = ($size=="s"?70:140);
+
+        $base_dir = realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR;
+        $filepath = $base_dir.$assetsManager->getUrl('assets/img/coupon/coupon'.($size == "s"?'-s':'').'.jpg');
+
+        $Coupon = $this->couponRepository->findOneBy(['coupon_cd' => $coupon_code]);
+
+        if(is_object($Coupon)){
+            $discountColor = [0,0,0];
+            $couponNameColor = [0,0,0];
+            $unitColor = [0,0,0];
+            $couponName = $Coupon->getCouponName();
+
+            if($Coupon->getDiscountType() == 1){
+                $discountSize = ($size=="s"?100:200);;
+                $discountPaddingTop = ($size=="s"?15:30);;
+                $discount = intval($Coupon->getDiscountPrice());
+                $filepath = $base_dir.$assetsManager->getUrl('assets/img/coupon/coupon'.($size == "s"?'-s':'').'-space.jpg');
+                $unitName = "円";
+            }else{
+                $discount = $Coupon->getDiscountRate();
+            }
+        }
+
+        $fontpath = $base_dir.$assetsManager->getUrl('assets/fonts/hgrge.ttc');
+        $filename = $coupon_code."-coupon.jpg";
+        
+        // Create Image From Existing File
+        $jpg_image = imagecreatefromjpeg($filepath);
+        $discountColorObj = imagecolorallocate($jpg_image, $discountColor[0], $discountColor[1], $discountColor[2]);
+        $couponNameColorObj = imagecolorallocate($jpg_image, $couponNameColor[0], $couponNameColor[1], $couponNameColor[2]);
+        
+        $response = new Response();
+        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, $filename);
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-Type', 'image/jpeg');
+        $response->setContent(file_get_contents($filepath));
+
+        //Array ( [left] => 21 [top] => 211 [width] => 246 [height] => 219 
+        //[box] => Array ( [0] => 22 [1] => 7 [2] => 268 [3] => 7 [4] => 268 [5] => -212 [6] => 22 [7] => -212 ) )
+        $discount_box = $this->calculateTextBox($discount, $fontpath, $discountSize, 0);
+        $couponName_box = $this->calculateTextBox($couponName, $fontpath, $couponNameSize, 0);
+
+        //T:670, L:320
+        //W:500, H:300
+        $discount_left = ($size=="s"?160:320) + (($size=="s"?250:500) - $discount_box["width"]);
+        $discount_top = ($size=="s"?335:670) + $discount_box["height"] + $discountPaddingTop;
+        imagettftext($jpg_image, $discountSize, 0, $discount_left, $discount_top, $discountColorObj, $fontpath, $discount);
+        //T:1040, L:315
+        //W:975, H:90
+        $couponName_left = ($size=="s"?158:316) + (($size=="s"?488:976) - $couponName_box["width"]);
+        $couponName_top = ($size=="s"?520:1040) + $couponName_box["height"];
+        imagettftext($jpg_image, $couponNameSize, 0, $couponName_left, $couponName_top, $couponNameColorObj, $fontpath, $couponName);
+
+        if($unitName != ""){
+            //$unit_box = $this->calculateTextBox($unitName, $fontpath, $unitSize, 0);
+            //T:810, L:860
+            //W:320, H:160
+            $unit_left = ($size=="s"?430:860);
+            $unit_top = ($size=="s"?405:810);;
+            imagettftext($jpg_image, $unitSize, 0, $unit_left, $unit_top, $couponNameColorObj, $fontpath, $unitName);
+        }
+
+        imagejpeg($jpg_image);
+        imagedestroy($jpg_image);
+
+        return $response;
+    }
+
+    public function calculateTextBox($text,$fontFile,$fontSize,$fontAngle) { 
+        /************ 
+        simple function that calculates the *exact* bounding box (single pixel precision). 
+        The function returns an associative array with these keys: 
+        left, top:  coordinates you will pass to imagettftext 
+        width, height: dimension of the image you have to create 
+        *************/ 
+        $rect = imagettfbbox($fontSize,$fontAngle,$fontFile,$text); 
+        $minX = min(array($rect[0],$rect[2],$rect[4],$rect[6])); 
+        $maxX = max(array($rect[0],$rect[2],$rect[4],$rect[6])); 
+        $minY = min(array($rect[1],$rect[3],$rect[5],$rect[7])); 
+        $maxY = max(array($rect[1],$rect[3],$rect[5],$rect[7])); 
+    
+         return array( 
+             "left"   => abs($minX) - 1, 
+             "top"    => abs($minY) - 1, 
+             "width"  => $maxX - $minX, 
+             "height" => $maxY - $minY, 
+             "box"    => $rect 
+         ); 
     }
 
     private function getCouponPluginInfo(){

@@ -1,0 +1,290 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends '@admin/default_frame.twig' %}
+{% set menus = ['chainstore', 'dataexport_chainstore'] %}
+
+{% block title %}{{ 'admin.dataexport.chainstore'|trans }}{% endblock %}
+{% block sub_title %} {% endblock %}
+
+{% form_theme searchForm '@admin/Form/bootstrap_4_layout.html.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/tempusdominus-bootstrap-4.min.css', 'admin') }}">
+    <style type="text/css">
+        .datepicker-days th.dow:first-child,
+        .datepicker-days td:first-child {
+            color: #f00;
+        }
+
+        .datepicker-days th.dow:last-child,
+        .datepicker-days td:last-child {
+            color: #00f;
+        }
+        .list-search-result {
+            display:none;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script>
+        $(function() {
+           $("#btnTransfer").on("click", function(){
+               //if($("#admin_search_cashback_transfer_ym").val()==""){
+                $("#admin_search_cashback_transfer_ym").val("{{paymentYM}}");
+               //}
+                $('#transferYMDialog').modal('show');
+            });
+
+            $(".list-inline-item span").each(function(){
+                if($(this).text().indexOf("振込日付") >= 0){
+                    $(this).parent().remove();
+                }
+            });
+
+            $(".list-search-result").show();
+        });
+    </script>
+
+{{ include('@admin/Order/confirmationModal_js.twig') }}
+{% endblock javascript %}
+
+{% block main %}
+<form name="search_form" id="search_form" method="POST" action="{{ url('admin_dataexport_chainstore') }}">
+    <!--検索条件設定テーブルここから-->
+    <div class="c-outsideBlock">
+        {{ form_widget(searchForm._token) }}
+            <div class="c-outsideBlock">
+                <div class="c-outsideBlock__contents">
+                    <div class="row justify-content-start">
+                        <div class="col-6">
+                            <div class="mb-2">
+                                <label>{{ 'admin.dataexport.data_ym'|trans }}</label>
+                                {{ form_widget(searchForm.data_ym) }}
+                                {{ form_errors(searchForm.data_ym) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start">
+                        <div class="col-6">
+                            <div class="mb-2">
+                                <label>{{ 'admin.chainstore.chain_store_contract_type'|trans }}</label>
+                                {{ form_widget(searchForm.contract_type, {'label_attr': {'class': 'checkbox-inline'}}) }}
+                                {{ form_errors(searchForm.contract_type, {'label_attr': {'class': 'checkbox-inline'}}) }}
+                            </div>
+                            <div class="d-inline-block mb-3 collapsed" data-toggle="collapse" href="#searchDetail" aria-expanded="false" aria-controls="searchDetail"><a><i class="fa font-weight-bold mr-1 fa-plus-square-o"></i><span class="font-weight-bold">{{ 'admin.common.search_detail'|trans }}</span></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-subContents ec-collapse collapse{{ has_errors ? ' show' }}" id="searchDetail">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div>
+                                <label class="col-form-label">{{ 'admin.chainstore.multi_search_label'|trans }}</label>
+                                {{ form_widget(searchForm.multi) }}
+                                {{ form_errors(searchForm.multi) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div>
+                                <label>{{ 'admin.customer.cb_is_read'|trans }}</label>
+                                <div class="row">
+                                    <div class="col-5">
+                                        {{ form_widget(searchForm.cb_is_read) }}
+                                        {{ form_errors(searchForm.cb_is_read) }}
+                                    </div>
+                                    <div class="col-7"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="c-outsideBlock__contents">
+                <div class="row">
+                    <div class="mb-4">
+                        <div class="col-12">
+                            <button class="btn btn-ec-conversion px-5" type="submit" name="search" value="search" id="search_submit">{{ 'admin.common.search'|trans }}</button>
+                            {% if pagination %}
+                                <span class="font-weight-bold ml-2" id="search_total_count">{{ 'admin.common.search_result'|trans({"%count%":pagination.totalItemCount})|raw }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="c-outsideBlock__contents mb-5 list-search-result">
+                {{ include('@admin/search_items.twig', { 'form': searchForm }, ignore_missing = true) }}
+            </div>
+
+    </div>
+    <!--検索条件設定テーブルここまで-->
+
+    <div class="c-contentsArea__cols">
+        <div class="c-contentsArea__primaryCol">
+            <div class="c-primaryCol">
+                {% if pagination and pagination.totalItemCount %}
+                    <!--<form id="form_bulk" method="POST" action="{{ url('admin_dataexport_chainstore') }}">-->
+                        <div class="row justify-content-between mb-2">
+                            <div class="col-7">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto d-none btn-bulk-wrapper">
+                                        <button type="button" id="bulkExportPdf" class="btn btn-ec-regular mr-2">{{ 'admin.order.output_delivery_note_short'|trans }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5 text-right">
+                                <div class="d-inline-block">
+                                    <select class="custom-select" onchange="location = this.value;">
+                                        {% for pageMax in pageMaxis %}
+                                            <option {% if pageMax.name == page_count %} selected {% endif %}
+                                                    value="{{ path('admin_dataexport_chainstore_page', {'page_no': 1, 'page_count': pageMax.name}) }}">
+                                                {{ 'admin.common.count'|trans({ '%count%': pageMax.name }) }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded border-0 mb-4 d-block">
+                            <div class="card-body p-0">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="border-top-0 pt-2 pb-3">対象月</th>
+                                        <th class="border-top-0 pt-2 pb-3">契約区分</th>
+                                        <th class="border-top-0 pt-2 pb-3">販売店名</th>
+                                        <th class="border-top-0 pt-2 pb-3">証券番号</th>
+                                        <th class="border-top-0 pt-2 pb-3">マージン</th>
+                                        <th class="border-top-0 pt-2 pb-3">前月繰り越しマージン</th>
+                                        <th class="border-top-0 pt-2 pb-3">仕入れ金額</th>
+                                        <th class="border-top-0 pt-2 pb-3">請求金額</th>
+                                        <th class="border-top-0 pt-2 pb-3">マージン残高</th>
+                                        <th class="border-top-0 pt-2 pb-3">繰り越しマージン</th>
+                                        <th class="border-top-0 pt-2 pb-3">出力結果</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for MarginList in pagination %}
+                                            <tr>
+                                                <td>{{MarginList.referenceYm}}</td>
+                                                <td>{{MarginList.ChainStore.ContractType.name}}</td>
+                                                <td>
+                                                    {% if MarginList.ChainStore %}
+                                                        <a href="{{ url('admin_chainstore_edit', { 'id': MarginList.ChainStore.id}) }}">{{MarginList.ChainStore.companyName}}</a><br />
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{MarginList.ChainStore.stock_number}}</td>
+                                                <td>{{MarginList.marginPrice| price }}</td>
+                                                <td>{{MarginList.previousMarginPrice| price }}</td>
+                                                <td>{{MarginList.purchaseAmount| price }}</td>
+                                                <td>{{MarginList.requestAmount| price }}</td>
+                                                <td>{{MarginList.marginBalance| price }}</td>
+                                                <td>{{MarginList.carriedForward| price }}</td>
+                                                <td>
+                                                    {% if MarginList.exportCnt >= 1 %}
+                                                        出力済
+                                                    {% else %}
+                                                        未出力
+                                                    {% endif %}
+                                                </td>
+
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-md-center mb-4">
+                                    {% if pagination.totalItemCount > 0 %}
+                                        {% include "@admin/pager.twig" with { 'pages' : pagination.paginationData, 'routes' : 'admin_dataexport_chainstore_page' } %}
+                                    {% endif %}
+                                </div>
+                        </div>
+
+                        <!-- コンバージョンエリア -->
+                        <div class="c-conversionArea">
+                            <div class="c-conversionArea__container">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-6">
+                                        <div class="c-conversionArea__leftBlockItem">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row align-items-center justify-content-end">
+                                            <div class="col-auto">
+                                                <button type="button" class="btn btn-ec-conversion px-5" id="btnTransfer">{{ 'admin.dataexport.transfer_ym_setting'|trans }}</button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-ec-conversion px-5" name="output" value="output">{{ 'admin.dataexport.data_output'|trans }}</button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-ec-conversion px-5" name="margin_csv" value="margin_csv">{{ 'admin.customer.cb.cashback_data_build'|trans }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </form> -->
+                    {# 検索条件エラー時 #}
+                {% elseif has_errors %}
+                    <div class="card rounded border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center text-muted mb-4 h5">{{ 'admin.common.search_invalid_condition'|trans }}</div>
+                            <div class="text-center text-muted">{{ 'admin.common.search_try_change_condition'|trans }}</div>
+                        </div>
+                    </div>
+                    {# 検索結果なし #}
+                {% else %}
+                    <div class="card rounded border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center text-muted mb-4 h5">{{ 'admin.common.search_no_result'|trans }}</div>
+                            <div class="text-center text-muted">{{ 'admin.common.search_try_change_condition'|trans }}</div>
+                            <div class="text-center text-muted">{{ 'admin.common.search_try_advanced_search'|trans }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="transferYMDialog" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">振込日付を入力して下さい</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ec-borderedDefs">
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <span>振込日付</span>
+                            </div>
+                            <div class="col-9">
+                                {{ form_widget(searchForm.transfer_ym) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                    <button type="submit" class="btn btn-ec-conversion px-5" name="save_transfer_date" value="save_transfer_date">{{ 'admin.dataexport.transfer_ym_save'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

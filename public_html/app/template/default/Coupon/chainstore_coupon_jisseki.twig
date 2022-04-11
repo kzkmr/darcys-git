@@ -158,24 +158,36 @@ file that was distributed with this source code.
                 {% if isActive %}
                     <div class="ec-historyRole">
                         <div class="dzx-historyRole__rowcontents">
+                            {% set selYear = selDate|slice(0, 4) %}
+                            {% set selMonth = selDate|slice(5, 6) %}
+                            <form name="mypage_chainstore_coupon_jisseki" id="mypage_chainstore_coupon_jisseki" method="post" action="{{ url('mypage_chainstore_coupon_jisseki') }}">
+                                <p class="dzx-detail_title">対象月 
+                                    <select name="selYear" class="selDate">
+                                    {% for i in range(2022, currentYear) %}
+                                        <option value="{{ i }}" {{ i == selYear ? 'selected' : '' }}>{{ i }}</option>
+                                    {% endfor %}
+                                    </select>年
+                                    <select name="selMonth" class="selDate">
+                                        <option value="01" {{ '01' == selMonth ? 'selected' : '' }}>01</option>
+                                        <option value="02" {{ '02' == selMonth ? 'selected' : '' }}>02</option>
+                                        <option value="03" {{ '03' == selMonth ? 'selected' : '' }}>03</option>
+                                        <option value="04" {{ '04' == selMonth ? 'selected' : '' }}>04</option>
+                                        <option value="05" {{ '05' == selMonth ? 'selected' : '' }}>05</option>
+                                        <option value="06" {{ '06' == selMonth ? 'selected' : '' }}>06</option>
+                                        <option value="07" {{ '07' == selMonth ? 'selected' : '' }}>07</option>
+                                        <option value="08" {{ '08' == selMonth ? 'selected' : '' }}>08</option>
+                                        <option value="09" {{ '09' == selMonth ? 'selected' : '' }}>09</option>
+                                        <option value="10" {{ '10' == selMonth ? 'selected' : '' }}>10</option>
+                                        <option value="11" {{ '11' == selMonth ? 'selected' : '' }}>11</option>
+                                        <option value="12" {{ '12' == selMonth ? 'selected' : '' }}>12</option>
+                                    </select>月
+                                    <a class="ec-inlineBtn dzx-btn-func" href="#" onclick="$('#mypage_chainstore_coupon_jisseki').submit();return false;">検索</a>
+
+                                </p>
+                            </form>
+                            
                             <div class="dzx-historyRole__row_detail">
                                 {% if pagination is not null and pagination.totalItemCount > 0 %}
-                                    <form name="mypage_chainstore_coupon_jisseki" id="mypage_chainstore_coupon_jisseki" method="post" action="{{ url('mypage_chainstore_coupon_jisseki') }}">
-                                        <p class="dzx-detail_title">対象月 
-                                            <select name="selDate" class="selDate">
-                                            {% for curDate in listDate %}
-                                                {% if selDate == curDate['dateVal'] %}
-                                                    <option value="{{ curDate['dateVal'] }}" selected>{{ curDate['dateName'] }}</option>
-                                                {% else %}
-                                                    <option value="{{ curDate['dateVal'] }}">{{ curDate['dateName'] }}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                            </select>
-                                            
-                                            <a class="ec-inlineBtn dzx-btn-func" href="#" onclick="$('#mypage_chainstore_coupon_jisseki').submit();return false;">検索</a>
-
-                                        </p>
-                                    </form>
                                     <table class="dzx-table_row_detail">
                                     <tr>
                                         <th style="width:320px;" class="col_product" >クーポン名称</th>
@@ -210,27 +222,36 @@ file that was distributed with this source code.
                             </div>
                             <br /><br />
                             <div class="dzx-historyRole__row_detail">
-                                <p class="dzx-detail_title">2022年3月のマージン情報
-                                    
-                                </p>
-                                <table class="dzx-table_row_detail">
-                                <tr>
-                                    <th style="width:180px;">マージン</th>
-                                    <th style="width:200px;">繰り越しマージン</th>
-                                    <th style="width:120px;">振込日付</th>
-                                </tr>
-                                <tr>
-                                    <td  style="text-align:right;">
-                                        <p class="ec-historyRole__detailPrice">￥10,990</p>
-                                    </td>
-                                    <td  style="text-align:right;">
-                                        <p class="ec-historyRole__detailPrice">￥100,990</p>
-                                    </td>
-                                    <td style="text-align:right;">
-                                        2022/03/01
-                                    </td>
-                                </tr>
-                                </table>
+                                <p class="dzx-detail_title">{{ selDateName }}のマージン情報</p>
+
+                                {% if Cashback %}
+                                    <table class="dzx-table_row_detail">
+                                    <tr>
+                                        <th style="width:180px;">マージン</th>
+                                        <th style="width:200px;">繰り越しマージン</th>
+                                        <th style="width:120px;">振込日付</th>
+                                    </tr>
+                                    <tr>
+                                        <td  style="text-align:right;">
+                                            <p class="ec-historyRole__detailPrice">{{Cashback.marginPrice | price}}</p>
+                                        </td>
+                                        <td  style="text-align:right;">
+                                            <p class="ec-historyRole__detailPrice">{{Cashback.carriedForward | price}}</p>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            {% if Cashback.marginPrice >= 2000 %}
+                                                {% if TransferDate %}
+                                                    {{TransferDate.transferDate}}
+                                                {% else %}
+                                                    {{paymentDate}}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    </table>
+                                {% else %}
+                                    <p class="ec-para-normal">{{ 'マージン情報はありません。'|trans }}</p>
+                                {% endif %}
 
                             </div>
                         </div>

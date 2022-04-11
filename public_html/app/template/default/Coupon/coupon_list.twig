@@ -18,6 +18,8 @@ file that was distributed with this source code.
     <style type="text/css">
         .dzx-right {
             float: right;
+            position: absolute;
+            right: 0;
         }
 
         .c-static-intro-coupon{
@@ -43,6 +45,39 @@ file that was distributed with this source code.
             display: inline-block;
             vertical-align: top;
         }
+        .ec-historyListHeader {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 24px;
+            padding-right: 20px;
+        }
+        .ec-historyListHeader__date {
+            color: #f71600;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            width: 180px;
+            padding: 10px 6px;
+        }
+        .ec-historyRole .ec-historyRole__detail {
+            border-top: 0px dotted #ccc;
+            position: relative;
+        }
+        .ec-historyListHeader__coupon {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .ec-historyListHeader .ec-historyListHeader__date {
+            font-size:10px;
+        }
+        @media all and (max-width:767px) {
+            .ec-historyRole .ec-historyRole__detail {
+                width:100%;
+            }
+            .ec-imageGrid__content{
+                width:100%;
+            }
+        }
     </style>
 {% endblock %}
 
@@ -65,10 +100,11 @@ file that was distributed with this source code.
                             <div class="ec-historyRole__contents">
                                 <div class="ec-historyRole__header">
                                     <div class="ec-historyListHeader">
-                                        <p class="ec-historyListHeader__date">{{ Coupon.coupon_name }}</p>
+                                        <img src="{{ url('coupon_img', {size: 's', coupon_code: Coupon.coupon_cd}) }}">
                                     </div>
                                 </div>
                                 <div class="ec-historyRole__detail">
+                                    <p class="ec-historyListHeader__coupon">{{ Coupon.coupon_name }}</p>
                                     <div class="ec-imageGrid__content">
                                         <p class="c-static-intro-coupon">
                                             <span class="title">クーポンの対象商品</span><br>
