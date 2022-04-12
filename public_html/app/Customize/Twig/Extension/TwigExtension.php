@@ -8,7 +8,8 @@ use Eccube\Common\EccubeConfig;
 use Eccube\Entity\Master\ProductStatus;
 use Eccube\Entity\Product;
 use Eccube\Entity\ProductClass;
-use Eccube\Repository\ProductRepository;
+use Customize\Repository\ProductRepository;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class TwigExtension extends \Twig_Extension
 {
@@ -26,17 +27,24 @@ class TwigExtension extends \Twig_Extension
     private $productRepository;
 
     /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * TwigExtension constructor.
      *
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         EccubeConfig $eccubeConfig,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->entityManager = $entityManager;
         $this->eccubeConfig = $eccubeConfig;
         $this->productRepository = $productRepository;
+        $this->tokenStorage = $tokenStorage;
     }
     /**
      * Returns a list of functions to add to the existing list.
@@ -83,7 +91,9 @@ class TwigExtension extends \Twig_Extension
             $searchData['orderby'] = $query->getOneOrNullResult();
 
             //商品情報を3件取得
-            $qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            //$qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            $LoginTypeInfo = $this->getLoginTypeInfo();
+            $qb = $this->productRepository->getQueryBuilderBySearchDataWithLoginTypeInfo($searchData, $LoginTypeInfo);
             $query = $qb->setMaxResults(3)->getQuery();
             $products = $query->getResult();
             return $products;
@@ -124,7 +134,9 @@ class TwigExtension extends \Twig_Extension
             $searchData['category_id'] = $query->getOneOrNullResult();
 
             //商品情報を全件取得
-            $qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            //$qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            $LoginTypeInfo = $this->getLoginTypeInfo();
+            $qb = $this->productRepository->getQueryBuilderBySearchDataWithLoginTypeInfo($searchData, $LoginTypeInfo);
             $query = $qb->getQuery();
             $products = $query->getResult();
             return $products;
@@ -165,7 +177,9 @@ class TwigExtension extends \Twig_Extension
             $searchData['category_id'] = $query->getOneOrNullResult();
 
             //商品情報を全件取得
-            $qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            //$qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            $LoginTypeInfo = $this->getLoginTypeInfo();
+            $qb = $this->productRepository->getQueryBuilderBySearchDataWithLoginTypeInfo($searchData, $LoginTypeInfo);
             $query = $qb->getQuery();
             $products = $query->getResult();
             return $products;
@@ -206,7 +220,9 @@ class TwigExtension extends \Twig_Extension
             $searchData['category_id'] = $query->getOneOrNullResult();
 
             //商品情報を全件取得
-            $qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            //$qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
+            $LoginTypeInfo = $this->getLoginTypeInfo();
+            $qb = $this->productRepository->getQueryBuilderBySearchDataWithLoginTypeInfo($searchData, $LoginTypeInfo);
             $query = $qb->getQuery();
             $products = $query->getResult();
             return $products;
@@ -214,6 +230,59 @@ class TwigExtension extends \Twig_Extension
         } catch (\Exception $e) {
             return null;
         }
+        return null;
+    }
+
+    private function getLoginTypeInfo()
+    {
+        $LoginType = 1;         //Default is guest
+        $Customer = $this->getCurrentUser();
+        $ChainStore = null;
+        $ContractType = null;
+
+        if (is_object($Customer)) {
+            $ChainStore = $Customer->getChainStore();
+
+            if(is_object($ChainStore)){
+                $LoginType = 3;         //ChainStore member
+                $ContractType = $ChainStore->getContractType();
+            }else{
+                $LoginType = 2;         //Normal member
+            }
+        }else{
+            $Customer = null;
+        }
+
+        return [
+            'LoginType' => $LoginType,
+            'Customer' => $Customer,
+            'ChainStore' => $ChainStore,
+            'ContractType' => $ContractType,
+        ];
+    }
+
+    private function getCurrentUser()
+    {
+        if(!$this->tokenStorage){
+            return null;
+        }
+
+        if (!$token = $this->tokenStorage->getToken()) {
+            return null;
+        }
+
+        if (!$token->isAuthenticated()) {
+            return null;
+        }
+
+        if(!$user = $token->getUser()){
+            return null;
+        }
+
+        if(is_object($user)){
+            return $user;
+        }
+
         return null;
     }
 }
