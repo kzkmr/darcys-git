@@ -5267,8 +5267,10 @@ Styleguide 11.2
     width: 25%;
   }
 }
-.ec-layoutRole__header {
-  margin-bottom: 30px;
+@media only screen and (min-width: 768px) {
+  .ec-layoutRole__header {
+    margin-bottom: 30px;
+  }
 }
 @media only screen and (min-width: 768px) {
   #page_homepage .ec-layoutRole__contents {
@@ -6670,18 +6672,28 @@ Styleguide 12.1
 .ec-sliderRole .main_visual__movie figure {
   position: relative;
   margin: 0 !important;
-  padding-top: 56.25%;
+  padding-top: 75%;
   overflow: hidden;
+}
+@media only screen and (min-width: 768px) {
+  .ec-sliderRole .main_visual__movie figure {
+    padding-top: 56.25%;
+  }
 }
 .ec-sliderRole .main_visual__movie figure video {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: auto;
+  width: 200%;
   min-width: 100%;
   height: auto;
   min-height: 100%;
   transform: translate(-50%, -50%);
+}
+@media only screen and (min-width: 768px) {
+  .ec-sliderRole .main_visual__movie figure video {
+    width: auto;
+  }
 }
 /*
 アイキャッチ
@@ -10195,7 +10207,7 @@ Styleguide 23
   flex: 0 0 120px;
   position: relative;
   margin: 0;
-  padding-top: 66.666%;
+  padding-top: 120px;
   border: none;
   overflow: hidden;
 }
@@ -10203,6 +10215,7 @@ Styleguide 23
   .ec-top-blog .row .col-3 a .thumbnail {
     flex: none;
     height: auto;
+    padding-top: 66.666%;
   }
 }
 .ec-top-blog .row .col-3 a .thumbnail img {

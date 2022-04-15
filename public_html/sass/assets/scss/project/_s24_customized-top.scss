@@ -64,13 +64,14 @@ Styleguide 23
           flex: 0 0 120px;
           position: relative;
           margin: 0;
-          padding-top: 66.666%;
+          padding-top: 120px;
           border: none;
           overflow: hidden;
 
           @media (min-width:640px) {
             flex: none;
             height: auto;
+            padding-top: 66.666%;
           }
 
           img {

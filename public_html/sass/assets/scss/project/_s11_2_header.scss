@@ -73,7 +73,10 @@ Styleguide 11.2
   }
 
   &__header {
-    margin-bottom: 30px;
+
+    @include media_desktop {
+      margin-bottom: 30px;
+    }
   }
 }
 
