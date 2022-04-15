@@ -328,7 +328,6 @@ file that was distributed with this source code.
                     {# 関連カテゴリ #}
                     {% if Product.ProductCategories is not empty %}
                         <div class="ec-productRole__category">
-                            <div>{{ 'front.product.related_category'|trans }}</div>
                             {% for ProductCategory in Product.ProductCategories %}
                                 <ul>
                                     <li>
@@ -421,8 +420,8 @@ file that was distributed with this source code.
             </div>
         </div>
         {% if Product.freearea %}
-             <div class="ec-productRole__description">
-                 {{ include(template_from_string(Product.freearea)) }}
+            <div class="ec-productRole__description">
+                {{ include(template_from_string(Product.freearea)) }}
             </div>
         {% endif %}
     </div>

@@ -55,9 +55,7 @@ class TwigExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('CustomizeNewProduct', array($this, 'getCustomizeNewProduct')),
-            new \Twig_SimpleFunction('CustomizeIceProduct', array($this, 'getCustomizeIceProduct')),
-            new \Twig_SimpleFunction('CustomizeCoffeeProduct', array($this, 'getCustomizeCoffeeProduct')),
-            new \Twig_SimpleFunction('CustomizeBreadProduct', array($this, 'getCustomizeBreadProduct')),
+            new \Twig_SimpleFunction('CustomizeCategoryProduct', array($this, 'getCustomizeCategoryProduct')),
         );
     }
 
@@ -106,11 +104,12 @@ class TwigExtension extends \Twig_Extension
 
     /**
      *
-     * アイスクリームの商品を返す
+     * 特定のカテゴリーの商品を全件返す
      *
+     * @param $cat_id
      * @return Products|null
      */
-    public function getCustomizeIceProduct()
+    public function getCustomizeCategoryProduct($cat_id)
     {
         try {
             //検索条件の新着順を定義
@@ -124,99 +123,22 @@ class TwigExtension extends \Twig_Extension
             $searchData['orderby'] = $query->getOneOrNullResult();
 
             //カテゴリの指定
-            $cat_id = 1;
+            //$cat_id = cat_id;
             $qb = $this->entityManager->createQueryBuilder();
-            $query = $qb->select("ctg")
-                ->from("Eccube\\Entity\\Category", "ctg")
-                ->where('ctg.id = :id')
-                ->setParameter('id', $cat_id)
-                ->getQuery();
-            $searchData['category_id'] = $query->getOneOrNullResult();
 
-            //商品情報を全件取得
-            //$qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
-            $LoginTypeInfo = $this->getLoginTypeInfo();
-            $qb = $this->productRepository->getQueryBuilderBySearchDataWithLoginTypeInfo($searchData, $LoginTypeInfo);
-            $query = $qb->getQuery();
-            $products = $query->getResult();
-            return $products;
-
-        } catch (\Exception $e) {
-            return null;
-        }
-        return null;
-    }
-
-    /**
-     *
-     * コーヒーの商品を返す
-     *
-     * @return Products|null
-     */
-    public function getCustomizeCoffeeProduct()
-    {
-        try {
-            //検索条件の新着順を定義
-            $searchData = array();
-            $qb = $this->entityManager->createQueryBuilder();
-            $query = $qb->select("plob")
-                ->from("Eccube\\Entity\\Master\\ProductListOrderBy", "plob")
-                ->where('plob.id = :id')
-                ->setParameter('id', $this->eccubeConfig['eccube_product_order_newer'])
-                ->getQuery();
-            $searchData['orderby'] = $query->getOneOrNullResult();
-
-            //カテゴリの指定
-            $cat_id = 2;
-            $qb = $this->entityManager->createQueryBuilder();
-            $query = $qb->select("ctg")
-                ->from("Eccube\\Entity\\Category", "ctg")
-                ->where('ctg.id = :id')
-                ->setParameter('id', $cat_id)
-                ->getQuery();
-            $searchData['category_id'] = $query->getOneOrNullResult();
-
-            //商品情報を全件取得
-            //$qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
-            $LoginTypeInfo = $this->getLoginTypeInfo();
-            $qb = $this->productRepository->getQueryBuilderBySearchDataWithLoginTypeInfo($searchData, $LoginTypeInfo);
-            $query = $qb->getQuery();
-            $products = $query->getResult();
-            return $products;
-
-        } catch (\Exception $e) {
-            return null;
-        }
-        return null;
-    }
-
-    /**
-     *
-     * ブレッドの商品を返す
-     *
-     * @return Products|null
-     */
-    public function getCustomizeBreadProduct()
-    {
-        try {
-            //検索条件の新着順を定義
-            $searchData = array();
-            $qb = $this->entityManager->createQueryBuilder();
-            $query = $qb->select("plob")
-                ->from("Eccube\\Entity\\Master\\ProductListOrderBy", "plob")
-                ->where('plob.id = :id')
-                ->setParameter('id', $this->eccubeConfig['eccube_product_order_newer'])
-                ->getQuery();
-            $searchData['orderby'] = $query->getOneOrNullResult();
-
-            //カテゴリの指定
-            $cat_id = 5;
-            $qb = $this->entityManager->createQueryBuilder();
-            $query = $qb->select("ctg")
-                ->from("Eccube\\Entity\\Category", "ctg")
-                ->where('ctg.id = :id')
-                ->setParameter('id', $cat_id)
-                ->getQuery();
+            if($cat_id !== -1) {
+                $query = $qb->select("ctg")
+                    ->from("Eccube\\Entity\\Category", "ctg")
+                    ->where('ctg.id = :id')
+                    ->setParameter('id', $cat_id)
+                    ->getQuery();
+            } else {
+                $arr = [1,2,5];
+                $query = $qb->select("ctg")
+                    ->where('ctg.id NOT IN (:id)')
+                    ->setParameter('id', $arr)
+                    ->getQuery();
+            }
             $searchData['category_id'] = $query->getOneOrNullResult();
 
             //商品情報を全件取得
