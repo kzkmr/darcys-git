@@ -1,0 +1,605 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>販売店契約登録申請画面(販売店契約)</title>
+<style>
+    body{
+        margin:0;
+        font-family: 'Noto Sans JP', sans-serif;
+    }
+.c-form {
+	max-width: 750px;
+	margin: 0 auto;
+    padding-bottom: 5rem;
+}
+.c-form__item {
+	display: flex;
+	flex-wrap: wrap;
+/*	justify-content: space-evenly;
+*/	margin-bottom: 20px;
+}
+.c-form__label,
+.c-form__input {
+	padding: 10px;
+}
+.c-form__label {
+	width: 90%;
+}
+.c-form__input {
+	width: 90%;
+	font-size: 16px;
+	border: solid 1px #ddd;
+	border-radius: 4px;
+}
+.c-form__input:focus-visible {
+	outline: green auto 1px;
+}
+.c-form__required {
+	color: #fff;
+	background-color: red;
+	border-radius: 3px;
+	padding: 4px 10px;
+    font-size: 0.8rem;
+    letter-spacing: 0.1rem;
+    width: 20%;
+    text-align: center;
+    margin-bottom: 3rem;
+
+}
+textarea.c-form__input {
+	height: 160px;
+}
+.c-form__submit {
+	text-align: center;
+}
+.c-form__submit button {
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #323A45;
+	border: solid 1px #323A45;
+	border-radius: 4px;
+	padding: 5px 0px;
+	transition: 0.4s;
+	cursor: pointer;
+    margin-top: 2rem;
+    width: 100%;
+    box-shadow: 1px 2px 2px 2px #333;
+}
+.c-form__submit button:hover {
+	color: green;
+	background-color: transparent;
+}
+
+@media (min-width: 640px) {
+	.c-form__item {
+		flex-wrap: nowrap;
+	}
+	.c-form__label {
+		width: 40%;
+	}
+	.c-form__input {
+		width: 55%;
+	}
+}
+</style>
+</head>
+<body>
+
+<h1 style="font-size: 1.3rem; text-align: center; margin:0 0 3rem 0; background-color: #323A45; padding:1rem 0; font-size: bold; letter-spacing: 0.4rem; color: #fff;"><img src="darcys-factory-logo-w.png" alt="darcys-logo" style="padding-bottom: 1rem;" width="100px;"><br>販売店契約登録申請画面(販売店契約)</h1>
+<form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSeoh_8WyaKOYJBoshaLWLB99RsnXoguQy8_G5-VI7fLmAMxbw/formResponse" method="POST" class="c-form">
+    <div class="c-form__required">※全て必須項目です</div>
+	<div class="c-form__item"><label  class="c-form__label" for="app-class">申込者の契約区分<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="houjin" name="entry.831105016" value="法人" required="required"><label for="app-class">法人</label>
+      <input type="radio" id="kojinjigyounusi" name="entry.831105016" value="個人事業主" required="required"><label for="app-class">個人事業主</label>
+    <input type="radio" id="kojin" name="entry.831105016" value="個人" required="required"><label for="app-class">個人</label></div>
+     </div>
+<p style="background-color: #f6f6f6; padding:0.5rem; text-align: center; letter-spacing: 0.5rem; font-weight: bold;">申込者情報</p>
+	<div class="c-form__item">
+		<label class="c-form__label" for="company-no"
+			>法人番号<span style="font-size:0.4rem; color: red;">　(13ケタで入力)</span><!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1669139423"
+			class="c-form__input"
+			id="company-no"
+			placeholder=""
+			type="text"
+			required="required"/></div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="company-name"
+			>法人名・屋号<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.235352537"
+			class="c-form__input"
+			id="company-name"
+			placeholder="株式会社BENESEED"
+			type="text"
+			required="required"/></div>
+        
+	<div class="c-form__item">
+		<label class="c-form__label" for="company-name-kana"
+			>法人名・屋号（フリガナ）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1914249089"
+			class="c-form__input"
+			id="company-name-kana"
+			placeholder="カブシキガイシャベネシード"
+			type="text"
+			required="required"/>
+	</div>
+
+	<div class="c-form__item">
+		<label class="c-form__label" for="company-day"
+			>設立日（開業日）<!--<span class="c-form__required">必須</span>--></label
+		>
+		<input
+            name="entry.211371057"
+			class="c-form__input"
+			id="company-day"
+			placeholder=""
+			type="date"
+			required="required"/>
+        </div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="post"
+			>郵便番号<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1224079317"
+			class="c-form__input"
+			id="post"
+			placeholder="530-0014"
+			type="text"
+			required="required"/>
+        </div>    
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="address"
+			>住所<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.224481069"
+			class="c-form__input"
+			id="address"
+			placeholder="大阪府大阪市北区鶴野町1-9 梅田ゲートタワー19F"
+			type="text"
+			required="required"/>
+        </div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="address-kana"
+			>住所（カナ）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1728452048"
+			class="c-form__input"
+			id="address-kana"
+			placeholder="オオサカフオオサカシキタクツルノチョウ1-9 ウメダゲートタワー19F"
+			type="text"
+			required="required"/>
+        </div>
+    
+    <div class="c-form__item">
+		<label class="c-form__label" for="field-name">代表者名<span style="font-size: 0.5rem;">&nbsp;※個人の方は氏名をご入力ください</span><!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1903024623"
+			class="c-form__input"
+			id="field-name"
+			placeholder="種田 太郎"
+			type="text"
+			required="required"/></div>
+        
+	<div class="c-form__item">
+		<label class="c-form__label" for="field-name-kana"
+			>代表者名（フリガナ）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.88648321"
+			class="c-form__input"
+			id="field-name-kana"
+			placeholder="タネダ タロウ"
+			type="text"
+			required="required"/>
+	</div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="field-mail"
+			>連絡用メールアドレス<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1486304722"
+            class="c-form__input"
+			id="field-mail"
+			placeholder="info@darcys-factory.com"
+			type="email"
+			required="required"/>
+	</div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="field-mail-sub"
+			>連絡用メールアドレス（確認用）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.591674589"
+            class="c-form__input"
+			id="field-mail-sub"
+			placeholder="info@darcys-factory.com"
+			type="email"
+			required="required"/>
+	</div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="phone">固定電話<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.2086791192"
+			class="c-form__input"
+			id="phone"
+			placeholder="06-7166-8877"
+			type="text"
+			required="required"/>
+        </div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="m-phone"
+			>携帯電話<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.70826260"
+			class="c-form__input"
+			id="m-phone"
+			placeholder="090-0000-0000"
+			type="text"
+			required="required"/>
+        </div>    
+
+<p style="background-color: #f6f6f6; padding:0.5rem; text-align: center; letter-spacing: 0.5rem; font-weight: bold;">仲介者情報</p>
+	<div class="c-form__item">
+		<label class="c-form__label" for="company-name2"
+			>法人名・屋号<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1476760696"
+			class="c-form__input"
+			id="company-name2"
+			placeholder="株式会社BENESEED"
+			type="text"
+			required="required"/></div>
+        
+	<div class="c-form__item">
+		<label class="c-form__label" for="company-name-kana2"
+			>法人名・屋号（フリガナ）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1885390647"
+			class="c-form__input"
+			id="company-name-kana2"
+			placeholder="カブシキガイシャベネシード"
+			type="text"
+			required="required"/>
+	</div>
+    <div class="c-form__item">
+		<label class="c-form__label" for="field-name2">代表者氏名<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.840287614"
+			class="c-form__input"
+			id="field-name2"
+			placeholder="種田 太郎"
+			type="text"
+			required="required"/></div>
+        
+	<div class="c-form__item">
+		<label class="c-form__label" for="field-name-kana2"
+			>代表者氏名（フリガナ）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1805275720"
+			class="c-form__input"
+			id="field-name-kana2"
+			placeholder="タネダ タロウ"
+			type="text"
+			required="required"/>
+	</div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="d-code">ディーラーコード<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1698118974"
+			class="c-form__input"
+			id="d-code"
+			placeholder=""
+			type="text"
+			required="required"/>
+	</div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="phone-2">電話番号<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.2107971320"
+			class="c-form__input"
+			id="phone-2"
+			placeholder="06-7166-7000"
+			type="text"
+			required="required"/>
+	</div>
+    
+	<div class="c-form__item"><label  class="c-form__label" for="trade">取引口座選択<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="o-bk" name="entry.1206459742" value="ゆうちょ銀行以外の銀行"><label for="deposit-type" required="required">ゆうちょ銀行以外の銀行</label>
+      <input type="radio" id="y-bk" name="entry.1206459742" value="ゆうちょ銀行"><label for="deposit-type" required="required">ゆうちょ銀行</label>
+    </div>
+     </div>
+    <p style="background-color: #f6f6f6; padding:0.5rem; text-align: center; letter-spacing: 0.5rem; font-weight: bold;">ゆうちょ銀行以外の銀行</p>
+	<div class="c-form__item">
+		<label class="c-form__label" for="bank-name"
+			>金融機関名<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1062036898"
+            class="c-form__input"
+			id="bank-name"
+			placeholder="○○○○○銀行"
+			type="text"
+			required="required"/>
+	</div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="branch-name"
+			>支店名<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.260625590"
+            class="c-form__input"
+			id="branch-name"
+			placeholder="梅田支店"
+			type="text"
+			required="required"/>
+	</div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="branch-code"
+			>支店コード<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1227877205"
+            class="c-form__input"
+			id="branch-code"
+			placeholder="123"
+			type="text"
+			required="required"/>
+	</div>    
+    
+	<div class="c-form__item"><label  class="c-form__label" for="deposit-type">預金種目<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="nomal" name="entry.774588238" value="普通"><label for="deposit-type" required="required">普通</label>
+      <input type="radio" id="current" name="entry.774588238" value="当座"><label for="deposit-type" required="required">当座</label>
+    </div>
+     </div>
+
+	<div class="c-form__item">
+		<label class="c-form__label" for="account-no"
+			>口座番号<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1238943393"
+            class="c-form__input"
+			id="account-no"
+			placeholder="123456"
+			type="text"
+			required="required"
+		/>
+	</div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="account-name"
+			>口座名義<span style="font-size: 0.5rem;">&nbsp;※契約者名義の口座に限る</span><!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1509154460"
+            class="c-form__input"
+			id="account-name"
+			placeholder="種田 太郎"
+			type="text"
+			required="required"
+		/>
+	</div>     
+	<div class="c-form__item">
+		<label class="c-form__label" for="account-name-kana"
+			>口座名義（フリガナ）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1033270457"
+            class="c-form__input"
+			id="account-name-kana"
+			placeholder="タネダ タロウ"
+			type="text"
+			required="required"
+		/>
+	</div>
+    <div style="background-color: #f6f6f6; padding:0.5rem; text-align: center;margin-bottom: 1rem;"><span style="letter-spacing: 0.5rem; font-weight: bold; margin: 0;">販売店舗情報</span><p style="font-size: 0.5rem; margin: 0;">&nbsp;※複数店舗がある方は、本契約後に追加登録していただきます</p></div>
+    <div class="c-form__item"><label  class="c-form__label" for="my-shop-type">販売店舗の関連性<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%; padding:0.5rem 0.5rem 0.5rem 0;">
+        <input type="radio" id="my-shop" name="entry.2145161061" value="自社店舗"><label for="deposit-type" required="required">自社店舗</label>
+      <input type="radio" id="suppliers" name="entry.2145161061" value="自社以外(取引先）"><label for="deposit-type" required="required">自社以外(取引先）</label>
+    </div>
+     </div>
+    <div class="c-form__item"><label class="c-form__label" for="sales-type">販売店の業務形態<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="food" name="entry.1083221502" value="食料品販売"><label for="deposit-type" required="required">食料品販売</label>
+      <input type="radio" id="restaurant" name="entry.1083221502" value="飲食店"><label for="deposit-type" required="required">飲食店</label>
+      <input type="radio" id="other" name="entry.1083221502" value="その他"><label for="deposit-type" required="required">その他</label>
+    <input name="entry.1083221502" class="c-form__input" type="text" required="required"/>
+</div>
+     </div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="sales-name">販売店名<!--<span class="c-form__required">必須</span>--></label
+		>
+		<input
+            name="entry.788699443"
+			class="c-form__input"
+			id="sales-name"
+			placeholder="ダシーズファクトリー"
+			type="text"
+			required="required"/>
+        </div>    
+	<div class="c-form__item">
+		<label class="c-form__label" for="sales-name-kana">販売店名（フリガナ）<!--<span class="c-form__required">必須</span>--></label
+		>
+		<input
+            name="entry.231139501"
+			class="c-form__input"
+			id="sales-name-kana"
+			placeholder="ダシーズファクトリー"
+			type="text"
+			required="required"/>
+        </div>       
+	<div class="c-form__item">
+		<label class="c-form__label" for="operating-company">運営会社・運営者<span style="font-size: 0.5rem;">&nbsp;※個人事業主・個人は運営者名を入力してください</span><!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.141798019"
+			class="c-form__input"
+			id="operating-company"
+			placeholder="株式会社ベネシード"
+			type="text"
+			required="required"/>
+        </div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="operating-company-kana">運営会社・運営者(フリガナ)<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1515972530"
+			class="c-form__input"
+			id="operating-company-kana"
+			placeholder="カブシキガイシャベネシード"
+			type="text"
+			required="required"/>
+        </div>
+	<div class="c-form__item"><label  class="c-form__label" for="provide">提供方法<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="take-out" name="entry.758112856" value="テイクアウト専門"><label for="deposit-type" required="required">テイクアウト専門</label>
+      <input type="radio" id="eat-in" name="entry.758112856" value="テイクアウト＆イートイン"><label for="deposit-type" required="required">テイクアウト＆イートイン</label>
+    </div>
+     </div>    
+	<div class="c-form__item"><label  class="c-form__label" for="provide-type">提供スタイル<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="cup" name="entry.219025524" value="カップでの提供"><label for="deposit-type" required="required">カップでの提供</label>
+      <input type="radio" id="cup-out" name="entry.219025524" value="カップから出して提供"><label for="deposit-type" required="required">カップから出して提供</label>
+    </div>
+     </div>
+
+	<div class="c-form__item">
+		<label class="c-form__label" for="s-post">店舗郵便番号<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1078345433"
+			class="c-form__input"
+			id="s-post"
+			placeholder="530-0014"
+			type="text"
+			required="required"/>
+        </div>    
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="s-address"
+			>店舗所在地<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.293583184"
+			class="c-form__input"
+			id="s-address"
+			placeholder="大阪府大阪市北区鶴野町1-9 梅田ゲートタワー19F"
+			type="text"
+			required="required"/>
+        </div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="person-c-name">担当者名<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1728452048"
+			class="c-form__input"
+			id="person-c-name"
+			placeholder="種田 太郎"
+			type="text"
+			required="required"/>
+        </div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="phone">店舗連絡先（電話番号）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.360675196"
+			class="c-form__input"
+			id="s-phone"
+			placeholder="06-7166-8877"
+			type="text"
+			required="required"/>
+        </div>        
+
+	<div class="c-form__item">
+		<label class="c-form__label" for="s-email">店舗メールアドレス<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.360675196"
+            class="c-form__input"
+			id="s-email"
+			placeholder="info@darcys-factory.com"
+			type="text"
+			required="required"/>
+	</div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="s-email-check"
+			>店舗メールアドレス（確認用）<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1012923803"
+            class="c-form__input"
+			id="s-email-check"
+			placeholder="info@darcys-factory.com"
+			type="text"
+			required="required"/>
+	</div>
+	<div class="c-form__item"><label  class="c-form__label" for="provide">WEBショップはありますか<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="w-yes" name="entry.1269192279" value="ある"><label for="deposit-type" required="required">ある</label>
+      <input type="radio" id="w-no" name="entry.1269192279" value="ない"><label for="deposit-type" required="required">ない</label>
+    </div>
+     </div>   
+    <div style="background-color: #f6f6f6; padding:0.5rem; text-align: center; margin-bottom: 1rem;"><span style="letter-spacing: 0.5rem; font-weight: bold; margin: 0;">出店WEBショップ情報</span><p style="font-size: 0.5rem; margin: 0;">&nbsp;※複数店舗がある方は、本契約後に追加登録していただきます</p></div>
+    
+	<div class="c-form__item">
+		<label class="c-form__label" for="web-s-name">ＷＥＢショップ店舗名<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.167964482"
+            class="c-form__input"
+			id="web-s-name"
+			placeholder="ダシーズファクトリーWEB"
+			type="text"
+			required="required"/>
+	</div>
+	<div class="c-form__item">
+		<label class="c-form__label" for="s-url"
+			>出店WEBショツプURL<!--<span class="c-form__required">必須</span>--></label>
+		<input
+            name="entry.1781523183"
+            class="c-form__input"
+			id="s-url"
+			placeholder="https://darcys-factory"
+			type="text"
+			required="required"/>
+	</div>
+	<div class="c-form__item"><label  class="c-form__label" for="site-admini">サイト運営会社名<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="contractor" name="entry.1753138129" value="契約者情報の代表者と同じ"><label for="deposit-type" required="required">契約者情報の代表者と同じ</label>
+      <input type="radio" id="sales" name="entry.1753138129" value="販売店情報の運営会社と同じ"><label for="deposit-type" required="required">販売店情報の運営会社と同じ</label>
+    </div>
+     </div>   
+	<div class="c-form__item"><label  class="c-form__label" for="site-admini-rp">WEBショップ運営担当者
+<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="contractor-2" name="entry.1651502989" value="契約者情報の代表者と同じ"><label for="deposit-type" required="required">契約者情報の代表者と同じ</label>
+      <input type="radio" id="other-2" name="entry.1651502989" value="その他"><label for="deposit-type" required="required">その他</label>
+    <input name="entry.1651502989" class="c-form__input" type="text" required="required"/>
+      </div>
+     </div>    
+	<div class="c-form__item"><label  class="c-form__label" for="site-admini-phone">運営担当者電話番号<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="contractor-phone" name="entry.115399668" value="契約者情報の固定電話番号と同じ"><label for="deposit-type" required="required">契約者情報の固定電話番号と同じ</label>
+      <input type="radio" id="sales-phone" name="entry.115399668" value="販売店舗連絡先に同じ"><label for="deposit-type" required="required">販売店舗連絡先に同じ</label>
+      <input type="radio" id="other-3" name="entry.115399668" value="その他"><label for="deposit-type" required="required">その他</label>
+    <input name="entry.115399668" class="c-form__input" type="text" required="required"/>
+    </div>
+     </div>      
+	<div class="c-form__item"><label  class="c-form__label" for="site-admini-mail">運営担当者メールアドレス<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%;">
+        <input type="radio" id="contractor-mail" name="entry.639341078" value="契約者情報の固定電話番号と同じ"><label for="deposit-type" required="required">契約者情報のメールアドレスと同じ</label>
+      <input type="radio" id="sales-mail" name="entry.639341078" value="販売店舗連絡先に同じ"><label for="deposit-type" required="required">店舗メールアドレスに同じ</label>
+      <input type="radio" id="other-4" name="entry.639341078" value="その他"><label for="deposit-type" required="required">その他</label>
+    <input name="entry.639341078" class="c-form__input" type="text" required="required"/>
+    </div>
+     </div> 
+	<div class="c-form__item"><label  class="c-form__label" for="finish">入力フォームを送信してもよろしいですか？
+<!--<span class="c-form__required">必須</span>--></label>
+        <div style="width:55%; padding:0.5rem 0;">
+        <input type="radio" id="yes-fin" name="entry.271461901" value="はい。問題ございません"><label for="deposit-type" required="required">はい。問題ございません</label>
+      <input type="radio" id="no-fin" name="entry.271461901" value="もう一度確認する"><label for="deposit-type" required="required">もう一度確認する</label></div></div>
+
+	<div class="c-form__submit">
+		<button type="submit">送信する</button>
+	</div>
+</form>
+</body>
+</html>
