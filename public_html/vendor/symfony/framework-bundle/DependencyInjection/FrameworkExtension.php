@@ -1216,7 +1216,9 @@ class FrameworkExtension extends Extension
             $container->getDefinition('console.command.translation_update')->replaceArgument(6, $transPaths);
         }
 
-        if ($container->fileExists($defaultDir)) {
+        if (null === $defaultDir) {
+            // allow null
+        } elseif ($container->fileExists($defaultDir)) {
             $dirs[] = $defaultDir;
         } else {
             $nonExistingDirs[] = $defaultDir;
@@ -1266,7 +1268,7 @@ class FrameworkExtension extends Extension
                     'scanned_directories' => $scannedDirectories = array_merge($dirs, $nonExistingDirs),
                     'cache_vary' => [
                         'scanned_directories' => array_map(static function (string $dir) use ($projectDir): string {
-                            return 0 === strpos($dir, $projectDir.'/') ? substr($dir, 1 + \strlen($projectDir)) : $dir;
+                            return str_starts_with($dir, $projectDir.'/') ? substr($dir, 1 + \strlen($projectDir)) : $dir;
                         }, $scannedDirectories),
                     ],
                 ]
@@ -1461,9 +1463,10 @@ class FrameworkExtension extends Extension
 
             $container
                 ->getDefinition('annotations.cached_reader')
+                ->setPublic(true) // set to false in AddAnnotationsCachedReaderPass
                 ->replaceArgument(2, $config['debug'])
-                // temporary property to lazy-reference the cache provider without using it until AddAnnotationsCachedReaderPass runs
-                ->setProperty('cacheProviderBackup', new ServiceClosureArgument(new Reference($cacheService)))
+                // reference the cache provider without using it until AddAnnotationsCachedReaderPass runs
+                ->addArgument(new ServiceClosureArgument(new Reference($cacheService)))
                 ->addTag('annotations.cached_reader')
             ;
 
@@ -1673,11 +1676,11 @@ class FrameworkExtension extends Extension
 
             // Generate stores
             $storeDefinitions = [];
-            foreach ($resourceStores as $storeDsn) {
-                $storeDsn = $container->resolveEnvPlaceholders($storeDsn, null, $usedEnvs);
+            foreach ($resourceStores as $resourceStore) {
+                $storeDsn = $container->resolveEnvPlaceholders($resourceStore, null, $usedEnvs);
                 $storeDefinition = new Definition(interface_exists(StoreInterface::class) ? StoreInterface::class : PersistingStoreInterface::class);
                 $storeDefinition->setFactory([StoreFactory::class, 'createStore']);
-                $storeDefinition->setArguments([$storeDsn]);
+                $storeDefinition->setArguments([$resourceStore]);
 
                 $container->setDefinition($storeDefinitionId = '.lock.'.$resourceName.'.store.'.$container->hash($storeDsn), $storeDefinition);
 
@@ -1960,7 +1963,8 @@ class FrameworkExtension extends Extension
                 if (method_exists(TagAwareAdapter::class, 'setLogger')) {
                     $container
                         ->getDefinition($name)
-                        ->addMethodCall('setLogger', [new Reference('logger', ContainerInterface::IGNORE_ON_INVALID_REFERENCE)]);
+                        ->addMethodCall('setLogger', [new Reference('logger', ContainerInterface::IGNORE_ON_INVALID_REFERENCE)])
+                        ->addTag('monolog.logger', ['channel' => 'cache']);
                 }
 
                 $pool['name'] = $name;

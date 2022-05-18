@@ -110,7 +110,7 @@ class FormValidator extends ConstraintValidator
                 foreach ($constraints as $constraint) {
                     // For the "Valid" constraint, validate the data in all groups
                     if ($constraint instanceof Valid) {
-                        if (\is_object($data)) {
+                        if (\is_object($data) || \is_array($data)) {
                             $validator->atPath('data')->validate($data, $constraint, $groups);
                         }
 
@@ -260,8 +260,16 @@ class FormValidator extends ConstraintValidator
 
     private static function getConstraintsInGroups($constraints, $group)
     {
-        return array_filter($constraints, static function (Constraint $constraint) use ($group) {
-            return \in_array($group, $constraint->groups, true);
+        $groups = (array) $group;
+
+        return array_filter($constraints, static function (Constraint $constraint) use ($groups) {
+            foreach ($groups as $group) {
+                if (\in_array($group, $constraint->groups, true)) {
+                    return true;
+                }
+            }
+
+            return false;
         });
     }
 }

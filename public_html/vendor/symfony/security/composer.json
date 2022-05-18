@@ -20,6 +20,7 @@
         "symfony/event-dispatcher-contracts": "^1.1|^2",
         "symfony/http-foundation": "^3.4.40|^4.4.7|^5.0.7",
         "symfony/http-kernel": "^4.4",
+        "symfony/polyfill-php80": "^1.16",
         "symfony/property-access": "^3.4|^4.0|^5.0",
         "symfony/service-contracts": "^1.1|^2"
     },
@@ -39,7 +40,7 @@
         "symfony/expression-language": "^3.4|^4.0|^5.0",
         "symfony/ldap": "^4.4|^5.0",
         "symfony/translation": "^4.4|^5.0",
-        "psr/log": "~1.0"
+        "psr/log": "^1|^2|^3"
     },
     "conflict": {
         "symfony/event-dispatcher": ">=5",

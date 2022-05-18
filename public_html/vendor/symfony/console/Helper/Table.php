@@ -369,39 +369,59 @@ class Table
 
         $this->calculateNumberOfColumns($rows);
 
-        $rows = $this->buildTableRows($rows);
-        $this->calculateColumnsWidth($rows);
+        $rowGroups = $this->buildTableRows($rows);
+        $this->calculateColumnsWidth($rowGroups);
 
         $isHeader = !$this->horizontal;
         $isFirstRow = $this->horizontal;
-        foreach ($rows as $row) {
-            if ($divider === $row) {
-                $isHeader = false;
-                $isFirstRow = true;
+        $hasTitle = (bool) $this->headerTitle;
 
-                continue;
-            }
-            if ($row instanceof TableSeparator) {
-                $this->renderRowSeparator();
+        foreach ($rowGroups as $rowGroup) {
+            $isHeaderSeparatorRendered = false;
 
-                continue;
-            }
-            if (!$row) {
-                continue;
-            }
+            foreach ($rowGroup as $row) {
+                if ($divider === $row) {
+                    $isHeader = false;
+                    $isFirstRow = true;
 
-            if ($isHeader || $isFirstRow) {
-                if ($isFirstRow) {
-                    $this->renderRowSeparator(self::SEPARATOR_TOP_BOTTOM);
-                    $isFirstRow = false;
-                } else {
-                    $this->renderRowSeparator(self::SEPARATOR_TOP, $this->headerTitle, $this->style->getHeaderTitleFormat());
+                    continue;
                 }
-            }
-            if ($this->horizontal) {
-                $this->renderRow($row, $this->style->getCellRowFormat(), $this->style->getCellHeaderFormat());
-            } else {
-                $this->renderRow($row, $isHeader ? $this->style->getCellHeaderFormat() : $this->style->getCellRowFormat());
+
+                if ($row instanceof TableSeparator) {
+                    $this->renderRowSeparator();
+
+                    continue;
+                }
+
+                if (!$row) {
+                    continue;
+                }
+
+                if ($isHeader && !$isHeaderSeparatorRendered) {
+                    $this->renderRowSeparator(
+                        $isHeader ? self::SEPARATOR_TOP : self::SEPARATOR_TOP_BOTTOM,
+                        $hasTitle ? $this->headerTitle : null,
+                        $hasTitle ? $this->style->getHeaderTitleFormat() : null
+                    );
+                    $hasTitle = false;
+                    $isHeaderSeparatorRendered = true;
+                }
+
+                if ($isFirstRow) {
+                    $this->renderRowSeparator(
+                        $isHeader ? self::SEPARATOR_TOP : self::SEPARATOR_TOP_BOTTOM,
+                        $hasTitle ? $this->headerTitle : null,
+                        $hasTitle ? $this->style->getHeaderTitleFormat() : null
+                    );
+                    $isFirstRow = false;
+                    $hasTitle = false;
+                }
+
+                if ($this->horizontal) {
+                    $this->renderRow($row, $this->style->getCellRowFormat(), $this->style->getCellHeaderFormat());
+                } else {
+                    $this->renderRow($row, $isHeader ? $this->style->getCellHeaderFormat() : $this->style->getCellRowFormat());
+                }
             }
         }
         $this->renderRowSeparator(self::SEPARATOR_BOTTOM, $this->footerTitle, $this->style->getFooterTitleFormat());
@@ -585,13 +605,14 @@ class Table
 
         return new TableRows(function () use ($rows, $unmergedRows): \Traversable {
             foreach ($rows as $rowKey => $row) {
-                yield $this->fillCells($row);
+                $rowGroup = [$row instanceof TableSeparator ? $row : $this->fillCells($row)];
 
                 if (isset($unmergedRows[$rowKey])) {
-                    foreach ($unmergedRows[$rowKey] as $unmergedRow) {
-                        yield $this->fillCells($unmergedRow);
+                    foreach ($unmergedRows[$rowKey] as $row) {
+                        $rowGroup[] = $row instanceof TableSeparator ? $row : $this->fillCells($row);
                     }
                 }
+                yield $rowGroup;
             }
         });
     }
@@ -670,7 +691,7 @@ class Table
     /**
      * fill cells for a row that contains colspan > 1.
      */
-    private function fillCells($row)
+    private function fillCells(iterable $row)
     {
         $newRow = [];
 
@@ -732,14 +753,15 @@ class Table
     /**
      * Calculates columns widths.
      */
-    private function calculateColumnsWidth(iterable $rows)
+    private function calculateColumnsWidth(iterable $groups)
     {
         for ($column = 0; $column < $this->numberOfColumns; ++$column) {
             $lengths = [];
-            foreach ($rows as $row) {
-                if ($row instanceof TableSeparator) {
-                    continue;
-                }
+            foreach ($groups as $group) {
+                foreach ($group as $row) {
+                    if ($row instanceof TableSeparator) {
+                        continue;
+                    }
 
                 foreach ($row as $i => $cell) {
                     if ($cell instanceof TableCell) {
@@ -754,7 +776,8 @@ class Table
                     }
                 }
 
-                $lengths[] = $this->getCellWidth($row, $column);
+                    $lengths[] = $this->getCellWidth($row, $column);
+                }
             }
 
             $this->effectiveColumnWidths[$column] = max($lengths) + Helper::strlen($this->style->getCellRowContentFormat()) - 2;
@@ -802,9 +825,9 @@ class Table
         $compact = new TableStyle();
         $compact
             ->setHorizontalBorderChars('')
-            ->setVerticalBorderChars(' ')
+            ->setVerticalBorderChars('')
             ->setDefaultCrossingChar('')
-            ->setCellRowContentFormat('%s')
+            ->setCellRowContentFormat('%s ')
         ;
 
         $styleGuide = new TableStyle();

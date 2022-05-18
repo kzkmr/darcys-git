@@ -142,8 +142,8 @@ abstract class IntlDateFormatter
             throw new MethodArgumentValueNotImplementedException(__METHOD__, 'calendar', $calendar, 'Only the GREGORIAN calendar is supported');
         }
 
-        $this->datetype = null !== $datetype ? $datetype : self::FULL;
-        $this->timetype = null !== $timetype ? $timetype : self::FULL;
+        $this->datetype = $datetype ?? self::FULL;
+        $this->timetype = $timetype ?? self::FULL;
 
         if ('' === ($pattern ?? '')) {
             $pattern = $this->getDefaultPattern();
@@ -530,7 +530,7 @@ abstract class IntlDateFormatter
         $timeZone = $timeZoneId;
 
         // Get an Etc/GMT time zone that is accepted for \DateTimeZone
-        if ('GMT' !== $timeZoneId && 0 === strpos($timeZoneId, 'GMT')) {
+        if ('GMT' !== $timeZoneId && str_starts_with($timeZoneId, 'GMT')) {
             try {
                 $timeZoneId = DateFormat\TimezoneTransformer::getEtcTimeZoneId($timeZoneId);
             } catch (\InvalidArgumentException $e) {

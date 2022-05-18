@@ -59,7 +59,7 @@ class CacheClearCommand extends Command
             ])
             ->setDescription('Clear the cache')
             ->setHelp(<<<'EOF'
-The <info>%command.name%</info> command clears the application cache for a given environment
+The <info>%command.name%</info> command clears and warms up the application cache for a given environment
 and debug mode:
 
   <info>php %command.full_name% --env=dev</info>
@@ -81,7 +81,7 @@ EOF
         $realCacheDir = $kernel->getContainer()->getParameter('kernel.cache_dir');
         // the old cache dir name must not be longer than the real one to avoid exceeding
         // the maximum length of a directory or file path within it (esp. Windows MAX_PATH)
-        $oldCacheDir = substr($realCacheDir, 0, -1).('~' === substr($realCacheDir, -1) ? '+' : '~');
+        $oldCacheDir = substr($realCacheDir, 0, -1).(str_ends_with($realCacheDir, '~') ? '+' : '~');
         $fs->remove($oldCacheDir);
 
         if (!is_writable($realCacheDir)) {
@@ -142,7 +142,7 @@ EOF
                     }
                     $mount = implode(' ', $mount).'/';
 
-                    if (0 === strpos($realCacheDir, $mount)) {
+                    if (str_starts_with($realCacheDir, $mount)) {
                         $io->note('For better performances, you should move the cache and log directories to a non-shared folder of the VM.');
                         $oldCacheDir = false;
                         break;

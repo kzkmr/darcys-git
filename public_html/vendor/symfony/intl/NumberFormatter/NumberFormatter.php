@@ -272,7 +272,7 @@ abstract class NumberFormatter
             throw new MethodArgumentNotImplementedException(__METHOD__, 'pattern');
         }
 
-        $this->style = null !== $style ? (int) $style : null;
+        $this->style = $style;
     }
 
     /**
@@ -536,7 +536,7 @@ abstract class NumberFormatter
             // value is not valid if grouping is used, but digits are not grouped in groups of three
             if ($error = isset($matches['grouping']) && !preg_match('/^-?(?:\d{1,3}+)?(?:(?:,\d{3})++|\d*+)(?:\.\d*+)?$/', $value)) {
                 // the position on error is 0 for positive and 1 for negative numbers
-                $position = 0 === strpos($value, '-') ? 1 : 0;
+                $position = str_starts_with($value, '-') ? 1 : 0;
             }
         } else {
             $error = true;
@@ -796,8 +796,6 @@ abstract class NumberFormatter
      */
     private function convertValueDataType($value, int $type)
     {
-        $type = (int) $type;
-
         if (self::TYPE_DOUBLE === $type) {
             $value = (float) $value;
         } elseif (self::TYPE_INT32 === $type) {
