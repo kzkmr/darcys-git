@@ -1,5 +1,4 @@
 @use "index";
-
 @use "component/s1_1_heading";
 @use "component/s1_2_typo";
 @use "component/s1_3_list";
@@ -22,10 +21,7 @@
 @use "project/s11_1_role";
 @use "project/s11_2_header";
 @use "project/s11_3_footer";
-
 @use "slick/slick";
-@use "slick/slick-theme";
-
 @use "project/s12_1_slider";
 @use "project/s12_2_eyecatch";
 @use "project/s12_3_button";
@@ -51,7 +47,7 @@
 @use "project/s20_1_404";
 @use "project/s21_1_withdraw";
 @use "project/s22_1_editComplete";
-
 @use "project/s23_customized-common";
 @use "project/s24_customized-top";
 @use "project/s25_customized-static";
+/*# sourceMappingURL=style.css.map */

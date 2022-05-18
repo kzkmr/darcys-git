@@ -45,7 +45,6 @@ Styleguide 13.2.1
   }
 
   .ec-product-category-title {
-    padding: 0 20px;
 
     & + .ec-shelfRole {
       margin-top: 15px;
@@ -57,6 +56,12 @@ Styleguide 13.2.1
 
     &__title {
       @include font(24px,800,1,.12em);
+
+      span {
+        display: block;
+        margin-top: 10px;
+        @include font(15px,800,1,.12em);
+      }
     }
   }
 }
@@ -64,16 +69,11 @@ Styleguide 13.2.1
 .ec-shelfGrid{
   @include reset_link;
   display: flex;
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: -10px;
+  margin-right: -10px;
   flex-wrap: wrap;
   padding: 0;
   list-style: none;
-
-  @include media_desktop {
-    margin-left: -10px;
-    margin-right: -10px;
-  }
 
   &__item {
     display: flex;
@@ -84,8 +84,14 @@ Styleguide 13.2.1
     width: calc(50% - 20px);
 
     @include media_desktop(){
-      padding: 0 0 70px;
+      padding: 0 0 90px;
       width: calc(25% - 20px);
+    }
+
+    a {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     &-image {
@@ -107,14 +113,27 @@ Styleguide 13.2.1
         object-position: center;
       }
     }
+
+    &--pb0 {
+      padding: 0;
+
+      @include media_desktop(){
+        padding: 0;
+      }
+    }
   }
 
   &__title {
     font-weight: 800;
   }
 
+  &__description {
+    margin-bottom: 12px;
+  }
+
   .price02-default {
-    margin-top: 12px;
+    margin-top: auto;
+    @include font(17px,800,1,.05em);
     text-align: right;
 
     span {
@@ -176,7 +195,7 @@ Styleguide 13.2.1
   }
 
   .price02-default {
-    margin-bottom: 18px;
+    margin-bottom: 10px;
   }
 
   .ks_select_quantity {
@@ -265,5 +284,106 @@ Styleguide 13.2.2
   }
   & &__plice {
     font-weight: bold;
+  }
+}
+
+
+/*
+商品一覧カテゴリーリスト
+*/
+
+.category-tab {
+  margin-top: 30px;
+
+  @include media_desktop(){
+    margin-top: 50px;
+  }
+
+  &__title {
+    @include font(24px,800,1,.12em);
+    color: $bl;
+
+    span {
+      display: block;
+      margin-top: 10px;
+      @include font(15px,800,1,.12em);
+    }
+  }
+
+  &__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+    @include media_desktop(){
+      margin-top: 30px;
+    }
+  }
+
+  &__item {
+    margin: 0 15px 10px;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 120px;
+      padding: .6em .12em;
+      border: 1px solid #f2f2f2;
+      @include font(18,800,1.333,.05em);
+      color: $bl;
+
+      &.category-1 {
+        background-color: #ef857d;
+        color: #fff;
+      }
+
+      &.category-2 {
+        background-color: #f8b62d;
+        color: #fff;
+      }
+
+      &.category-5 {
+        background-color: #6a3906;
+        color: #fff;
+      }
+
+      &:hover {
+        background-color: #aaa;
+        color: #fff;
+      }
+    }
+  }
+}
+
+
+/*
+商品一覧 トップ表示
+*/
+
+.online-store-information {
+  max-width: 100%;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include media_desktop(){
+    max-width: 54em;
+    margin-top: 50px;
+  }
+
+  &__text {
+    @include font(16px,500,1.8,.1em);
+    text-align: left;
+
+    @include media_desktop(){
+      @include font(18px,500,1.8,.1em);
+      text-align: center;
+    }
+
+    & + .online-store-information__text {
+      margin-top: 1em;
+    }
   }
 }

@@ -21,7 +21,6 @@ Styleguide 12.1
   }
 }
 .ec-sliderItemRole{
-  @include container;
   margin-bottom: 24px;
 
   ul{
@@ -75,6 +74,10 @@ Styleguide 12.1
         margin: 0 !important;
         padding-top: 56.25%;
         overflow: hidden;
+
+        @include media_desktop {
+          padding-top: 600px;
+        }
 
         // @media (min-width:640px) {
         //   padding-top: 66.666%;

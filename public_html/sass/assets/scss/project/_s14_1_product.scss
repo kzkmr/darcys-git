@@ -15,7 +15,6 @@ include /assets/tmpl/elements/14.1.product.pug
 Styleguide 14.1
 */
 .ec-productRole {
-  @include container;
 
   &__img {
     margin-right: 0;
@@ -151,12 +150,35 @@ Styleguide 14.1
 
   &__btn {
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 10px;
 
     @include media_desktop {
       width: 60%;
       margin: 16px auto 0;
       min-width: 350px;
+    }
+
+    &--add {
+
+      button {
+
+        &:not(.disabled) {
+          -webkit-transition-timing-function: cubic-bezier(0.6, 4, 0.3, 0.8);
+          transition-timing-function: cubic-bezier(0.6, 4, 0.3, 0.8);
+          -webkit-animation: gelatine 3s infinite;
+          animation: gelatine 3s infinite;
+        }
+      }
+    }
+
+    &--favorite {
+      width: 80%;
+
+      @include media_desktop {
+        width: 46%;
+      }
     }
   }
 
@@ -166,15 +188,28 @@ Styleguide 14.1
 
 }
 
-
-//ここからセレクト
+/*
+商品詳細レイアウト（こちらもおすすめ部分も）
+*/
 
 .ec-productRole {
 
   .ec-grid2 {
     flex-wrap: wrap;
+
+    &__column {
+      flex: 0 0 100%;
+      margin-top: 30px;
+
+      @include media_desktop {
+        margin-top: 50px;
+      }
+    }
   }
 }
+
+
+//ここからセレクト
 
 .kokokara_select_product_left {
   flex: 0 0 100%;
@@ -191,10 +226,11 @@ Styleguide 14.1
 }
 
 .kokokara_select_cart_btn_area {
-  margin: 20px auto;
+  margin: 30px auto 20px !important;
   padding: 0 5.333%;
 
   @include media_desktop {
+    margin: 40px auto 20px !important;
     padding: 0;
   }
 
@@ -255,26 +291,54 @@ Styleguide 14.1
 }
 
 //slick
-.kokokara_select_product_left {
+.kokokara_select_product_left,
+.ec-grid2__column {
   width: 100%;
 
   .ec-sliderItemRole {
-    display: flex;
 
-    .item_visual {
-      order: 2;
-      flex: 0 0 50%;
+    .item_visual_main {
+
+      div {
+
+        @include media_desktop {
+          height: 600px !important;
+        }
+      }
+
+      .slick-track {
+        display: flex;
+      }
+
+      .slick-slide {
+        max-width: 100%;
+        height: auto !important;
+        padding: 0 15px;
+
+        @include media_desktop {
+          height: 600px !important;
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+          object-position: center;
+
+          @include media_desktop {
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
     }
 
     .item_visual_thumb {
-      order: 1;
-      flex: 0 0 50%;
+      margin-top: 40px;
 
       .slide-thumb {
         position: relative;
-        width: 25%;
-
-
+        width: 16.666%;
       }
     }
   }
@@ -285,23 +349,44 @@ Styleguide 14.1
 .ec-modal-02 {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 20px;
 
   @include media_desktop {
-    margin-top: 50px;
+    margin-top: 30px;
   }
 
-  .ec-modal-02__text {
-    padding: 15px 30px;
-    border-radius: 25px;
-    @include font(20px,700,1,.05em);
-    background-color: #e7a48f;
-    color: #fff;
+  .ec-modal-02__banner {
+    max-width: 750px;
+    margin: 0 auto;
     cursor: pointer;
     user-select: none;
 
     &:hover {
       opacity: .7;
     }
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+
+//こちらもおすすめ部分
+.ec-products-top-area--new-list {
+  margin-top: 50px !important;
+
+  @include media_desktop {
+    margin-top: 75px !important;
+  }
+
+  .ec-shelfRole {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .ec-shelfGrid__item {
+    padding-bottom: 0 !important;
   }
 }

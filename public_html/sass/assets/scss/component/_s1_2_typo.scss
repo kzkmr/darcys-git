@@ -236,10 +236,24 @@ p.ec-reportDescription
 Styleguide 1.2.9
 */
 .ec-reportDescription {
-  margin-bottom: 32px;
+  margin-bottom: 40px;
+  text-align: left;
+  @include font(16px,500,1.5,0);
+
+  @include media_desktop {
+    text-align: center;
+  }
+}
+
+.ec-reportNumber {
+  @include font(17px,700,1.5,0);
   text-align: center;
-  font-size: 16px;
-  line-height: 1.4;
+}
+
+.ec-reportLink {
+  margin-bottom: 30px;
+  @include font(14px,500,1.5,0);
+  text-align: center;
 }
 
 /*

@@ -49,12 +49,11 @@ sg-wrapper:
 
 Styleguide 5.2.1
 */
-.ec-imageGrid{
+.ec-imageGrid {
   display: table;
-  @include borderTop;
   width: 100%;
 
-  & &__img{
+  &__img {
     display: table-cell;
     padding: 10px;
     width: 100px;
@@ -68,12 +67,15 @@ Styleguide 5.2.1
       width: 100%;
     }
   }
-  & &__content{
+
+  &__content {
     vertical-align: middle;
     display: table-cell;
+
     span {
       margin-left: 10px;
     }
+
     p {
       margin-bottom: 0;
     }

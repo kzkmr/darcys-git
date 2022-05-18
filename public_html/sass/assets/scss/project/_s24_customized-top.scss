@@ -11,8 +11,6 @@ Styleguide 23
 
 .ec-top-blog {
   position: relative;
-
-  @include container;
   margin-top: 30px;
   @include media_desktop {
     margin-top: 50px;

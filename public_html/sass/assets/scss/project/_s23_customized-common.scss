@@ -94,9 +94,7 @@ Styleguide 23
 /*パンくず*/
 
 .breadcrumb-wrapper {
-  max-width: 1060px;
   margin: .8rem auto 0;
-  padding: 0 5.333%;
   overflow-x: scroll;
   overflow-y: hidden;
   -ms-overflow-style: none;
@@ -105,10 +103,6 @@ Styleguide 23
 
   &::-webkit-scrollbar {
     display:none;
-  }
-
-  @media (min-width:1080px) {
-    padding: 0;
   }
 
   .breadcrumb {
@@ -153,5 +147,9 @@ Styleguide 23
         }
       }
     }
+  }
+
+  & + .ec-productRole {
+    margin-top: 30px;
   }
 }

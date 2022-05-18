@@ -17,64 +17,84 @@ Styleguide 15.1
 
 */
 .ec-cartRole{
-  @include container;
-  &::before{
-    display: none;
-  }
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin: 0 auto;
 
-  & &__progress{
+  &::before{
+    display: none;
+  }
+
+  &__progress{
     width: 100%;
     text-align: center;
   }
-  & &__error{
+
+  &__error{
     width: 100%;
     text-align: center;
+
     .ec-alert-warning {
       max-width: 80%;
       display: inline-block;
     }
   }
-  & &__totalText{
+
+  &__totalText{
     margin-bottom: 0;
     padding: 16px 0 6px;
     width: 100%;
     text-align: center;
     font-weight: normal;
+
     @include media_desktop {
       margin-bottom: 30px;
       padding: 0;
     }
   }
-  & &__cart{
+
+  &__cart{
     margin: 0;
     width: 100%;
-    @include media_desktop {
-      margin: 0 10%;
-    }
 
+    @include media_desktop {
+      width: 86%;
+      margin: 0 auto;
+    }
   }
-  & &__actions{
+
+  &__actions{
     text-align: right;
     width: 100%;
+
     @include media_desktop {
-      width:  20%;
-      margin-right: 10%;
+      width:  40%;
+      margin-right: 7%;
     }
   }
-  & &__total{
+
+  &__total{
     padding: 15px 0 30px ;
     font-weight: bold;
     font-size: 16px;
   }
-  & &__totalAmount{
+
+  &__totalAmount{
     margin-left: 30px;
     color: #de5d50;
-    font-size: 16px;
+    font-size: 18px;
+
     @include media_desktop {
       font-size: 24px;
+    }
+  }
+
+  &__totalTax{
+    font-size: 12px;
+
+    @include media_desktop {
+      font-size: 15px;
     }
   }
 
@@ -179,39 +199,43 @@ Styleguide 15.1.4
 
 .ec-cartRow{
   display: table-row;
-  & &__delColumn{
+
+  &__delColumn{
     border-bottom: 1px dotted #ccc;
     text-align: center;
     display: table-cell;
     width: 14%;
     vertical-align: middle;
+
     @include media_desktop{
       width: 8.3333333%;
     }
+
     .ec-icon {
+
       img {
-        width: 1.5em;
-        height: 1.5em;
-        @include media_desktop {
-          width: 1em;
-          height: 1em;
-        }
+        width: 1em;
+        height: 1em;
       }
     }
   }
-  & &__contentColumn{
+
+  &__contentColumn{
     border-bottom: 1px dotted #ccc;
     padding: 10px 0;
     display: table;
+
     @include media_desktop {
       display: table-cell;
     }
   }
-  & &__img{
+
+  &__img{
     display: table-cell;
     width: 40%;
     vertical-align: middle;
     padding-right: 10px;
+
     @include media_desktop {
       display: inline-block;
       min-width: 80px;
@@ -219,34 +243,49 @@ Styleguide 15.1.4
       padding-right: 0;
     }
   }
-  & &__summary{
+
+  &__summary{
     display: table-cell;
     margin-left: 5px;
     font-weight: bold;
     vertical-align: middle;
     width: 46%;
+
     @include media_desktop {
       display: inline-block;
       margin-left: 20px;
       vertical-align: middle;
     }
+
     .ec-cartRow__name {
       margin-bottom: 5px;
     }
+
     .ec-cartRow__sutbtotalSP {
       display: block;
       font-weight: normal;
+
       @include media_desktop {
         display: none;
       }
     }
+
+    .kokokara_select_group_small-letter {
+      font-size: 8px;
+
+      @include media_desktop {
+        font-size: inherit;
+      }
+    }
   }
-  & &__amountColumn{
+
+  &__amountColumn{
     display: table-cell;
     border-bottom: 1px dotted #ccc;
     vertical-align: middle;
     text-align: center;
     width: 20%;
+
     @include media_desktop {
       width: 16.66666667%;
     }
@@ -254,13 +293,16 @@ Styleguide 15.1.4
     .ec-cartRow__amount {
       display: none;
       margin-bottom: 10px;
+
       @include media_desktop {
         display: block;
       }
     }
+
     .ec-cartRow__amountSP {
       display: block;
       margin-bottom: 10px;
+
       @include media_desktop {
         display: none;
       }
@@ -269,6 +311,7 @@ Styleguide 15.1.4
     .ec-cartRow__amountUpDown {
       display: flex;
       justify-content: center;
+
       @include media_desktop {
         display: block;
       }
@@ -290,7 +333,6 @@ Styleguide 15.1.4
       text-align: center;
       background: #fff;
 
-
       .ec-cartRow__amountUpButton__icon {
         img {
           display: block;
@@ -303,6 +345,7 @@ Styleguide 15.1.4
         }
       }
     }
+
     .ec-cartRow__amountDownButton {
       margin: 0 2px;
       display: inline-block;
@@ -337,11 +380,13 @@ Styleguide 15.1.4
       cursor: default;
     }
   }
-  & &__subtotalColumn{
+
+  &__subtotalColumn{
     display: none;
     border-bottom: 1px dotted #ccc;
     text-align: right;
     width: 16.66666667%;
+
     @include media_desktop {
       display: table-cell;
     }

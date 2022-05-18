@@ -12,31 +12,37 @@ include /assets/tmpl/elements/15.2.order.pug
 
 Styleguide 15.2
 */
-.ec-orderRole{
-  @include container;
+.ec-orderRole {
   display: flex;
   flex-direction: column;
   margin-top: 0;
+
   @include media_desktop {
     margin-top: 20px;
     flex-direction: row;
   }
+
   .ec-inlineBtn {
     font-weight: normal;
   }
-  & &__detail{
+
+  &__detail {
     padding: 0;
     width: 100%;
+
     @include media_desktop {
       padding: 0 16px;
       width: 66.66666%;
     }
   }
-  & &__summary{
+
+  &__summary {
     width: 100%;
+
     .ec-inlineBtn {
       display: inline-block;
     }
+
     @include media_desktop {
       width: 33.33333%;
       padding: 0 16px;
@@ -45,14 +51,15 @@ Styleguide 15.2
       }
     }
   }
+
   .ec-borderedList {
     margin-bottom: 20px;
     border-top: 1px dotted #ccc;
+
     @include media_desktop {
       border-top: none;
     }
   }
-
 }
 
 /*
@@ -121,32 +128,34 @@ include /assets/tmpl/elements/15.2.order.pug
 
 Styleguide 15.2.3
 */
-.ec-orderDelivery{
-  & &__title{
+.ec-orderDelivery {
+
+  &__title {
     padding: 16px 0 17px;
     font-weight: bold;
     font-size: 18px;
     position: relative;
   }
-  & &__change{
+
+  &__change {
     display: inline-block;
     position: absolute;
     right: 0;
     top:0;
   }
-  & &__items{
+
+  &__items{
     @include borderBottom;
     @include borderTop;
   }
-  & &__address{
-    margin: 10px 0 18px ;
-    p{
-      margin:0;
+
+  &__address{
+    margin: 10px 0 18px;
+
+    p {
+      margin: 0;
     }
   }
-  & &__edit{
-  }
-
 }
 
 
@@ -167,6 +176,17 @@ Markup:
 Styleguide 15.2.4
 */
 .ec-orderPayment{
+
+  .ec-input {
+
+    & > p {
+      margin-bottom: 10px;
+    }
+
+    & > input[type="number"] {
+      max-width: 35%;
+    }
+  }
 
 }
 
@@ -257,12 +277,6 @@ Styleguide 15.2.6
   }
   & &__itemtSize {
     margin-bottom: 10px;
-  }
-  & &__itemtPrice {
-
-  }
-  & &__itemtNumber {
-
   }
   & &__select {
     margin-bottom: 5px;

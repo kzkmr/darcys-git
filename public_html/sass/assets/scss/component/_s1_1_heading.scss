@@ -24,7 +24,7 @@ Markup:
 
 Styleguide 1.1.1
 */
-.ec-headingTitle{
+.ec-headingTitle {
   margin: 0 0 8px;
   font-size: 32px;
   font-weight: normal;
@@ -44,13 +44,15 @@ Markup:
 
 Styleguide 1.1.2
 */
-.ec-pageHeader h1{
+.ec-pageHeader h1 {
   margin: 0 0 8px;
   border-bottom: 1px dotted #ccc;
   border-top: 1px solid #ccc;
-  padding: 8px 0 12px;
-  font-size: 16px;
+  padding: 12px 0;
+  font-size: 23px;
   font-weight: bold;
+  text-align: center;
+
   @include media_desktop {
     border-top: none;
     border-bottom: 1px solid #ccc;
