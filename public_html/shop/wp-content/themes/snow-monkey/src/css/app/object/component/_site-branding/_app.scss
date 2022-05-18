@@ -10,10 +10,13 @@
     a {
       color: inherit;
       text-decoration: none;
+      @include _transition(color);
     }
 
     .custom-logo {
-      max-width: none;
+      max-width: 100%;
+      width: 100%;
+      height: auto;
     }
   }
 
@@ -21,6 +24,7 @@
     margin-top: 2px;
     @include _font-size(13px);
     line-height: 1;
+    @include _transition(color);
   }
 }
 

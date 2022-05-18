@@ -390,6 +390,7 @@ trait Helper {
 				$now_pt = $_REQUEST['post_type'];
 			};
 		} elseif ( 'post.php' === $pagenow ) {
+			$post_id = '';
 			if ( isset( $_GET['post'] ) ) {
 				$post_id = (int) $_GET['post'];
 			} elseif ( isset( $_POST['post_ID'] ) ) {

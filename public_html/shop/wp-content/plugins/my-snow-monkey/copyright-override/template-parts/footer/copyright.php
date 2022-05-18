@@ -12,50 +12,33 @@
             </ul>
             <ul class="ec-footer-navi">
                 <li class="ec-footer-navi__link">
-                    <a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
-                </li>
-                <ul class="ec-footer-navi-child">
-                    <li class="ec-footer-navi-child__link">
-                        <a href="<?php echo esc_url(home_url('/story/story-ice-cream/')); ?>">ICE CREAM</a>
-                    </li>
-                    <li class="ec-footer-navi-child__link">
-                        <a href="">BREAD</a>
-                    </li>
-                    <li class="ec-footer-navi-child__link">
-                        <a href="">COFFEE</a>
-                    </li>
-                </ul>
-            </ul>
-            <ul class="ec-footer-navi">
-                <li class="ec-footer-navi__link">
-                    <a href="<?php echo esc_url(home_url('/concept/')); ?>">CONCEPT</a>
-                </li>
-                <ul class="ec-footer-navi-child">
-                    <li class="ec-footer-navi-child__link">
-                        <a href="">ICE CREAM</a>
-                    </li>
-                    <li class="ec-footer-navi-child__link">
-                        <a href="">BREAD</a>
-                    </li>
-                    <li class="ec-footer-navi-child__link">
-                        <a href="">COFFEE</a>
-                    </li>
-                </ul>
-            </ul>
-            <ul class="ec-footer-navi">
-                <li class="ec-footer-navi__link ec-footer-navi__link_wide">
                     <a href="<?php echo esc_url(home_url('/products/')); ?>">PRODUCTS</a>
                 </li>
-                <li class="ec-footer-navi__link ec-footer-navi__link_wide">
-                    <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
-                </li>
+                <ul class="ec-footer-navi-child">
+                    <li class="ec-footer-navi-child__link">
+                        <a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
+                    </li>
+                    <li class="ec-footer-navi-child__link">
+                        <a href="<?php echo esc_url(home_url('/concept/')); ?>">CONCEPT</a>
+                    </li>
+                </ul>
+            </ul>
+            <ul class="ec-footer-navi">
                 <li class="ec-footer-navi__link ec-footer-navi__link_wide">
                     <a href="<?php echo ec_url(); ?>/products/list">ONLINE SHOP</a>
                 </li>
+                <li class="ec-footer-navi__link ec-footer-navi__link_wide">
+                    <a href="<?php echo esc_url(home_url('/guide/')); ?>">GUIDE</a>
+                </li>
+            </ul>
+            <ul class="ec-footer-navi">
+                <li class="ec-footer-navi__link ec-footer-navi__link_wide">
+                    <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
+                </li>
             </ul>
             <ul class="ec-footer-navi">
                 <li class="ec-footer-navi__link">
-                    <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORE</a>
+                    <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORES</a>
                 </li>
             </ul>
             <ul class="ec-footer-sns-navi">
@@ -98,7 +81,7 @@
             </ul>
         </div>
         <div class="ec-footer-title" class="">
-            <div class="ec-footer-title__copyright">&copy; Darcy’S Factry Co., Ltd. All rights reserved.</div>
+            <div class="ec-footer-title__copyright">&copy; Darcy's Factory Co., Ltd. All rights reserved.</div>
         </div>
     </div>
 </div>

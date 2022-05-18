@@ -1,0 +1,152 @@
+<?php
+namespace POCHIPP;
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+ * インラインボタン出力用
+ */
+function get_inline_btn( $pid, $shop, $content, $pdata = [] ) {
+
+	$keywords             = $pdata['keywords'] ?? '';
+	$asin                 = $pdata['asin'] ?? '';
+	$custom_btn_url       = $pdata['custom_btn_url'] ?? '';
+	$custom_btn_text      = $pdata['custom_btn_text'] ?? '';
+	$custom_btn_url_2     = $pdata['custom_btn_url_2'] ?? '';
+	$custom_btn_text_2    = $pdata['custom_btn_text_2'] ?? '';
+	$is_all_search_result = $pdata['is_all_search_result'] ?? '';
+	$isCount              = $pdata['isCount'] ?? false;
+	$cvKey                = $pdata['cvKey'] ?? '';
+
+	// もしも用aid
+	$aid = \POCHIPP::get_setting( "moshimo_{$shop}_aid" );
+
+	$main_url = '';
+	// AmazonボタンURL
+	if ( 'amazon' === $shop ) {
+		$amazon_affi_url        = $pdata['amazon_affi_url'] ?? '';
+		$show_amazon_detail_url = $asin && ! $is_all_search_result;
+		$amazon_url             = $show_amazon_detail_url ? 'https://www.amazon.co.jp/dp/' . $asin : \POCHIPP::get_amazon_searched_url( $keywords );
+		$main_url               = \POCHIPP::get_amazon_affi_url( $amazon_affi_url, $amazon_url, $aid );
+	}
+
+	// 楽天ボタンURL
+	if ( 'rakuten' === $shop ) {
+		$rakuten_detail_url      = $pdata['rakuten_detail_url'] ?? '';
+		$show_rakuten_detail_url = $rakuten_detail_url && ! $is_all_search_result;
+		$rakuten_url             = $show_rakuten_detail_url ? $rakuten_detail_url : \POCHIPP::get_rakuten_searched_url( $keywords );
+		$main_url                = \POCHIPP::get_rakuten_affi_url( $rakuten_url, $aid );
+	}
+
+	// YahooボタンURL
+	if ( 'yahoo' === $shop ) {
+		$yahoo_detail_url      = $pdata['yahoo_detail_url'] ?? '';
+		$show_yahoo_detail_url = $yahoo_detail_url && ! $is_all_search_result;
+		$yahoo_url             = $show_yahoo_detail_url ? $yahoo_detail_url : \POCHIPP::get_yahoo_searched_url( $keywords );
+		$main_url              = \POCHIPP::get_yahoo_affi_url( $yahoo_url, $aid );
+	}
+
+	$is_blank = \POCHIPP::get_setting( 'show_amazon_normal_link' );
+	if ( $is_blank ) {
+		$rel_target = 'rel="nofollow noopener" target="_blank"';
+	} else {
+		$rel_target = 'rel="nofollow"';
+	}
+
+	// 追加属性
+	$ex_props = '';
+	if ( $isCount && $cvKey ) {
+		$ex_props .= ' data-cvkey="' . esc_attr( $cvKey ) . '"';
+	}
+
+	ob_start();
+	\POCHIPP\render_pochipp_btn([
+		'main_url'          => $main_url,
+		'aid'               => $aid,
+		'is_paypay'         => $pdata['is_paypay'] ?? '',
+		'custom_btn_url'    => $custom_btn_url,
+		'custom_btn_text'   => $custom_btn_text,
+		'custom_btn_url_2'  => $custom_btn_url_2,
+		'custom_btn_text_2' => $custom_btn_text_2,
+		'rel_target'        => $rel_target,
+		// 追加プロパティ
+		'content'           => $content,
+		'shop'              => $shop,
+		'ex_props'          => $ex_props,
+	]);
+	return ob_get_clean();
+}
+
+
+function render_pochipp_btn( $btn_data = [] ) {
+
+	$url               = $btn_data['main_url'] ?? '';
+	$rel_target        = $btn_data['rel_target'] ?? '';
+	$aid               = $btn_data['aid'] ?? '';
+	$is_paypay         = $btn_data['is_paypay'] ?? '';
+	$custom_btn_url    = $btn_data['custom_btn_url'] ?? '';
+	$custom_btn_text   = $btn_data['custom_btn_text'] ?? '';
+	$custom_btn_url_2  = $btn_data['custom_btn_url_2'] ?? '';
+	$custom_btn_text_2 = $btn_data['custom_btn_text_2'] ?? '';
+
+	$content  = $btn_data['content'] ?? '';
+	$shop     = $btn_data['shop'] ?? '';
+	$ex_props = $btn_data['ex_props'] ?? '';
+
+	$imp_tag   = '';
+	$btn_text  = '';
+	$add_class = '';
+	if ( 'amazon' === $shop ) {
+		// impressionタグ
+		$imp_tag = \POCHIPP::get_amazon_imptag( $aid );
+		// ボタンテキスト
+		$btn_text = $content ?? esc_html( \POCHIPP::get_setting( 'amazon_btn_text' ) );
+		// 追加クラス
+		$add_class = 'pochipp-inline__btnwrap -amazon';
+	}
+	if ( 'rakuten' === $shop ) {
+		// impressionタグ
+		$imp_tag = \POCHIPP::get_rakuten_imptag( $aid );
+		// ボタンテキスト
+		$btn_text = $content ?? esc_html( \POCHIPP::get_setting( 'rakuten_btn_text' ) );
+		// 追加クラス
+		$add_class = 'pochipp-inline__btnwrap -rakuten';
+	}
+	if ( 'yahoo' === $shop ) {
+		// impressionタグ
+		$imp_tag = \POCHIPP::get_yahoo_imptag( $aid );
+		// ボタンテキスト
+		$yahoo_text = ( $is_paypay ) ? \POCHIPP::get_setting( 'paypay_btn_text' ) : \POCHIPP::get_setting( 'yahoo_btn_text' );
+		$btn_text   = $content ?? esc_html( $yahoo_text );
+		// 追加クラス
+		$add_class = $is_paypay ? 'pochipp-inline__btnwrap -paypay' : 'pochipp-inline__btnwrap -yahoo';
+	}
+	if ( 'custom1' === $shop ) {
+		$url = $custom_btn_url;
+		// ボタンテキスト
+		$btn_text = $custom_btn_text;
+		// 追加クラス
+		$add_class = 'pochipp-inline__btnwrap -custom';
+	}
+	if ( 'custom2' === $shop ) {
+		$url = $custom_btn_url_2;
+		// ボタンテキスト
+		$btn_text = $custom_btn_text_2;
+		// 追加クラス
+		$add_class = 'pochipp-inline__btnwrap -custom_2';
+	}
+
+	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+	?>
+	<?php if ( $url ) : ?>
+		<span class="<?php echo $add_class; ?>"<?php echo $ex_props; ?>
+	>
+		<a href="<?php echo esc_url( $url ); ?>" class="pochipp-inline__btn" <?php echo $rel_target; ?>>
+			<?php echo $btn_text; ?>
+		</a>
+        <?php echo $imp_tag; ?>
+	</span>
+	<?php endif; ?>
+	<?php
+	// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+}

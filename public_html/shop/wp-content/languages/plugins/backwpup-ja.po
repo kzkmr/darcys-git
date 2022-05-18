@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - BackWPup &#8211; WordPress Backup Plugin - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-07-16 23:40:50+0000\n"
+"PO-Revision-Date: 2022-03-25 22:38:34+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,18 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - BackWPup &#8211; WordPress Backup Plugin - Stable (latest release)\n"
+
+#: src/Http/Message/StreamFactory.php:22
+msgid "Content must be a string."
+msgstr "コンテンツは文字列である必要があります。"
+
+#: src/Http/Client/WpHttpClient.php:249
+msgid "URI must not be empty."
+msgstr "URL は空にはできません。"
+
+#: inc/class-destination-email.php:74
+msgid "Note"
+msgstr "注"
 
 #: inc/class-page-about.php:658
 msgid "Restore from Microsoft Azure"
@@ -47,9 +59,29 @@ msgstr "%m = 月を2桁表記"
 msgid "Keep plugin data"
 msgstr "プラグインのデータを残す"
 
+#: views/notice/php.php:2
+msgid "For further information <a href=\"https://backwpup.com/docs/php-7-2-update/\" target=\"_blank\">see here</a>, and if any questions remain contact our support team."
+msgstr "詳しくは <a href=\"https://backwpup.com/docs/php-7-2-update/\" target=\"_blank\">こちらをご覧ください</a>。ご質問はサポートチームへどうぞ。"
+
+#: views/notice/php.php:1
+msgid "BackWPup is dropping support for PHP versions less than 7.2. As such, using outdated and unsupported versions of PHP may expose your site to security vulnerabilities. Please update PHP to the latest version. Ask your hoster if you don't know how."
+msgstr "BackWPup はバージョンが7.2未満の PHP のサポートを打ち切りました。そのため、古くてサポート対象外のバージョンの PHP を利用するとサイトにセキュリティ脆弱性が生じるかもしれません。PHP を最新バージョンにしてください。方法が不明な場合はホスティングプロバイダーへお問い合わせください。"
+
 #: inc/Notice/NoticeView.php:97
 msgid "Call to undefined method %1$s::%2$s()"
 msgstr "未定義メソッド呼び出し %1$s::%2$s()"
+
+#: inc/Notice/NoticeView.php:69
+msgid "Method %1$s::%2$s() takes at most 2 arguments; %3$d given"
+msgstr "メソッド %1$s::%2$s() には引数が2個以上必要ですが、%3$d個しかありません"
+
+#: views/notice/wordpress.php:2
+msgid "<a href=\"https://backwpup.com/support/\" target=\"_blank\">Contact our support team here</a> if any questions remain."
+msgstr "ご質問は <a href=\"https://backwpup.com/support/\" target=\"_blank\">サポートチームへご連絡ください</a>。"
+
+#: views/notice/wordpress.php:1
+msgid "BackWPup is dropping support for WordPress versions less than 5.0. Please update WordPress to the latest version. Without an update, you will not receive any new features."
+msgstr "BackWPup はバージョンが5.0未満の WordPress のサポートを打ち切りました。WordPress を最新バージョンにしてください。更新しなければ、新機能を入手できません。"
 
 #: inc/Notice/Notice.php:72
 msgid "Invalid notice type specified"
@@ -590,6 +622,10 @@ msgstr "<strong>注意</strong>: このジョブに含まれるファイルは�
 #: inc/class-jobtype-file.php:476
 msgid "Could not open path: %s"
 msgstr "パスを開けません: %s"
+
+#: views/notice/notice.php:27
+msgid "Don't show again"
+msgstr "再度表示しない"
 
 #: inc/class-s3-destination.php:97
 msgid "Amazon S3: Asia Pacific (Mumbai)"
@@ -2401,6 +2437,10 @@ msgstr "クエリー %2$s のデータベースエラー: %1$s"
 #: inc/class-mysqldump.php:116
 msgid "Cannot open SQL backup file"
 msgstr "SQL バックアップファイルを開くことができません"
+
+#: inc/class-mysqldump.php:308
+msgid "Cannot connect to MySQL database (%1$d: %2$s)"
+msgstr "MySQL データベースに接続できません (%1$d: %2$s)"
 
 #: inc/class-mysqldump.php:291
 msgid "Setting of MySQLi connection timeout failed"

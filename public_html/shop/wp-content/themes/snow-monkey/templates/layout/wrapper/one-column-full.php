@@ -5,7 +5,7 @@
  * @package snow-monkey
  * @author inc2734
  * @license GPL-2.0+
- * @version 15.1.0
+ * @version 16.4.0
  */
 
 use Framework\Helper;
@@ -19,6 +19,8 @@ use Framework\Helper;
 	data-is-full-template="true"
 	data-is-slim-width="false"
 	data-header-layout="<?php echo esc_attr( get_theme_mod( 'header-layout' ) ); ?>"
+	data-infobar-position="<?php echo esc_attr( get_theme_mod( 'infobar-position' ) ); ?>"
+	ontouchstart=""
 	>
 
 	<?php wp_body_open(); ?>
@@ -42,19 +44,22 @@ use Framework\Helper;
 			}
 			?>
 
-			<?php
-			if ( get_theme_mod( 'infobar-content' ) ) {
-				Helper::get_template_part(
-					'template-parts/common/infobar',
-					null,
-					[
-						'_content' => get_theme_mod( 'infobar-content' ),
-						'_url'     => get_theme_mod( 'infobar-url' ),
-						'_align'   => get_theme_mod( 'infobar-align' ),
-					]
-				);
-			}
-			?>
+			<?php if ( get_theme_mod( 'infobar-content' ) ) : ?>
+				<div class="p-infobar-wrapper p-infobar-wrapper--header-bottom">
+					<?php
+					Helper::get_template_part(
+						'template-parts/common/infobar',
+						null,
+						[
+							'_content' => get_theme_mod( 'infobar-content' ),
+							'_url'     => get_theme_mod( 'infobar-url' ),
+							'_target'  => get_theme_mod( 'infobar-link-target' ),
+							'_align'   => get_theme_mod( 'infobar-align' ),
+						]
+					);
+					?>
+				</div>
+			<?php endif; ?>
 
 			<?php
 			if ( Helper::display_page_header() ) {

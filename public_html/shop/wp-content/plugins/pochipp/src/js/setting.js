@@ -62,5 +62,27 @@
 				$price.attr('data-disp-price', thisVal);
 			});
 		})();
+
+		(function () {
+			const $btns = $('.pchpp-inline-setting__preview .pochipp-box__btnwrap');
+
+			// inline_btn_style
+			$('[name="pochipp_settings[inline_btn_style]"]').change(function () {
+				const thisVal = $(this).val();
+				$btns.attr('data-inline-btn-style', thisVal);
+			});
+
+			// inline_btn_radius
+			$('[name="pochipp_settings[inline_btn_radius]"]').change(function () {
+				const thisVal = $(this).val();
+				$btns.attr('data-inline-btn-radius', thisVal);
+			});
+
+			// inline_btn_width
+			$('[name="pochipp_settings[inline_btn_width]"]').change(function () {
+				const thisVal = $(this).val();
+				$btns.attr('data-inline-btn-width', thisVal);
+			});
+		})();
 	});
 })(jQuery);

@@ -2,7 +2,7 @@
 Contributors: inc2734, mayukojpn, livevalue, kmix39, kngsmym, kokuboyuki, richaber, witch_doktor, rocketmartue
 Donate link: https://www.amazon.co.jp/registry/wishlist/39ANKRNSTNW40
 Tags: gutenberg, block, blocks, editor, gutenberg blocks, page builder, landing page, microcopy, steps, call to action
-Stable tag: 15.0.1
+Stable tag: 15.0.6
 Requires at least: 5.9
 Tested up to: 5.9
 Requires PHP: 5.6
@@ -107,6 +107,25 @@ Yes! You can use Snow Monkey Blocks with any theme, but we recommend using our <
 24. Tabs block (The number of tab can be increased or decreased freely)
 
 == Changelog ==
+
+= 15.0.6 =
+* Fixed a bug that prevented the block manager from working if WordPress was installed in the sub directory.
+
+= 15.0.5 =
+* Fixed a bug that prevented the block manager from working if WordPress was installed in the own directory.
+
+= 15.0.4 =
+* Fixed a bug in which settings could not be changed in the block manager.
+
+= 15.0.3 =
+* Refactoring the blocks manager.
+* Fixed a bug that caused js errors in the customizer.
+
+= 15.0.2 =
+* [FAQ] Addressing the fact that when the Q and A labels are unchanged, the start of the sentence is misaligned.
+* [Section] Fixed a bug where the texture "Noise" sometimes did not lay down cleanly.
+* [Section (Break the grid)] Fixed a bug where the texture "Noise" sometimes did not lay down cleanly.
+* [Section (Side heading)] Fixed a bug where the texture "Noise" sometimes did not lay down cleanly.
 
 = 15.0.1 =
 * [Contents slider] Fixed a bug where scrolling down the page after sliding an item could cause the slide to go back to the first one.

@@ -9,11 +9,6 @@
 use Framework\Helper;
 
 /**
-* Requires EC-CUBE autoload
-*/
-//require_once __DIR__.'/../../../../vendor/autoload.php';
-
-/**
 * Uses composer autoloader
 */
 require_once( get_template_directory() . '/vendor/autoload.php' );

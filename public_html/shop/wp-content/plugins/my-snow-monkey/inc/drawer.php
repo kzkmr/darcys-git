@@ -23,11 +23,8 @@
 
 	<div class="ec-header-link-area">
 		<div class="ec-header-link__list">
-			<a class="ec-header-link__item" href="<?php echo ec_url(); ?>/entry">
-				<span>新規会員登録</span>
-			</a>
-			<a class="ec-header-link__item" href="<?php echo ec_url(); ?>/mypage/login">
-				<span>ログイン</span>
+			<a class="ec-header-link__item" href="<?php echo ec_url(); ?>/mypage">
+				<span>マイページ</span>
 			</a>
 		</div>
 	</div>
@@ -35,57 +32,53 @@
 	<div class="ec-header-category-area">
 		<div class="ec-item-nav">
 			<ul class="ec-item-nav__nav">
-				<li>
-					<a href="<?php echo esc_url(home_url('/')); ?>">NEWS</a>
+				<li class="ec-item-nav__nav-item">
+					<a href="/products/list/">
+						ONLINE SHOP
+						<span>オンライン ショップ</span>
+					</a>
 				</li>
-				<li>
-					<a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
+				<li class="ec-item-nav__nav-item">
+					<a href="<?php echo esc_url(home_url('/news/')); ?>">
+						NEWS
+						<span>ニュース</span>
+					</a>
 				</li>
-				<li>
-					<span>CONCEPT</span>
-					<ul class="ec-item-nav__child-nav">
-						<li>
-							<a href="">ICE CREAM</a>
-						</li>
-						<li>
-							<a href="">BREAD</a>
-						</li>
-						<li>
-							<a href="">COFFEE</a>
-						</li>
-					</ul>
+				<li class="ec-item-nav__nav-item">
+					<a href="<?php echo esc_url(home_url('/story/')); ?>">
+						STORY
+						<span>ストーリー</span>
+					</a>
 				</li>
-				<li>
-					<span>PRODUCTS</span>
-					<ul class="ec-item-nav__child-nav">
-						<li>
-							<a href="<?php echo ec_url(); ?>/products/list?category_id=1">
-								ICE CREAM
-							</a>
-
-						</li>
-						<li>
-							<a href="<?php echo ec_url(); ?>/products/list?category_id=2">
-								BREAD
-							</a>
-
-						</li>
-						<li>
-							<a href="<?php echo ec_url(); ?>/products/list?category_id=5">
-								COFFEE
-							</a>
-
-						</li>
-					</ul>
+				<li class="ec-item-nav__nav-item">
+					<a href="<?php echo esc_url(home_url('/concept/')); ?>">
+						CONCEPT
+						<span>コンセプト</span>
+					</a>
 				</li>
-				<li>
-					<a href="">ABOUT US</a>
+				<li class="ec-item-nav__nav-item">
+					<a href="<?php echo esc_url(home_url('/products-list/')); ?>">
+						PRODUCTS
+						<span>プロダクツ</span>
+					</a>
 				</li>
-				<li>
-					<a href="<?php echo ec_url(); ?>/products/">STORE</a>
+				<li class="ec-item-nav__nav-item">
+					<a href="<?php echo ec_url(); ?>/company/">
+						ABOUT US
+						<span>会社概要</span>
+					</a>
 				</li>
-				<li>
-					<a href="">CONTACT US</a>
+				<li class="ec-item-nav__nav-item">
+					<a href="<?php echo esc_url(home_url('/stores/')); ?>">
+						STORE
+						<span>実店舗のご紹介</span>
+					</a>
+				</li>
+				<li class="ec-item-nav__nav-item">
+					<a href="<?php echo esc_url(home_url('/contact/')); ?>">
+						CONTACT US
+						<span>お問い合わせ</span>
+					</a>
 				</li>
 			</ul>
 		</div>

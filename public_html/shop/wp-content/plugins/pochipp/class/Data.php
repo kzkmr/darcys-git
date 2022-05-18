@@ -27,6 +27,9 @@ class Data {
 		'max_column_pc'          => 'fit',
 		'max_column_mb'          => '1',
 		'display_price'          => 'on',
+		'inline_btn_style'       => 'dflt',
+		'inline_btn_radius'      => 'off',
+		'inline_btn_width'       => 'text',
 		'amazon_btn_text'        => 'Amazon',
 		'rakuten_btn_text'       => '楽天市場',
 		'yahoo_btn_text'         => 'Yahooショッピング',
@@ -36,6 +39,7 @@ class Data {
 		'yahoo_btn_color'        => '#438ee8',
 		'custom_btn_color'       => '#5ca250',
 		'custom_btn_color_2'     => '#8e59e4',
+		'inline_btn_color'       => '#069A8E',
 		'show_rakuten_5campaign' => '1',
 		'rakuten_5campaign_text' => '楽天ポイント5倍セール！',
 		'show_yahoo_5campaign'   => '1',
@@ -67,6 +71,13 @@ class Data {
 		'rakuten'   => 'pochipp_search_rakuten',
 		'yahoo'     => 'pochipp_search_yahoo',
 		'registerd' => 'pochipp_search_registerd',
+	];
+
+	// 表示するショップのリスト
+	public static $shop_list = [
+		'amazon',
+		'rakuten',
+		'yahoo',
 	];
 
 	// 各ボタン用のアフィ設定があるかどうか

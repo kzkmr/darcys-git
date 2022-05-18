@@ -30,24 +30,9 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
         <img src="<?php echo ec_asset_url(); ?>/img/common/logo_sp.png" width="80">
       </a>
     </div>
-    <!-- <div class="ec-header-navi-sp__login">
-      {% if is_granted('ROLE_USER') %}
-        <a href="{{ url('logout') }}">
-          <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
-        </a>
-      {% else %}
-        <a href="{{ url('mypage_login') }}">
-          <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
-        </a>
-      {% endif %}
-    </div>
-    <div class="ec-header-navi-sp__cart">
-      <div class="ec-headerRole__cart">
-          {{ include('Block/cart.twig') }}
-      </div>
-    </div> -->
+
     <div class="ec-header-navi-sp__store">
-      <a href="<?php echo ec_url(); ?>">
+      <a href="<?php echo ec_url(); ?>/products/list">
         <p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
         <img src="<?php echo ec_asset_url(); ?>/img/common/icon_online_store.png" width="32">
       </a>
@@ -114,40 +99,40 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
               <a href="<?php echo esc_url(home_url('/news/')); ?>" class="p-global-navi__jp">お知らせ</a>
             </li>
             <li class="p-global-navi__item has-child">
-              <a href="<?php echo esc_url(home_url('/story/')); ?>">STORY</a>
-              <a href="<?php echo esc_url(home_url('/story/')); ?>" class="p-global-navi__jp">製品の誕生ものがたり</a>
+              <a href="<?php echo esc_url(home_url('/products-list/')); ?>">PRODUCTS</a>
+              <a href="<?php echo esc_url(home_url('/products-list/')); ?>" class="p-global-navi__jp">商品ラインアップ</a>
               <ul class="p-global-navi-child">
                 <li class="p-global-navi-child__item">
-                  <a href="<?php echo esc_url(home_url('/story/story-ice-cream/')); ?>">- ICE CREAM</a>
+                  <a href="<?php echo esc_url(home_url('/story/')); ?>">- STORY</a>
                 </li>
                 <li class="p-global-navi-child__item">
-                  <a href="">- COFFEE</a>
+                  <a href="<?php echo esc_url(home_url('/concept/')); ?>">- CONCEPT</a>
                 </li>
-                <li class="p-global-navi-child__item">
-                  <a href="">- BREAD</a>
-                </li>
+                <!-- <li class="p-global-navi-child__item">
+                  <a href="" style="pointer-events:none;">- BREAD</a>
+                </li> -->
               </ul>
             </li>
             <li class="p-global-navi__item has-child">
-              <a href="<?php echo esc_url(home_url('/concept/')); ?>">CONCEPT</a>
-              <a href="<?php echo esc_url(home_url('/concept/')); ?>" class="p-global-navi__jp">製品のこだわり</a>
-              <ul class="p-global-navi-child">
+              <a href="<?php echo esc_url(home_url('/guide/')); ?>">GUIDE</a>
+              <a href="<?php echo esc_url(home_url('/guide/')); ?>" class="p-global-navi__jp">お買い物ガイド</a>
+              <?php /* <ul class="p-global-navi-child">
                 <li class="p-global-navi-child__item">
-                  <a href="">- ICE CREAM</a>
+                  <a href="<?php echo esc_url(home_url('/concept/concept-ice-cream/')); ?>">- ICE CREAM</a>
                 </li>
                 <li class="p-global-navi-child__item">
-                  <a href="">- COFFEE</a>
+                  <a href="" style="pointer-events:none;">- COFFEE</a>
                 </li>
                 <li class="p-global-navi-child__item">
-                  <a href="">- BREAD</a>
+                  <a href="" style="pointer-events:none;">- BREAD</a>
                 </li>
-              </ul>
+              </ul> */ ?>
             </li>
             <!-- <li class="p-global-navi__item has-child"> -->
-            <li class="p-global-navi__item">
+            <?php /* <li class="p-global-navi__item">
               <a href="<?php echo esc_url(home_url('/products-list/')); ?>">PRODUCTS</a>
               <a href="<?php echo esc_url(home_url('/products-list/')); ?>" class="p-global-navi__jp">商品ラインアップ</a>
-              <!-- <span class="p-global-navi__jp">商品ラインアップ</span>
+              <span class="p-global-navi__jp">商品ラインアップ</span>
               <ul class="p-global-navi-child">
                 <li class="p-global-navi-child__item">
                   <a href="">- ICE CREAM</a>
@@ -158,14 +143,14 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
                 <li class="p-global-navi-child__item">
                   <a href="">- BREAD</a>
                 </li>
-              </ul> -->
+              </ul> */ ?>
             </li>
             <li class="p-global-navi__item">
               <a href="<?php echo ec_url(); ?>/company">ABOUT US</a>
               <a href="<?php echo ec_url(); ?>/company" class="p-global-navi__jp">会社概要</a>
             </li>
             <li class="p-global-navi__item">
-              <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORE</a>
+              <a href="<?php echo esc_url(home_url('/stores/')); ?>">STORES</a>
               <a href="<?php echo esc_url(home_url('/stores/')); ?>" class="p-global-navi__jp">実店舗のご紹介</a>
             </li>
           </ul>

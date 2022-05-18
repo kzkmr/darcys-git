@@ -10,6 +10,24 @@ function ec_asset_url() {
 	return "//test-darcys-factory.xyz/html/template/default/assets";
 }
 
+
+/**
+ * home pass URL
+ *
+ * @return string
+ */
+function home_url_shortcode() {
+    return esc_url(home_url('/'));
+}
+add_shortcode('home', 'home_url_shortcode');
+
+
+/**
+ * カスタムHTMLウィジェットでショートコード使用
+ */
+add_filter( 'widget_text', 'do_shortcode' );
+
+
 /*
   footerにドロワー追加
 */
@@ -254,3 +272,16 @@ add_action(
     }
   }
 );
+
+
+/**
+ * 親ページを持つ子ページを判別
+ */
+
+function is_parent_slug() {
+    global $post;
+    if ($post->post_parent) {
+        $post_data = get_post($post->post_parent);
+        return $post_data->post_name;
+    }
+}

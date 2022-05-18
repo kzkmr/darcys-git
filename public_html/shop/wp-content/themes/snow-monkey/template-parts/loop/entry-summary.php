@@ -26,7 +26,7 @@ $args = wp_parse_args(
 ?>
 
 <a href="<?php the_permalink(); ?>">
-	<div class="c-entry-summary c-entry-summary--<?php echo esc_attr( $args['_name'] ); ?> c-entry-summary--type-<?php echo esc_attr( get_post_type() ); ?>">
+	<section class="c-entry-summary c-entry-summary--<?php echo esc_attr( $args['_name'] ); ?> c-entry-summary--type-<?php echo esc_attr( get_post_type() ); ?>">
 		<?php
 		Helper::get_template_part(
 			'template-parts/loop/entry-summary/figure/figure',
@@ -83,5 +83,5 @@ $args = wp_parse_args(
 			}
 			?>
 		</div>
-	</ぢ>
+	</section>
 </a>

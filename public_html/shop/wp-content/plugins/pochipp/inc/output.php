@@ -9,13 +9,46 @@ function get_custom_style() {
 	$yahoo_btn_color    = \POCHIPP::get_setting( 'yahoo_btn_color' );
 	$custom_btn_color   = \POCHIPP::get_setting( 'custom_btn_color' );
 	$custom_btn_color_2 = \POCHIPP::get_setting( 'custom_btn_color_2' );
+	$inline_btn_color   = \POCHIPP::get_setting( 'inline_btn_color' );
+
+	// インラインボタン
+	$inline_btn_txt_color = '#fff';
+	$inline_btn_bg_color  = 'var(--pchpp-color-inline)';
+	$inline_btn_shadow    = '0 1px 4px -1px rgba(0, 0, 0, 0.2)';
+	$inline_btn_radius    = '0px';
+	$inline_btn_width     = 'auto';
+
+	if ( 'outline' === \POCHIPP::get_setting( 'inline_btn_style' ) ) {
+		$inline_btn_txt_color = 'var(--pchpp-color-inline)';
+		$inline_btn_bg_color  = 'none';
+		$inline_btn_shadow    = 'inset 0 0 0 1px currentColor, 0 1px 4px -1px rgba(0, 0, 0, 0.2)';
+	}
+
+	if ( 'on' === \POCHIPP::get_setting( 'inline_btn_radius' ) ) {
+		$inline_btn_radius = '40px';
+	}
+
+	$inline_width_setting = \POCHIPP::get_setting( 'inline_btn_width' );
+	if ( 'fix' === $inline_width_setting ) {
+		$inline_btn_width = '12em';
+	} elseif ( 'small_fix' === $inline_width_setting ) {
+		$inline_btn_width = '9em';
+	} elseif ( 'wide_fix' === $inline_width_setting ) {
+		$inline_btn_width = '15em';
+	}
 
 	$style = ':root{' .
+		"--pchpp-color-inline: {$inline_btn_color};" .
 		"--pchpp-color-custom: {$custom_btn_color};" .
 		"--pchpp-color-custom-2: {$custom_btn_color_2};" .
 		"--pchpp-color-amazon: {$amazon_btn_color};" .
 		"--pchpp-color-rakuten: {$rakuten_btn_color};" .
 		"--pchpp-color-yahoo: {$yahoo_btn_color};" .
+		"--pchpp-inline-bg-color: {$inline_btn_bg_color};" .
+		"--pchpp-inline-txt-color: {$inline_btn_txt_color};" .
+		"--pchpp-inline-shadow: {$inline_btn_shadow};" .
+		"--pchpp-inline-radius: {$inline_btn_radius};" .
+		"--pchpp-inline-width: {$inline_btn_width};" .
 	'};';
 	return $style;
 }

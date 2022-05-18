@@ -81,6 +81,10 @@ function admin_scripts( $hook_suffix ) {
 add_action( 'enqueue_block_editor_assets', 'POCHIPP\block_assets' );
 function block_assets() {
 
+	// toolbar
+	wp_enqueue_style( 'pochipp-toolbar', POCHIPP_URL . '/dist/css/toolbar.css', [], \POCHIPP::$version );
+	wp_enqueue_script( 'pochipp-toolbar', POCHIPP_URL . '/dist/blocks/toolbar/index.js', [], \POCHIPP::$version, true );
+
 	// ブロック関係のCSS
 	wp_enqueue_style( 'pochipp-blocks', POCHIPP_URL . 'dist/css/blocks.css', [], \POCHIPP::$version );
 

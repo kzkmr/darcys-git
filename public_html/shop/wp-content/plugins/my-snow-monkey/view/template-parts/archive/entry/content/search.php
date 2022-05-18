@@ -72,7 +72,16 @@ $the_query2 = new WP_Query( $args );
 										<p class="c-entry-summary__title"><?php the_title(); ?></p>
 										<p class="c-entry-summary__product-title">取扱商品</p>
 										<div class="c-entry-summary__term-wrap">
-											<?php echo get_the_term_list( $post->ID, 'stores_product', '', '' ); ?>
+											<?php
+											$terms_category = get_the_terms( get_the_ID(), 'stores_product' );
+											if ( !empty($terms_category) ) : if ( !is_wp_error($terms_category) ) :
+											?>
+												<ul class="c-entry-summary__term-list">
+													<?php foreach( $terms_category as $term_category ) : ?>
+														<li><?php echo $term_category->name; ?></li>
+													<?php endforeach; ?>
+												</ul>
+											<?php endif; endif; ?>
 										</div>
 									</div>
 								</div>

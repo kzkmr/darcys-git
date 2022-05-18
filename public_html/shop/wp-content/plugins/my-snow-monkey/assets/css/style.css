@@ -1,10 +1,16 @@
 @charset "UTF-8";
+@font-face {
+  font-family: TahomaNum;
+  src: local("Tahoma");
+  unicode-range: U+0030-0039;
+  /* 数字 */
+}
 html {
   font-size: 16px;
 }
 
 body {
-  font-family: "Courier", "Noto Sans JP", "TsukuARdGothic-Regular", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "メイリオ", Meiryo, "Yu Gothic UI", YuGothic, "Yu Gothic", sans-serif;
+  font-family: TahomaNum, "Courier", "Noto Sans JP", "TsukuARdGothic-Regular", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "メイリオ", Meiryo, "Yu Gothic UI", YuGothic, "Yu Gothic", sans-serif;
   margin: 0;
   font-weight: 400;
   line-height: 1.6;
@@ -111,7 +117,7 @@ h3 {
 
 .smb-section {
   width: 100% !important;
-  max-width: 1110px;
+  max-width: 1060px;
   margin: 0 auto;
 }
 
@@ -152,7 +158,7 @@ h3 {
 .ec-layoutRole__contents {
   display: flex;
   flex-wrap: nowrap;
-  padding-top: 60px;
+  padding-top: 72px;
   width: 100%;
 }
 @media only screen and (min-width: 768px) {
@@ -416,7 +422,7 @@ h3 {
   margin-left: 30px;
 }
 .ec-header-bottom__gnav .p-global-navi__item a {
-  font-size: 16px;
+  font-size: 17px;
   letter-spacing: 0.06em;
   color: #555;
 }
@@ -427,9 +433,9 @@ h3 {
   display: block;
   position: absolute;
   top: 100%;
-  left: -10px;
+  left: 0;
   padding: 15px 0 4px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1;
   letter-spacing: 0.06em;
   color: #555;
@@ -443,8 +449,8 @@ h3 {
   .ec-header-bottom__gnav .p-global-navi-child {
     position: absolute;
     top: calc(100% + 35px);
-    left: -20px;
-    width: 150px;
+    left: 0;
+    width: 170px;
     padding: 10px 14px;
     border: 1px solid #fbfbfb;
     background-color: #e7c4b9;
@@ -517,7 +523,7 @@ h3 {
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 72px;
   background-color: #fff;
   z-index: 10000;
 }
@@ -574,7 +580,7 @@ h3 {
   flex: 0 0 90px;
   display: block;
   width: 80px;
-  height: 60px;
+  height: 72px;
   margin-left: 1px;
 }
 
@@ -758,147 +764,6 @@ Styleguide 11.2.4
 }
 
 /*
-ヘッダー：カテゴリナビ
-
-ヘッダー内で使用されている商品のカテゴリ一覧として使用します。
-`li`の中に`ul > li`要素を入れることで、階層を深くする事ができます。
-
-Markup:
-include /assets/tmpl/elements/11.4.categoryNavi.pug
-+ec-itemNav
-
-sg-wrapper:
-<div class="ec-categoryNaviRole" style="padding-bottom:150px;">
-  <sg-wrapper-content/>
-</div>
-
-Styleguide 11.2.5
-*/
-.ec-item-nav {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-}
-
-.ec-item-nav__nav li a,
-.ec-item-nav__nav li span {
-  display: block;
-  margin: 0;
-  padding: 12px 20px;
-  height: auto;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0;
-  text-align: left;
-  text-decoration: none;
-  background: #595757;
-  color: #fff;
-}
-@media only screen and (min-width: 768px) {
-  .ec-item-nav__nav li a,
-.ec-item-nav__nav li span {
-    text-align: center;
-    border-bottom: none;
-  }
-}
-
-.ec-item-nav__nav li ul {
-  display: block;
-  z-index: 0;
-  margin: 0;
-  padding: 0;
-  min-width: 200px;
-  list-style: none;
-  position: static;
-  top: 100%;
-  left: 0;
-}
-@media only screen and (min-width: 768px) {
-  .ec-item-nav__nav li ul {
-    z-index: 100;
-    position: absolute;
-  }
-}
-
-.ec-item-nav__nav li ul li {
-  overflow: hidden;
-  width: 100%;
-  height: auto;
-  transition: 0.3s;
-}
-@media only screen and (min-width: 768px) {
-  .ec-item-nav__nav li ul li {
-    overflow: hidden;
-    height: 0;
-  }
-}
-
-.ec-item-nav__nav li ul li a {
-  padding: 16px 22px 16px 16px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0;
-  text-align: left;
-  color: #fff;
-  background: #595757;
-}
-
-.ec-item-nav__nav > li:hover > a {
-  background: #595757;
-}
-
-.ec-item-nav__nav > li:hover li:hover > a {
-  background: #595757;
-}
-
-@media only screen and (min-width: 768px) {
-  .ec-item-nav__nav > li:hover > ul > li {
-    overflow: visible;
-    height: auto;
-  }
-}
-
-.ec-item-nav__nav li ul li ul {
-  top: 0;
-  left: 100%;
-  width: auto;
-}
-
-@media only screen and (min-width: 768px) {
-  .ec-item-nav__nav li ul li ul:before {
-    content: "\f054";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 12px;
-    color: white;
-    position: absolute;
-    top: 19px;
-    right: auto;
-    left: -20px;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .ec-item-nav__nav li ul li:hover > ul > li {
-    overflow: visible;
-    height: auto;
-    width: auto;
-  }
-}
-
-.ec-item-nav__nav li ul li ul li a {
-  background: #7D7D7D;
-}
-
-.ec-item-nav__nav li:hover ul li ul li a:hover {
-  background: #333;
-}
-
-/*
 ヘッダー：SPヘッダー
 
 SP時のみ出現するヘッダーに関係するコンポーネントです。<br>
@@ -915,7 +780,7 @@ Styleguide 11.2.6
   top: 0;
   left: 0;
   background: #595757;
-  width: 260px;
+  width: 290px;
   height: auto;
   padding-bottom: 25px;
   overflow-y: scroll;
@@ -954,40 +819,74 @@ Styleguide 11.2.6
   margin-top: 0;
   margin-bottom: 0;
 }
-.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li a,
-.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li span {
+.ec-drawer-role .ec-header-category-area .ec-item-nav {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul {
+  display: block;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 200px;
+  list-style: none;
+  position: static;
+  top: 100%;
+  left: 0;
+}
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li {
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  transition: 0.3s;
+}
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li a {
+  padding: 16px 22px 16px 16px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: left;
   color: #fff;
   background: #595757;
 }
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li a,
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li span {
+  margin: 0;
+  padding: 10px 15px;
+  height: auto;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: left;
+  text-decoration: none;
+  background-color: #595757;
+  color: #fff;
+}
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav-item > a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.ec-drawer-role .ec-header-category-area .ec-item-nav__nav-item > a span {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+}
 .ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li a,
 .ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li span {
-  padding: 5px 20px 5px 40px;
-  font-size: 0.875rem;
+  padding: 2px 20px;
+  font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0;
   background: #595757;
-}
-.ec-drawer-role .ec-header-category-area .ec-item-nav__nav > li:hover > a {
-  background: #fff;
-  color: #595757;
-}
-.ec-drawer-role .ec-header-category-area .ec-item-nav__nav > li:hover li:hover > a {
-  background: #fff;
-  color: #595757;
-}
-.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li ul li a {
-  padding-left: 40px;
-  color: #fff;
-  background: #595757;
-}
-.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li:hover ul li ul li a:hover {
-  background: #fff;
-  color: #595757;
-}
-.ec-drawer-role .ec-header-category-area .ec-item-nav__nav li ul li ul li ul li a {
-  padding-left: 60px;
-  font-weight: normal;
 }
 .ec-drawer-role .ec-header-category-area .ec-item-nav__child-nav {
   margin-top: -7px;
@@ -1401,9 +1300,10 @@ Styleguide 11.3.2
 }
 
 .breadcrumb-wrapper {
+  width: 100% !important;
   max-width: 1060px;
   margin: 0.8rem auto 0;
-  padding: 0 5.333%;
+  padding: 0;
   overflow-x: scroll;
   overflow-y: hidden;
   -ms-overflow-style: none;
@@ -1413,15 +1313,12 @@ Styleguide 11.3.2
 .breadcrumb-wrapper::-webkit-scrollbar {
   display: none;
 }
-@media (min-width: 1080px) {
-  .breadcrumb-wrapper {
-    padding: 0;
-  }
-}
 .breadcrumb-wrapper .breadcrumb {
   width: max-content;
   display: flex;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 @media only screen and (min-width: 768px) {
   .breadcrumb-wrapper .breadcrumb {
@@ -1535,7 +1432,7 @@ Styleguide 11.3.2
   align-items: center;
 }
 .category-nav__item {
-  flex: 0 0 30%;
+  flex: 0 0 31.5%;
   position: relative;
   margin-bottom: 5px;
 }
@@ -1551,13 +1448,21 @@ Styleguide 11.3.2
   align-items: center;
   padding: 7px 0;
   width: 100%;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0;
   background-color: #898989;
   color: #fff;
   cursor: pointer;
+}
+@media only screen and (min-width: 768px) {
+  .category-nav__item span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0;
+  }
 }
 .category-nav__item--black span {
   background-color: #231815;
@@ -1672,44 +1577,46 @@ Styleguide 11.3.2
     margin: 0;
   }
 }
-.section-news .category-panel .c-entry-summary {
+.section-news .category-panel a .c-entry-summary {
   display: flex;
 }
 @media (min-width: 640px) {
-  .section-news .category-panel .c-entry-summary {
+  .section-news .category-panel a .c-entry-summary {
     display: block;
   }
 }
-.section-news .category-panel .c-entry-summary__figure {
+.section-news .category-panel a .c-entry-summary__figure {
   flex: 0 0 120px;
   margin: 0;
+  padding-top: 120px;
 }
 @media (min-width: 640px) {
-  .section-news .category-panel .c-entry-summary__figure {
+  .section-news .category-panel a .c-entry-summary__figure {
     flex: 0 0 100%;
+    padding-top: 66.666%;
   }
 }
-.section-news .category-panel .c-entry-summary__body {
+.section-news .category-panel a .c-entry-summary__body {
   flex: 0 0 calc(100% - 120px);
   display: block;
   padding: 8px 0 0 15px;
 }
 @media (min-width: 640px) {
-  .section-news .category-panel .c-entry-summary__body {
+  .section-news .category-panel a .c-entry-summary__body {
     padding: 8px 0 0;
   }
 }
-.section-news .category-panel .c-entry-summary__title {
+.section-news .category-panel a .c-entry-summary__title {
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.6;
   letter-spacing: 0;
 }
-.section-news .category-panel .c-entry-summary__meta .c-meta__item--published {
+.section-news .category-panel a .c-entry-summary__meta .c-meta__item--published {
   margin: 0;
   padding: 0;
 }
-.section-news .category-panel .c-entry-summary__term {
+.section-news .category-panel a .c-entry-summary__term {
   min-width: 80px;
   padding: 5px 12px;
   font-size: 0.9375rem;
@@ -2136,6 +2043,39 @@ Styleguide 11.3.2
   background-color: #f8b62d;
 }
 
+.p-single-store-box {
+  width: 86%;
+}
+
+.p-single-stores-link {
+  margin-top: 30px !important;
+}
+@media only screen and (min-width: 768px) {
+  .p-single-stores-link {
+    margin-top: 60px !important;
+  }
+}
+.p-single-stores-link a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 12px 2em;
+  border-radius: 25px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.333;
+  letter-spacing: 0.05em;
+  background-color: #e7a48f;
+  color: #fff;
+}
+.p-single-stores-link a:hover {
+  opacity: 0.7;
+}
+
 .section-static {
   width: 100%;
   max-width: 1160px;
@@ -2145,13 +2085,13 @@ Styleguide 11.3.2
 .section-static .smb-section__body h2 {
   margin: 0 !important;
   padding: 0 !important;
-  border: none;
-  border-bottom: 1px solid #333;
+  border: none !important;
+  border-bottom: 1px solid #333 !important;
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.333;
   letter-spacing: 0;
-  background-color: transparent;
+  background-color: transparent !important;
   color: #333;
 }
 .section-static .smb-section__body figure {
@@ -2198,13 +2138,13 @@ Styleguide 11.3.2
 .section-static-child .smb-section__body h2 {
   margin: 0 !important;
   padding: 0 !important;
-  border: none;
-  border-bottom: 1px solid #333;
+  border: none !important;
+  border-bottom: 1px solid #333 !important;
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.333;
   letter-spacing: 0;
-  background-color: transparent;
+  background-color: transparent !important;
   color: #333;
 }
 .section-static-child .smb-section__body h2 a {
@@ -2280,4 +2220,204 @@ Styleguide 11.3.2
 }
 .section-static-child .smb-section__body .static-list-column .smb-list {
   padding-left: 30px;
+}
+
+.p-concept-index-link {
+  margin-top: 30px !important;
+}
+@media only screen and (min-width: 768px) {
+  .p-concept-index-link {
+    margin-top: 60px !important;
+  }
+}
+.p-concept-index-link a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 12px 2em;
+  border-radius: 25px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.333;
+  letter-spacing: 0.05em;
+  background-color: #e7a48f;
+  color: #fff;
+}
+.p-concept-index-link a:hover {
+  opacity: 0.7;
+}
+
+.section-guide {
+  line-height: 1.9;
+}
+.section-guide .smb-section__body {
+  padding-top: 30px;
+}
+@media only screen and (min-width: 768px) {
+  .section-guide .smb-section__body {
+    padding-top: 50px;
+  }
+}
+.section-guide .smb-section__body h2 {
+  margin-top: 2.7rem;
+}
+.section-guide .smb-section__body h3 {
+  margin-top: 2.2rem;
+}
+.section-guide .smb-section__body p {
+  margin-top: 1.2rem;
+}
+.section-guide .smb-section__body .smb-box {
+  max-width: 80%;
+  margin-top: 2.2rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-section {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.contact-section .contact-title {
+  position: relative;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  .contact-section .contact-title {
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0;
+  }
+}
+.contact-section .contact-title::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  right: 0;
+  width: 14em;
+  height: 2px;
+  margin: 0 auto;
+  background-color: #e7a48f;
+}
+.contact-section .contact-txt {
+  margin-top: 30px;
+  text-align: center;
+}
+.contact-section .form-item-wrap {
+  margin-top: 25px;
+}
+@media only screen and (min-width: 768px) {
+  .contact-section .form-item-wrap {
+    margin-top: 40px;
+  }
+}
+.contact-section .form-item-wrap input, .contact-section .form-item-wrap textarea {
+  width: 100%;
+  padding: 0.4em 0.8em;
+  appearance: none;
+  background-image: none;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1em;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+}
+.contact-section .form-item-wrap input:focus, .contact-section .form-item-wrap textarea:focus {
+  border: 1px solid #e7a48f;
+}
+.contact-section .form-item-wrap .form-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.contact-section .form-item-wrap .form-item + .form-item {
+  margin-top: 20px;
+}
+.contact-section .form-item-wrap .form-item__label {
+  flex: 0 0 100%;
+}
+@media only screen and (min-width: 768px) {
+  .contact-section .form-item-wrap .form-item__label {
+    flex: 0 0 25%;
+  }
+}
+.contact-section .form-item-wrap .form-item__label span {
+  display: inline-block;
+  margin-left: 0.8em;
+  padding: 0.3em 0.4em 0.2em;
+  border-radius: 3px;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+  background-color: salmon;
+  color: #fff;
+}
+.contact-section .form-item-wrap .form-item__body {
+  flex: 0 0 100%;
+  margin-top: 14px;
+}
+@media only screen and (min-width: 768px) {
+  .contact-section .form-item-wrap .form-item__body {
+    flex: 0 0 75%;
+    margin-top: 0;
+    padding-left: 20px;
+  }
+}
+.contact-section .form-item-wrap .form-item_area {
+  flex-direction: column;
+  align-items: flex-start;
+}
+@media only screen and (min-width: 768px) {
+  .contact-section .form-item-wrap .form-item_area .form-item____label {
+    flex: 0 0 100%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .contact-section .form-item-wrap .form-item_area .form-item____body {
+    flex: 0 0 100%;
+    margin-top: 14px;
+    padding-left: 0;
+  }
+}
+.contact-section .contact-btn {
+  margin-top: 25px;
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  .contact-section .contact-btn {
+    margin-top: 50px;
+  }
+}
+.contact-section .contact-btn input {
+  padding: 0.4em 1.2em;
+  appearance: none;
+  background-image: none;
+  border: 1px solid #e7a48f;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 800;
+  box-shadow: none;
+  outline: none;
+  background-color: #e7a48f;
+  color: inherit;
+  transition: 0.2s;
+}
+.contact-section .contact-btn input:hover {
+  background-color: #ffff;
 }

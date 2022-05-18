@@ -61,20 +61,30 @@ function output_custom_post_columns( $column_name, $post_id ) {
 		echo \POCHIPP::get_item_image( $image_id, $image_url, $searched_at );
 
 	} elseif ( 'used_at' === $column_name ) {
-		$args = [
+		$args                     = [
 			'post_type'              => [ 'post', 'page' ],
 			'no_found_rows'          => true,
 			'posts_per_page'         => -1,
-			's'                      => 'wp:pochipp/linkbox "pid":' . $post_id,
 		];
+		$pattern_block            = "/wp:pochipp\/linkbox.+\"pid\":$post_id/";
+		$pattern_shortcode        = "/pochipp id=\"$post_id\"/";
+		$pattern_inline_shortcode = "/pochipp_btn id=\"$post_id\"/";
 
 		$used_count = get_post_meta( $post_id, 'used_count', true ) ?: 0;
 
 		$count     = 0;
 		$the_query = new \WP_Query( $args );
 		foreach ( $the_query->posts as $post_data ) {
-			$the_id = $post_data->ID;
-			$title  = $post_data->post_title;
+			$the_id      = $post_data->ID;
+			$title       = $post_data->post_title;
+			$the_content = $post_data->post_content;
+			if (
+				! preg_match( $pattern_block, $the_content )
+				&& ! preg_match( $pattern_shortcode, $the_content )
+				&& ! preg_match( $pattern_inline_shortcode, $the_content )
+			) {
+				continue;
+			}
 
 			$ttl_width = mb_strwidth( $title, 'UTF-8' );
 			if ( 30 < $ttl_width ) {

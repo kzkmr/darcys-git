@@ -4,7 +4,7 @@
  * Plugin URI: https://pochipp.com/
  * Description: Amazon・楽天市場・Yahooショッピングなどのアフィリエイトリンクを簡単に作成・管理できる、ブロックエディターに最適化されたプラグインです。
  * Author: ひろ
- * Version: 1.6.2
+ * Version: 1.7.3
  * Author URI: https://twitter.com/hiro_develop127
  * Text Domain: pochipp
  * License: GPL3 or later
@@ -69,6 +69,7 @@ class POCHIPP extends \POCHIPP\Data {
 		require_once POCHIPP_PATH . 'inc/register_pt.php';
 		require_once POCHIPP_PATH . 'inc/register_tax.php';
 		require_once POCHIPP_PATH . 'inc/register_meta.php';
+		require_once POCHIPP_PATH . 'inc/render_inline_btn.php';
 		require_once POCHIPP_PATH . 'inc/register_blocks.php';
 		require_once POCHIPP_PATH . 'inc/register_shortcode.php';
 		require_once POCHIPP_PATH . 'inc/ajax.php';
@@ -127,7 +128,7 @@ class POCHIPP extends \POCHIPP\Data {
 	 */
 	public static function update_setting( $data ) {
 		$update_data = array_merge( self::$setting_data, $data );
-		update_option( \POCHIPP::DB_NAME, $update_data );
+		update_option( self::DB_NAME, $update_data );
 	}
 }
 

@@ -186,6 +186,119 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 	</dl>
 </div>
 
+<h3 class="pchpp-setting__h3">インラインボタンのデザイン設定</h3>
+<div class="pchpp-setting__div">
+	<div class="pchpp-inline-setting__preview">
+		<div class="__wrap">
+			<!-- <div class="__label">プレビュー</div> -->
+			<table class="comparison-chart-table">
+				<tbody>
+					<tr>
+						<td>商品</td>
+						<td>
+							<img src="<?php echo esc_url( POCHIPP_URL ); ?>assets/img/inline_preview_1.jpg"  alt="" width="200">
+						</td>
+						<td>
+							<img src="<?php echo esc_url( POCHIPP_URL ); ?>assets/img/inline_preview_2.jpg"  alt="" width="200">
+						</td>
+						<td>
+							<img src="<?php echo esc_url( POCHIPP_URL ); ?>assets/img/inline_preview_3.jpg"  alt="" width="200">
+						</td>
+					</tr>
+					<tr>
+						<td>価格</td>
+						<td class="-center">2,000円</td>
+						<td class="-center">2,500円</td>
+						<td class="-center">2,200円</td>
+					</tr>
+					<tr>
+						<td>リンク</td>
+						<td>
+							<span
+								class="pochipp-box__btnwrap -amazon -inline"
+								data-inline-btn-width="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_width' ) ); ?>"
+								data-inline-btn-style="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_style' ) ); ?>"
+								data-inline-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_radius' ) ); ?>"
+							>
+								<a href="###" class="pochipp-box__btn">Amazon</a>
+								<img src="###" width="1" height="1" style="border:none;" alt="">
+							</span>
+						</td>
+						<td>
+							<span
+								class="pochipp-box__btnwrap -rakuten -inline"
+								data-inline-btn-width="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_width' ) ); ?>"
+								data-inline-btn-style="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_style' ) ); ?>"
+								data-inline-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_radius' ) ); ?>"
+							>
+								<a href="###" class="pochipp-box__btn">楽天</a>
+								<img src="###" width="1" height="1" style="border:none;" alt="">
+							</span>
+						</td>
+						<td>
+							<span
+								class="pochipp-box__btnwrap -yahoo -inline"
+								data-inline-btn-width="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_width' ) ); ?>"
+								data-inline-btn-style="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_style' ) ); ?>"
+								data-inline-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_radius' ) ); ?>"
+							>
+								<a href="###" class="pochipp-box__btn">Yahooショッピング</a>
+								<img src="###" width="1" height="1" style="border:none;" alt="">
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<dl class="pchpp-setting__dl">
+		<dt>ボタンスタイル</dt>
+		<dd>
+			<?php
+			\POCHIPP::output_radio([
+				'key'     => 'inline_btn_style',
+				'class'   => '-flex',
+				'choices' => [
+					'dflt'    => '標準',
+					'outline' => 'アウトライン',
+				],
+			]);
+			?>
+		</dd>
+	</dl>
+	<dl class="pchpp-setting__dl">
+		<dt>ボタンの丸み</dt>
+		<dd>
+			<?php
+			\POCHIPP::output_radio([
+				'key'     => 'inline_btn_radius',
+				'class'   => '-flex',
+				'choices' => [
+					'off' => '四角',
+					'on'  => '丸め',
+				],
+			]);
+			?>
+		</dd>
+	</dl>
+	<dl class="pchpp-setting__dl">
+		<dt>ボタン幅</dt>
+		<dd>
+			<?php
+			\POCHIPP::output_radio([
+				'key'     => 'inline_btn_width',
+				'class'   => '-flex',
+				'choices' => [
+					'text'      => 'テキストに応じる',
+					'small_fix' => '固定幅（狭）',
+					'fix'       => '固定幅',
+					'wide_fix'  => '固定幅（幅広）',
+				],
+			]);
+			?>
+		</dd>
+	</dl>
+</div>
 
 <h3 class="pchpp-setting__h3">各ボタンの表示テキスト</h3>
 <!-- <p class="pchpp-setting__p"></p> -->
@@ -290,6 +403,17 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 				\POCHIPP::output_colorpicker([
 					'key'     => 'custom_btn_color_2',
 					'default' => \Pochipp::$default_data['custom_btn_color_2'],
+				]);
+			?>
+		</dd>
+	</dl>
+	<dl class="pchpp-setting__dl">
+		<dt>インラインボタン</dt>
+		<dd>
+			<?php
+				\POCHIPP::output_colorpicker([
+					'key'     => 'inline_btn_color',
+					'default' => \Pochipp::$default_data['inline_btn_color'],
 				]);
 			?>
 		</dd>
