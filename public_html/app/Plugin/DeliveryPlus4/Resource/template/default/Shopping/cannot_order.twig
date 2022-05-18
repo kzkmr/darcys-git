@@ -1,0 +1,20 @@
+{#
+* Plugin Name : DeliveryPlus4
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+<script>
+    $(function() {
+        $('button').each(function(i) {
+            if($(this).text().match(/{{'front.shopping.go_to_confirm'|trans}}/)){
+                $(this).after('<p style="color:#000">{{ 'deliveryplus.shopping.cannot.order'|trans }}</p>');
+                $(this).remove();
+            }
+        });
+    });
+</script>

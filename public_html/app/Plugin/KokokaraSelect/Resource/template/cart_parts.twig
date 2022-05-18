@@ -14,7 +14,7 @@
         </div>
         {% set ksMargeItems = get_kokokara_select_marge_items(CartItem) %}
         {% for ksMargeItem in ksMargeItems %}
-            <div style="margin-bottom: 5px;">
+            <div class="kokokara_select_group_small-letter" style="margin-bottom: 5px;">
                 {{ ksMargeItem.viewProductName }} × {{ ksMargeItem.quantity }}
             </div>
         {% endfor %}
@@ -32,7 +32,7 @@
             </div>
             {% if ksDirectSelect %}
                 {% for KsCartSelectItem in KsCartSelectItemGroup.KsCartSelectItems %}
-                    <div style="margin-bottom: 5px;">
+                    <div class="kokokara_select_group_small-letter" style="margin-bottom: 5px;">
                         {{ viewProductName }} × {{ quantity }}
                     </div>
                 {% endfor %}
@@ -45,7 +45,7 @@
                     {% set viewProductName = get_kokokara_select_product_name(ProductClass) %}
                     {% if quantity > 0 %}
                         {% set isKsCartSelectItemStock = is_kokokara_select_cart_item_stock(KsCartSelectItem) %}
-                        <div style="margin-bottom: 5px;" class="{% if isKsCartSelectItemStock == false %}ec-color-accent{% endif %}">
+                        <div class="kokokara_select_group_small-letter" style="margin-bottom: 5px;" class="{% if isKsCartSelectItemStock == false %}ec-color-accent{% endif %}">
                             {{ viewProductName }} × {{ quantity }}
                         </div>
                     {% endif %}

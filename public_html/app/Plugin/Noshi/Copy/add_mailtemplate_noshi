@@ -1,0 +1,99 @@
+﻿==========================================
+コピー用メールテンプレート追加コード
+==========================================
+
+挿入場所についてはマニュアルをご覧ください。図で説明していますので分かりやすいです。
+
+
+
+（1）■src/Eccube/Resource/template/default/Mail/order.html.twig
+
+122行目付近
+------------------------------------------
+                            {% set Noshis = repository('Plugin\\Noshi\\Entity\\Noshi').getList %}
+                            {% set Config = repository('Plugin\\Noshi\\Entity\\NoshiConfig').get %}
+                            {% for Noshi in Noshis %}
+                                {% if Noshi.order_id == Order.id %}
+                                    {% if loop.first %}<hr style="border-top: 3px double #8c8b8b;">のしのご希望<br/><hr style="border-top: 3px double #8c8b8b;">{% endif %}
+                                    ■{{ Noshi.product }}<br/>
+                                    {% if Config.noshi_kind %}のしの種類：{% if Noshi.NoshiKind %}{{ Noshi.NoshiKind }}{% else %}選択されていません。{% endif %}<br/>{% endif %}
+                                    {% if Config.noshi_tie %}表書き（上段）：{% if Noshi.NoshiTie %}{{ Noshi.NoshiTie }}{% else %}選択されていません。{% endif %}<br/>{% if Noshi.noshi_sonota is not empty %}その他：{{ Noshi.noshi_sonota }}<br/>{% endif %}{% endif %}
+                                    {% if Config.noshi_name %}お名前：{% if Noshi.noshi_name %}{{ Noshi.noshi_name }}{% else %}選択されていません。{% endif %}<br/>{% endif %}
+                                    <br/>
+                                {% endif %}
+                            {% endfor %}
+------------------------------------------
+
+
+
+（2）■src/Eccube/Resource/template/default/Mail/order.twig
+
+110行目付近
+------------------------------------------
+{% set Noshis = repository('Plugin\\Noshi\\Entity\\Noshi').getList %}
+{% set Config = repository('Plugin\\Noshi\\Entity\\NoshiConfig').get %}
+{% for Noshi in Noshis %}
+{% if Noshi.order_id == Order.id %}
+{% if loop.first %}
+************************************************
+　のしのご希望
+************************************************
+{% endif %}
+■{{ Noshi.product }}
+{% if Config.noshi_kind %}のしの種類：{% if Noshi.NoshiKind %}{{ Noshi.NoshiKind }}{% else %}選択されていません。{% endif %}{% endif %}
+
+{% if Config.noshi_tie %}表書き（上段）：{% if Noshi.NoshiTie %}{{ Noshi.NoshiTie }}{% else %}選択されていません。{% endif %}
+{% if Noshi.noshi_sonota is not empty %}その他：{{ Noshi.noshi_sonota }}<br/>{% endif %}{% endif %}
+
+{% if Config.noshi_name %}お名前：{% if Noshi.noshi_name %}{{ Noshi.noshi_name }}{% else %}選択されていません。{% endif %}{% endif %}
+{% endif %}
+
+{% endfor %}
+------------------------------------------
+
+
+
+（3）■src/Eccube/Resource/template/default/Mail/shipping_notify.html.twig
+
+81行目付近
+------------------------------------------
+                            {% set Noshis = repository('Plugin\\Noshi\\Entity\\Noshi').getList %}
+                            {% set Config = repository('Plugin\\Noshi\\Entity\\NoshiConfig').get %}
+                            {% for Noshi in Noshis %}
+                                {% if Noshi.order_id == Order.id %}
+                                    {% if loop.first %}<hr style="border-top: 3px double #8c8b8b;">のしのご希望<br/><hr style="border-top: 3px double #8c8b8b;">{% endif %}
+                                    ■{{ Noshi.product }}<br/>
+                                    {% if Config.noshi_kind %}のしの種類：{% if Noshi.NoshiKind %}{{ Noshi.NoshiKind }}{% else %}選択されていません。{% endif %}<br/>{% endif %}
+                                    {% if Config.noshi_tie %}表書き（上段）：{% if Noshi.NoshiTie %}{{ Noshi.NoshiTie }}{% else %}選択されていません。{% endif %}<br/>{% if Noshi.noshi_sonota is not empty %}その他：{{ Noshi.noshi_sonota }}<br/>{% endif %}{% endif %}
+                                    {% if Config.noshi_name %}お名前：{% if Noshi.noshi_name %}{{ Noshi.noshi_name }}{% else %}選択されていません。{% endif %}<br/>{% endif %}
+                                    <br/>
+                                {% endif %}
+                            {% endfor %}
+------------------------------------------
+
+
+
+（4）■src/Eccube/Resource/template/default/Mail/shipping_notify.twig
+
+65行目付近
+------------------------------------------
+{% set Noshis = repository('Plugin\\Noshi\\Entity\\Noshi').getList %}
+{% set Config = repository('Plugin\\Noshi\\Entity\\NoshiConfig').get %}
+{% for Noshi in Noshis %}
+{% if Noshi.order_id == Order.id %}
+{% if loop.first %}
+************************************************
+　のしのご希望
+************************************************
+{% endif %}
+■{{ Noshi.product }}
+{% if Config.noshi_kind %}のしの種類：{% if Noshi.NoshiKind %}{{ Noshi.NoshiKind }}{% else %}選択されていません。{% endif %}{% endif %}
+
+{% if Config.noshi_tie %}表書き（上段）：{% if Noshi.NoshiTie %}{{ Noshi.NoshiTie }}{% else %}選択されていません。{% endif %}
+{% if Noshi.noshi_sonota is not empty %}その他：{{ Noshi.noshi_sonota }}<br/>{% endif %}{% endif %}
+
+{% if Config.noshi_name %}お名前：{% if Noshi.noshi_name %}{{ Noshi.noshi_name }}{% else %}選択されていません。{% endif %}{% endif %}
+{% endif %}
+
+{% endfor %}
+------------------------------------------

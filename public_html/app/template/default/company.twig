@@ -13,6 +13,29 @@ file that was distributed with this source code.
 
 {% block main %}
 
+<div class="page-header">
+  <img src="{{ asset('assets/img/company/company_main.jpg') }}" alt="">
+  <h1 class="page-header__title">
+    COMPANY
+    <span>会社概要</span>
+  </h1>
+</div>
+
+<div class="breadcrumb-wrapper">
+  <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a itemprop="item" href="{{ url('homepage') }}">
+        <span itemprop="name">HOME</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">会社概要</span>
+      <meta itemprop="position" content="2" />
+    </li>
+  </ol>
+</div>
+
 <div class="ec-role">
     <div class="ec-pageHeader">
         <h1>会社概要</h1>
@@ -34,9 +57,11 @@ file that was distributed with this source code.
                         <p class="ec-borderedDefs-text-bold">東京本社</p>
                         <p>〒150-0012<br>
                         東京都渋谷区広尾3-12-36<br>ワイマッツ広尾</p>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.9633361554716!2d139.7116552156115!3d35.65327493911141!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b69ae9ff2c3%3A0xc0a7b0cf2e6ed47f!2z44CSMTUwLTAwMTIg5p2x5Lqs6YO95riL6LC35Yy65bqD5bC-77yT5LiB55uu77yR77yS4oiS77yT77yW!5e0!3m2!1sja!2sjp!4v1652344355860!5m2!1sja!2sjp" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><br><br>
                         <p class="ec-borderedDefs-text-bold">大阪本社</p>
                         <p>〒530-0014 <br>
                         大阪市北区鶴野町1-9<br>梅田ゲートタワー19F</p>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3279.93714008793!2d135.4989000155942!3d34.70676539040043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e69150f5577f%3A0xc00ba8b3b9c6b37f!2z44CSNTMwLTAwMTQg5aSn6Ziq5bqc5aSn6Ziq5biC5YyX5Yy66ba06YeO55S677yR4oiS77yZ!5e0!3m2!1sja!2sjp!4v1652344429300!5m2!1sja!2sjp" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><br><br>
                     </dd>
                 </dl>
                 <dl>
@@ -68,7 +93,9 @@ file that was distributed with this source code.
                         <label class="ec-label">店舗</label>
                     </dt>
                     <dd>Darcy's - Guilt Free Ice Cream Labo<br>
-                      〒161-0033<br>東京都新宿区下落合1丁目7-18<br>東京富士大学五号館1F</dd>
+                      〒161-0033<br>東京都新宿区下落合1丁目7-18<br>東京富士大学五号館1F<br>
+                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.4405446123465!2d139.69884591561262!3d35.71538253570475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d48067fa211%3A0xcdc6520056c68ef0!2z44CSMTYxLTAwMzMg5p2x5Lqs6YO95paw5a6_5Yy65LiL6JC95ZCI77yR5LiB55uu77yX4oiS77yR77yY!5e0!3m2!1sja!2sjp!4v1652344029290!5m2!1sja!2sjp" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </dd>
                 </dl>
                 <dl>
                     <dt>

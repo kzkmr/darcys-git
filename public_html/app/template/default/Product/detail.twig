@@ -15,7 +15,7 @@ file that was distributed with this source code.
 {% block stylesheet %}
     <style>
 
-        .slick-slider {
+        /* .slick-slider {
             margin-bottom: 30px;
         }
 
@@ -87,6 +87,64 @@ file that was distributed with this source code.
         .slick-dots li button.thumbnail img {
             width: 0;
             height: 0;
+        } */
+
+
+        /*モーダル本体の指定 + モーダル外側の背景の指定*/
+        .modal-container{
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          background: rgba(0,0,0,50%);
+          padding: 40px 20px;
+          overflow: auto;
+          opacity: 0;
+          visibility: hidden;
+          transition: .3s;
+            box-sizing: border-box;
+        }
+        /*モーダル本体の擬似要素の指定*/
+        .modal-container:before{
+          content: "";
+          display: inline-block;
+          vertical-align: middle;
+          height: 100%;
+        }
+        /*モーダル本体に「active」クラス付与した時のスタイル*/
+        .modal-container.active{
+          opacity: 1;
+          visibility: visible;
+        }
+        /*モーダル枠の指定*/
+        .modal-body{
+          position: relative;
+          display: inline-block;
+          vertical-align: middle;
+          max-width: 500px;
+          width: 90%;
+        }
+        /*モーダルを閉じるボタンの指定*/
+        .modal-close{
+          position: absolute;
+          display: flex;
+            align-items: center;
+            justify-content: center;
+          top: -40px;
+          right: -40px;
+          width: 40px;
+          height: 40px;
+          font-size: 40px;
+          color: #fff;
+          cursor: pointer;
+        }
+        /*モーダル内のコンテンツの指定*/
+        .modal-content{
+          background: #fff;
+          text-align: left;
+          padding: 30px;
         }
 
     </style>
@@ -122,7 +180,7 @@ file that was distributed with this source code.
                 }
             });
 
-            $('.item_visual').slick({
+            /* $('.item_visual').slick({
                 dots: false,
                 arrows: false,
                 responsive: [{
@@ -136,7 +194,7 @@ file that was distributed with this source code.
             $('.slideThumb').on('click', function() {
                 var index = $(this).attr('data-index');
                 $('.item_visual').slick('slickGoTo', index, false);
-            })
+            }) */
         });
     </script>
     <script>
@@ -247,34 +305,183 @@ file that was distributed with this source code.
         }
     }
     </script>
+    <script>
+    $(function(){
+      // 変数に要素を入れる
+      var open = $('.modal-open'),
+        close = $('.modal-close'),
+        container = $('.modal-container');
+
+      //開くボタンをクリックしたらモーダルを表示する
+      open.on('click',function(){
+        container.addClass('active');
+        return false;
+      });
+
+      //閉じるボタンをクリックしたらモーダルを閉じる
+      close.on('click',function(){
+        container.removeClass('active');
+      });
+
+      //モーダルの外側をクリックしたらモーダルを閉じる
+      $(document).on('click',function(e) {
+        if(!$(e.target).closest('.modal-body').length) {
+          container.removeClass('active');
+        }
+      });
+    });
+    </script>
+    <script>
+        $(function() {
+            var w = window.innerWidth;
+
+            $('.slide-thumb').each(function () {
+              $(this).appendTo('.item_visual_thumb');
+            });
+
+            if (w > 767) {
+
+              $('.item_visual_main').not('.slick-initialized').slick({
+                  dots: false,
+                  arrows: true,
+                  autoplay: true,
+                  infinite: true,
+                  fade: false,
+                  autoplaySpeed: 3600,
+                  speed: 450,
+                  slidesToShow: 1,
+                  variableWidth: true,
+                  centerMode: true,
+                  centerPadding: '50px',
+                  lazyLoad: 'progressive',
+                  asNavFor: ".item_visual_thumb"
+              });
+
+            } else {
+
+              $('.item_visual_main').not('.slick-initialized').slick({
+                  dots: false,
+                  arrows: true,
+                  autoplay: true,
+                  infinite: true,
+                  fade: false,
+                  autoplaySpeed: 3600,
+                  speed: 450,
+                  slidesToShow: 1,
+                  variableWidth: false,
+                  centerMode: true,
+                  centerPadding: '0',
+                  lazyLoad: 'progressive',
+                  asNavFor: ".item_visual_thumb"
+              });
+
+            }
+
+            if (w > 960) {
+
+                $('.item_visual_thumb').not('.slick-initialized').slick({
+                    dots: false,
+                    arrows: false,
+                    autoplay: false,
+                    infinite: true,
+                    slidesToShow: 10,
+                    lazyLoad: 'progressive',
+                    focusOnSelect: true,
+                    asNavFor: ".item_visual_main"
+                });
+
+            } else if (960 >= w > 639) {
+
+                $('.item_visual_thumb').not('.slick-initialized').slick({
+                    dots: false,
+                    arrows: false,
+                    autoplay: false,
+                    infinite: true,
+                    rows: 2,
+                    slidesToShow: 5,
+                    lazyLoad: 'progressive',
+                    focusOnSelect: true,
+                    asNavFor: ".item_visual_main"
+                });
+
+            } else {
+
+              $('.item_visual_thumb').not('.slick-initialized').slick({
+                  dots: false,
+                  arrows: false,
+                  autoplay: false,
+                  infinite: true,
+                  rows: 3,
+                  slidesToShow: 3,
+                  lazyLoad: 'progressive',
+                  focusOnSelect: true,
+                  asNavFor: ".item_visual_main"
+              });
+
+            }
+
+            /*$('.slide-thumb').on('click', function() {
+                var index = $(this).attr('data-index');
+                $('.item_visual_main').slick('slickGoTo', index, false);
+            });*/
+        });
+    </script>
 {% endblock %}
 
 {% block main %}
-    <div class="ec-productRole">
-        <div class="ec-grid2">
-            <div class="ec-grid2__cell">
-                <div class="ec-sliderItemRole">
 
-                    <div class="item_visual">
+    <div class="breadcrumb-wrapper">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a itemprop="item" href="{{ url('homepage') }}">
+                    <span itemprop="name">HOME</span>
+                </a>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a itemprop="item" href="/shop/products-list/">
+                    <span itemprop="name">ONLINE SHOP</span>
+                </a>
+                <meta itemprop="position" content="2" />
+            </li>
+            <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span itemprop="name">{{ Product.name }}</span>
+                <meta itemprop="position" content="3" />
+            </li>
+        </ol>
+    </div>
+
+    {% set hasCategory = 0 %}
+    {% for ProductCategory in Product.ProductCategories %}
+          {% if ProductCategory.Category.id == 1 %}
+            {% set hasCategory = 1 %}
+          {% endif %}
+    {% endfor %}
+    <div class="ec-productRole">
+        {# 商品名 #}
+        <div class="ec-productRole__title">
+            <h2 class="ec-headingTitle">{{ Product.name }}</h2>
+        </div>
+
+        <div class="ec-grid2">
+            <div class="ec-grid2__column">
+                <div class="ec-sliderItemRole">
+                    <div class="item_visual_main">
                         {% for ProductImage in Product.ProductImage %}
-                            <div class="slide-item"><img src="{{ asset(ProductImage, 'save_image') }}" alt="{{ loop.first ? Product.name : '' }}"></div>
+                            <div class="slide-item"><img src="{{ asset(ProductImage, 'save_image') }}"></div>
+                            <div class="slide-thumb"><img src="{{ asset(ProductImage, 'save_image') }}"></div>
                         {% else %}
-                            <div class="slide-item"><img src="{{ asset(''|no_image_product, 'save_image') }}" alt="{{ loop.first ? Product.name : '' }}" /></div>
+                            <div class="slide-item"><img src="{{ asset(''|no_image_product, 'save_image') }}"/></div>
+                            <div class="slide-thumb"><img src="{{ asset(''|no_image_product, 'save_image') }}"/></div>
                         {% endfor %}
                     </div>
-                    <div class="item_nav">
-                        {% for ProductImage in Product.ProductImage %}
-                            <div class="slideThumb" data-index="{{ loop.index0 }}"><img src="{{ asset(ProductImage, 'save_image') }}" alt=""></div>
-                        {% endfor %}
+                    <div class="item_visual_thumb">
                     </div>
                 </div>
             </div>
-            <div class="ec-grid2__cell">
+            <div class="ec-grid2__column">
                 <div class="ec-productRole__profile">
-                    {# 商品名 #}
-                    <div class="ec-productRole__title">
-                        <h2 class="ec-headingTitle">{{ Product.name }}</h2>
-                    </div>
+
                     {# タグ #}
                     <ul class="ec-productRole__tags">
                         {% for Tag in Product.Tags %}
@@ -329,10 +536,10 @@ file that was distributed with this source code.
                     {% if Product.ProductCategories is not empty %}
                         <div class="ec-productRole__category">
                             {% for ProductCategory in Product.ProductCategories %}
-                                <ul>
-                                    <li>
+                                <ul class="ec-productRole-category-list">
+                                    <li class="ec-productRole-category-list__item">
                                         {% for Category in ProductCategory.Category.path %}
-                                            <a href="{{ url('product_list') }}?category_id={{ Category.id }}">{{ Category.name }}</a> {%- if loop.last == false %}
+                                            <a class="category-{{ Category.id }}" href="{{ url('product_list') }}?category_id={{ Category.id }}">{{ Category.name }}</a> {%- if loop.last == false %}
                                             <span>＞</span>{% endif -%}
                                         {% endfor %}
                                     </li>
@@ -340,6 +547,10 @@ file that was distributed with this source code.
                             {% endfor %}
                         </div>
                     {% endif %}
+
+                    <div class="ec-productRole__description">{{ Product.description_detail|raw|nl2br }}
+                    </div>
+
                     <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
                         {% if Product.stock_find %}
                             <div class="ec-productRole__actions">
@@ -370,7 +581,7 @@ file that was distributed with this source code.
                                     {{ form_errors(form.quantity) }}
                                 </div>
                             </div>
-                            <div class="ec-productRole__btn">
+                            <div class="ec-productRole__btn ec-productRole__btn--add">
                                 <button type="submit" class="ec-blockBtn--action add-cart">
                                     {{ 'front.product.add_cart'|trans }}
                                 </button>
@@ -385,6 +596,7 @@ file that was distributed with this source code.
 
                         {{ form_rest(form) }}
                     </form>
+
                     <div class="ec-modal">
                         <div class="ec-modal-overlay">
                             <div class="ec-modal-wrap">
@@ -399,9 +611,10 @@ file that was distributed with this source code.
                             </div>
                         </div>
                     </div>
+
                     {% if BaseInfo.option_favorite_product %}
                         <form action="{{ url('product_add_favorite', {id:Product.id}) }}" method="post">
-                            <div class="ec-productRole__btn">
+                            <div class="ec-productRole__btn ec-productRole__btn--favorite">
                                 {% if is_favorite == false %}
                                     <button type="submit" id="favorite" class="ec-blockBtn--cancel">
                                         {{ 'front.product.add_favorite'|trans }}
@@ -414,8 +627,29 @@ file that was distributed with this source code.
                             </div>
                         </form>
                     {% endif %}
-                    <div class="ec-productRole__description">{{ Product.description_detail|raw|nl2br }}
+
+                    <div class="ec-productRole__btn ec-productRole__btn--favorite">
+                        <a class="ec-blockBtn--cancel" href="{{ url('product_list') }}">商品一覧に戻る</a>
                     </div>
+
+                    {% if hasCategory == 1 %}
+                    <div class="ec-modal-02">
+                        <div class="ec-modal-02__banner modal-open">
+                            <img src="{{ asset('assets/img/product/banner_howtoeat.png') }}" alt="">
+                        </div>
+                        <div class="modal-container">
+                          <div class="modal-body">
+                            <!-- 閉じるボタン -->
+                            <div class="modal-close">×</div>
+                            <!-- モーダル内のコンテンツ -->
+                            <div class="modal-content">
+                              <p>文章が入ります。</p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -425,4 +659,40 @@ file that was distributed with this source code.
             </div>
         {% endif %}
     </div>
+    {% set NewProducts = CustomizeNewProduct() %}
+    {% if NewProducts|length > 0 %}
+        <div class="ec-products-top-area ec-products-top-area--new-list">
+            <div class="ec-product-category-title">
+              <h2 class="ec-product-category-title__title">こちらもおすすめ</span></h2>
+            </div>
+            <div class="ec-shelfRole">
+                <ul class="ec-shelfGrid">
+                    {% for Product in NewProducts %}
+                        <li class="ec-shelfGrid__item">
+                            <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                <p class="ec-shelfGrid__item-image">
+                                    <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                </p>
+                                <p class="ec-shelfGrid__title">{{ Product.name }}</p>
+                                {% if Product.description_list %}
+                                    <p class="ec-shelfGrid__description">{{ Product.description_list|raw|nl2br }}</p>
+                                {% endif %}
+                                <p class="price02-default">
+                                    {% if Product.hasProductClass %}
+                                        {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                            {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                        {% else %}
+                                            {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
+                                        {% endif %}
+                                    {% else %}
+                                        {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                    {% endif %}
+                                </p>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

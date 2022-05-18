@@ -1,0 +1,9 @@
+services:
+    deliveryplus4.api.allow_list:
+        class: ArrayObject
+        tags: ['eccube.api.allow_list']
+        arguments:
+            - #
+                Eccube\Entity\ProductClass: ['deliveryplus_weight','deliveryplus_size']
+                Eccube\Entity\Delivery: ['deliveryplus_weight_min','deliveryplus_weight_max','deliveryplus_size_min','deliveryplus_size_max','deliveryplus_subtotal_min','deliveryplus_subtotal_max']
+

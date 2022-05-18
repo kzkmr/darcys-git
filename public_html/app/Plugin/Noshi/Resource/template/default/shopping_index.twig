@@ -1,0 +1,124 @@
+{% if ConfigNoshi.noshi_enable %}
+
+<style type="text/css">
+#noshi_area .config_comment {
+	margin-bottom:20px;
+}
+.noshi_list_area {
+	margin-bottom:20px;
+}
+.noshi_list_area .list {
+	margin-bottom:20px;
+}
+.noshi_list_area .product {
+	border-bottom:#CCC 1px dashed;
+	margin-bottom:5px;
+}
+.noshi_list_area .product span {
+	font-weight:bold;
+}
+.noshi_list_area .noshi {
+	padding-left:1em;
+}
+.noshi_list_area .noshi span {
+	font-weight:bold;
+}
+</style>
+
+<script>
+    $(function() {
+        $('#noshi_new_form').on("click", function () {
+            $.ajax({
+                type: 'POST',
+                data: $('#shopping-form').serialize(),
+                url: '{{ url("shopping_redirect_to") }}',
+                success: function(data) {
+                    window.location.href = '{{ url('noshi_new', { order: Order.id }) }}';
+                },
+                error: function() {
+                    window.location.href = '{{ url('shopping_redirect_to') }}';
+                }
+            });
+            return false;
+        });
+
+        $('#noshi_area').appendTo($('div.ec-orderRole__detail'));
+    });
+</script>
+
+{% if IsChainStore() == false %}
+<div id="noshi_area">
+    <div class="ec-orderWrapping">
+        <div class="ec-rectHeading">
+            <h2>{{ '熨斗（のし）のご希望'|trans }}</h2>
+        </div>
+        <div class="config_comment">
+        	{{ ConfigNoshi.comment|nl2br }}
+        </div>
+        <div class="noshi_list_area">
+            {% for Noshi in Noshis %}
+                {% if Noshi.order_id == Order.id %}
+                    <div class="list">
+                    	<div class="product">
+                        	{{ '■ご購入商品：'|trans }}<span>{{ Noshi.product }}</span>
+                        </div>
+                        {% if ConfigNoshi.noshi_kind %}
+                        	<div class="noshi">{{ 'のしの種類：'|trans }}{% if Noshi.NoshiKind %}{{ Noshi.NoshiKind }}{% else %}<span class="text-danger">{{ '選択されていません。'|trans }}</span>{% endif %}</div>
+                        {% endif %}
+                        {% if ConfigNoshi.noshi_tie %}
+                            <div class="noshi">{{ '表書き（上段）：'|trans }}{% if Noshi.NoshiTie %}{{ Noshi.NoshiTie }}{% else %}<span class="text-danger">{{ '選択されていません。'|trans }}</span>{% endif %}</div>
+                            {% if Noshi.noshi_sonota is not empty %}<div class="noshi">{{ 'その他：'|trans }}{{ Noshi.noshi_sonota }}</div>{% endif %}
+                        {% endif %}
+                        {% if ConfigNoshi.noshi_name %}
+                        	<div class="noshi">{{ 'お名前：'|trans }}{% if Noshi.noshi_name %}{{ Noshi.noshi_name }}{% else %}<span class="text-danger">{{ '選択されていません。'|trans }}</span>{% endif %}</div>
+                        {% endif %}
+                        <div class="noshi">
+                        	<a id="noshi_edit_form{{ Noshi.fixed }}" class="ec-inlineBtn" href="{{ url('noshi_edit', {'fixed': Noshi.fixed }) }}">{{ '修正する'|trans }}</a>
+                            <a id="noshi_delete_form{{ Noshi.fixed }}" class="ec-inlineBtn" href="{{ url('noshi_delete', {'fixed': Noshi.fixed }) }}">{{ '削除する'|trans }}</a>
+                        </div>
+                    </div>
+					<script>
+                        $(function() {
+                            $('#noshi_edit_form{{ Noshi.fixed }}').on("click", function () {
+                                $.ajax({
+                                    type: 'POST',
+                                    data: $('#shopping-form').serialize(),
+                                    url: '{{ url("shopping_redirect_to") }}',
+                                    success: function(data) {
+                                        window.location.href = '{{ url('noshi_edit', {'fixed': Noshi.fixed }) }}';
+                                    },
+                                    error: function() {
+                                        window.location.href = '{{ url('noshi_edit', {'fixed': Noshi.fixed }) }}';
+                                    }
+                                });
+                                return false;
+                            });
+                        });
+                        $(function() {
+                            $('#noshi_delete_form{{ Noshi.fixed }}').on("click", function () {
+                                $.ajax({
+                                    type: 'POST',
+                                    data: $('#shopping-form').serialize(),
+                                    url: '{{ url("shopping_redirect_to") }}',
+                                    success: function(data) {
+                                        window.location.href = '{{ url('noshi_delete', {'fixed': Noshi.fixed }) }}';
+                                    },
+                                    error: function() {
+                                        window.location.href = '{{ url('noshi_delete', {'fixed': Noshi.fixed }) }}';
+                                    }
+                                });
+                                return false;
+                            });
+                        });
+                    </script>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div id="noshi_add">
+        	<a id="noshi_new_form" href="{{ url('noshi_new', { order: Order.id }) }}" class="ec-inlineBtn--action">{{ '熨斗を追加する'|trans }}</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endif %}

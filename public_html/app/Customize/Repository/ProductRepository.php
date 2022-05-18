@@ -144,6 +144,16 @@ class ProductRepository extends AbstractRepository
             }
             $qb->orderBy('p.create_date', 'DESC');
             $qb->addOrderBy('p.id', 'DESC');
+        // 更新順
+        } elseif (!empty($searchData['orderby']) && $searchData['orderby']->getId() == 4) {
+            // 在庫切れ商品非表示の設定が有効時対応
+            // @see https://github.com/EC-CUBE/ec-cube/issues/1998
+            if ($this->getEntityManager()->getFilters()->isEnabled('option_nostock_hidden') == true) {
+                $qb->innerJoin('p.ProductClasses', 'pc');
+                $qb->andWhere('pc.visible = true');
+            }
+            $qb->orderBy('p.update_date', 'DESC');
+            $qb->addOrderBy('p.id', 'DESC');
         } else {
             if ($categoryJoin === false) {
                 $qb
@@ -162,7 +172,7 @@ class ProductRepository extends AbstractRepository
 
         if(is_object($ContractType)){
             $ClassCategory = $ContractType->getClassCategory();
-            
+
             if($ContractType->getShowProduct() != "Y"){
                 $qb->andWhere('1 = 0');
             }
@@ -176,7 +186,7 @@ class ProductRepository extends AbstractRepository
         }else{
             $ContractTypes = $this->getContractTypeListId();
 
-            if(isset($ContractTypes) && count($ContractTypes) > 0){ 
+            if(isset($ContractTypes) && count($ContractTypes) > 0){
                 $qb->innerJoin('p.ProductClasses', 'pc1');
                 $qb->andWhere('pc1.visible = true')
                     ->andWhere($qb->expr()->orX(
@@ -234,7 +244,7 @@ class ProductRepository extends AbstractRepository
 
         if(is_object($ContractType)){
             $ClassCategory = $ContractType->getClassCategory();
-            
+
             if($ClassCategory){
                 $qb->andWhere('pc.ClassCategory1 = :ClassCategory1')
                     ->setParameter('ClassCategory1', $ClassCategory);
@@ -242,7 +252,7 @@ class ProductRepository extends AbstractRepository
         }else{
             $ContractTypes = $this->getContractTypeListId();
 
-            if(isset($ContractTypes) && count($ContractTypes) > 0){ 
+            if(isset($ContractTypes) && count($ContractTypes) > 0){
                 //$qb->andWhere($qb->expr()->notIn('pc.ClassCategory1', ':ClassCategory1'))
                 //    ->orWhere($qb->expr()->isNull('pc.ClassCategory1'))
 

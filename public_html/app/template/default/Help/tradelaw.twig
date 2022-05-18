@@ -1,4 +1,4 @@
-{# 
+{#
 This file is part of EC-CUBE
 
 Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
@@ -11,6 +11,22 @@ file that was distributed with this source code.
 {% extends 'default_frame.twig' %}
 
 {% block main %}
+
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+        <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a itemprop="item" href="{{ url('homepage') }}">
+            <span itemprop="name">HOME</span>
+          </a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name">特定商取引法に基づく表記</span>
+          <meta itemprop="position" content="2" />
+        </li>
+      </ol>
+    </div>
+
     <div class="ec-role">
         <div class="ec-pageHeader">
             <h1> {{ '特定商取引法に基づく表記'|trans }}</h1>

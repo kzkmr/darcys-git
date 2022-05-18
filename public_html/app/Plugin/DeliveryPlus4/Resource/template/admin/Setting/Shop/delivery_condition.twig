@@ -1,0 +1,101 @@
+{#
+* Plugin Name : DeliveryPlus4
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+<div id="deliveryplus" style="display:none;">
+<div class="card rounded border-0 mb-4">
+    <div class="card-header"><span>{{ 'deliveryplus.admin.setting.shop.delivery.delivery_condition.title'|trans }}</span></div>
+    <div id="ex-delivery-fee" class="card-body p-0">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                {% if form.delivery_cool_flg is defined %}
+                <div class="row justify-content-start">
+                    <div class="col-3">
+                        {{ form_widget(form.delivery_cool_flg) }}
+                        {{ form_errors(form.delivery_cool_flg) }}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-2">
+                                <label>{{ 'deliveryplus.admin.setting.shop.delivery.delivery_condition.label.weight'|trans }}</label>
+                            </div>
+                            <div class="col pl-0">
+                                {{ form_widget(form.deliveryplus_weight_min) }}
+                                {{ form_errors(form.deliveryplus_weight_min) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-2">
+                                <label>～</label>
+                            </div>
+                            <div class="col pl-0">
+                                {{ form_widget(form.deliveryplus_weight_max) }}
+                                {{ form_errors(form.deliveryplus_weight_max) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-2">
+                                <label>{{ 'deliveryplus.admin.setting.shop.delivery.delivery_condition.label.size'|trans }}</label>
+                            </div>
+                            <div class="col pl-0">
+                                {{ form_widget(form.deliveryplus_size_min) }}
+                                {{ form_errors(form.deliveryplus_size_min) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-2">
+                                <label>～</label>
+                            </div>
+                            <div class="col pl-0">
+                                {{ form_widget(form.deliveryplus_size_max) }}
+                                {{ form_errors(form.deliveryplus_size_max) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-2">
+                                <label>{{ 'deliveryplus.admin.setting.shop.delivery.delivery_condition.label.subtotal'|trans }}</label>
+                            </div>
+                            <div class="col pl-0">
+                                {{ form_widget(form.deliveryplus_subtotal_min) }}
+                                {{ form_errors(form.deliveryplus_subtotal_min) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-2">
+                                <label>～</label>
+                            </div>
+                            <div class="col pl-0">
+                                {{ form_widget(form.deliveryplus_subtotal_max) }}
+                                {{ form_errors(form.deliveryplus_subtotal_max) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>

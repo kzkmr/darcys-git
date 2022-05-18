@@ -262,12 +262,6 @@ class CustomProductController extends BaseProductController
 
         $Category = $searchForm->get('category_id')->getData();
 
-        //$AllCategories = $this->GetAllCatList();
-
-        // foreach($AllCategories as $Categories) {
-        //   $CategoryId[] = $Categories;
-        // }
-
         return [
             'subtitle' => $this->getPageTitle($searchData),
             'pagination' => $pagination,
@@ -276,7 +270,6 @@ class CustomProductController extends BaseProductController
             'order_by_form' => $orderByForm->createView(),
             'forms' => $forms,
             'Category' => $Category,
-            'Product' => $ids
         ];
     }
 

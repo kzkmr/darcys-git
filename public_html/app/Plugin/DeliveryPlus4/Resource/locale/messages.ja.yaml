@@ -1,0 +1,42 @@
+deliveryplus.common.1: 重さ
+deliveryplus.common.2: サイズ
+deliveryplus.admin.nav.content.deliveryplus: 重さ・サイズデザイン管理
+deliveryplus.admin.nav.content.deliveryplus.detail: 詳細画面デザイン
+deliveryplus.admin.nav.content.deliveryplus.cart: カート画面デザイン
+deliveryplus.admin.config.title: プラグイン設定
+deliveryplus.admin.config.subtitle: 配送方法設定：購入金額条件判定設定
+
+deliveryplus.admin.setting.shop.delivery.delivery_condition.title: 条件設定
+deliveryplus.admin.setting.shop.delivery.delivery_condition.label.weight: 重さ条件
+deliveryplus.admin.setting.shop.delivery.delivery_condition.label.size: サイズ条件
+deliveryplus.admin.setting.shop.delivery.delivery_condition.label.subtotal: 購入金額条件
+deliveryplus.admin.setting.shop.delivery.delivery_condition.form.weight.under: 重さ（下限）
+deliveryplus.admin.setting.shop.delivery.delivery_condition.form.weight.upper: 重さ（上限）
+deliveryplus.admin.setting.shop.delivery.delivery_condition.form.size.under: サイズ（下限）
+deliveryplus.admin.setting.shop.delivery.delivery_condition.form.size.upper: サイズ（上限）
+deliveryplus.admin.setting.shop.delivery.delivery_condition.form.subtotal.under: 購入金額（下限）
+deliveryplus.admin.setting.shop.delivery.delivery_condition.form.subtotal.upper: 購入金額（上限）
+deliverydate.admin.setting.shop.delivery.delivery_condition.form.cool_flg: クール便・冷凍便対応不可
+deliveryplus.admin.content.design.title: 重さ・サイズ表示テンプレート編集
+deliveryplus.admin.content.design.label.detail: 詳細画面デザイン
+deliveryplus.admin.content.design.label.cart: カート画面デザイン
+deliveryplus.admin.content.design.initial: 初期値に戻す
+deliveryplus.admin.content.save.complete: 登録が完了しました。
+deliveryplus.admin.config.label: 購入金額判定範囲
+deliveryplus.form.admin.config.method.choice.all: 購入商品全体での判定
+deliveryplus.form.admin.config.method.choice.shipping: 配送先ごとの判定
+deliveryplus.shopping.cannot.order: 配送方法が選択できないため購入出来ません
+
+deliveryplus.admin.content.design.description.detail: 商品詳細ページに重さ・サイズの表示を行われる際はをご希望される位置に下記のタグを挿入されてください。
+deliveryplus.admin.content.design.description.cart: カートページに重さ・サイズの表示を行われる際はをご希望される位置に下記のタグを挿入されてください。
+
+admin.setting.deliveryplus.save.complete: デザインを登録しました。
+deliveryplus.admin.save.complete: 設定を登録しました。
+shopping.payment.change: 配送方法変更により指定の支払方法が選択できなくなりました。
+
+deliveryplus.admin.product.product_csv.weight_description: 0以上の数値を設定(空欄も可)
+deliveryplus.admin.product.product_csv.size_description: 0以上の数値を設定(空欄も可)
+
+deliveryplus.type.range.invalid: 指定範囲を正しく設定してください。
+deliveryplus.type.shopping.shipping.nodeliveries: 指定できる配送方法がありません
+deliveryplus.front.shopping.delivery_not_fount: 選択できる配送方法がありません。カートに入っている商品をご確認ください。

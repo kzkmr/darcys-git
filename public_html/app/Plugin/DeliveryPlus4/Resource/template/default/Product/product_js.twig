@@ -1,0 +1,68 @@
+{#
+* Plugin Name : DeliveryPlus4
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+<script>
+    DeliveryPlusParams = {{ DeliveryPlusParams|json_encode|raw }};
+
+    $(function() {
+        // 規格1選択時
+        $('select[name=classcategory_id1]')
+        .change(function() {
+            var $form = $(this).parents('form');
+            var product_id = $form.find('input[name=product_id]').val();
+            var $sele1 = $(this);
+
+            eccube.checkStockWeightSize($form, product_id, $sele1.val() , '');
+        });
+
+        // 規格2選択時
+        $('select[name=classcategory_id2]')
+        .change(function() {
+            var $form = $(this).parents('form');
+            var product_id = $form.find('input[name=product_id]').val();
+            var $sele1 = $form.find('select[name=classcategory_id1]');
+            var $sele2 = $(this);
+            eccube.checkStockWeightSize($form, product_id, $sele1.val(), $sele2.val());
+        });
+    });
+
+    eccube.deliveryplus_weight_origin = [];
+    eccube.deliveryplus_size_origin = [];
+    eccube.checkStockWeightSize = function($form, product_id, classcat_id1, classcat_id2) {
+        classcat_id2 = classcat_id2 ? classcat_id2 : '';
+        var classcat3;
+
+        classcat3 = DeliveryPlusParams[product_id][classcat_id1]['#' + classcat_id2];
+
+        // 重さ
+        var $deliveryplus_weight = $form.parent().find('#deliveryplus_weight_default').first();
+        if (typeof this.deliveryplus_weight_origin[product_id] === 'undefined') {
+            this.deliveryplus_weight_origin[product_id] = $deliveryplus_weight.text();
+        }
+        if (classcat3 && typeof classcat3.weight !== 'undefined' && String(classcat3.weight).length >= 1) {
+            $deliveryplus_weight.text(classcat3.weight);
+        } else {
+            $deliveryplus_weight.text(this.deliveryplus_weight_origin[product_id]);
+        }
+
+        // サイズ
+        var $deliveryplus_size = $form.parent().find('#deliveryplus_size_default').first();
+        if (typeof this.deliveryplus_size_origin[product_id] === 'undefined') {
+            this.deliveryplus_size_origin[product_id] = $deliveryplus_size.text();
+        }
+        if (classcat3 && typeof classcat3.size !== 'undefined' && String(classcat3.size).length >= 1) {
+            $deliveryplus_size.text(classcat3.size);
+        } else {
+            $deliveryplus_size.text(this.deliveryplus_size_origin[product_id]);
+        }
+    };
+
+</script>
+

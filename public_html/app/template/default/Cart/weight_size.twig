@@ -1,0 +1,42 @@
+{#
+* Plugin Name : DeliveryPlus4
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% if Cart.deliveryplus_total_weight or Cart.deliveryplus_total_size %}
+<style>
+.weight_size_wrap {
+  width: 100%;
+  text-align: center;
+}
+.weight_size {
+  border: 1px solid #d9d9d9;
+  margin-bottom: 20px;
+  padding: 10px;
+  text-align: center;
+  background: #f8f8f8;
+  display: inline-block;
+}
+.weight_size p {
+  display: inline-block;
+  margin: 0 15px;
+}
+</style>
+
+<div class="weight_size_wrap">
+    <div class="weight_size">
+{% if Cart.deliveryplus_total_weight %}
+        <p>{{ 'deliveryplus.common.1'|trans }}： <span>{{ Cart.deliveryplus_total_weight }}</span> </p>
+{% endif %}
+
+{% if Cart.deliveryplus_total_size %}
+        <p>{{ 'deliveryplus.common.2'|trans }}： <span>{{ Cart.deliveryplus_total_size }}</span> </p>
+{% endif %}
+    </div>
+</div>
+{% endif %}

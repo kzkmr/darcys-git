@@ -1,0 +1,1 @@
+{"name":"ec-cube\/deliveryplus4","version":"1.1.5","description":"\u914d\u9001\u65b9\u6cd5\u8a2d\u5b9a\u62e1\u5f35\u30d7\u30e9\u30b0\u30a4\u30f3","type":"eccube-plugin","require":{"ec-cube\/plugin-installer":"~0.0.6 || ^2.0"},"extra":{"code":"DeliveryPlus4","id":1731}}

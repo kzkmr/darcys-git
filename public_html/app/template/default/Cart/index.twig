@@ -13,6 +13,7 @@ file that was distributed with this source code.
 {% set body_class = 'cart_page' %}
 
 {% block main %}
+
     {% set showProduct = true %}
     {% if ChainStore %}
         {% if ChainStore.ContractType.show_product != 'Y' %}
@@ -208,11 +209,14 @@ file that was distributed with this source code.
                         {% endif %}
                     </div>
                     <div class="ec-cartRole__actions">
-                        <div class="ec-cartRole__total">{{ 'common.total__with_separator'|trans }}<span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|price }}</span>
+                        <div class="ec-cartRole__total">
+                            {{ 'common.total__with_separator'|trans }}
+                            <span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|price }}</span>
+                            <span class="ec-cartRole__totalTax">（税込）</span>
                         </div>
                         <a class="ec-blockBtn--action" href="{{ path('cart_buystep', {'cart_key':cartKey}) }}">{{ 'front.cart.checkout'|trans }}</a>
                         {% if loop.last %}
-                            <a class="ec-blockBtn--cancel" href="{{ path('homepage') }}">{{ 'front.cart.continue'|trans }}</a>
+                            <a class="ec-blockBtn--cancel" href="{{ path('product_list') }}">{{ 'front.cart.continue'|trans }}</a>
                         {% endif %}
                     </div>
                 {% endfor %}

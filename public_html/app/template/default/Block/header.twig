@@ -11,18 +11,20 @@ file that was distributed with this source code.
 {% set totalQuantity = get_carts_total_quantity() %}
 <div class="ec-header-navi-sp pc-none">
   <div class="ec-header-navi-sp__logo">
-    <a href="">
+    <a href="{{ url('homepage') }}">
       <img src="{{ asset('assets/img/common/logo_sp.png') }}" width="80">
     </a>
   </div>
   <div class="ec-header-navi-sp__login">
     {% if is_granted('ROLE_USER') %}
       <a href="{{ url('logout') }}">
-        <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+        <img src="{{ asset('assets/img/common/lock-alt-solid.svg') }}" width="25">
+				<span>ログアウト</span>
       </a>
     {% else %}
       <a href="{{ url('mypage_login') }}">
-        <img src="{{ asset('assets/img/common/icon_login_sp.png') }}" width="25">
+        <img src="{{ asset('assets/img/common/lock-alt-solid.svg') }}" width="25">
+				<span>ログイン</span>
       </a>
     {% endif %}
   </div>
@@ -65,23 +67,37 @@ file that was distributed with this source code.
           <a href="/shop/news/" class="p-global-navi__jp">お知らせ</a>
         </li>
         <li class="p-global-navi__item has-child">
-          <a href="/shop/story/">STORY</a>
-          <a href="/shop/story/" class="p-global-navi__jp">製品の誕生ものがたり</a>
+          <a href="/shop/products-list/">PRODUCTS</a>
+          <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
           <ul class="p-global-navi-child">
             <li class="p-global-navi-child__item">
-              <a href="/shop/story/story-ice-cream/">- ICE CREAM</a>
+              <a href="/shop/story/">- STORY</a>
             </li>
             <li class="p-global-navi-child__item">
-              <a href="">- COFFEE</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="">- BREAD</a>
+              <a href="/shop/concept/">- CONCEPT</a>
             </li>
           </ul>
         </li>
         <li class="p-global-navi__item has-child">
-          <a href="/shop/concept/">CONCEPT</a>
-          <a href="/shop/concept/" class="p-global-navi__jp">製品のこだわり</a>
+          <a href="/shop/guide/">GUIDE</a>
+          <a href="/shop/guide/" class="p-global-navi__jp">お買い物ガイド</a>
+          {# <ul class="p-global-navi-child">
+            <li class="p-global-navi-child__item">
+              <a href="/shop/concept/concept-ice-cream/">- ICE CREAM</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="" style="pointer-events:none;">- COFFEE</a>
+            </li>
+            <li class="p-global-navi-child__item">
+              <a href="" style="pointer-events:none;">- BREAD</a>
+            </li>
+          </ul> #}
+        </li>
+        {# <li class="p-global-navi__item has-child"> #}
+        {# <li class="p-global-navi__item">
+          <a href="/shop/products-list/">PRODUCTS</a>
+          <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
+          <span class="p-global-navi__jp">商品ラインアップ</span>
           <ul class="p-global-navi-child">
             <li class="p-global-navi-child__item">
               <a href="">- ICE CREAM</a>
@@ -93,30 +109,13 @@ file that was distributed with this source code.
               <a href="">- BREAD</a>
             </li>
           </ul>
-        </li>
-        {# <li class="p-global-navi__item has-child"> #}
-        <li class="p-global-navi__item">
-          <a href="/shop/products-list/">PRODUCTS</a>
-          <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
-          {# <span class="p-global-navi__jp">商品ラインアップ</span>
-          <ul class="p-global-navi-child">
-            <li class="p-global-navi-child__item">
-              <a href="">- ICE CREAM</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="">- COFFEE</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="">- BREAD</a>
-            </li>
-          </ul> #}
-        </li>
+        </li> #}
         <li class="p-global-navi__item">
           <a href="{{ url('company') }}">ABOUT US</a>
           <a href="{{ url('company') }}" class="p-global-navi__jp">会社概要</a>
         </li>
         <li class="p-global-navi__item">
-          <a href="/shop/stores/">STORE</a>
+          <a href="/shop/stores/">STORES</a>
           <a href="/shop/stores/" class="p-global-navi__jp">実店舗のご紹介</a>
         </li>
       </ul>

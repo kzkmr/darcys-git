@@ -1,0 +1,1 @@
+{"name":"ec-cube\/noshi","version":"4.1.1","description":"\u5546\u54c1\u5225\u71a8\u6597\uff08\u306e\u3057\uff09\u30d7\u30e9\u30b0\u30a4\u30f3","type":"eccube-plugin","require":{"ec-cube\/plugin-installer":"~0.0.6 || ^2.0"},"extra":{"code":"Noshi","id":2284}}

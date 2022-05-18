@@ -1,0 +1,113 @@
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'noshi_page' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% set config = repository('Plugin\\Noshi\\Entity\\NoshiConfig').get %}
+
+{% block stylesheet %}
+<style>
+#noshi_edit_area {
+	margin-bottom:40px;
+}
+#noshi_edit_area .ec-rectHeading {
+	padding-bottom:10px;
+}
+#noshi_edit_area .choice_area .noshi {
+	margin-bottom:20px;
+}
+#noshi_edit_area .choice_area .noshi .st {
+	font-weight:bold;
+}
+#noshi_edit_area .choice_area .noshi .pa {
+	padding-left:1em;
+}
+.noshi.ec-registerRole__actions button {
+	margin-bottom:10px;
+}
+</style>
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block main %}
+{% if config.noshi_enable %}
+    <form role="form" class="form-horizontal" name="form1" id="form1" method="post">
+        {{ form_widget(form._token) }}
+        {{ form_widget(form.fixed) }}
+        {{ form_widget(form.order_id) }}
+        {{ form_widget(form.visible) }}
+
+        <div id="noshi_edit_area" class="ec-role">
+            <div class="ec-rectHeading">
+                <h2>{{ '熨斗（のし）の登録'|trans }}</h2>
+            </div>
+            <div class="choice_area ec-off2Grid">
+            <div class="ec-off2Grid__cell">
+            
+            	{% if app.request.query.get('order') %}
+                    <div class="noshi">
+                        <label>{{ form_label(form.product, 'ご購入商品', { 'label_attr': { 'class': 'ec-label' }}) }}<span class="text-danger">{{ form_errors(form.product) }}</span></label>
+                        <select id="noshi_product" name="noshi[product]" class="form-control">
+                            <option value="">選択してください</option>
+                            {% for Item in OrderItem %}
+                                {% if Item.Product %}
+                                    <option value="{{ Item.product_name }}{% if Item.productClass.classCategory1 %} / {{ Item.productClass.classCategory1 }}{% endif %}{% if Item.productClass.classCategory2 %}・{{ Item.productClass.classCategory2 }}{% endif %}【{{ Item.Shipping.name01 }}{{ Item.Shipping.name02 }}様】">{{ Item.product_name }}{% if Item.productClass.classCategory1 %} / {{ Item.productClass.classCategory1 }}{% endif %}{% if Item.productClass.classCategory2 %}・{{ Item.productClass.classCategory2 }}{% endif %}【{{ Item.Shipping.name01 }}{{ Item.Shipping.name02 }}様】</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% else %}
+                	<div class="noshi">
+                        <div class="st">{{ 'ご購入商品'|trans }}</div>
+                        <div class="pa">{{ Noshi.product }}</div>
+                    </div>
+                		<div style="display:none;">{{ form_widget(form.product) }}</div>
+                {% endif %}
+                
+                {% if config.noshi_kind %}
+                    <div class="noshi">
+                        <label>{{ form_label(form.NoshiKind, 'のしの種類', { 'label_attr': { 'class': 'ec-label' }}) }}</label>
+                        {{ form_widget(form.NoshiKind, {'attr': {'class': 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.NoshiKind) }}</span>
+                    </div>
+                {% endif %}
+                {% if config.noshi_tie %}
+                    <div class="noshi">
+                        <label>{{ form_label(form.NoshiTie, '表書き（上段）', { 'label_attr': { 'class': 'ec-label' }}) }}</label>
+                        {{ form_widget(form.NoshiTie, {'attr': {'class': 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.NoshiTie) }}</span>
+                    </div>
+                    <div class="noshi">
+                        <label>{{ form_label(form.noshi_sonota, '表書き（上段）で、[その他]を選択した場合に入力してください。', { 'label_attr': { 'class': 'ec-label' }}) }}</label>
+                        {{ form_widget(form.noshi_sonota, {'attr': {'class': 'form-control', 'placeholder': '全角10文字まで'}}) }}
+                        <span class="text-danger">{{ form_errors(form.noshi_sonota) }}</span>
+                    </div>
+                {% endif %}
+                {% if config.noshi_name %}
+                    <div class="noshi">
+                        <label>{{ form_label(form.noshi_name, 'お名前（下段）', { 'label_attr': { 'class': 'ec-label' }}) }}</label>
+                        {{ form_widget(form.noshi_name, {'attr': {'class': 'form-control', 'placeholder': '全角10文字まで'}}) }}
+                        <span class="text-danger">{{ form_errors(form.noshi_name) }}</span>
+                    </div>
+                {% endif %}
+            </div>
+            </div>
+        </div>
+    
+        <div class="noshi ec-registerRole__actions">
+            <div class="ec-off4Grid">
+                <div class="ec-off4Grid__cell">
+                    <button class="ec-blockBtn--action" type="submit">{{ 'のしの登録をする'|trans }}</button>
+                    <a href="{{ url('shopping') }}" class="ec-blockBtn--cancel">{{ 'ご注文手続きに戻る'|trans }}</a>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+{% endif %}
+{% endblock %}
+

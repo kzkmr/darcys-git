@@ -1,0 +1,1 @@
+{"name":"ec-cube\/mypagereceipt","version":"4.1.2","description":"\u30de\u30a4\u30da\u30fc\u30b8\u9818\u53ce\u66f8\u5370\u5237\u30d7\u30e9\u30b0\u30a4\u30f3","type":"eccube-plugin","require":{"ec-cube\/plugin-installer":"~0.0.6 || ^2.0"},"extra":{"code":"MypageReceipt","id":1871}}

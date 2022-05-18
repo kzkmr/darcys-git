@@ -293,6 +293,11 @@ file that was distributed with this source code.
                                 {% endif %}
                             </div>
                         </div>
+                        <div class="ec-orderDelivery__address">
+                            <p>{{ 'common.name.prefix'|trans }}{{ shipping.name01 }} {{ shipping.name02 }} ({{ shipping.kana01 }} {{ shipping.kana02 }}){{ 'common.name.suffix'|trans }}</p>
+                            <p>{{ 'common.postal_symbol'|trans }}{{ shipping.postal_code }} {{ shipping.pref }}{{ shipping.addr01 }}{{ shipping.addr02 }}</p>
+                            <p>{{ shipping.phone_number }}</p>
+                        </div>
                         <div class="ec-orderDelivery__item">
                             <ul class="ec-borderedList">
                                 {% for orderItem in shipping.productOrderItems %}
@@ -315,11 +320,6 @@ file that was distributed with this source code.
                             </ul>
                             <p>{{ isShowReducedTaxMess ? 'common.reduced_tax_rate_messeage'|trans }}</p>
                         </div>
-                        <div class="ec-orderDelivery__address">
-                            <p>{{ 'common.name.prefix'|trans }}{{ shipping.name01 }} {{ shipping.name02 }} ({{ shipping.kana01 }} {{ shipping.kana02 }}){{ 'common.name.suffix'|trans }}</p>
-                            <p>{{ 'common.postal_symbol'|trans }}{{ shipping.postal_code }} {{ shipping.pref }}{{ shipping.addr01 }}{{ shipping.addr02 }}</p>
-                            <p>{{ shipping.phone_number }}</p>
-                        </div>
                         <div class="ec-orderDelivery__actions">
                             <div class="ec-selects">
                                 <div class="ec-select">
@@ -341,7 +341,7 @@ file that was distributed with this source code.
                         </div>
                     {% endfor %}
                     <div class="ec-orderDelivery__edit">
-                        <button type="button" class="ec-inlineBtn" data-trigger="click" data-path="{{ path('shopping_shipping_multiple') }}">{{ 'front.shopping.to_multiple'|trans }}</button>
+                        <button type="button" class="ec-inlineBtn" data-trigger="click" data-path="{{ path('shopping_shipping_multiple') }}">商品ごとにお届け先を指定する</button>
                     </div>
                 </div>
                 <div class="ec-orderPayment">

@@ -56,6 +56,7 @@ class TwigExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFunction('CustomizeNewProduct', array($this, 'getCustomizeNewProduct')),
             new \Twig_SimpleFunction('CustomizeCategoryProduct', array($this, 'getCustomizeCategoryProduct')),
+            new \Twig_SimpleFunction('IsChainStore', array($this, 'IsChainStore')),
         );
     }
 
@@ -71,7 +72,24 @@ class TwigExtension extends \Twig_Extension
 
     /**
      *
-     * 新着商品を3件返す
+     * 販売店かどうかの条件分岐
+     *
+     * @return IsChainStore|false
+     */
+    public function IsChainStore()
+    {
+        $LoginTypeInfo = $this->getLoginTypeInfo();
+        $LoginType = $LoginTypeInfo['LoginType'];
+        if ( $LoginType == 3 ) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+
+    /**
+     *
+     * 新着商品を4件返す
      *
      * @return Products|null
      */
@@ -92,7 +110,7 @@ class TwigExtension extends \Twig_Extension
             //$qb = $this->productRepository->getQueryBuilderBySearchData($searchData);
             $LoginTypeInfo = $this->getLoginTypeInfo();
             $qb = $this->productRepository->getQueryBuilderBySearchDataWithLoginTypeInfo($searchData, $LoginTypeInfo);
-            $query = $qb->setMaxResults(3)->getQuery();
+            $query = $qb->setMaxResults(4)->getQuery();
             $products = $query->getResult();
             return $products;
 
@@ -118,7 +136,8 @@ class TwigExtension extends \Twig_Extension
             $query = $qb->select("plob")
                 ->from("Eccube\\Entity\\Master\\ProductListOrderBy", "plob")
                 ->where('plob.id = :id')
-                ->setParameter('id', $this->eccubeConfig['eccube_product_order_newer'])
+                // ->setParameter('id', $this->eccubeConfig['eccube_product_order_newer'])
+                ->setParameter('id', 4)
                 ->getQuery();
             $searchData['orderby'] = $query->getOneOrNullResult();
 
@@ -135,6 +154,7 @@ class TwigExtension extends \Twig_Extension
             } else {
                 $arr = [1,2,5];
                 $query = $qb->select("ctg")
+                    ->from("Eccube\\Entity\\Category", "ctg")
                     ->where('ctg.id NOT IN (:id)')
                     ->setParameter('id', $arr)
                     ->getQuery();

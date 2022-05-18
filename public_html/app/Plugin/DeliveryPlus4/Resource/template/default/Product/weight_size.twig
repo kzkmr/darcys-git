@@ -1,0 +1,38 @@
+{#
+* Plugin Name : DeliveryPlus4
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+<style>
+  .ec-productRole .ec-productRole__weight {
+    padding: 14px 0;
+    border-bottom: 1px dotted #ccc; }
+
+  .ec-productRole .ec-productRole__size {
+    padding: 14px 0;
+    border-bottom: 1px dotted #ccc; }
+</style>
+{% if Product.deliveryplus_weight_min %}
+<div class="ec-productRole__weight">
+    {% if Product.deliveryplus_weight_min == Product.deliveryplus_weight_max %}
+    {{ 'deliveryplus.common.1'|trans }}： <span id="deliveryplus_weight_default">{{ Product.deliveryplus_weight_min }}</span>
+    {% else %}
+    {{ 'deliveryplus.common.1'|trans }}： <span id="deliveryplus_weight_default">{{ Product.deliveryplus_weight_min }} ～ {{ Product.deliveryplus_weight_max }}</span>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if Product.deliveryplus_size_min %}
+<div class="ec-productRole__size">
+    {% if Product.deliveryplus_size_min == Product.deliveryplus_size_max %}
+    {{ 'deliveryplus.common.2'|trans }}： <span id="deliveryplus_size_default">{{ Product.deliveryplus_size_min }}</span>
+    {% else %}
+    {{ 'deliveryplus.common.2'|trans }}： <span id="deliveryplus_size_default">{{ Product.deliveryplus_size_min }} ～ {{ Product.deliveryplus_size_max }}</span>
+    {% endif %}
+</div>
+{% endif %}

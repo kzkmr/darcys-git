@@ -32,12 +32,24 @@ file that was distributed with this source code.
 <div class="ec-header-category-area">
   <div class="ec-item-nav">
     <ul class="ec-item-nav__nav">
-      <li>
-        <a href="/shop/news/">NEWS</a>
+      <li class="ec-item-nav__nav-item">
+        <a href="/products/list/">
+          ONLINE SHOP
+          <span>オンライン ショップ</span>
+        </a>
       </li>
-      <li>
-        <a href="/shop/story/">STORY</a>
-        <ul class="ec-item-nav__child-nav">
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/news/">
+          NEWS
+          <span>ニュース</span>
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/story/">
+          STORY
+          <span>ストーリー</span>
+        </a>
+        {# <ul class="ec-item-nav__child-nav">
           <li>
             <a href="">ICE CREAM</a>
           </li>
@@ -47,11 +59,14 @@ file that was distributed with this source code.
           <li>
             <a href="">COFFEE</a>
           </li>
-        </ul>
+        </ul> #}
       </li>
-      <li>
-        <a href="/shop/concept/">CONCEPT</a>
-        <ul class="ec-item-nav__child-nav">
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/concept/">
+          CONCEPT
+          <span>コンセプト</span>
+        </a>
+        {# <ul class="ec-item-nav__child-nav">
           <li>
             <a href="">ICE CREAM</a>
           </li>
@@ -61,37 +76,31 @@ file that was distributed with this source code.
           <li>
             <a href="">COFFEE</a>
           </li>
-        </ul>
+        </ul> #}
       </li>
-      <li>
-        <a href="/shop/products-list/">PRODUCTS</a>
-        <ul class="ec-item-nav__child-nav">
-          <li>
-            <a href="">ICE CREAM</a>
-          </li>
-          <li>
-            <a href="">BREAD</a>
-          </li>
-          <li>
-            <a href="">COFFEE</a>
-          </li>
-        {#
-          {% for Category in Categories %}
-            <li>
-              {{ tree(Category) }}
-            </li>
-          {% endfor %}
-        #}
-        </ul>
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/products-list/">
+          PRODUCTS
+          <span>プロダクツ</span>
+        </a>
       </li>
-      <li>
-        <a href="{{ url('company') }}">ABOUT US</a>
+      <li class="ec-item-nav__nav-item">
+        <a href="{{ url('company') }}">
+          ABOUT US
+          <span>会社概要</span>
+        </a>
       </li>
-      <li>
-        <a href="{{ url('product_list') }}">STORE</a>
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/stores">
+          STORE
+          <span>実店舗のご紹介</span>
+        </a>
       </li>
-      <li>
-        <a href="">CONTACT US</a>
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/contact">
+          CONTACT US
+          <span>お問い合わせ</span>
+        </a>
       </li>
     </ul>
   </div>
