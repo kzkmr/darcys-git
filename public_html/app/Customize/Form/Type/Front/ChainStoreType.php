@@ -18,11 +18,13 @@ use Customize\Entity\ChainStore;
 use Eccube\Form\Type\AddressType;
 use Eccube\Form\Type\KanaType;
 use Customize\Entity\Master\ContractType;
+use Customize\Entity\Master\ApplicantContractType;
 use Customize\Form\Type\Master\BankType;
 use Customize\Form\Type\Master\BankBranchType;
 use Customize\Form\Type\Master\BankAccountTypeType;
 use Customize\Form\Type\Master\ContractTypeType;
 use Customize\Repository\Master\ContractTypeRepository;
+use Customize\Repository\Master\ApplicantContractTypeRepository;
 use Eccube\Form\Type\Master\JobType;
 use Eccube\Form\Type\Master\SexType;
 use Eccube\Form\Type\NameType;
@@ -55,16 +57,23 @@ class ChainStoreType extends AbstractType
     protected $contractTypeRepository;
 
     /**
+     * @var ApplicantContractTypeRepository
+     */
+    protected $applicantContractTypeRepository;
+
+    /**
      * EntryType constructor.
      *
      * @param EccubeConfig $eccubeConfig
      */
     public function __construct(
                         EccubeConfig $eccubeConfig,
-                        ContractTypeRepository $contractTypeRepository)
+                        ContractTypeRepository $contractTypeRepository,
+                        ApplicantContractTypeRepository $applicantContractTypeRepository)
     {
         $this->eccubeConfig = $eccubeConfig;
         $this->contractTypeRepository = $contractTypeRepository;
+        $this->applicantContractTypeRepository = $applicantContractTypeRepository;
     }
 
     /**
@@ -73,8 +82,18 @@ class ChainStoreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $contractType = $this->contractTypeRepository->findBy(['is_hidden' => 'N'], ['sort_no' => 'ASC']);
+        $applicantContractType = $this->applicantContractTypeRepository->findBy([], ['sort_no' => 'ASC']);
 
         $builder
+            ->add('applicant_contract_type', EntityType::class, [
+                'required' => true,
+                'class' => ApplicantContractType::class,
+                'placeholder' => 'common.select__applicant_contract_type',
+                'choices' => $applicantContractType,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
+            ])
             ->add('name', NameType::class, [
                 'required' => false,
             ])

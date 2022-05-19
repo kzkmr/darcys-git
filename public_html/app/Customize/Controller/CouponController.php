@@ -178,41 +178,47 @@ class CouponController extends AbstractController
 
         if($isActive){
             $Coupon = $this->couponRepository->findActiveCoupon($coupon_code);
+            
             if (!$Coupon) {
                 //Coupon not found!
                 $Coupon = null;
             }else{
-                
-                //POST
-                if ($_SERVER['REQUEST_METHOD'] == 'POST' || $isget){
-                    if( is_object($ChainStore) ){
-                        //$Coupon = null;
-                        $CanGetCoupon = false;
-                    }else{
-                        if (!$this->isGranted('IS_AUTHENTICATED_FULLY') && !$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-                            //$params = array('url'=> 'coupon', 'params'=> array('coupon_code' => $coupon_code));
-                            $this->addFlash('eccube.login.target.path', '/coupon/'.$coupon_code.'/get');
-                            return $this->redirectToRoute('mypage_login');
-                        }
-
-                        $CustomerCoupon = $this->customerCouponRepository->findOneBy(['Customer' => $Customer, 'Coupon' => $Coupon]);
-
-                        if(!$CustomerCoupon){
-                            $CustomerCoupon = new CustomerCoupon();
-                            $CustomerCoupon->setCustomer( $Customer );
-                            $CustomerCoupon->setCoupon( $Coupon );
-                            $CustomerCoupon->setCreateDate( new \DateTime() );
-                            $this->customerCouponRepository->save($CustomerCoupon);
-                        }
-
-                        $hasCoupon = true;
-                    }
+                $checkCouponUseTime = $this->couponRepository->checkCouponUseTime($Coupon->getCouponCd());
+                if (!$checkCouponUseTime) {
+                    //Coupon not found!
+                    $Coupon = null;
                 }else{
-                    //GET
-                    if ($this->isGranted('IS_AUTHENTICATED_FULLY') || $this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-                        $CustomerCoupon = $this->customerCouponRepository->findOneBy(['Customer' => $Customer, 'Coupon' => $Coupon]);
-                        if($CustomerCoupon){
+                    //POST
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST' || $isget){
+                        if( is_object($ChainStore) ){
+                            //$Coupon = null;
+                            $CanGetCoupon = false;
+                        }else{
+                            if (!$this->isGranted('IS_AUTHENTICATED_FULLY') && !$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                                //$params = array('url'=> 'coupon', 'params'=> array('coupon_code' => $coupon_code));
+                                $this->addFlash('eccube.login.target.path', '/coupon/'.$coupon_code.'/get');
+                                return $this->redirectToRoute('mypage_login');
+                            }
+
+                            $CustomerCoupon = $this->customerCouponRepository->findOneBy(['Customer' => $Customer, 'Coupon' => $Coupon]);
+
+                            if(!$CustomerCoupon){
+                                $CustomerCoupon = new CustomerCoupon();
+                                $CustomerCoupon->setCustomer( $Customer );
+                                $CustomerCoupon->setCoupon( $Coupon );
+                                $CustomerCoupon->setCreateDate( new \DateTime() );
+                                $this->customerCouponRepository->save($CustomerCoupon);
+                            }
+
                             $hasCoupon = true;
+                        }
+                    }else{
+                        //GET
+                        if ($this->isGranted('IS_AUTHENTICATED_FULLY') || $this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                            $CustomerCoupon = $this->customerCouponRepository->findOneBy(['Customer' => $Customer, 'Coupon' => $Coupon]);
+                            if($CustomerCoupon){
+                                $hasCoupon = true;
+                            }
                         }
                     }
                 }
@@ -370,8 +376,8 @@ class CouponController extends AbstractController
 
             if(count($listDate) > 0){
                 if($selDate == ""){
-                    $selDate = $listDate[0]["dateVal"];
-                    $selDateName = $listDate[0]["dateName"];
+                    $selDate = date("Y-m");     //$listDate[0]["dateVal"];
+                    $selDateName = date("Y年m月"); //$listDate[0]["dateName"];
                     $paymentDate = date('Y/m/d', strtotime("+1 months", strtotime($selDate."-15")));
                 }
 
@@ -420,7 +426,9 @@ class CouponController extends AbstractController
         if($isActive){
             $Coupon = $this->couponRepository->findOneBy(['coupon_cd' => $coupon_code]);
             $CustomerCoupon = $this->customerCouponRepository->findOneBy(['Customer' => $Customer, 'Coupon' => $Coupon]);
-            $this->customerCouponRepository->delete( $CustomerCoupon );
+            if(is_object($CustomerCoupon)){
+                $this->customerCouponRepository->delete( $CustomerCoupon );
+            }
         }
 
         return $this->redirectToRoute('mypage_coupon_list');

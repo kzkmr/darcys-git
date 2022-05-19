@@ -29,12 +29,23 @@ file that was distributed with this source code.
                             <br/>
                             {{YYYY}}年{{MM}}月{{DD}}日マスタ登録チェック<br/>
                             <br/>
-                            ディーラーコード未登録販売店：{{DealerCode}}件<br/>
-                            クーポン未登録販売店：{{CouponCode}}件<br/>
+                            ディーラーコード未登録販売店：{{DealerCodeList|length }}件<br/>
+                            クーポン未登録販売店：{{CouponCodeList|length }}件<br/>
                             <br/>
-                            詳細リストをご確認下さい。<br/>
-                            {{ Result }}<br/>
-                            <br/>
+                            {% if DealerCodeList %}
+                                ディーラーコード未登録販売店の詳細リストをご確認下さい<br/>
+                                {% for Dealer in DealerCodeList %}
+                                    {{Dealer.ChainStore.stock_number}} - {{Dealer.ChainStore.company_name}}<br/>
+                                {% endfor %}
+                            {% endif %}
+                            <br/><br/>
+                            {% if CouponCodeList %}
+                                クーポン未登録販売店の詳細リストをご確認下さい。<br/>
+                                {% for Coupon in CouponCodeList %}
+                                    {{Coupon.ChainStore.stock_number}} - {{Coupon.ChainStore.company_name}}<br/>
+                                {% endfor %}
+                            {% endif %}
+                            <br/><br/>
                             管理画面はコチラより<br/>
                             https://icecream.dzx.co.jp/darcysadmin/
                             <br/>

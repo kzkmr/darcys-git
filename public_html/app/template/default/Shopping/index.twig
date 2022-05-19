@@ -96,6 +96,22 @@ file that was distributed with this source code.
     </script>
 {% endblock javascript %}
 
+{% block stylesheet %}
+    <style>
+        .ec-orderRole__imp {
+            margin: 0 16px;
+            background: #F3F3F3;
+            padding: 16px;
+            width:100%;
+        }
+        .ec-order-limit-text1 {
+            color: #DE5D50;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+{% endblock stylesheet %}
+
 {% block main %}
 
     <div class="ec-role">
@@ -150,6 +166,65 @@ file that was distributed with this source code.
     <form id="shopping-form" method="post" action="{{ url('shopping_confirm') }}">
         {{ form_widget(form._token) }}
         {{ form_widget(form.redirect_to) }}
+        {% set isOrderLimit = false %}
+        {% set isOrderOver = false %}
+        {% if ChainStore %}
+            {% set currentBalance = ChainStore.balancePrice - Order.payment_total %}
+            {% if ChainStore.optionOrderLimit %}
+                {% set isOrderLimit = true %}
+            {% endif %}
+
+            {% if ChainStore.ContractType.id != 2 %}
+                <div class="ec-orderRole ec-imp-message">
+                    <div class="ec-orderRole__imp">
+                        {% if ChainStore.ContractType.id == 1 %}
+                            <p class="ec-order-limit-text">購入可能金額 {{ChainStore.balancePrice | price}}</p>
+
+                            {% if currentBalance < 0 %}
+                                {% set isOrderOver = true %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% if ChainStore.ContractType.id != 2 %}
+                            {% if isOrderLimit %}
+                                <div class="ec-order-limit">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ ChainStore.orderLimitText | nl2br }}
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% if ChainStore.orderLimitText is not null and ChainStore.orderLimitText is not empty %}
+                                    <div class="ec-order-limit">
+                                        <div class="alert alert-danger" role="alert">
+                                            {% if isOrderOver %}
+                                                ご購入可能金額を超えています。
+                                            {% else %}
+                                                {{ ChainStore.orderLimitText | nl2br }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% elseif isOrderOver %}
+                                    <div class="ec-order-limit">
+                                        <div class="alert alert-danger" role="alert">
+                                            ご購入可能金額を超えています。
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    {% if ChainStore.ContractType.id != 1 %}
+                                        <script>
+                                            $(function() {
+                                                $(".ec-imp-message").hide();
+                                            });
+                                        </script>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
         <div class="ec-orderRole">
             <div class="ec-orderRole__detail">
                 <div class="ec-orderAccount">
@@ -320,6 +395,11 @@ file that was distributed with this source code.
                             </ul>
                             <p>{{ isShowReducedTaxMess ? 'common.reduced_tax_rate_messeage'|trans }}</p>
                         </div>
+                        <div class="ec-orderDelivery__address">
+                            <p>{{ 'common.name.prefix'|trans }}{{ shipping.name01 }} {{ shipping.name02 }} ({{ shipping.kana01 }} {{ shipping.kana02 }}){{ 'common.name.suffix'|trans }}</p>
+                            <p>{{ 'common.postal_symbol'|trans }}{{ shipping.postal_code }} {{ shipping.pref }}{{ shipping.addr01 }}{{ shipping.addr02 }}</p>
+                            <p>{{ shipping.phone_number }}</p>
+                        </div>
                         <div class="ec-orderDelivery__actions">
                             <div class="ec-selects">
                                 <div class="ec-select">
@@ -377,7 +457,9 @@ file that was distributed with this source code.
                     </div>
                     <div class="ec-input {{ has_errors(form.Payment) ? ' error' }}">{{ form_errors(form.Payment) }}</div>
                 </div>
-                {% if BaseInfo.isOptionPoint and Order.Customer is not null %}
+                {% if ChainStore %}
+                    {{ form_widget(form.use_point, { 'attr': { 'type': 'hidden', 'style': 'display:none;'}}) }}
+                {% elseif BaseInfo.isOptionPoint and Order.Customer is not null %}
                     <div class="ec-orderPayment">
                         <div class="ec-rectHeading">
                             <h2>{{ 'front.shopping.point_info'|trans }}</h2>
@@ -434,7 +516,7 @@ file that was distributed with this source code.
                         </dl>
                     {% endfor %}
                     <div class="ec-totalBox__paymentTotal">{{ 'common.payment_total'|trans }}<span class="ec-totalBox__price">{{ Order.payment_total|price }}</span><span class="ec-totalBox__taxLabel">{{ 'common.tax_include'|trans }}</span></div>
-                    {% if BaseInfo.isOptionPoint and Order.Customer is not null %}
+                    {% if BaseInfo.isOptionPoint and Order.Customer is not null and not ChainStore %}
                     <div class="ec-totalBox__pointBlock">
                         <dl class="ec-totalBox__spec">
                             <dt>{{ 'front.shopping.use_point'|trans }}</dt>
@@ -446,8 +528,11 @@ file that was distributed with this source code.
                         </dl>
                     </div>
                     {% endif %}
+
                     <div class="ec-totalBox__btn">
-                        <button type="submit" class="ec-blockBtn--action">{{ 'front.shopping.go_to_confirm'|trans }}</button>
+                        {% if not isOrderLimit and not isOrderOver %}
+                            <button type="submit" class="ec-blockBtn--action">{{ 'front.shopping.go_to_confirm'|trans }}</button>
+                        {% endif %}
                         <a href="{{ url("cart") }}" class="ec-blockBtn--cancel">{{ 'front.shopping.back_to_cart'|trans }}</a>
                     </div>
                 </div>

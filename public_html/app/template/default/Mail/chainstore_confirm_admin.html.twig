@@ -29,9 +29,10 @@ file that was distributed with this source code.
                             <br>
                             {{ Customer.name01 }} {{ Customer.name02 }}様販売店登録が完了しました<br>
                             証券番号：BN{{ChainStore.stock_number}}<br>
+                            契約区分：{{ContractType.name}}<br>
                             販売店マスタ登録画面にてディーラーコードの設定をして下さい。<br>
                             <br>
-                            {% if not ContractType.id == 3 %}
+                            {% if ContractType.id != 3 %}
                             また、クーポンが未登録の場合はクーポン登録画面より<br>
                             {{ Customer.name01 }} {{ Customer.name02 }}様専用クーポンの新規登録をして下さい。<br>
                             <br>

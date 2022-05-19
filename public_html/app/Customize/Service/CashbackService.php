@@ -261,6 +261,49 @@ class CashbackService
             $Cashback[] = $cashbackSummary;
         }
 
+        foreach($previousCashbackList as $previousItem){
+            $inMarginList = false;
+            $ChainStore = $previousItem->getChainStore();
+
+            if(!is_object($ChainStore)){
+                continue;
+            }
+
+            foreach($calcMarginList as $margin){
+                $marginChainStoreId = $margin["id"];
+
+                if($ChainStore->getId() == $marginChainStoreId){
+                    $inMarginList = true;
+                    break;
+                }
+            }
+
+            if($inMarginList){
+                continue;
+            }
+
+            if($previousItem->getCarriedForward() <= 0){
+                continue;
+            }
+
+            $cashbackSummary = new CashbackSummary();
+            $cashbackSummary->setReferenceYm($calcYM);
+            $cashbackSummary->setChainStore($ChainStore);
+            $cashbackSummary->setPreviousMarginPrice($previousItem->getCarriedForward());
+            $cashbackSummary->setMarginPrice(0);
+            $cashbackSummary->setExportCnt(0);
+            $cashbackSummary->setPurchaseAmount(0);
+            //マージン残高
+            $cashbackSummary->setMarginBalance(0);
+            //繰り越しマージン
+            $cashbackSummary->setCarriedForward($previousItem->getCarriedForward());
+            //請求金額
+            $cashbackSummary->setRequestAmount(0);
+
+            $this->cashbackSummaryRepository->save($cashbackSummary);
+            $this->entityManager->flush();
+        }
+
         $transferDate = $this->bankTransferInfoRepository->findOneBy(["referenceYm" => $calcYM]);
         if(!is_object($transferDate)){
             $defaultTransferDate = strtotime("+1 months", strtotime($calcYM."-15"));

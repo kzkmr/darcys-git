@@ -12,11 +12,12 @@ file that was distributed with this source code.
 
 ご担当者様
 
-{{ Customer.name01 }} {{ Customer.name02 }}様販売店登録が完了しました
+{{ Customer.name01 }} {{ Customer.name02 }}様の販売店登録が完了しました
 証券番号：BN{{ChainStore.stock_number}}
+契約区分：{{ContractType.name}}
 販売店マスタ登録画面にてディーラーコードの設定をして下さい。
 
-{% if not ContractType.id == 3 %}
+{% if ContractType.id != 3 %}
 また、クーポンが未登録の場合はクーポン登録画面より
 {{ Customer.name01 }} {{ Customer.name02 }}様専用クーポンの新規登録をして下さい。
 {% endif %}

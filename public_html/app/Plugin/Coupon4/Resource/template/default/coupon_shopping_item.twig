@@ -151,25 +151,31 @@
                         </a>
                     </li>
                     {% for CustomerCoupon in CustomerCouponList %}
-                        {% if CustomerCoupon.Coupon.order_discount_price > 0 %}
-                            <li class="coupon-item">
-                        {% else %}
-                            <li class="coupon-item disabled">
-                        {% endif %}
-                            <a href="#" onclick="javascript:return false;" class="clearfix">
-                                <div class="coupon-item-left">
-                                    <span class="coupon-field">{{ CustomerCoupon.Coupon.coupon_name }}</span>
-                                    <span class="coupon-field discount">購入金額割引：{{ CustomerCoupon.Coupon.order_discount_price | price }}</span>
-                                </div>
-                                <div class="coupon-item-right">
-                                    {% if CustomerCoupon.Coupon.order_discount_price > 0 %}
-                                        {% if CouponOrder is null or CustomerCoupon.Coupon.coupon_cd != CouponOrder.coupon_cd %}
-                                            <button type="button" class="btn btn-primary" data-url="{{ url("plugin_coupon_shopping_apply", {"couponCd":CustomerCoupon.Coupon.coupon_cd}) }}">選択</button>
+                        {% if CustomerCoupon.Coupon.coupon_real_type != 'hidden' %}
+                            {% if CustomerCoupon.Coupon.order_discount_price > 0 %}
+                                <li class="coupon-item">
+                            {% else %}
+                                <li class="coupon-item disabled">
+                            {% endif %}
+                                <a href="#" onclick="javascript:return false;" class="clearfix">
+                                    <div class="coupon-item-left">
+                                        <span class="coupon-field">{{ CustomerCoupon.Coupon.coupon_name }}</span>
+                                        {% if CustomerCoupon.Coupon.coupon_real_type == 'lower_limit' %}
+                                            <span class="coupon-field discount">{{ CustomerCoupon.Coupon.coupon_real_message }}</span>
+                                        {% else %}
+                                            <span class="coupon-field discount">購入金額割引：{{ CustomerCoupon.Coupon.order_discount_price | price }}</span>
                                         {% endif %}
-                                    {% endif %}
-                                </div>
-                            </a>
-                        </li>
+                                    </div>
+                                    <div class="coupon-item-right">
+                                        {% if CustomerCoupon.Coupon.order_discount_price > 0 %}
+                                            {% if CouponOrder is null or CustomerCoupon.Coupon.coupon_cd != CouponOrder.coupon_cd %}
+                                                <button type="button" class="btn btn-primary" data-url="{{ url("plugin_coupon_shopping_apply", {"couponCd":CustomerCoupon.Coupon.coupon_cd}) }}">選択</button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 </div>

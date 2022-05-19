@@ -158,6 +158,30 @@ class Event implements EventSubscriberInterface
                         if(sizeof($couponProducts) != 0){
                             // 値引き額を取得
                             $discount = $this->couponService->recalcOrder($Coupon, $couponProducts);
+
+                            $lowerLimit = $Coupon->getCouponLowerLimit();
+                            $checkLowerLimit = $this->couponService->isLowerLimitCoupon($couponProducts, $lowerLimit);
+                            if (!$checkLowerLimit) {
+                                $discount = 0;
+                                $message = trans('plugin_coupon.front.shopping.lowerlimit', ['lowerLimit' => number_format($lowerLimit)]);
+                                $Coupon->setCouponRealType("hidden");
+                                $Coupon->setCouponRealMessage($message);
+                            }
+                        }
+                
+                        $checkCouponUseTime = $this->couponRepository->checkCouponUseTime($Coupon->getCouponCd());
+                        if (!$checkCouponUseTime) {
+                            $discount = 0;
+                            $Coupon->setCouponRealType("hidden");
+                        }
+
+                        if ($Coupon->getReuse() != 'Y') {
+                            $couponUsedOrNot = $this->couponService->checkCouponUsedOrNot($Coupon->getCouponCd(), $Customer);
+                            if ($Coupon && $couponUsedOrNot) {
+                                // 既に存在している
+                                $discount = 0;
+                                $Coupon->setCouponRealType("hidden");
+                            }
                         }
 
                         $Coupon->setOrderDiscountPrice($discount);

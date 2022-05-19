@@ -18,6 +18,8 @@ file that was distributed with this source code.
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{{ asset('assets/css/tempusdominus-bootstrap-4.min.css', 'admin') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css', 'admin') }}">
+
     <style type="text/css">
         .datepicker-days th.dow:first-child,
         .datepicker-days td:first-child {
@@ -35,6 +37,9 @@ file that was distributed with this source code.
 {% endblock stylesheet %}
 
 {% block javascript %}
+    <script src="{{ asset('assets/js/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js', 'admin') }}"></script>
+    <script src="{{ asset('assets/js/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.ja.min.js', 'admin') }}"></script>
+
     <script>
         $(function() {
            $("#btnTransfer").on("click", function(){
@@ -51,6 +56,22 @@ file that was distributed with this source code.
             });
 
             $(".list-search-result").show();
+
+            $('#admin_search_cashback_transfer_ym').datepicker({
+                format: 'yyyy/mm/dd',
+                container: $(".date-container"),
+                todayHighlight: true,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                autoclose: true,
+                orientation: "bottom left",
+                language: "ja",
+                locale: "ja",
+            }).datepicker("setDate", "{{paymentYM}}");;
+
+            $(".btnclear").on("click", function(){
+                $('#admin_search_cashback_transfer_ym').val("");
+            });
         });
     </script>
 
@@ -272,8 +293,11 @@ file that was distributed with this source code.
                             <div class="col-3">
                                 <span>振込日付</span>
                             </div>
-                            <div class="col-9">
-                                {{ form_widget(searchForm.transfer_ym) }}
+                            <div class="col-7 date-container">
+                                {{ form_widget(searchForm.transfer_ym, {'attr': {'readonly': 'true'}}) }}
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-secondary btnclear">消除</button>
                             </div>
                         </div>
                     </div>

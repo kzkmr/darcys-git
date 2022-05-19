@@ -81,6 +81,24 @@ file that was distributed with this source code.
     </style>
 {% endblock %}
 
+{% block javascript %}
+    <script src="{{ asset('assets/js/qrcode.min.js') }}"></script>
+    <script>
+        $(function() {
+            $(".btndelete").on("click", function(){
+                var t = $(this);
+                if(t.data("disabled")){
+                    $(this).attr('href', 'javascript: void(0)');
+                    return false;
+                }else{
+                    $(this).attr("disabled", true);
+                    t.data("disabled", true);
+                }
+            });
+        });
+    </script>
+{% endblock javascript %}
+
 {% block main %}
 
     <div class="ec-layoutRole__main">
@@ -124,7 +142,7 @@ file that was distributed with this source code.
                                         </p>
                                     </div>
                                     <div class="ec-imageGrid__content">
-                                        <a class="ec-inlineBtn dzx-right" href="{{ url('mypage_coupon_delete', {coupon_code: Coupon.coupon_cd}) }}"><img src="{{ asset('assets/icon/cross.svg') }}"> 削除</a>
+                                        <a class="ec-inlineBtn dzx-right btndelete" href="{{ url('mypage_coupon_delete', {coupon_code: Coupon.coupon_cd}) }}"><img src="{{ asset('assets/icon/cross.svg') }}"> 削除</a>
                                         <p class="c-static-intro-coupon">
                                             <span class="title">クーポンの獲得日</span><br>
                                             {{ CustomerCoupon.create_date | date_format('', 'Y/m/d') }}<br>
