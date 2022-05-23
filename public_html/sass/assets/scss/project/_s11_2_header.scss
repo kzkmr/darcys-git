@@ -238,6 +238,10 @@ Styleguide 11.2
     display: flex;
     align-items: center;
     margin: 0 auto;
+
+    .ec-header-bottom-title {
+      text-align: center;
+    }
   }
 
   &__right {

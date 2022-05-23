@@ -5594,6 +5594,9 @@ Styleguide 11.2
   align-items: center;
   margin: 0 auto;
 }
+.ec-header-bottom__center .ec-header-bottom-title {
+  text-align: center;
+}
 .ec-header-bottom__right {
   position: absolute;
   top: 18px;
@@ -8087,10 +8090,12 @@ Styleguide 13.2.2
   color: #fff;
 }
 .category-tab__item a.category-2 {
+  display: none;
   background-color: #f8b62d;
   color: #fff;
 }
 .category-tab__item a.category-5 {
+  display: none;
   background-color: #6a3906;
   color: #fff;
 }
