@@ -34,12 +34,12 @@ class ApiController extends AbstractController
      * @var BankBranchRepository
      */
     protected $bankBranchRepository;
-	
+
     /**
      * @var ChainStoreRepository
      */
     protected $chainstoreRepository;
-    
+
     /**
      * @var MemberRepository
      */
@@ -76,9 +76,9 @@ class ApiController extends AbstractController
      * Bank.
      *
      * @Route("/bank/list/{bank_id}", name="bank_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function bankList(Request $request, $bank_id)
@@ -113,14 +113,14 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $bankBranch], $result));
     }
 
-    
+
     /**
      * chainstore.
      *
      * @Route("/chainstore/api/list/{keyword}", name="chainstore_api_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_list(Request $request, $keyword)
@@ -132,7 +132,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-        
+
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -163,9 +163,9 @@ class ApiController extends AbstractController
      * chainstore.
      *
      * @Route("/chainstore/api/main/list/{keyword}", name="chainstore_api_main_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_main_list(Request $request, $keyword)
@@ -177,7 +177,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-        
+
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -203,4 +203,84 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
     }
 
+    /**
+     * 外部からのログインチェック.
+     *
+     * @Route("/mypage/api_login", name="api_login", methods={"POST"})
+     */
+    function apiLogin(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        log_info('販売店チェック処理開始',[]);
+
+        // ログインチェック
+        $LoginTypeInfo = $this->getLoginTypeInfo();
+        $LoginType = $LoginTypeInfo['LoginType'];
+        if ( $LoginType == 3 ) {
+          $done = true;
+        } else {
+          $done = false;
+        }
+
+        log_info('販売店チェック処理完了',[]);
+
+        return $this->json(['done' => $done ]);
+    }
+
+    function getLoginTypeInfo()
+    {
+        $LoginType = 1;         //Default is guest
+        $Customer = $this->getCurrentUser();
+        $ChainStore = null;
+        $ContractType = null;
+
+        if (is_object($Customer)) {
+            $ChainStore = $Customer->getChainStore();
+
+            if(is_object($ChainStore)){
+                $LoginType = 3;         //ChainStore member
+                $ContractType = $ChainStore->getContractType();
+            }else{
+                $LoginType = 2;         //Normal member
+            }
+        }else{
+            $Customer = null;
+        }
+
+        return [
+            'LoginType' => $LoginType,
+            'Customer' => $Customer,
+            'ChainStore' => $ChainStore,
+            'ContractType' => $ContractType,
+        ];
+    }
+
+    function getCurrentUser()
+    {
+        if(!$this->tokenStorage){
+            return null;
+        }
+
+        if (!$token = $this->tokenStorage->getToken()) {
+            return null;
+        }
+
+        if (!$token->isAuthenticated()) {
+            return null;
+        }
+
+        if(!$user = $token->getUser()){
+            return null;
+        }
+
+        if(is_object($user)){
+            return $user;
+        }
+
+        return null;
+    }
 }
+

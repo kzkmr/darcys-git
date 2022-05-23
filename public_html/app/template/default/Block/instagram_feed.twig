@@ -1,3 +1,4 @@
+{% block stylesheet %}
 <style>
 /**************/
 /*** LAYOUT ***/
@@ -822,6 +823,11 @@
     margin-right: 2px
 }
 </style>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('assets/sbi-js/sbi-scripts.js') }}"></script>
+{% endblock %}
 <section class="ec-top-instagram">
     <div class="ec-secHeading">
         <span class="ec-secHeading__en">Instagram</span>

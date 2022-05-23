@@ -632,6 +632,7 @@ file that was distributed with this source code.
                         <a class="ec-blockBtn--cancel" href="{{ url('product_list') }}">商品一覧に戻る</a>
                     </div>
 
+                    {% if IsChainStore() == false %}
                     {% if hasCategory == 1 %}
                     <div class="ec-modal-02">
                         <div class="ec-modal-02__banner modal-open">
@@ -649,6 +650,7 @@ file that was distributed with this source code.
                         </div>
                     </div>
                     {% endif %}
+                    {% endif %}
 
                 </div>
             </div>
@@ -659,6 +661,8 @@ file that was distributed with this source code.
             </div>
         {% endif %}
     </div>
+
+    {% if IsChainStore() == false %}
     {% set NewProducts = CustomizeNewProduct() %}
     {% if NewProducts|length > 0 %}
         <div class="ec-products-top-area ec-products-top-area--new-list">
@@ -694,5 +698,6 @@ file that was distributed with this source code.
                 </ul>
             </div>
         </div>
+    {% endif %}
     {% endif %}
 {% endblock %}

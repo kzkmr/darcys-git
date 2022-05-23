@@ -52,75 +52,83 @@ file that was distributed with this source code.
 </div>
 
 <div class="ec-header-bottom sp-none">
-  <div class="ec-header-bottom__logo">
-    <p class="ec-header-bottom__img">
-      <a href="{{ url('homepage') }}">
-        <img src="{{ asset('assets/img/common/logo_header.png') }}" alt="">
-      </a>
-    </p>
-  </div>
-  <div class="ec-header-bottom__center">
-    <div class="ec-header-bottom__gnav">
-      <ul class="p-global-navi">
-        <li class="p-global-navi__item">
-          <a href="/shop/news/">NEWS</a>
-          <a href="/shop/news/" class="p-global-navi__jp">お知らせ</a>
-        </li>
-        <li class="p-global-navi__item has-child">
-          <a href="/shop/products-list/">PRODUCTS</a>
-          <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
-          <ul class="p-global-navi-child">
-            <li class="p-global-navi-child__item">
-              <a href="/shop/story/">- STORY</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="/shop/concept/">- CONCEPT</a>
-            </li>
-          </ul>
-        </li>
-        <li class="p-global-navi__item has-child">
-          <a href="/shop/guide/">GUIDE</a>
-          <a href="/shop/guide/" class="p-global-navi__jp">お買い物ガイド</a>
-          {# <ul class="p-global-navi-child">
-            <li class="p-global-navi-child__item">
-              <a href="/shop/concept/concept-ice-cream/">- ICE CREAM</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="" style="pointer-events:none;">- COFFEE</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="" style="pointer-events:none;">- BREAD</a>
-            </li>
-          </ul> #}
-        </li>
-        {# <li class="p-global-navi__item has-child"> #}
-        {# <li class="p-global-navi__item">
-          <a href="/shop/products-list/">PRODUCTS</a>
-          <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
-          <span class="p-global-navi__jp">商品ラインアップ</span>
-          <ul class="p-global-navi-child">
-            <li class="p-global-navi-child__item">
-              <a href="">- ICE CREAM</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="">- COFFEE</a>
-            </li>
-            <li class="p-global-navi-child__item">
-              <a href="">- BREAD</a>
-            </li>
-          </ul>
-        </li> #}
-        <li class="p-global-navi__item">
-          <a href="{{ url('company') }}">ABOUT US</a>
-          <a href="{{ url('company') }}" class="p-global-navi__jp">会社概要</a>
-        </li>
-        <li class="p-global-navi__item">
-          <a href="/shop/stores/">STORES</a>
-          <a href="/shop/stores/" class="p-global-navi__jp">実店舗のご紹介</a>
-        </li>
-      </ul>
+  {% if IsChainStore() == false %}
+    <div class="ec-header-bottom__logo">
+      <p class="ec-header-bottom__img">
+        <a href="{{ url('homepage') }}">
+          <img src="{{ asset('assets/img/common/logo_header.png') }}" alt="">
+        </a>
+      </p>
     </div>
-  </div>
+    <div class="ec-header-bottom__center">
+      <div class="ec-header-bottom__gnav">
+        <ul class="p-global-navi">
+          <li class="p-global-navi__item">
+            <a href="/shop/news/">NEWS</a>
+            <a href="/shop/news/" class="p-global-navi__jp">お知らせ</a>
+          </li>
+          <li class="p-global-navi__item has-child">
+            <a href="/shop/products-list/">PRODUCTS</a>
+            <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
+            <ul class="p-global-navi-child">
+              <li class="p-global-navi-child__item">
+                <a href="/shop/story/">- STORY</a>
+              </li>
+              <li class="p-global-navi-child__item">
+                <a href="/shop/concept/">- CONCEPT</a>
+              </li>
+            </ul>
+          </li>
+          <li class="p-global-navi__item has-child">
+            <a href="/shop/guide/">GUIDE</a>
+            <a href="/shop/guide/" class="p-global-navi__jp">お買い物ガイド</a>
+            {# <ul class="p-global-navi-child">
+              <li class="p-global-navi-child__item">
+                <a href="/shop/concept/concept-ice-cream/">- ICE CREAM</a>
+              </li>
+              <li class="p-global-navi-child__item">
+                <a href="" style="pointer-events:none;">- COFFEE</a>
+              </li>
+              <li class="p-global-navi-child__item">
+                <a href="" style="pointer-events:none;">- BREAD</a>
+              </li>
+            </ul> #}
+          </li>
+          {# <li class="p-global-navi__item has-child"> #}
+          {# <li class="p-global-navi__item">
+            <a href="/shop/products-list/">PRODUCTS</a>
+            <a href="/shop/products-list/" class="p-global-navi__jp">商品ラインアップ</a>
+            <span class="p-global-navi__jp">商品ラインアップ</span>
+            <ul class="p-global-navi-child">
+              <li class="p-global-navi-child__item">
+                <a href="">- ICE CREAM</a>
+              </li>
+              <li class="p-global-navi-child__item">
+                <a href="">- COFFEE</a>
+              </li>
+              <li class="p-global-navi-child__item">
+                <a href="">- BREAD</a>
+              </li>
+            </ul>
+          </li> #}
+          <li class="p-global-navi__item">
+            <a href="{{ url('company') }}">ABOUT US</a>
+            <a href="{{ url('company') }}" class="p-global-navi__jp">会社概要</a>
+          </li>
+          <li class="p-global-navi__item">
+            <a href="/shop/stores/">STORES</a>
+            <a href="/shop/stores/" class="p-global-navi__jp">実店舗のご紹介</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  {% else %}
+    <div class="ec-header-bottom__center">
+      <div class="ec-header-bottom-title">
+        <h1>ダシーズファクトリー<br>販売代理店様商品発注システム</h1>
+      </div>
+    </div>
+  {% endif %}
   <div class="ec-header-bottom__right">
     <ul class="ec-header-bottom__store-link">
       <li class="ec-header-bottom__store-link-item">
@@ -131,7 +139,11 @@ file that was distributed with this source code.
       </li>
       <li class="ec-header-bottom__store-link-item">
         <a href="{{ url('product_list') }}">
-          <span>ONLINE SHOP</span>
+          {% if IsChainStore() == false %}
+            <span>ONLINE SHOP</span>
+          {% else %}
+            <span>Order</span>
+          {% endif %}
         </a>
       </li>
     </ul>
