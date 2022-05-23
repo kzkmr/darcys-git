@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+/*ヘッダー部分の修正*/
+
+/*カートとONLINEの背景削除*/
+.ec-header-bottom__store-link-item a{
+    background-color: #fff;
+}
+/*カート数量の高さ*/
+.ec-header-bottom__store-link-item span{
+    line-height: .9;
+}
+/*カートの丸の大きさ・位置*/
+.ec-header-bottom__store-link-item a .ec-cartNavi-badge{
+    padding:5px 6px 3px 6px;
+    top: -3px;
+    right: calc(50% - 26px);
+}
+/*カート数量・online文字大きさ・中央揃え・囲み*/
+.ec-header-bottom__store-link-item span {
+    font-size: 16px;
+    text-align: center;
+border: 1px solid #ddd;
+    padding: 0.2rem;
+    background: #333;
+    color: #fff;
+}
+/*カートとonline隙間なし*/
+.ec-header-bottom__store-link-item+.ec-header-bottom__store-link-item{
+    margin-left: 0;
+}
+/*ロゴを上位置へ*/
+.ec-header-bottom__logo {
+top: -1.6rem;
+    left: 0;
+}
+/*新規会員・ログイン*/
+.ec-header-nav__item a{
+    border-radius: 0;
+    background-color: #333;
+}
+/*グローバルメニューの下揃え*/
+.ec-header-bottom{
+    padding:0!important;
+}
+ul.p-global-navi {
+    position: relative;
+    top: 0.5rem;}
+
+/*カートとオンラインショップ下揃え*/
+.ec-header-bottom__right{
+        position: relative;
+    top: 0.7rem;
+}
+
+@media only screen and (min-width: 768px){
+    /*ヘッダーMENUと動画の間隔*/
+.ec-layoutRole__header {
+    margin-bottom: 1rem;}
+}

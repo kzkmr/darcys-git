@@ -97,7 +97,7 @@ $_POST = strip_magic_quotes_slashes($_POST);
 */
 
 function instagram(){
-  echo do_shortcode('[instagram-feed]');
+  echo do_shortcode('[instagram-feed feed=1]');
 }
 
 
@@ -285,3 +285,199 @@ function is_parent_slug() {
         return $post_data->post_name;
     }
 }
+
+
+/**
+ * EC-CUBE連携用関数
+ */
+require_once __DIR__.'/../../../../../vendor/autoload.php';
+
+use \Customize\Twig\Extension\TwigExtension;
+
+function get_token()
+{
+    $app = \Eccube\Application::getInstance();
+    $tokenProvider = $app->getParentContainer()->get('security.csrf.token_manager');
+
+    return $tokenProvider->getToken('_token')->getValue();
+}
+
+add_shortcode('token', 'get_token');
+
+function get_title()
+{
+    $app = \Eccube\Application::getInstance();
+    $tokenProvider = $app->getParentContainer()->get('');
+}
+
+add_shortcode('title', 'get_title');
+
+function get_base_info()
+{
+    $app = \Eccube\Application::getInstance();
+    $baseInfoRepositoy = $app->getParentContainer()->get('Eccube\Repository\BaseInfoRepository');
+    $BaseInfo = $baseInfoRepositoy->get();
+
+    return $BaseInfo;
+}
+
+add_shortcode('BaseInfo', 'get_base_info');
+
+function is_granted()
+{
+    $app = \Eccube\Application::getInstance();
+
+    return $app->getParentContainer()->get('security.authorization_checker')->isGranted('ROLE_USER');
+}
+
+add_shortcode('is_granted', 'is_granted');
+
+function user()
+{
+    $app = \Eccube\Application::getInstance();
+    $token = $app->getParentContainer()->get('security.token_storage')->getToken();
+    if (!\is_object($user = $token->getUser())) {
+        return;
+    }
+
+    return $user;
+}
+
+add_shortcode('user', 'user');
+
+function get_all_carts()
+{
+    $app = \Eccube\Application::getInstance();
+    $CartService = $app->getParentContainer()->get('Eccube\Service\CartService');
+
+    return $CartService->getCarts();
+}
+
+add_shortcode('get_all_carts', 'get_all_carts');
+
+function get_carts_total_quantity()
+{
+    $Carts = get_all_carts();
+    $totalQuantity = array_reduce($Carts, function ($total, $Cart) {
+        $total += $Cart->getTotalQuantity();
+
+        return $total;
+    }, 0);
+
+    return $totalQuantity;
+}
+
+add_shortcode('get_carts_total_quantity', 'get_carts_total_quantity');
+
+function get_carts_total_price()
+{
+    $Carts = get_all_carts();
+    $totalPrice = array_reduce($Carts, function ($total, $Cart) {
+        $total += $Cart->getTotalPrice();
+
+        return $total;
+    }, 0);
+
+    return $totalPrice;
+}
+
+add_shortcode('get_carts_total_price', 'get_carts_total_price');
+
+// 商品取得
+function get_product($id)
+{
+    $app = \Eccube\Application::getInstance();
+    $productRepository = $app->getParentContainer()->get('Eccube\Repository\ProductRepository');
+
+    return $productRepository->find($id);
+}
+
+add_shortcode('get_product', 'get_product');
+
+// メイン商品画像
+function get_main_image($Product)
+{
+    $app = \Eccube\Application::getInstance();
+
+    return $app->getParentContainer()->get('assets.packages')->getUrl($Product->getMainListImage(), 'save_image');
+}
+
+add_shortcode('get_main_image', 'get_main_image');
+
+
+// ページ情報
+function get_page_data()
+{
+    $app = \Eccube\Application::getInstance();
+
+    $request = $app->getParentContainer()->get('request_stack');
+    $attributes = $request->getCurrentRequest()->attributes;
+    if ($attributes) {
+        $route = $attributes->get('_route');
+
+        if ($route == 'user_data') {
+            $routeParams = $attributes->get('_route_params', []);
+            $route = isset($routeParams['route']) ? $routeParams['route'] : $attributes->get('route', '');
+        }
+
+        $pageRepository = $app->getParentContainer()->get('Eccube\Repository\PageRepository');
+
+        $Page = $pageRepository->getPageByRoute($route);
+    }
+
+    return $Page;
+}
+
+add_shortcode('get_page_data', 'get_page_data');
+
+function chainStore()
+{
+    $LoginTypeInfo = IsChainStore();
+    if ( $LoginTypeInfo ) {
+      return true;
+    } else {
+      return false;
+    }
+}
+
+// function IsChainStore()
+// {
+//     $LoginTypeInfo = $this->getLoginTypeInfo();
+//     $LoginType = $LoginTypeInfo['LoginType'];
+//     if ( $LoginType == 3 ) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+// }
+
+// function getLoginTypeInfo()
+// {
+//     $LoginType = 1;         //Default is guest
+//     $Customer = $this->getCurrentUser();
+//     $ChainStore = null;
+//     $ContractType = null;
+
+//     if (is_object($Customer)) {
+//         $ChainStore = $Customer->getChainStore();
+
+//         if(is_object($ChainStore)){
+//             $LoginType = 3;         //ChainStore member
+//             $ContractType = $ChainStore->getContractType();
+//         }else{
+//             $LoginType = 2;         //Normal member
+//         }
+//     }else{
+//         $Customer = null;
+//     }
+
+//     return [
+//         'LoginType' => $LoginType,
+//         'Customer' => $Customer,
+//         'ChainStore' => $ChainStore,
+//         'ContractType' => $ContractType,
+//     ];
+// }
+/**
+ * EC-CUBE連携用関数ここまで
+ */

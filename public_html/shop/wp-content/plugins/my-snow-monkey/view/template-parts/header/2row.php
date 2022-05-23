@@ -53,6 +53,7 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
 
   <!-- PC 用 -->
   <div class="p-custom-header sp-none">
+    <?php /* echo var_dump(chainStore()); */ ?>
     <div class="ec-header-top">
       <div class="ec-header-search">
         <form method="get" class="searchform" action="<?php echo ec_url(); ?>/products/list">
@@ -84,14 +85,14 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
       </div>
     </div>
     <div class="ec-header-bottom">
-      <div class="ec-header-bottom__logo">
+      <div class="ec-header-bottom__logo not_store">
         <p class="ec-header-bottom__img">
           <a href="<?php echo ec_url(); ?>">
             <img src="<?php echo ec_asset_url(); ?>/img/common/logo_header.png">
           </a>
         </p>
       </div>
-      <div class="ec-header-bottom__center">
+      <div class="ec-header-bottom__center not_store">
         <div class="ec-header-bottom__gnav">
           <ul class="p-global-navi">
             <li class="p-global-navi__item">
@@ -156,6 +157,11 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
           </ul>
         </div>
       </div>
+      <div class="ec-header-bottom__center is_store">
+        <div class="ec-header-bottom-title">
+          <h1>ダシーズファクトリー<br>販売代理店様商品発注システム</h1>
+        </div>
+      </div>
       <div class="ec-header-bottom__right">
         <ul class="ec-header-bottom__store-link">
           <li class="ec-header-bottom__store-link-item">
@@ -165,7 +171,8 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
           </li>
           <li class="ec-header-bottom__store-link-item">
             <a href="<?php echo ec_url(); ?>/products/list">
-              <span>ONLINE SHOP</span>
+              <span class="not_store">ONLINE SHOP</span>
+              <span class="is_store">Order</span>
             </a>
           </li>
         </ul>

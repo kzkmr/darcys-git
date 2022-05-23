@@ -478,6 +478,15 @@
             'reference' => NULL,
             'dev_requirement' => false,
         ),
+        'ec-cube/orderbulkdelete4' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'type' => 'eccube-plugin',
+            'install_path' => __DIR__ . '/../../app/Plugin/OrderBulkDelete4',
+            'aliases' => array(),
+            'reference' => NULL,
+            'dev_requirement' => false,
+        ),
         'ec-cube/plugin-installer' => array(
             'pretty_version' => '2.0.1',
             'version' => '2.0.1.0',

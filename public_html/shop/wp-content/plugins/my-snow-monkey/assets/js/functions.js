@@ -138,3 +138,27 @@ $(function() {
     $(this).text(result);
   });
 });
+
+
+// Chainstore api読み込み
+var path = '../../../../../../'; // ECCUBE設置パス
+$('.is_store').hide();  // is_storeを非表示
+$('.not_store').hide();  // not_storeを非表示
+$.ajax({
+    url: path+"mypage/api_login", // apiパス
+    type: 'post',
+    dataType: 'json',
+}).done(function(data) {
+    if (data.done) {
+        // ログイン時の処理を記載
+        $('.is_store').show();  // is_storeを表示
+    }else{
+        // 未ログイン時の処理を記載
+        $('.not_store').show();  // not_storeを表示
+        console.log('ok');
+    }
+}).fail(function(data) {
+        // エラー発生：未ログイン時の処理を記載
+        $('.not_store').show();
+        console.log('error');  // not_storeを表示
+});
