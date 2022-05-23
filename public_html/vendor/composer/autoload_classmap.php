@@ -5398,6 +5398,8 @@ return array(
     'Plugin\\Noshi\\PluginManager' => $baseDir . '/app/Plugin/Noshi/PluginManager.php',
     'Plugin\\Noshi\\Repository\\NoshiConfigRepository' => $baseDir . '/app/Plugin/Noshi/Repository/NoshiConfigRepository.php',
     'Plugin\\Noshi\\Repository\\NoshiRepository' => $baseDir . '/app/Plugin/Noshi/Repository/NoshiRepository.php',
+    'Plugin\\OrderBulkDelete4\\Controller\\Admin\\OrderController' => $baseDir . '/app/Plugin/OrderBulkDelete4/Controller/Admin/OrderController.php',
+    'Plugin\\OrderBulkDelete4\\Event' => $baseDir . '/app/Plugin/OrderBulkDelete4/Event.php',
     'Plugin\\PurchaseProcessors\\Service\\PurchaseFlow\\Processor\\SaleLimitOneValidator' => $baseDir . '/app/Plugin/PurchaseProcessors/Service/PurchaseFlow/Processor/SaleLimitOneValidator.php',
     'Plugin\\QueryCustomize\\Repository\\AdminCustomerCustomizer' => $baseDir . '/app/Plugin/QueryCustomize/Repository/AdminCustomerCustomizer.php',
     'Plugin\\QueryCustomize\\ServiceProvider\\QueryCustomizeServiceProvider' => $baseDir . '/app/Plugin/QueryCustomize/ServiceProvider/QueryCustomizeServiceProvider.php',

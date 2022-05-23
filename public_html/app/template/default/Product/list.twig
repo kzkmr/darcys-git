@@ -12,6 +12,16 @@ file that was distributed with this source code.
 
 {% set body_class = 'product_page' %}
 
+{% block stylesheet %}
+  <style>
+    .category-tab__item:not(:first-of-type) a {
+      background-color: #eee !important;
+      color: #231815 !important;
+      pointer-events: none;
+    }
+  </style>
+{% endblock %}
+
 {% block javascript %}
     <script>
         eccube.productsClassCategories = {
@@ -106,16 +116,16 @@ file that was distributed with this source code.
 
 {% block main %}
 
-    {% if Category is null %}
-      <div class="page-header">
-        <img src="{{ asset('assets/img/product/product_main.jpg') }}" alt="">
-        {% if IsChainStore() == false %}
-        <h1 class="page-header__title">
-          ONLINE SHOP
-          <span>ダシーズファクトリー製品のご購入</span>
-        </h1>
-        {% endif %}
-      </div>
+    {% if IsChainStore() == false %}
+      {% if Category is null %}
+        <div class="page-header">
+          <img src="{{ asset('assets/img/product/product_main.jpg') }}" alt="">
+          <h1 class="page-header__title">
+            ONLINE SHOP
+            <span>ダシーズファクトリー製品のご購入</span>
+          </h1>
+        </div>
+      {% endif %}
     {% endif %}
 
     {% if Category is null %}

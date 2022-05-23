@@ -43,22 +43,22 @@
             </ul>
             <ul class="ec-footer-sns-navi">
                 <li class="ec-footer-sns-navi__link">
-                    <a href="https://twitter.com/benechanshop" target="_blank" rel="noopener noreferrer">
+                    <a href="https://twitter.com/Darcysshop" target="_blank" rel="noopener noreferrer">
                         <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_tw.png" width="35" height="29">
                     </a>
                 </li>
                 <li class="ec-footer-sns-navi__link">
-                    <a href="" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.instagram.com/darcys.shop/" target="_blank" rel="noopener noreferrer">
                         <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_insta.png" width="32" height="32">
                     </a>
                 </li>
                 <li class="ec-footer-sns-navi__link">
-                    <a href="https://www.facebook.com/benechan.shop/" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/darcys.japan/" target="_blank" rel="noopener noreferrer">
                         <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_fb.png" width="32" height="32">
                     </a>
                 </li>
                 <li class="ec-footer-sns-navi__link">
-                    <a href="" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.youtube.com/channel/UCuAPEXbS0ShlRh17cK5dVxg" target="_blank" rel="noopener noreferrer">
                         <img src="<?php echo ec_url(); ?>/html/template/default/assets/icon/icon_youtube.png" width="32" height="32">
                     </a>
                 </li>

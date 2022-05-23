@@ -54,17 +54,17 @@ add_filter(
 add_action(
 	'wp_enqueue_scripts',
 	function() {
-		// wp_enqueue_style(
-		// 	'ec-cube',
-		// 	'../../../../html/template/default/assets/css/style.min.css',
-		// 	[],
-		// 	'1.0.0'
-		// );
 		wp_enqueue_style(
 			'my-snow-monkey',
 			MY_SNOW_MONKEY_URL . '/assets/css/style.css',
 			[ Framework\Helper::get_main_style_handle() ],
 			filemtime( MY_SNOW_MONKEY_DIR_PATH . '/assets/css/style.css')
+		);
+    wp_enqueue_style(
+			'ec-cube',
+			'/../html/template/default/assets/css/add.css',
+			[],
+			'1.0.0'
 		);
 		// if ( is_front_page() || is_page('works') ) {
 		// 	wp_enqueue_style(

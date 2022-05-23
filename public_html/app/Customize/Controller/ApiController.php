@@ -35,7 +35,7 @@ class ApiController extends AbstractController
      * @var BankBranchRepository
      */
     protected $bankBranchRepository;
-	
+
     /**
      * @var ChainStoreRepository
      */
@@ -45,7 +45,7 @@ class ApiController extends AbstractController
      * @var PreChainStoreRepository
      */
     protected $preChainStoreRepository;
-    
+
     /**
      * @var MemberRepository
      */
@@ -84,9 +84,9 @@ class ApiController extends AbstractController
      * Bank.
      *
      * @Route("/bank/list/{bank_id}", name="bank_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function bankList(Request $request, $bank_id)
@@ -121,14 +121,14 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $bankBranch], $result));
     }
 
-    
+
     /**
      * chainstore.
      *
      * @Route("/chainstore/api/list/{keyword}", name="chainstore_api_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_list(Request $request, $keyword)
@@ -140,7 +140,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-        
+
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -171,9 +171,9 @@ class ApiController extends AbstractController
      * chainstore.
      *
      * @Route("/chainstore/api/main/list/{keyword}", name="chainstore_api_main_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_main_list(Request $request, $keyword)
@@ -185,7 +185,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-        
+
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -211,14 +211,13 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
     }
 
-
     /**
      * search pre-chainstore.
      *
      * @Route("/chainstore/api/pre", name="chainstore_api_pre", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_pre(Request $request)
@@ -230,7 +229,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-        
+
         try {
             $contractId = $request->get('contractId');
             $email = $request->get('email');
@@ -266,7 +265,7 @@ class ApiController extends AbstractController
                     //11.法人名・屋号（フリガナ）
                     $chainStore["companyNameKana"] = $preChainStore->getCompanyNameKana();
                 }
-                
+
                 //==> お名前（代表者）
                 $chainStore["name01"] = $preChainStore->getName01();                        //25.代表者名・氏名「姓」
                 $chainStore["name02"] = $preChainStore->getName02();                        //27.代表者名・氏名「名」
@@ -277,7 +276,7 @@ class ApiController extends AbstractController
 
                 //==> 生年月日
                 //設立日ではなく生年月日をログイン用に使う
-                $chainStore["birthday"] = $preChainStore->getBirthday();                    //33.生年月日(設立日ではなく生年月日をログイン用に使う)	
+                $chainStore["birthday"] = $preChainStore->getBirthday();                    //33.生年月日(設立日ではなく生年月日をログイン用に使う)
 
                 //==> 電話番号
                 $chainStore["phoneNo"] = $preChainStore->getCellphoneNo();                  //41.携帯電話
@@ -285,7 +284,7 @@ class ApiController extends AbstractController
                 //==> ディーラーコード
                 $chainStore["dealerCode"] = $preChainStore->getDealerCode();                //55.ディーラーコード
 
-                //59.取引口座選択(ゆうちょ銀行以外の銀行・)	
+                //59.取引口座選択(ゆうちょ銀行以外の銀行・)
                 if($preChainStore->getIsPostbankList() == "ゆうちょ銀行"){
 
                     $chainStore["postCodeNumber"] = $preChainStore->getPostCodeNumber();                    //81.通帳記号（下5桁）（ゆうちょ）
@@ -301,7 +300,7 @@ class ApiController extends AbstractController
                     $chainStore["bankAccount"] = $preChainStore->getBankAccount();                          //71.口座番号
                     $chainStore["bankHolderKana01"] = $preChainStore->getBankHolderKana01();                //77.口座名義「姓」（フリガナ）
                     $chainStore["bankHolderKana02"] = $preChainStore->getBankHolderKana02();                //79.口座名義「名」（フリガナ）
-                }  
+                }
 
                 //==> お名前（担当者）
                 $chainStore["chainstoreName"] = $preChainStore->getChainstoreName();                    //97.販売店舗名
@@ -322,7 +321,7 @@ class ApiController extends AbstractController
                 $chainStore["chainstoreAddr03"] = $preChainStore->getChainstoreAddr03();                //115.販売店舗所在地：（番地・ビル名）
 
                 //以下備用
-                //$chainStore["email"] = $preChainStore->getEmail();                          //35.連絡用メールアドレス                
+                //$chainStore["email"] = $preChainStore->getEmail();                          //35.連絡用メールアドレス
 
                 array_push($result, $chainStore);
             }
@@ -335,4 +334,84 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
     }
 
+    /**
+     * 外部からのログインチェック.
+     *
+     * @Route("/mypage/api_login", name="api_login", methods={"POST"})
+     */
+    function apiLogin(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        log_info('販売店チェック処理開始',[]);
+
+        // ログインチェック
+        $LoginTypeInfo = $this->getLoginTypeInfo();
+        $LoginType = $LoginTypeInfo['LoginType'];
+        if ( $LoginType == 3 ) {
+          $done = true;
+        } else {
+          $done = false;
+        }
+
+        log_info('販売店チェック処理完了',[]);
+
+        return $this->json(['done' => $done ]);
+    }
+
+    function getLoginTypeInfo()
+    {
+        $LoginType = 1;         //Default is guest
+        $Customer = $this->getCurrentUser();
+        $ChainStore = null;
+        $ContractType = null;
+
+        if (is_object($Customer)) {
+            $ChainStore = $Customer->getChainStore();
+
+            if(is_object($ChainStore)){
+                $LoginType = 3;         //ChainStore member
+                $ContractType = $ChainStore->getContractType();
+            }else{
+                $LoginType = 2;         //Normal member
+            }
+        }else{
+            $Customer = null;
+        }
+
+        return [
+            'LoginType' => $LoginType,
+            'Customer' => $Customer,
+            'ChainStore' => $ChainStore,
+            'ContractType' => $ContractType,
+        ];
+    }
+
+    function getCurrentUser()
+    {
+        if(!$this->tokenStorage){
+            return null;
+        }
+
+        if (!$token = $this->tokenStorage->getToken()) {
+            return null;
+        }
+
+        if (!$token->isAuthenticated()) {
+            return null;
+        }
+
+        if(!$user = $token->getUser()){
+            return null;
+        }
+
+        if(is_object($user)){
+            return $user;
+        }
+
+        return null;
+    }
 }
+

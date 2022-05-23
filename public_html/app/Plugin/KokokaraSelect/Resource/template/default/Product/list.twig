@@ -512,6 +512,7 @@ file that was distributed with this source code.
                 </div>
             </div>
 
+            {% if IsChainStore() == false %}
             <div class="ec-modal-02">
                 <div class="ec-modal-02__banner modal-open">
                     <img src="{{ asset('assets/img/product/banner_howtoeat.png') }}" alt="">
@@ -527,6 +528,7 @@ file that was distributed with this source code.
                   </div>
                 </div>
             </div>
+            {% endif %}
 
             <div class="ec-shelfRole">
                 <div class="kokokara_select_cart_btn_area">
@@ -678,6 +680,7 @@ file that was distributed with this source code.
         </div>
     {% endif %}
 
+    {% if IsChainStore() == false %}
     {% set NewProducts = CustomizeNewProduct() %}
     {% if NewProducts|length > 0 %}
         <div class="ec-products-top-area ec-products-top-area--new-list">
@@ -713,5 +716,6 @@ file that was distributed with this source code.
                 </ul>
             </div>
         </div>
+    {% endif %}
     {% endif %}
 {% endblock %}

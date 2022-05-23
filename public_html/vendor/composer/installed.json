@@ -3316,6 +3316,33 @@
             "install-path": "../../app/Plugin/Noshi"
         },
         {
+            "name": "ec-cube/orderbulkdelete4",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/orderbulkdelete4/1.1.0/OrderBulkDelete4-1.1.0.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "OrderBulkDelete4",
+                "id": 2101
+            },
+            "installation-source": "dist",
+            "description": "受注データ一括削除プラグイン for EC-CUBE4",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: cb99710fff7be91beaff6b9f9a64327650bfb573"
+                    ]
+                }
+            },
+            "install-path": "../../app/Plugin/OrderBulkDelete4"
+        },
+        {
             "name": "ec-cube/plugin-installer",
             "version": "2.0.1",
             "version_normalized": "2.0.1.0",

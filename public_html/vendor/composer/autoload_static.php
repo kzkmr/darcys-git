@@ -6315,6 +6315,8 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         'Plugin\\Noshi\\PluginManager' => __DIR__ . '/../..' . '/app/Plugin/Noshi/PluginManager.php',
         'Plugin\\Noshi\\Repository\\NoshiConfigRepository' => __DIR__ . '/../..' . '/app/Plugin/Noshi/Repository/NoshiConfigRepository.php',
         'Plugin\\Noshi\\Repository\\NoshiRepository' => __DIR__ . '/../..' . '/app/Plugin/Noshi/Repository/NoshiRepository.php',
+        'Plugin\\OrderBulkDelete4\\Controller\\Admin\\OrderController' => __DIR__ . '/../..' . '/app/Plugin/OrderBulkDelete4/Controller/Admin/OrderController.php',
+        'Plugin\\OrderBulkDelete4\\Event' => __DIR__ . '/../..' . '/app/Plugin/OrderBulkDelete4/Event.php',
         'Plugin\\PurchaseProcessors\\Service\\PurchaseFlow\\Processor\\SaleLimitOneValidator' => __DIR__ . '/../..' . '/app/Plugin/PurchaseProcessors/Service/PurchaseFlow/Processor/SaleLimitOneValidator.php',
         'Plugin\\QueryCustomize\\Repository\\AdminCustomerCustomizer' => __DIR__ . '/../..' . '/app/Plugin/QueryCustomize/Repository/AdminCustomerCustomizer.php',
         'Plugin\\QueryCustomize\\ServiceProvider\\QueryCustomizeServiceProvider' => __DIR__ . '/../..' . '/app/Plugin/QueryCustomize/ServiceProvider/QueryCustomizeServiceProvider.php',

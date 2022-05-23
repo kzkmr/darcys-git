@@ -12,6 +12,14 @@ file that was distributed with this source code.
 
 {% form_theme form 'Form/form_div_layout.twig' %}
 
+{% block stylesheet %}
+    <style>
+      .ec-orderDelivery__edit {
+        display: none;
+      }
+    </style>
+{% endblock %}
+
 {% block javascript %}
     <script>
         $(function() {

@@ -374,6 +374,9 @@ h3 {
   align-items: center;
   margin: 0 auto;
 }
+.ec-header-bottom__center .ec-header-bottom-title {
+  text-align: center;
+}
 .ec-header-bottom__right {
   position: absolute;
   top: 18px;
