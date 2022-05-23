@@ -25,6 +25,7 @@ use Eccube\Entity\PageLayout;
 use Eccube\Repository\AuthorityRoleRepository;
 use Eccube\Repository\BaseInfoRepository;
 use Customize\Repository\ChainStoreRepository;
+use Customize\Repository\ShippingRepository;
 use Eccube\Repository\LayoutRepository;
 use Eccube\Repository\Master\DeviceTypeRepository;
 use Eccube\Repository\PageRepository;
@@ -123,6 +124,11 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
     protected $cartService;
 
     /**
+     * @var ShippingRepository
+     */
+    private $shippingRepository;
+
+    /**
      * TwigInitializeListener constructor.
      *
      * @param Environment $twig
@@ -140,6 +146,7 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
      * @param TokenStorageInterface $tokenStorage
      * @param ChainStoreRepository $chainStoreRepository
      * @param CartService $cartService
+     * @param ShippingRepository $shippingRepository
      */
     public function __construct(
         Environment $twig,
@@ -156,7 +163,8 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
         LayoutRepository $layoutRepository,
         TokenStorageInterface $tokenStorage,
         ChainStoreRepository $chainStoreRepository,
-        CartService $cartService
+        CartService $cartService,
+        ShippingRepository $shippingRepository
     ) {
         $this->twig = $twig;
         $this->baseInfoRepository = $baseInfoRepository;
@@ -173,6 +181,7 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
         $this->tokenStorage = $tokenStorage;
         $this->chainStoreRepository = $chainStoreRepository;
         $this->cartService = $cartService;
+        $this->shippingRepository = $shippingRepository;
     }
 
     /**
@@ -206,6 +215,11 @@ class ChainStoreTwigInitializeListener implements EventSubscriberInterface
         if($user = $this->getCurrentUser()){
             $ChainStore = $user->getChainStore();
             if(is_object($ChainStore)){
+                $result = $this->shippingRepository->findChainStoreBalancePrice($ChainStore, date("Y-m"));
+                if(is_array($result)){
+                    $ChainStore->setBalancePrice($result[0]["payment_total"]);
+                }
+
                 $this->twig->addGlobal('ChainStore', $ChainStore);
             }else{
                 $this->twig->addGlobal('ChainStore', null);

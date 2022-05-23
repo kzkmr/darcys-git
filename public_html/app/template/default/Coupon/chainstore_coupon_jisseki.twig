@@ -239,7 +239,7 @@ file that was distributed with this source code.
                                             <p class="ec-historyRole__detailPrice">{{Cashback.carriedForward | price}}</p>
                                         </td>
                                         <td style="text-align:right;">
-                                            {% if Cashback.marginPrice >= 2000 %}
+                                            {% if Cashback.marginBalance >= 2000 %}
                                                 {% if TransferDate %}
                                                     {{TransferDate.transferDate}}
                                                 {% else %}

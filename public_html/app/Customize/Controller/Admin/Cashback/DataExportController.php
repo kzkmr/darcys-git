@@ -347,10 +347,17 @@ class DataExportController extends AbstractController
         $transferDate = $this->bankTransferInfoRepository->findOneBy(["referenceYm" => $searchData["data_ym"]]);
         
         if(is_object($transferDate)){
-            $defaultTransferDate = strtotime($transferDate->getTransferDate());
+            if($transferDate->getTransferDate() != null && $transferDate->getTransferDate() != ""){
+                $defaultTransferDate = strtotime($transferDate->getTransferDate());
+            }else{
+                $defaultTransferDate = "";
+            }
         }
 
-        $payYM = date('Y/m/d', $defaultTransferDate);
+        $payYM = "";
+        if($defaultTransferDate != ""){
+            $payYM = date('Y/m/d', $defaultTransferDate);
+        }
 
         $pagination = $paginator->paginate(
             $result,

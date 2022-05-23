@@ -102,6 +102,33 @@ class ShippingRepository extends AbstractRepository
     }
 
     /**
+     * 販売店購入可能金額の表示
+     *
+     * @param string $ChainStore
+     *
+     * @return array
+     */
+    public function findChainStoreBalancePrice($ChainStore, $YM)
+    {
+        $sql = "SELECT SUM(payment_total) payment_total
+                FROM dtb_order o LEFT JOIN dtb_customer c ON o.customer_id = c.id
+                WHERE o.order_status_id NOT IN(3,8)
+                    AND DATE_FORMAT(o.create_date, '%Y-%m') = ?
+                    AND c.chain_store_id = ?";
+
+        $rsm = new ResultSetMapping;
+        $rsm->addScalarResult('payment_total', 'payment_total');
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        $query->setParameter(1, $YM);
+        $query->setParameter(2, $ChainStore->getId());
+
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    /**
      * クーポン売上履歴
      *
      * @param string $ChainStore
@@ -151,7 +178,9 @@ class ShippingRepository extends AbstractRepository
                                 INNER JOIN (
                                     SELECT oo.id, oo.order_status_id, SUM(oi.price * oi.quantity) subtotal, SUM(oi.tax) taxtotal
                                       FROM dtb_order oo LEFT JOIN dtb_order_item oi ON oo.id = oi.order_id
+                                                  LEFT JOIN dtb_product p ON oi.product_id = p.id
                                      WHERE oi.order_item_type_id = 1
+                                       AND p.option_margin_activate = 1
                                    GROUP BY oi.order_id, oo.order_status_id
                                 ) o ON s.order_id = o.id
                                 INNER JOIN plg_coupon_order co ON o.id = co.order_id
@@ -240,10 +269,33 @@ class ShippingRepository extends AbstractRepository
                     WHERE o.order_status_id = 5
                     AND DATE_FORMAT(s.shipping_date, '%Y-%m') = ?
                     GROUP BY c.chain_store_id
+                ), chain_notax AS (
+                    SELECT c.chain_store_id
+                            , cs.contract_type_id
+                            ,FLOOR(SUM(o.subtotal)) AS self_total
+                    FROM `dtb_shipping` s 
+                            INNER JOIN (
+                                    SELECT oo.id, oo.customer_id, oo.order_status_id, SUM(oi.price * oi.quantity) subtotal, SUM(oi.tax) taxtotal
+                                    FROM dtb_order oo LEFT JOIN dtb_order_item oi ON oo.id = oi.order_id
+                                            LEFT JOIN dtb_product p ON oi.product_id = p.id
+                                    WHERE oi.order_item_type_id = 1
+                                        AND p.option_margin_activate = 1
+                                    GROUP BY oi.order_id, oo.customer_id, oo.order_status_id
+                                ) o ON s.order_id = o.id
+                            INNER JOIN dtb_customer c ON o.customer_id = c.id
+                            INNER JOIN dtb_chain_store cs ON c.chain_store_id = cs.id
+                    WHERE o.order_status_id = 5
+                    AND DATE_FORMAT(s.shipping_date, '%Y-%m') = ?
+                    GROUP BY c.chain_store_id
                 ), chain_total AS (
                     /* 小売店契約のみ */
                     SELECT SUM(self_total) total
                     FROM   chain
+                    WHERE  contract_type_id = 3
+                ), chain_total_notax AS (
+                    /* 小売店契約のみ */
+                    SELECT SUM(self_total) total
+                    FROM   chain_notax
                     WHERE  contract_type_id = 3
                 ), support_cnt AS (
                     SELECT COUNT(id) cnt
@@ -274,8 +326,8 @@ class ShippingRepository extends AbstractRepository
                             END AS self_total,
                             CASE WHEN base.contract_type_id = 2 THEN
                                 /* 最低保証額に満たない場合は必ず「15,000円」をマージンとする。 */
-                                CASE WHEN FLOOR(SUM((chain_total.total * 0.03) / support_cnt.cnt)) >= 15000 THEN
-                                    FLOOR(SUM((chain_total.total * 0.03) / support_cnt.cnt))
+                                CASE WHEN FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt)) >= 15000 THEN
+                                    FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt))
                                 ELSE
                                     15000
                                 END
@@ -286,6 +338,7 @@ class ShippingRepository extends AbstractRepository
                             LEFT JOIN coupon ON base.id = coupon.chain_store_id
                             LEFT JOIN chain ON base.id = chain.chain_store_id
                             LEFT JOIN chain_total ON 1 = 1
+                            LEFT JOIN chain_total_notax ON 1 = 1
                             LEFT JOIN support_cnt ON 1 = 1
                     WHERE (coupon_total != 0
                             OR self_total != 0)
@@ -315,6 +368,7 @@ class ShippingRepository extends AbstractRepository
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
         $query->setParameter(1, $calcYM);
         $query->setParameter(2, $calcYM);
+        $query->setParameter(3, $calcYM);
 
         $result = $query->getResult();
 
@@ -377,6 +431,24 @@ class ShippingRepository extends AbstractRepository
                     WHERE o.order_status_id = 5
                     AND DATE_FORMAT(s.shipping_date, '%Y-%m') = ?
                     GROUP BY c.chain_store_id
+                ), chain_notax AS (
+                    SELECT c.chain_store_id
+                            , cs.contract_type_id
+                            ,FLOOR(SUM(o.subtotal)) AS self_total
+                    FROM `dtb_shipping` s 
+                            INNER JOIN (
+                                      SELECT oo.id, oo.customer_id, oo.order_status_id, SUM(oi.price * oi.quantity) subtotal, SUM(oi.tax) taxtotal
+                                        FROM dtb_order oo LEFT JOIN dtb_order_item oi ON oo.id = oi.order_id
+                                                        LEFT JOIN dtb_product p ON oi.product_id = p.id
+                                        WHERE oi.order_item_type_id = 1
+                                          AND p.option_margin_activate = 1
+                                     GROUP BY oi.order_id, oo.customer_id, oo.order_status_id
+                                ) o ON s.order_id = o.id
+                            INNER JOIN dtb_customer c ON o.customer_id = c.id
+                            INNER JOIN dtb_chain_store cs ON c.chain_store_id = cs.id
+                    WHERE o.order_status_id = 5
+                    AND DATE_FORMAT(s.shipping_date, '%Y-%m') = ?
+                    GROUP BY c.chain_store_id
                 ), result AS (
                     SELECT base.*,
                         SUM(sales.sales_total) AS sales_total,
@@ -386,7 +458,7 @@ class ShippingRepository extends AbstractRepository
                                 FLOOR(SUM(sales.sales_total) * 0.03)
                             END AS sales_margin,
                             CASE WHEN base.contract_type_id = 3 THEN
-                                SUM(chain.self_total) 
+                                SUM(chain_notax.self_total) 
                             ELSE
                                 0
                             END AS kouri_self_total,
@@ -396,20 +468,21 @@ class ShippingRepository extends AbstractRepository
                                 0
                             END AS oen_self_total,
                             CASE WHEN base.contract_type_id = 1 THEN
-                                SUM(chain.self_total) 
+                                SUM(chain_notax.self_total) 
                             ELSE
                                 0
                             END AS self_total,
                             CASE WHEN base.contract_type_id != 3 THEN
-                                FLOOR(SUM(chain.self_total) * 0.03)
+                                FLOOR(SUM(chain_notax.self_total) * 0.03)
                             ELSE
                                 0
                             END AS chain_total
                     FROM   base
                             LEFT JOIN sales ON base.id = sales.chain_store_id
                             LEFT JOIN chain ON base.id = chain.chain_store_id
+                            LEFT JOIN chain_notax ON base.id = chain_notax.chain_store_id
                     WHERE sales_total != 0
-                    OR self_total != 0
+                    OR chain.self_total != 0
                     GROUP BY base.id, base.dealer_code, base.company_name, base.stock_number, base.contract_type_name
                     ORDER BY base.contract_type_name, base.company_name
                 )
@@ -436,6 +509,7 @@ class ShippingRepository extends AbstractRepository
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
         $query->setParameter(1, $calcYM);
         $query->setParameter(2, $calcYM);
+        $query->setParameter(3, $calcYM);
 
         $result = $query->getResult();
 

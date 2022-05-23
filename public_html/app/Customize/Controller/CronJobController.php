@@ -103,7 +103,7 @@ class CronJobController extends AbstractController
                 // タイムアウトを無効にする.
                 set_time_limit(0);
                 $CustomerList = $this->customerRepository->findBy(["Status" => 2]);
-                $MemberList = $this->memberRepository->findAll();
+                $MemberList = $this->memberRepository->findBy(["Work" => 1]);
                 //$MemberList = $this->memberRepository->findBy(["id" => 2]);
 
                 $DealerCodeList = [];
@@ -113,12 +113,13 @@ class CronJobController extends AbstractController
                     $ChainStore = $Customer->getChainStore();
                     if(is_object($ChainStore)){
                         $ContractType = $ChainStore->getContractType();
-                        if($ContractType->getId() == 1 || $ContractType->getId() == 2){
-                            $DealerCode = $ChainStore->getDealerCode();
-                            if(!isset($DealerCode) || strlen($DealerCode) <= 1){
-                                $DealerCodeList[] = $Customer;
-                            }
+                        
+                        $DealerCode = $ChainStore->getDealerCode();
+                        if(!isset($DealerCode) || strlen($DealerCode) <= 1){
+                            $DealerCodeList[] = $Customer;
+                        }
 
+                        if($ContractType->getId() == 1 || $ContractType->getId() == 2){
                             $CouponList = $this->couponRepository->findBy(["ChainStore" => $ChainStore]);
                             if(!$CouponList){
                                 $CouponCodeList[] = $Customer;
@@ -131,6 +132,7 @@ class CronJobController extends AbstractController
                     foreach($MemberList as $Member){
                         // チェック販売店会員メール送信
                         $this->mailService->sendCheckChainStoreMail($Member, $DealerCodeList, $CouponCodeList);
+                        $result[] = $Member->getId();
                     }
                 }
             }
@@ -196,9 +198,9 @@ class CronJobController extends AbstractController
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
-            $ChainStore = $this->chainstoreRepository->findOneBy(["id" => 37]);
+            $ChainStore = $this->chainstoreRepository->findOneBy(["id" => 68]);
             $Member = $this->memberRepository->findOneBy(["id" => 2]);
-            $Customer = $this->customerRepository->findOneBy(["id" => 35]);
+            $Customer = $this->customerRepository->findOneBy(["id" => 108]);
 
             // 販売店会員メール送信
             $this->mailService->sendChainStoreConfirmAdminMail($Member, $Customer, $ChainStore, $ChainStore->getContractType());
@@ -210,4 +212,6 @@ class CronJobController extends AbstractController
 
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
     }
+
+
 }

@@ -333,6 +333,67 @@ file that was distributed with this source code.
                     }
                 }
             });
+
+            var orderLimitChange = function(){
+                if ($("#admin_chain_store_option_order_limit").prop("checked") == true) {
+                    //チェックされています
+                    $("#field_order_limit .badge").show();
+                }else{
+                    $("#field_order_limit .badge").hide();
+                }
+            };
+            $("#admin_chain_store_option_order_limit").on("change", orderLimitChange);
+
+            orderLimitChange();
+
+            var limit_price = $("#admin_chain_store_purchasing_limit_price");
+            limit_price.on("keydown", function(){
+                    $(this).data("isLock", true);
+            });
+            var purchasingLimitPrice = function(){
+                {% if ChainStore.id %}
+                    return false;
+                {% endif %}
+
+                if(!limit_price.data("isLock")){
+                    if( $("#admin_chain_store_contract_type").val() == "1" ){
+                        limit_price.val("1000000");
+                    }else{
+                        limit_price.val("0");
+                    }
+                }
+            };
+
+            purchasingLimitPrice();
+
+            var delivery_registrations = $("#admin_chain_store_delivery_registrations");
+            delivery_registrations.on("keydown", function(){
+                    $(this).data("isLock", true);
+            });
+
+            var delivery_registrations_chk = function(){
+                {% if ChainStore.id %}
+                    return false;
+                {% endif %}
+                
+                if(!delivery_registrations.data("isLock")){
+                    if( $("#admin_chain_store_contract_type").val() != "3" ){
+                        delivery_registrations.val("10");
+                    }else{
+                        delivery_registrations.val("1");
+                    }
+                }
+            };
+            delivery_registrations_chk();
+
+            $("#admin_chain_store_contract_type").on("change", function(){
+                purchasingLimitPrice();
+                delivery_registrations_chk();
+            });
+
+            if($("#admin_chain_store_margin_price").val()==""){
+                $("#admin_chain_store_margin_price").val("0");
+            }
         });
 
     </script>
@@ -498,6 +559,56 @@ file that was distributed with this source code.
                                     <div class="col">
                                         {{ form_widget(form.dealer_code, { attr : { placeholder : 'admin.common.dealer_code_ex' }}) }}
                                         {{ form_errors(form.dealer_code) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="d-inline-block"><span>{{ 'admin.chainstore.option_order_limit'|trans }}</span></div>
+                                    </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.option_order_limit) }}
+                                        {{ form_errors(form.option_order_limit) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2" id="field_order_limit">
+
+                                    <div class="col-3">
+                                        <div class="d-inline-block"><span>{{ 'admin.chainstore.order_limit_text'|trans }}</span></div>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.order_limit_text, { attr : { 'row': 8, placeholder : 'admin.chainstore.order_limit_text' }}) }}
+                                        {{ form_errors(form.order_limit_text) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2 purchasing_limit_price">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.purchasing_limit_price'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.purchasing_limit_price) }}
+                                        {{ form_errors(form.purchasing_limit_price) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.margin_price'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.margin_price) }}
+                                        {{ form_errors(form.margin_price) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.delivery_registrations'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.delivery_registrations) }}
+                                        {{ form_errors(form.delivery_registrations) }}
                                     </div>
                                 </div>
                             </div>

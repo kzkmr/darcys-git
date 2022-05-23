@@ -39,6 +39,23 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         private $id;
 
         /**
+         * @var \Customize\Entity\Master\ApplicantContractType
+         *
+         * @ORM\ManyToOne(targetEntity="Customize\Entity\Master\ApplicantContractType")
+         * @ORM\JoinColumns({
+         *   @ORM\JoinColumn(name="applicant_contract_type_id", referencedColumnName="id", nullable=true)
+         * })
+         */
+        private $ApplicantContractType;
+
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="corporate_number", type="string", length=20, nullable=true)
+         */
+        private $corporateNumber;
+
+        /**
          * @var string
          *
          * @ORM\Column(name="name01", type="string", length=255, nullable=true)
@@ -184,6 +201,41 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         private $BankHolder;
 
         /**
+         * @var boolean
+         *
+         * @ORM\Column(name="option_order_limit", type="boolean", options={"default":false})
+         */
+        private $optionOrderLimit = false;
+
+        /**
+         * @var string|null
+         *
+         * @ORM\Column(name="order_limit_text", type="string", length=4000, nullable=true)
+         */
+        private $orderLimitText;
+
+        /**
+         * @var string|null
+         *
+         * @ORM\Column(name="margin_price", type="integer", options={"unsigned":true, "default":0})
+         */
+        private $marginPrice;
+
+        /**
+         * @var string|null
+         *
+         * @ORM\Column(name="purchasing_limit_price", type="integer", options={"unsigned":true, "default":0})
+         */
+        private $purchasingLimitPrice;
+
+        /**
+         * @var string|null
+         *
+         * @ORM\Column(name="delivery_registrations", type="integer", options={"unsigned":true, "default":1})
+         */
+        private $deliveryRegistrations;
+
+        /**
          * @var string|null
          *
          * @ORM\Column(name="sort_no", type="integer", options={"unsigned":true})
@@ -193,6 +245,8 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         //Private Use
         private $point = '0';
         private $relatedCustomer = null;
+        private $currentPurchasedPrice = 0;
+        private $balancePrice = 0;
 
         /**
          * Constructor
@@ -218,6 +272,56 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         public function getId()
         {
             return $this->id;
+        }
+
+
+        /**
+         * Set applicantContractType.
+         *
+         * @param \Customize\Entity\Master\ApplicantContractType|null $applicantContractType
+         *
+         * @return ChainStore
+         */
+        public function setApplicantContractType(\Customize\Entity\Master\ApplicantContractType $applicantContractType = null)
+        {
+            $this->ApplicantContractType = $applicantContractType;
+
+            return $this;
+        }
+
+        /**
+         * Get applicantContractType.
+         *
+         * @return \Customize\Entity\Master\ApplicantContractType|null
+         */
+        public function getApplicantContractType()
+        {
+            return $this->ApplicantContractType;
+        }
+
+
+        /**
+         * Set corporateNumber.
+         *
+         * @param string $corporateNumber
+         *
+         * @return ChainStore
+         */
+        public function setCorporateNumber($corporateNumber)
+        {
+            $this->corporateNumber = $corporateNumber;
+
+            return $this;
+        }
+
+        /**
+         * Get corporateNumber.
+         *
+         * @return string
+         */
+        public function getCorporateNumber()
+        {
+            return $this->corporateNumber;
         }
 
         /**
@@ -682,7 +786,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
          *
          * @param string $sortNo
          *
-         * @return Customer
+         * @return ChainStore
          */
         public function setSortNo($sortNo)
         {
@@ -706,7 +810,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
          *
          * @param string $point
          *
-         * @return Customer
+         * @return ChainStore
          */
         public function setPoint($point)
         {
@@ -730,7 +834,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
          *
          * @param string $relatedCustomer
          *
-         * @return Customer
+         * @return ChainStore
          */
         public function setRelatedCustomer($relatedCustomer)
         {
@@ -747,6 +851,138 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         public function getRelatedCustomer()
         {
             return $this->relatedCustomer;
+        }
+
+
+        /**
+         * Set optionOrderLimit.
+         *
+         * @param boolean $optionOrderLimit
+         *
+         * @return ChainStore
+         */
+        public function setOptionOrderLimit($optionOrderLimit)
+        {
+            $this->optionOrderLimit = $optionOrderLimit;
+
+            return $this;
+        }
+
+        /**
+         * Get optionOrderLimit.
+         *
+         * @return boolean
+         */
+        public function isOptionOrderLimit()
+        {
+            return $this->optionOrderLimit;
+        }
+
+        /**
+         * Set orderLimitText.
+         *
+         * @param string $orderLimitText
+         *
+         * @return ChainStore
+         */
+        public function setOrderLimitText($orderLimitText)
+        {
+            $this->orderLimitText = $orderLimitText;
+
+            return $this;
+        }
+
+        /**
+         * Get orderLimitText.
+         *
+         * @return string
+         */
+        public function getOrderLimitText()
+        {
+            return $this->orderLimitText;
+        }
+
+
+        /**
+         * Set marginPrice.
+         *
+         * @param string $marginPrice
+         *
+         * @return ChainStore
+         */
+        public function setMarginPrice($marginPrice)
+        {
+            $this->marginPrice = $marginPrice;
+
+            return $this;
+        }
+
+        /**
+         * Get marginPrice.
+         *
+         * @return string
+         */
+        public function getMarginPrice()
+        {
+            return $this->marginPrice;
+        }
+
+        /**
+         * Set purchasingLimitPrice.
+         *
+         * @param string $purchasingLimitPrice
+         *
+         * @return ChainStore
+         */
+        public function setPurchasingLimitPrice($purchasingLimitPrice)
+        {
+            $this->purchasingLimitPrice = $purchasingLimitPrice;
+
+            return $this;
+        }
+
+        /**
+         * Get purchasingLimitPrice.
+         *
+         * @return string
+         */
+        public function getPurchasingLimitPrice()
+        {
+            return $this->purchasingLimitPrice;
+        }
+
+        /**
+         * Set deliveryRegistrations.
+         *
+         * @param string $deliveryRegistrations
+         *
+         * @return ChainStore
+         */
+        public function setDeliveryRegistrations($deliveryRegistrations)
+        {
+            $this->deliveryRegistrations = $deliveryRegistrations;
+
+            return $this;
+        }
+
+        /**
+         * Get deliveryRegistrations.
+         *
+         * @return string
+         */
+        public function getDeliveryRegistrations()
+        {
+            return $this->deliveryRegistrations;
+        }
+
+        public function getBalancePrice(){
+            $this->balancePrice = (($this->marginPrice + $this->purchasingLimitPrice) - $this->currentPurchasedPrice);
+            return $this->balancePrice;
+        }
+
+        public function setBalancePrice($currentPurchasedPrice){
+            $this->currentPurchasedPrice = $currentPurchasedPrice;
+            $this->balancePrice = (($this->marginPrice + $this->purchasingLimitPrice) - $currentPurchasedPrice);
         }
     }
 }

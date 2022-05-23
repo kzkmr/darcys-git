@@ -30,6 +30,7 @@ use Eccube\Form\Type\NameType;
 use Eccube\Form\Type\PhoneNumberType;
 use Eccube\Form\Type\PostalType;
 use Eccube\Form\Validator\Email;
+use Eccube\Form\Type\ToggleSwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -37,6 +38,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Eccube\Form\Type\PriceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -131,6 +133,10 @@ class ChainStoreType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ])
+            ->add('option_order_limit', ToggleSwitchType::class)
+            ->add('order_limit_text', TextareaType::class, [
+                'required' => false,
+            ])
             ->add('bank', BankType::class, [
                 'required' => true,
                 'constraints' => [
@@ -179,6 +185,21 @@ class ChainStoreType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('margin_price', PriceType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
+            ])
+            ->add('purchasing_limit_price', PriceType::class, [
+                'required' => false
+            ])
+            ->add('delivery_registrations', NumberType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
+            ])
             ->add('note', TextareaType::class, [
                 'required' => false,
                 'constraints' => [
@@ -193,6 +214,20 @@ class ChainStoreType extends AbstractType
             /** @var ChainStore $ChainStore */
             $ChainStore = $event->getData();
             
+            if ($ChainStore->isOptionOrderLimit()) {
+                if (trim($ChainStore->getOrderLimitText() == "")) {
+                    $form['order_limit_text']->addError(new FormError("入力されていません。"));
+                }
+            }
+
+            if (is_object($ChainStore->getContractType())) {
+                $ContractType = $ChainStore->getContractType();
+                if ($ContractType->getId() == "3") {
+                    if ($ChainStore->getPurchasingLimitPrice() < 0) {
+                        $form['purchasing_limit_price']->addError(new FormError("入力されていません。"));
+                    }
+                }
+            }
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {

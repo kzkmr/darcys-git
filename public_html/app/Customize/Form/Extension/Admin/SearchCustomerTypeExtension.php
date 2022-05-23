@@ -22,6 +22,7 @@ use Eccube\Form\Type\Master\SexType;
 use Eccube\Form\Type\PriceType;
 use Eccube\Repository\Master\CustomerStatusRepository;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -30,6 +31,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Customize\Repository\Master\ContractTypeRepository;
+use Customize\Entity\Master\ContractType;
 
 class SearchCustomerTypeExtension extends AbstractTypeExtension
 {
@@ -44,6 +47,11 @@ class SearchCustomerTypeExtension extends AbstractTypeExtension
     protected $customerStatusRepository;
 
     /**
+     * @var ContractTypeRepository
+     */
+    protected $contractTypeRepository;
+
+    /**
      * SearchCustomerType constructor.
      *
      * @param EccubeConfig $eccubeConfig
@@ -51,10 +59,12 @@ class SearchCustomerTypeExtension extends AbstractTypeExtension
      */
     public function __construct(
         CustomerStatusRepository $customerStatusRepository,
-        EccubeConfig $eccubeConfig
+        EccubeConfig $eccubeConfig,
+        ContractTypeRepository $contractTypeRepository
     ) {
         $this->eccubeConfig = $eccubeConfig;
         $this->customerStatusRepository = $customerStatusRepository;
+        $this->contractTypeRepository = $contractTypeRepository;
     }
 
     /**
@@ -62,16 +72,16 @@ class SearchCustomerTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $storechain_member_val = array("N", "Y");
-        $storechain_member_name = array("一般会員", "特別会員");
+        $contractType = $this->contractTypeRepository->findBy([], ['sort_no' => 'ASC']);
 
-        $months = range(1, 12);
+        //$months = range(1, 12);
         $builder
-            ->add('storechain_member', ChoiceType::class, [
+            ->add('storechain_member', EntityType::class, [
                 'label' => 'admin.label.storechain_member',
                 'expanded' => true,
                 'multiple' => true,
-                'choices' => array_combine($storechain_member_name, $storechain_member_val)
+                'class' => ContractType::class,
+                'choices' => $contractType
             ])
         ;
     }

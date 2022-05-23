@@ -201,6 +201,8 @@ class Coupon extends AbstractEntity
     //Private use
     private $order_discount_price;
     private $can_delete;
+    private $coupon_real_type;
+    private $coupon_real_message;
 
     /**
      * Constructor.
@@ -733,5 +735,37 @@ class Coupon extends AbstractEntity
     public function getCanDelete()
     {
         return $this->can_delete;
+    }
+
+    /**
+     * @param string $couponRealType
+     */
+    public function setCouponRealType($couponRealType)
+    {
+        $this->coupon_real_type = $couponRealType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCouponRealType()
+    {
+        return $this->coupon_real_type;
+    }
+
+    /**
+     * @param string $couponRealMessage
+     */
+    public function setCouponRealMessage($couponRealMessage)
+    {
+        $this->coupon_real_message = $couponRealMessage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCouponRealMessage()
+    {
+        return $this->coupon_real_message;
     }
 }

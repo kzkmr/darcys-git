@@ -245,6 +245,17 @@ class CustomEntryController extends BaseEntryController
                     if($ChainstoreType){
                         $ChainStoreStatus = $this->entityManager->find(ChainStoreStatus::class, ChainStoreStatus::PROVISIONAL);
                         $Customer->getChainStore()->setStatus($ChainStoreStatus);
+                        $Customer->getChainStore()->setMarginPrice(0);
+                        
+                        if($ChainstoreType->getId()=="1"){
+                            $Customer->getChainStore()->setPurchasingLimitPrice(1000000);
+                        }
+
+                        if($ChainstoreType->getId()=="3"){
+                            $Customer->getChainStore()->setDeliveryRegistrations(1);
+                        }else{
+                            $Customer->getChainStore()->setDeliveryRegistrations(10);
+                        }
                     }
 
                     $this->entityManager->persist($Customer);

@@ -47,7 +47,7 @@ if (!class_exists('\Customize\Entity\BankTransferInfo')) {
         /**
          * @var \DateTime
          *
-         * @ORM\Column(name="transfer_date", type="string", length=10, nullable=false)
+         * @ORM\Column(name="transfer_date", type="string", length=10, nullable=true)
          */
         private $transferDate;
         

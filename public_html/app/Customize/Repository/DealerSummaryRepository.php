@@ -97,6 +97,7 @@ class DealerSummaryRepository extends AbstractRepository
 
         $qb->andWhere("cs.Status = 2 or cs.Status IS NULL");
         $qb->andWhere("cs.dealer_code IS NOT NULL");
+        $qb->andWhere("cs.dealer_code != '00000000'");
         $qb->andWhere("cs.ContractType != 3");
         // Order By 
         $qb->addOrderBy('c.id', 'ASC');

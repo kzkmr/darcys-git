@@ -80,7 +80,7 @@ class CustomerRepository extends BaseCustomerRepository
         EncoderFactoryInterface $encoderFactory,
         EccubeConfig $eccubeConfig
     ) {
-        parent::__construct($registry, Customer::class);
+        parent::__construct($registry, $queries, $entityManager, $orderRepository, $encoderFactory, $eccubeConfig);
 
         $this->queries = $queries;
         $this->entityManager = $entityManager;
@@ -130,15 +130,27 @@ class CustomerRepository extends BaseCustomerRepository
 
         // storechain_member
         if (!empty($searchData['storechain_member']) && count($searchData['storechain_member']) > 0) {
-            if(in_array("Y", $searchData['storechain_member']) && in_array("N", $searchData['storechain_member'])){
+                $contractTypeList = [];
+                $isNormalMember = false;
+                foreach ($searchData['storechain_member'] as $contractType) {
+                    if($contractType->getId() != 4){
+                        $contractTypeList[] = $contractType->getId();
+                    }else{
+                        $isNormalMember = true;
+                    }
+                }
+                $qb->leftJoin('c.ChainStore', 'cs');
 
-            }else if(in_array("Y", $searchData['storechain_member'])){
-                $qb
-                    ->andWhere("c.ChainStore IS NOT NULL AND c.ChainStore != '' ");
-            }else{
-                $qb
-                    ->andWhere("c.ChainStore IS NULL OR c.ChainStore = '' ");
-            }
+                if($isNormalMember){
+                    $qb->andWhere($qb->expr()->orX(
+                                $qb->expr()->in('cs.ContractType', ':ContractType'),
+                                $qb->expr()->isNull('cs.ContractType')
+                    ));
+                }else{
+                    $qb->andWhere($qb->expr()->in('cs.ContractType', ':ContractType'));
+                }
+
+                $qb->setParameter('ContractType', $contractTypeList);
         }
 
         if (!empty($searchData['birth_month']) && $searchData['birth_month']) {
