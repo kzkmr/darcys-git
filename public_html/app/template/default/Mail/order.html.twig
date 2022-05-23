@@ -100,7 +100,11 @@ file that was distributed with this source code.
                             <hr style="border-top: 3px double #8c8b8b;">
 
                             {% for Shipping in Order.Shippings %}
-                                ◎お届け先{% if Order.multiple %}{{ loop.index }}{% endif %}<br/>
+                                {% if ChainStore %}
+                                ◎販売店舗
+                                {% else %}
+                                ◎お届け先
+                                {% endif %}{% if Order.multiple %}{{ loop.index }}{% endif %}<br/>
                                 <br/>
                                 お名前：{{ Shipping.name01 }} {{ Shipping.name02 }} 様<br/>
                                 お名前(カナ)：{{ Shipping.kana01 }} {{ Shipping.kana02 }} 様<br/>

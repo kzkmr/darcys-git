@@ -116,8 +116,8 @@ class PreChainStoreRepository extends AbstractRepository
             ->setParameter('birthday', $birthday);
 
         // 実行
-        $results = $qb->getQuery()->getResult();
+        $result = $qb->getQuery()->getOneOrNullResult();
    
-        return $results;
+        return $result;
     }
 }

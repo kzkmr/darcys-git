@@ -455,133 +455,155 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         /**
          * @var string  
          *
-         * @ORM\Column(name="chainstore_owner", type="string", length=255, nullable=true, options={"comment":"117.販売店舗担当者名"})
+         * @ORM\Column(name="chainstore_owner01", type="string", length=255, nullable=true, options={"comment":"117.販売店舗担当者名「姓」"})
          */
-        private $chainstore_owner;
+        private $chainstore_owner01;
 
         /**
          * @var string  
          *
-         * @ORM\Column(name="chainstore_telephone_no", type="string", length=30, nullable=true, options={"comment":"119.販売店舗連絡先（電話番号）"})
+         * @ORM\Column(name="chainstore_owner02", type="string", length=255, nullable=true, options={"comment":"119.販売店舗担当者名「名」"})
+         */
+        private $chainstore_owner02;
+
+        /**
+         * @var string  
+         *
+         * @ORM\Column(name="chainstore_owner_kana01", type="string", length=255, nullable=true, options={"comment":"121.販売店舗担当者名「姓」（フリガナ）"})
+         */
+        private $chainstore_owner_kana01;
+
+        /**
+         * @var string  
+         *
+         * @ORM\Column(name="chainstore_owner_kana02", type="string", length=255, nullable=true, options={"comment":"123.販売店舗担当者名「名」（フリガナ）"})
+         */
+        private $chainstore_owner_kana02;
+        
+
+        /**
+         * @var string  
+         *
+         * @ORM\Column(name="chainstore_telephone_no", type="string", length=30, nullable=true, options={"comment":"125.販売店舗連絡先（電話番号）"})
          */
         private $chainstore_telephone_no;
 
         /**
          * @var string  
          *
-         * @ORM\Column(name="chainstore_email", type="string", length=255, nullable=true, options={"comment":"121.販売店舗メールアドレス"})
+         * @ORM\Column(name="chainstore_email", type="string", length=255, nullable=true, options={"comment":"127.販売店舗メールアドレス"})
          */
         private $chainstore_email;
 
         /**
          * @var string  
          *
-         * @ORM\Column(name="webshop_sale_ice_list", type="string", length=255, nullable=true, options={"comment":"125.WEBショップでダシーズの出品予定はありますか"})
+         * @ORM\Column(name="webshop_sale_ice_list", type="string", length=255, nullable=true, options={"comment":"131.WEBショップでダシーズの出品予定はありますか"})
          */
         private $webshop_sale_ice_list;
 
         /**
          * @var string|null 
          *
-         * @ORM\Column(name="webshop_name", type="string", length=255, nullable=true, options={"comment":"127.ＷＥＢショップ店舗名"})
+         * @ORM\Column(name="webshop_name", type="string", length=255, nullable=true, options={"comment":"133.ＷＥＢショップ店舗名"})
          */
         private $webshop_name;
 
         /**
          * @var string|null 
          *
-         * @ORM\Column(name="webshop_url", type="string", length=255, nullable=true, options={"comment":"129.出店WEBショップURL"})
+         * @ORM\Column(name="webshop_url", type="string", length=255, nullable=true, options={"comment":"135.出店WEBショップURL"})
          */
         private $webshop_url;
 
         /**
          * @var string|null 
          *
-         * @ORM\Column(name="chainstore_webshop_opening_type_name", type="string", length=255, nullable=true, options={"comment":"131.出店WEBショップの運営会社"})
+         * @ORM\Column(name="chainstore_webshop_opening_type_name", type="string", length=255, nullable=true, options={"comment":"137.出店WEBショップの運営会社"})
          */
         private $chainstore_webshop_opening_type_name;
 
         /**
          * @var string|null 
          *
-         * @ORM\Column(name="chainstore_webshop_owner_type_name", type="string", length=255, nullable=true, options={"comment":"133.WEBショップ運営担当者"})
+         * @ORM\Column(name="chainstore_webshop_owner_type_name", type="string", length=255, nullable=true, options={"comment":"139.WEBショップ運営担当者"})
          */
         private $chainstore_webshop_owner_type_name;
 
         /**
          * @var string|null
          *
-         * @ORM\Column(name="chainstore_webshop_owner_name", type="string", length=255, nullable=true, options={"comment":"135.上記WEBショップ運営担当者名"})
+         * @ORM\Column(name="chainstore_webshop_owner_name", type="string", length=255, nullable=true, options={"comment":"141.上記WEBショップ運営担当者名"})
          */
         private $chainstore_webshop_owner_name;
 
         /**
          * @var string|null
          *
-         * @ORM\Column(name="chainstore_webshop_phone_type_name", type="string", length=255, nullable=true, options={"comment":"137.運営担当者電話番号"})
+         * @ORM\Column(name="chainstore_webshop_phone_type_name", type="string", length=255, nullable=true, options={"comment":"143.運営担当者電話番号"})
          */
         private $chainstore_webshop_phone_type_name;
 
         /**
          * @var string|null
          *
-         * @ORM\Column(name="chainstore_webshop_email_type_name", type="string", length=255, nullable=true, options={"comment":"139.運営担当者メールアドレス"})
+         * @ORM\Column(name="chainstore_webshop_email_type_name", type="string", length=255, nullable=true, options={"comment":"145.運営担当者メールアドレス"})
          */
         private $chainstore_webshop_email_type_name;
 
         /**
          * @var string  
          *
-         * @ORM\Column(name="option_partner", type="string", length=255, nullable=true, options={"comment":"141.パートナー指定"})
+         * @ORM\Column(name="option_partner", type="string", length=255, nullable=true, options={"comment":"147.パートナー指定"})
          */
         private $option_partner;
 
         /**
          * @var string|null
          *
-         * @ORM\Column(name="partner_company_name", type="string", length=255, nullable=true, options={"comment":"143.パートナーの法人名・屋号"})
+         * @ORM\Column(name="partner_company_name", type="string", length=255, nullable=true, options={"comment":"149.パートナーの法人名・屋号"})
          */
         private $partner_company_name;
 
         /**
          * @var string|null 
          *
-         * @ORM\Column(name="partner_company_name_kana", type="string", length=255, nullable=true, options={"comment":"145.パートナーの法人名・屋号（フリガナ）"})
+         * @ORM\Column(name="partner_company_name_kana", type="string", length=255, nullable=true, options={"comment":"151.パートナーの法人名・屋号（フリガナ）"})
          */
         private $partner_company_name_kana;
 
         /**
          * @var string
          *
-         * @ORM\Column(name="partner_name01", type="string", length=255, nullable=true, options={"comment":"147.パートナーの代表者名・氏名「姓」"})
+         * @ORM\Column(name="partner_name01", type="string", length=255, nullable=true, options={"comment":"153.パートナーの代表者名・氏名「姓」"})
          */
         private $partner_name01;
 
         /**
          * @var string
          *
-         * @ORM\Column(name="partner_name02", type="string", length=255, nullable=true, options={"comment":"149.パートナーの代表者名・氏名「名」"})
+         * @ORM\Column(name="partner_name02", type="string", length=255, nullable=true, options={"comment":"155.パートナーの代表者名・氏名「名」"})
          */
         private $partner_name02;
 
         /**
          * @var string|null 
          *
-         * @ORM\Column(name="partner_kana01", type="string", length=255, nullable=true, options={"comment":"151.パートナーの代表者名・氏名「姓」（フリガナ）"})
+         * @ORM\Column(name="partner_kana01", type="string", length=255, nullable=true, options={"comment":"157.パートナーの代表者名・氏名「姓」（フリガナ）"})
          */
         private $partner_kana01;
 
         /**
          * @var string|null
          *
-         * @ORM\Column(name="partner_kana02", type="string", length=255, nullable=true, options={"comment":"153.パートナーの代表者名・氏名「名」（フリガナ）"})
+         * @ORM\Column(name="partner_kana02", type="string", length=255, nullable=true, options={"comment":"159.パートナーの代表者名・氏名「名」（フリガナ）"})
          */
         private $partner_kana02;
 
         /**
          * @var string|null
          *
-         * @ORM\Column(name="partner_phone_number", type="string", length=30, nullable=true, options={"comment":"155.パートナーの代表者名・氏名「名」（フリガナ）"})
+         * @ORM\Column(name="partner_phone_number", type="string", length=30, nullable=true, options={"comment":"161.パートナーの代表者名・氏名「名」（フリガナ）"})
          */
         private $partner_phone_number;
 
@@ -2029,27 +2051,101 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         }
 
         /**
-         * Set chainstore_owner.
+         * Set chainstore_owner01.
          *
-         * @param string|null $chainstore_owner
+         * @param string|null $chainstore_owner01
          *
          * @return PreChainStore
          */
-        public function setChainstoreOwner($chainstore_owner = null)
+        public function setChainstoreOwner01($chainstore_owner01 = null)
         {
-            $this->chainstore_owner = $chainstore_owner;
+            $this->chainstore_owner01 = $chainstore_owner01;
 
             return $this;
         }
 
         /**
-         * Get chainstore_owner.
+         * Get chainstore_owner01.
          *
          * @return string|null
          */
-        public function getChainstoreOwner()
+        public function getChainstoreOwner01()
         {
-            return $this->chainstore_owner;
+            return $this->chainstore_owner01;
+        }
+
+        /**
+         * Set chainstore_owner02.
+         *
+         * @param string|null $chainstore_owner02
+         *
+         * @return PreChainStore
+         */
+        public function setChainstoreOwner02($chainstore_owner02 = null)
+        {
+            $this->chainstore_owner02 = $chainstore_owner02;
+
+            return $this;
+        }
+
+        /**
+         * Get chainstore_owner02.
+         *
+         * @return string|null
+         */
+        public function getChainstoreOwner02()
+        {
+            return $this->chainstore_owner02;
+        }
+
+
+        /**
+         * Set chainstore_owner_kana01.
+         *
+         * @param string|null $chainstore_owner_kana01
+         *
+         * @return PreChainStore
+         */
+        public function setChainstoreOwnerKana01($chainstore_owner_kana01 = null)
+        {
+            $this->chainstore_owner_kana01 = $chainstore_owner_kana01;
+
+            return $this;
+        }
+
+        /**
+         * Get chainstore_owner_kana01.
+         *
+         * @return string|null
+         */
+        public function getChainstoreOwnerKana01()
+        {
+            return $this->chainstore_owner_kana01;
+        }
+
+
+        /**
+         * Set chainstore_owner_kana02.
+         *
+         * @param string|null $chainstore_owner_kana02
+         *
+         * @return PreChainStore
+         */
+        public function setChainstoreOwnerKana02($chainstore_owner_kana02 = null)
+        {
+            $this->chainstore_owner_kana02 = $chainstore_owner_kana02;
+
+            return $this;
+        }
+
+        /**
+         * Get chainstore_owner_kana02.
+         *
+         * @return string|null
+         */
+        public function getChainstoreOwnerKana02()
+        {
+            return $this->chainstore_owner_kana02;
         }
 
         /**

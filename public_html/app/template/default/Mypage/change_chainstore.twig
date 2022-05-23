@@ -204,7 +204,7 @@ file that was distributed with this source code.
     <div class="ec-layoutRole__main">
         <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>{{ 'マイページ'|trans }}/{{ '販売店情報編集'|trans }}</h1>
+                <h1>{{ 'マイページ'|trans }}/{{ '契約情報編集'|trans }}</h1>
             </div>
             {% include 'Mypage/navi.twig' %}
         </div>
@@ -218,7 +218,7 @@ file that was distributed with this source code.
                             <div class="ec-borderedDefs">
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.company_name, '販売店名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        {{ form_label(form.company_name, '法人名・屋号', { 'label_attr': { 'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
@@ -229,7 +229,7 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.company_name_kana, '販売店名(カナ)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        {{ form_label(form.company_name_kana, '法人名・屋号（フリガナ）', { 'label_attr': { 'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-halfInput{{ has_errors(form.company_name_kana) ? ' error' }}">
@@ -240,18 +240,18 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.stock_number, '証券番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        {{ form_label(form.stock_number, '契約番号', { 'label_attr': { 'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-halfInput{{ has_errors(form.stock_number) ? ' error' }}">
-                                            {{ form_widget(form.stock_number, { 'attr': { 'maxlength':'10','placeholder': '証券番号' }}) }}
+                                            {{ form_widget(form.stock_number, { 'attr': { 'maxlength':'10','placeholder': '契約番号' }}) }}
                                             {{ form_errors(form.stock_number) }}
                                         </div>
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.name, 'お名前（代表者）', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        {{ form_label(form.name, '代表者名', { 'label_attr': { 'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-halfInput{{ has_errors(form.name.name01, form.name.name02) ? ' error'}}">
@@ -264,7 +264,7 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.kana, 'お名前（代表者）(カナ)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        {{ form_label(form.kana, '代表者名（フリガナ）', { 'label_attr': { 'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error'}}">
@@ -278,7 +278,7 @@ file that was distributed with this source code.
                                 {% if EntryChainStore.contract_type %}
                                     <dl>
                                         <dt>
-                                            <label class="ec-label" for="entry_contract_type">契約区分</label>
+                                            <label class="ec-label" for="entry_contract_type">契約種別</label>
                                         </dt>
                                         <dd>
                                             {{EntryChainStore.contract_type}}
@@ -333,7 +333,7 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.bank_account_type, '振込先の科目', { 'label_attr': {'class': 'ec-label' }}) }}
+                                        {{ form_label(form.bank_account_type, '預金種目', { 'label_attr': {'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
                                         <div class="ec-select{{ has_errors(form.bank_account_type) ? ' error' }}">
@@ -385,6 +385,7 @@ file that was distributed with this source code.
                                 {% endfor %}
                             </div>
 
+                            {#
                             <div class="ec-RegisterRole__actions">
                                 <div class="ec-off4Grid">
                                     <div class="ec-off4Grid__cell">
@@ -393,6 +394,7 @@ file that was distributed with this source code.
                                     </div>
                                 </div>
                             </div>
+                            #}
                         </form>
                     </div>
                 </div>

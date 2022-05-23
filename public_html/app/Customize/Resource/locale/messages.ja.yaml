@@ -12,7 +12,7 @@ common.select__bank_account_type: 振込先の科目を選択
 common.select__contract_type: 契約区分を選択
 common.select__chain_store: 販売店を選択
 common.select__applicant_contract_type: 申込者の契約区分を選択
-
+front.entry.ok: 確認する
 admin.common.representative.name: お名前（代表者）
 admin.common.representative.kana: お名前（代表者）(カナ)
 admin.common.chainstore_name: 販売店名
@@ -35,7 +35,7 @@ admin.label.storechain_member: 販売店会員
 admin.chainstore.chainstore_management: 販売店管理
 admin.chainstore.chainstore_list: 販売店一覧
 admin.chainstore.chainstore_registration: 販売店登録
-admin.chainstore.stock_number: 証券番号
+admin.chainstore.stock_number: 契約番号
 admin.chainstore.contract_type: 契約区分
 admin.chainstore.applicant_contract_type: 申込者の契約区分
 admin.chainstore.corporate_number: 法人番号

@@ -81,4 +81,5 @@ trait  CustomerTrait
     {
         return $this->IsChainStore;
     }
+
 }

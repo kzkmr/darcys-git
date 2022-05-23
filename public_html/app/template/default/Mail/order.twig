@@ -86,7 +86,12 @@ file that was distributed with this source code.
 ************************************************
 
 {%  for Shipping in Order.Shippings %}
-◎お届け先{% if Order.multiple %}{{ loop.index }}{% endif %}
+{% if ChainStore %}
+◎販売店舗
+{% else %}
+◎お届け先
+{% endif %}
+{% if Order.multiple %}{{ loop.index }}{% endif %}
 
 お名前：{{ Shipping.name01 }} {{ Shipping.name02 }} 様
 お名前(カナ)：{{ Shipping.kana01 }} {{ Shipping.kana02 }} 様

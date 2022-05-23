@@ -69,26 +69,27 @@ file that was distributed with this source code.
             </div>
         {% else %}    
             <div class="ec-pageHeader">
-                <h1>新規会員登録（{{ChainstoreType.name}}）(確認)</h1>
+                <h1>販売店契約登録（{{ChainstoreType.name}}）（確認）</h1>
             </div>
             <div class="ec-off1Grid">
                 <div class="ec-off1Grid__cell">
                     <form method="post" action="{{ url('entry_chainstore', {'chainstore_type': ChainstoreType.url_parameter}) }}" novalidate class="h-adr">
                         {{ form_widget(form._token) }}
-                        <p>{{ 'front.entry.confirm_message'|trans|nl2br }}</p>
-                        <div class="dzx-header">
-                            販売店情報
-                        </div>
+                        <p>
+                            下記の内容で登録してもよろしいでしょうか？<br />
+                            よろしければ、一番下の「登録する」ボタンをクリックしてください。
+                        </p>
                         <div class="ec-borderedDefs">
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.contract_type, 'admin.chainstore.contract_type', { 'label_attr': { 'class': 'ec-label' }}) }}                                </dt>
                                 <dd>
                                     {{ form.chain_store.contract_type.vars.data }}
                                     {{ form_widget(form.chain_store.contract_type, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.pre_chainstore, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.name, 'common.representative.name', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -99,7 +100,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.name.name02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.kana, 'common.representative.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -110,7 +111,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.kana.kana02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.company_name, 'admin.common.chainstore_name', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -119,7 +120,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.company_name, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.company_name_kana, 'admin.common.chainstore_name_kana', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -137,7 +138,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.stock_number, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.contract_begin_ymd, 'admin.chainstore.contract_begin_ymd', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -148,7 +149,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.contract_begin_ymd.day, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.bank, 'admin.chainstore.chainstore_bank_name', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -158,7 +159,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.bank, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.bank_branch, '支店名', { 'label_attr': {'class': 'ec-label' }}) }}
                                 </dt>
@@ -168,7 +169,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.bank_branch, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.bank_account_type, 'admin.chainstore.chainstore_bank_account_type', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -177,7 +178,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.bank_account_type, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.bank_account, 'admin.chainstore.chainstore_bank_account', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -186,7 +187,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.bank_account, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.chain_store.bank_holder, 'admin.chainstore.chainstore_bank_holder', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -195,13 +196,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.bank_holder, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                        </div>
-
-                        <div class="dzx-header">
-                            会員情報
-                        </div>
-                        <div class="ec-borderedDefs">
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.name, 'common.supervisor.name', { 'label_attr': { 'class': 'ec-label '}}) }}
                                 </dt>
@@ -212,7 +207,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.name.name02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.kana, 'common.supervisor.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -223,7 +218,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label'}}) }}
                                 </dt>
@@ -232,7 +227,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.company_name, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -247,7 +242,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.address.addr02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -275,7 +270,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.password.second, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.birth, 'common.birth_day', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -286,7 +281,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.birth.day, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.sex, 'common.gender', {'label_attr': {'class': 'ec-label'}}) }}
                                 </dt>
@@ -295,7 +290,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.sex, { type: 'hidden'}) }}
                                 </dd>
                             </dl>
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     {{ form_label(form.job, 'common.job', {'label_attr': {'class': 'ec-label'}}) }}
                                 </dt>
@@ -329,7 +324,7 @@ file that was distributed with this source code.
                         <div class="ec-registerRole__actions">
                             <div class="ec-off4Grid">
                                 <div class="ec-off4Grid__cell">
-                                    <button class="ec-blockBtn--action" type="submit" name="mode" value="complete">{{ 'front.entry.do_register'|trans }}</button>
+                                    <button class="ec-blockBtn--action" type="submit" name="mode" value="complete">{{ '登録する'|trans }}</button>
                                     <button class="ec-blockBtn--cancel" type="submit" name="mode" value="back">{{ 'common.back'|trans }}</button>
                                 </div>
                             </div>

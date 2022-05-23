@@ -60,7 +60,12 @@ file that was distributed with this source code.
                     </div>
                     {% for Shipping in Order.Shippings %}
                         {% set isShowReducedTaxMess = false %}
-                        <div class="ec-orderDelivery__title">{{ 'front.mypage.delivery'|trans }}{% if Order.multiple %}({{ loop.index }}){% endif %}</div>
+                        <div class="ec-orderDelivery__title">
+                            {% if ChainStore %}
+                                販売店舗
+                            {% else %}
+                                {{ 'front.mypage.delivery'|trans }}
+                            {% endif %}{% if Order.multiple %}({{ loop.index }}){% endif %}</div>
                         {% for orderItem in Shipping.productOrderItems %}
                             <div class="ec-orderDelivery__item">
                                 <div class="ec-imageGrid">

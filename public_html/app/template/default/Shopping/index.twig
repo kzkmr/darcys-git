@@ -17,6 +17,17 @@ file that was distributed with this source code.
       .ec-orderDelivery__edit {
         display: none;
       }
+        .ec-orderRole__imp {
+            margin: 0 16px;
+            background: #F3F3F3;
+            padding: 16px;
+            width:100%;
+        }
+        .ec-order-limit-text1 {
+            color: #DE5D50;
+            font-weight: bold;
+            font-size: 18px;
+        }
     </style>
 {% endblock %}
 
@@ -103,22 +114,6 @@ file that was distributed with this source code.
         });
     </script>
 {% endblock javascript %}
-
-{% block stylesheet %}
-    <style>
-        .ec-orderRole__imp {
-            margin: 0 16px;
-            background: #F3F3F3;
-            padding: 16px;
-            width:100%;
-        }
-        .ec-order-limit-text1 {
-            color: #DE5D50;
-            font-weight: bold;
-            font-size: 18px;
-        }
-    </style>
-{% endblock stylesheet %}
 
 {% block main %}
 
@@ -367,10 +362,22 @@ file that was distributed with this source code.
                     {% for shipping in Order.shippings %}
                         {% set idx = loop.index0 %}
                         {% set isShowReducedTaxMess = false %}
-                        <div class="ec-orderDelivery__title">{{ 'front.shopping.delivery_to'|trans }}{% if Order.multiple %}({{ loop.index }}){% endif %}
+                        <div class="ec-orderDelivery__title">
+                            {% if ChainStore %}
+                                販売店舗
+                            {% else %}
+                                {{ 'front.shopping.delivery_to'|trans }}
+                            {% endif %}
+                            {% if Order.multiple %}({{ loop.index }}){% endif %}
                             <div class="ec-orderDelivery__change">
                                 {% if is_granted('ROLE_USER') %}
-                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
+                                    {% if ChainStore %}
+                                        {% if ChainStore.ContractType.id != 3 %}
+                                            <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
+                                        {% endif %}
+                                    {% else %}
+                                        <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
+                                    {% endif %}    
                                 {% else %}
                                     <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping_edit', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
                                 {% endif %}
@@ -429,7 +436,13 @@ file that was distributed with this source code.
                         </div>
                     {% endfor %}
                     <div class="ec-orderDelivery__edit">
-                        <button type="button" class="ec-inlineBtn" data-trigger="click" data-path="{{ path('shopping_shipping_multiple') }}">商品ごとにお届け先を指定する</button>
+                        {% if ChainStore %}
+                            {% if ChainStore.ContractType.id != 3 %}
+                                <button type="button" class="ec-inlineBtn" data-trigger="click" data-path="{{ path('shopping_shipping_multiple') }}">商品ごとに販売店舗を指定する</button>
+                            {% endif %}
+                        {% else %}
+                            <button type="button" class="ec-inlineBtn" data-trigger="click" data-path="{{ path('shopping_shipping_multiple') }}">商品ごとにお届け先を指定する</button>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="ec-orderPayment">

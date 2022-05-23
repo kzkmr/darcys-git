@@ -39,6 +39,16 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         private $id;
 
         /**
+         * @var \Customize\Entity\PreChainStore
+         *
+         * @ORM\ManyToOne(targetEntity="Customize\Entity\PreChainStore")
+         * @ORM\JoinColumns({
+         *   @ORM\JoinColumn(name="pre_chainstore_id", referencedColumnName="id", nullable=true)
+         * })
+         */
+        private $PreChainStore;
+
+        /**
          * @var \Customize\Entity\Master\ApplicantContractType
          *
          * @ORM\ManyToOne(targetEntity="Customize\Entity\Master\ApplicantContractType")
@@ -231,7 +241,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var string|null
          *
-         * @ORM\Column(name="delivery_registrations", type="integer", options={"unsigned":true, "default":1})
+         * @ORM\Column(name="delivery_registrations", type="integer", options={"unsigned":true, "default":9})
          */
         private $deliveryRegistrations;
 
@@ -274,7 +284,31 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
             return $this->id;
         }
 
+        /**
+         * Set preChainStore.
+         *
+         * @param \Customize\Entity\PreChainStore|null $preChainStore
+         *
+         * @return ChainStore
+         */
+        public function setPreChainStore($preChainStore)
+        {
+            $this->PreChainStore = $preChainStore;
 
+            return $this;
+        }
+
+        /**
+         * Get preChainStore.
+         *
+         * @return \Customize\Entity\PreChainStore|null
+         */
+        public function getPreChainStore()
+        {
+            return $this->PreChainStore;
+        }
+
+        
         /**
          * Set applicantContractType.
          *

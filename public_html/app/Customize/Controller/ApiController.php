@@ -26,6 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Customize\Service\MailService;
 use Customize\Entity\Master\Bank;
 use Customize\Repository\Master\BankBranchRepository;
+use Customize\Repository\Master\BankAccountTypeRepository;
 use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\PreChainStoreRepository;
 
@@ -35,6 +36,11 @@ class ApiController extends AbstractController
      * @var BankBranchRepository
      */
     protected $bankBranchRepository;
+	
+    /**
+     * @var BankAccountTypeRepository
+     */
+    protected $bankAccountTypeRepository;
 
     /**
      * @var ChainStoreRepository
@@ -45,7 +51,7 @@ class ApiController extends AbstractController
      * @var PreChainStoreRepository
      */
     protected $preChainStoreRepository;
-
+    
     /**
      * @var MemberRepository
      */
@@ -66,6 +72,7 @@ class ApiController extends AbstractController
      */
     public function __construct(
         BankBranchRepository $bankBranchRepository,
+        BankAccountTypeRepository $bankAccountTypeRepository,
         ChainStoreRepository $chainstoreRepository,
         PreChainStoreRepository $preChainStoreRepository,
         MemberRepository $memberRepository,
@@ -73,6 +80,7 @@ class ApiController extends AbstractController
         MailService $mailService)
     {
         $this->bankBranchRepository = $bankBranchRepository;
+        $this->bankAccountTypeRepository = $bankAccountTypeRepository;
         $this->chainstoreRepository = $chainstoreRepository;
         $this->preChainStoreRepository = $preChainStoreRepository;
         $this->memberRepository = $memberRepository;
@@ -84,9 +92,9 @@ class ApiController extends AbstractController
      * Bank.
      *
      * @Route("/bank/list/{bank_id}", name="bank_list", methods={"POST"})
-     *
+     * 
      * @param Request $request
-     *
+     * 
      * @return JsonResponse
      */
     public function bankList(Request $request, $bank_id)
@@ -121,14 +129,14 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $bankBranch], $result));
     }
 
-
+    
     /**
      * chainstore.
      *
      * @Route("/chainstore/api/list/{keyword}", name="chainstore_api_list", methods={"POST"})
-     *
+     * 
      * @param Request $request
-     *
+     * 
      * @return JsonResponse
      */
     public function api_chainstore_list(Request $request, $keyword)
@@ -140,7 +148,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-
+        
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -171,9 +179,9 @@ class ApiController extends AbstractController
      * chainstore.
      *
      * @Route("/chainstore/api/main/list/{keyword}", name="chainstore_api_main_list", methods={"POST"})
-     *
+     * 
      * @param Request $request
-     *
+     * 
      * @return JsonResponse
      */
     public function api_chainstore_main_list(Request $request, $keyword)
@@ -185,7 +193,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-
+        
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -211,13 +219,14 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
     }
 
+
     /**
      * search pre-chainstore.
      *
      * @Route("/chainstore/api/pre", name="chainstore_api_pre", methods={"POST"})
-     *
+     * 
      * @param Request $request
-     *
+     * 
      * @return JsonResponse
      */
     public function api_chainstore_pre(Request $request)
@@ -229,17 +238,29 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-
+        $fixedMessage = "申し訳ありません。データ登録で問題が発生しました。<br>
+        お手数をおかけしますが、<br>
+        <a href=\"mailto:keiyaku@darcys-factory.co.jp\">keiyaku@darcys-factory.co.jp</a><br>
+        までご連絡下さい。";
+        
         try {
-            $contractId = $request->get('contractId');
-            $email = $request->get('email');
-            $birthday = $request->get('birthday');
+            $params = [];
+
+            if ($content = $request->getContent()) {
+                $params = json_decode($content, true);
+            }
+
+            $contractId = $params['contractId'];
+            $email = $params['email'];
+            $birthday = $params['birthday'];
+            $error = "";
 
             // タイムアウトを無効にする.
             set_time_limit(0);
-            $preChainstoreList = $this->preChainStoreRepository->findActiveRegisterInfo($contractId, $email, $birthday);
+            $preChainStore = $this->preChainStoreRepository->findActiveRegisterInfo($contractId, $email, $birthday);
 
-            foreach($preChainstoreList as $preChainStore){
+            //foreach($preChainstoreList as $preChainStore){
+            if(is_object($preChainStore)){
                 $chainStore = [];
                 $chainStore["id"] = $preChainStore->getId();
 
@@ -248,87 +269,269 @@ class ApiController extends AbstractController
 
                 //==> 販売店名
                 //「法人名・屋号」空の場合は代表者姓、名を結合して入れる
-                if(empty($preChainStore->getCompanyName())){
+                $companyName = $preChainStore->getCompanyName();
+                if(empty($companyName)){
                     //25.代表者名・氏名「姓」+ 27.代表者名・氏名「名」
                     $chainStore["companyName"] = $preChainStore->getName01().$preChainStore->getName02();
                 }else{
                     //09.法人名・屋号
-                    $chainStore["companyName"] = $preChainStore->getCompanyName();
+                    $chainStore["companyName"] = $companyName;
                 }
 
                 //==> 販売店名(カナ)
                 //「法人名・屋号（フリガナ）」空の場合は代表者姓カナ、名カナを結合して入れる
-                if(empty($preChainStore->getCompanyNameKana())){
+                $companyNameKana = $preChainStore->getCompanyNameKana();
+                if(empty($companyNameKana)){
                     //29.代表者名・氏名「姓」（フリガナ）+ 31.代表者名・氏名「名」（フリガナ）
                     $chainStore["companyNameKana"] = $preChainStore->getKana01().$preChainStore->getKana02();
                 }else{
                     //11.法人名・屋号（フリガナ）
-                    $chainStore["companyNameKana"] = $preChainStore->getCompanyNameKana();
+                    $chainStore["companyNameKana"] = $companyNameKana;
+                }
+                
+                //==> お名前（代表者）
+                $name01 = $preChainStore->getName01();                        //25.代表者名・氏名「姓」
+                if(empty($name01)){
+                    $error .= "25.代表者名・氏名「姓」の値はNULLです\r\n";
+                }else{
+                    $chainStore["name01"] = $name01;
                 }
 
-                //==> お名前（代表者）
-                $chainStore["name01"] = $preChainStore->getName01();                        //25.代表者名・氏名「姓」
-                $chainStore["name02"] = $preChainStore->getName02();                        //27.代表者名・氏名「名」
+                $name02 = $preChainStore->getName02();                        //27.代表者名・氏名「名」
+                if(empty($name02)){
+                    $error .= "27.代表者名・氏名「名」の値はNULLです\r\n";
+                }else{
+                    $chainStore["name02"] = $name02;
+                }
 
                 //==> お名前（代表者）(カナ)
-                $chainStore["kana01"] = $preChainStore->getKana01();                        //29.代表者名・氏名「姓」（フリガナ）
-                $chainStore["kana02"] = $preChainStore->getKana02();                        //31.代表者名・氏名「名」（フリガナ）
+                $kana01 = $preChainStore->getKana01();                        //29.代表者名・氏名「姓」（フリガナ）
+                if(empty($kana01)){
+                    $error .= "29.代表者名・氏名「姓」（フリガナ）の値はNULLです\r\n";
+                }else{
+                    $chainStore["kana01"] = $kana01;
+                }
+
+                $kana02 = $preChainStore->getKana02();                        //31.代表者名・氏名「名」（フリガナ）
+                if(empty($kana02)){
+                    $error .= "31.代表者名・氏名「名」（フリガナ）の値はNULLです\r\n";
+                }else{
+                    $chainStore["kana02"] = $kana02;
+                }
 
                 //==> 生年月日
                 //設立日ではなく生年月日をログイン用に使う
-                $chainStore["birthday"] = $preChainStore->getBirthday();                    //33.生年月日(設立日ではなく生年月日をログイン用に使う)
+                $chainStore["birthday"] = $preChainStore->getBirthday();                    //33.生年月日(設立日ではなく生年月日をログイン用に使う)	
 
                 //==> 電話番号
-                $chainStore["phoneNo"] = $preChainStore->getCellphoneNo();                  //41.携帯電話
+                $cellphoneNo = $preChainStore->getCellphoneNo();                            //41.携帯電話
+                if(empty($cellphoneNo)){
+                    $error .= "41.携帯電話の値はNULLです\r\n";
+                }else{
+                    $chainStore["phoneNo"] = $cellphoneNo;
+                }
 
                 //==> ディーラーコード
                 $chainStore["dealerCode"] = $preChainStore->getDealerCode();                //55.ディーラーコード
 
-                //59.取引口座選択(ゆうちょ銀行以外の銀行・)
+                //59.取引口座選択(ゆうちょ銀行以外の銀行・)	
                 if($preChainStore->getIsPostbankList() == "ゆうちょ銀行"){
+                    $branchNo = $preChainStore->getPostCodeNumber();                        //81.通帳記号（下5桁）（ゆうちょ）
+                    $accountNo = $preChainStore->getPostPassbookNumber();                   //83.通帳番号（8桁）（ゆうちょ）
 
-                    $chainStore["postCodeNumber"] = $preChainStore->getPostCodeNumber();                    //81.通帳記号（下5桁）（ゆうちょ）
-                    $chainStore["postPassbookNumber"] = $preChainStore->getPostPassbookNumber();            //83.通帳番号（8桁）（ゆうちょ）
-                    $chainStore["postBankHolderKana01"] = $preChainStore->getPostBankHolderKana01();        //89.口座名義「姓」（フリガナ）（ゆうちょ）
-                    $chainStore["postBankHolderKana02"] = $preChainStore->getPostBankHolderKana02();        //91.口座名義「名」（フリガナ）（ゆうちょ）
+                    if(!empty($branchNo)){
+                        //2～3桁目の数字の末尾に「8」を付与したものを支店コードとする
+                        $branchNo = substr($branchNo, 1, 2)."8";
+                    }else{
+                        $error .= "81.通帳記号（下5桁）（ゆうちょ）の値はNULLです\r\n";
+                    }
+
+                    //末尾の「1」を除外したものを口座番号とする
+                    if(!empty($accountNo)){
+                        $accountNo = substr($accountNo, 0, -1);
+                    }else{
+                        $error .= "83.通帳番号（8桁）（ゆうちょ）の値はNULLです\r\n";
+                    }
+
+                    $bankInfo = $this->bankBranchRepository->findOneBy(['bank_code' => "9900", "branch_code" => $branchNo]);
+                    if(is_object($bankInfo)){
+                        //==> 金融機関名
+                        $chainStore["bankId"] = $bankInfo->getBankId();
+                        //==> 支店名
+                        $chainStore["branchId"] = $bankInfo->getId();
+                        //==> 預金種目
+                        $chainStore["bankAccountType"] = "1";       //普通
+                        //==> 口座番号
+                        $chainStore["bankAccountNo"] = $accountNo;
+                        //==> 口座名義
+                        
+                        $bankHolderKana01 = $preChainStore->getPostBankHolderKana01();              //89.口座名義「姓」（フリガナ）（ゆうちょ）
+                        $bankHolderKana02 = $preChainStore->getPostBankHolderKana02();              //91.口座名義「名」（フリガナ）（ゆうちょ）
+                        if(empty($bankHolderKana01) && empty($bankHolderKana02)){
+                            $error .= "89.口座名義「姓」（フリガナ）（ゆうちょ）と91.口座名義「名」（フリガナ）（ゆうちょ）の値はNULLです\r\n";
+                        }else{
+                            $chainStore["bankHolder"] = $bankHolderKana01.$bankHolderKana02;
+                        }
+                    }else{
+                        //無法取得銀行資料
+                        $error .= "金融取引データの取得に失敗しました。\r\n";
+                    }
                 }else{
-                    $chainStore["bankId"] = $preChainStore->getBankId();                                    //61.金融機関コード
-                    $chainStore["bankName"] = $preChainStore->getBankName();                                //63.金融機関名
-                    $chainStore["bankBranchId"] = $preChainStore->getBankBranchId();                        //65.支店コード
-                    $chainStore["bankBranchName"] = $preChainStore->getBankBranchName();                    //67.支店名
-                    $chainStore["bankAccountTypeName"] = $preChainStore->getBankAccountTypeName();          //69.預金種目
-                    $chainStore["bankAccount"] = $preChainStore->getBankAccount();                          //71.口座番号
-                    $chainStore["bankHolderKana01"] = $preChainStore->getBankHolderKana01();                //77.口座名義「姓」（フリガナ）
-                    $chainStore["bankHolderKana02"] = $preChainStore->getBankHolderKana02();                //79.口座名義「名」（フリガナ）
+                    $bankId = $preChainStore->getBankId();                                                      //61.金融機関コード
+                    $branchId = $preChainStore->getBankBranchId();                                              //65.支店コード
+                    //$chainStore["bankName"] = $preChainStore->getBankName();                                  //63.金融機関名
+                    //$chainStore["bankBranchName"] = $preChainStore->getBankBranchName();                      //67.支店名
+
+                    $bankInfo = $this->bankBranchRepository->findOneBy(['bank_code' => $bankId, "branch_code" => $branchId]);
+                    if(is_object($bankInfo)){
+                        $accountTypeName = $preChainStore->getBankAccountTypeName();                            //69.預金種目
+                        $accountType = $this->bankAccountTypeRepository->findOneBy(["name" => $accountTypeName]);
+
+                        if(is_object($accountType)){
+                            //==> 金融機関名
+                            $chainStore["bankId"] = $bankInfo->getBankId();
+                            //==> 支店名
+                            $chainStore["branchId"] = $bankInfo->getId();
+                            //==> 預金種目
+                            $chainStore["bankAccountType"] = $accountType->getId();
+                            //==> 口座番号
+                            $bankAccount = $preChainStore->getBankAccount();                        //71.口座番号
+                            if(empty($bankAccount)){
+                                $error .= "71.口座番号の値はNULLです\r\n";
+                            }else{
+                                $chainStore["bankAccountNo"] = $bankAccount;
+                            }
+
+                            //==> 口座名義
+                            $bankHolderKana01 = $preChainStore->getBankHolderKana01();              //77.口座名義「姓」（フリガナ）
+                            $bankHolderKana02 = $preChainStore->getBankHolderKana02();              //79.口座名義「名」（フリガナ）
+                            if(empty($bankHolderKana01) && empty($bankHolderKana02)){
+                                $error .= "77.口座名義「姓」（フリガナ）と79.口座名義「名」（フリガナ）の値はNULLです\r\n";
+                            }else{
+                                $chainStore["bankHolder"] = $bankHolderKana01.$bankHolderKana02;
+                            }
+                        }else{
+                            //無法取得 預金種目
+                            $error .= "金融機関の預金種目データの取得に失敗しました。\r\n";
+                        }
+                    }else{
+                        //無法取得 銀行資料
+                        $error .= "金融取引データの取得に失敗しました。\r\n";
+                    }
+                }  
+
+                //==> お名前（担当者）姓
+                $chainStoreOwner01 = $preChainStore->getChainstoreOwner01();               //117.販売店舗担当者名-姓
+                if(empty($chainStoreOwner01)){
+                    //$error .= "117.販売店舗担当者名-姓の値はNULLです\r\n";
+                    //25.代表者名・氏名「姓」
+                    $chainStore["chainstoreName01"] = $preChainStore->getName01();
+                }else{
+                    $chainStore["chainstoreName01"] = $chainStoreOwner01;
                 }
 
-                //==> お名前（担当者）
-                $chainStore["chainstoreName"] = $preChainStore->getChainstoreName();                    //97.販売店舗名
+                //==> お名前（担当者）名
+                $chainStoreOwner02 = $preChainStore->getChainstoreOwner02();               //119.販売店舗担当者名-名
+                if(empty($chainStoreOwner01)){
+                    //$error .= "119.販売店舗担当者名-名の値はNULLです\r\n";
+                    //27.代表者名・氏名「名」
+                    $chainStore["chainstoreName02"] = $preChainStore->getName02();
+                }else{
+                    $chainStore["chainstoreName02"] = $chainStoreOwner02;
+                }
 
-                //==> お名前（担当者）(カナ)
-                $chainStore["chainstoreNameKana"] = $preChainStore->getChainstoreNameKana();            //99.販売店舗名（フリガナ）
+                //==> お名前（担当者）(カナ) 姓
+                $chainStoreOwnerKana01 = $preChainStore->getChainstoreOwnerKana01();       //121.販売店舗担当者名-姓カナ
+                if(empty($chainStoreOwnerKana01)){
+                    //$error .= "121.販売店舗担当者名-姓カナの値はNULLです\r\n";
+                    //29.代表者名・氏名「姓」（フリガナ）
+                    $chainStore["chainstoreNameKana01"] = $preChainStore->getKana01();
+                }else{
+                    $chainStore["chainstoreNameKana01"] = $chainStoreOwnerKana01;
+                }
+
+                //==> お名前（担当者）(カナ) 名
+                $chainStoreOwnerKana02 = $preChainStore->getChainstoreOwnerKana02();       //123.販売店舗担当者名-名カナ
+                if(empty($chainStoreOwnerKana02)){
+                    //$error .= "123.販売店舗担当者名-名カナの値はNULLです\r\n";
+                    //31.代表者名・氏名「名」（フリガナ）
+                    $chainStore["chainstoreNameKana02"] = $preChainStore->getKana02();
+                }else{
+                    $chainStore["chainstoreNameKana02"] = $chainStoreOwnerKana02;
+                }
+
+                //==> 会社名
+                $chainStoreCompanyName = $preChainStore->getChainstoreName();             //97.販売店舗名
+                if(empty($chainStoreCompanyName)){
+                    //同上 ==> 販売店名
+                    //「法人名・屋号」空の場合は代表者姓、名を結合して入れる
+                    $companyName = $preChainStore->getCompanyName();
+                    if(empty($companyName)){
+                        //25.代表者名・氏名「姓」+ 27.代表者名・氏名「名」
+                        $chainStore["chainstoreCompanyName"] = $preChainStore->getName01().$preChainStore->getName02();
+                    }else{
+                        //09.法人名・屋号
+                        $chainStore["chainstoreCompanyName"] = $companyName;
+                    }
+                }else{
+                    $chainStore["chainstoreCompanyName"] = $chainStoreCompanyName;
+                }
 
                 //==> 住所-郵便番号
-                $chainStore["chainstorePostalCode"] = $preChainStore->getChainstorePostalCode();        //109.販売店舗所在地：（郵便番号）
+                $chainStorePostalCode = $preChainStore->getChainstorePostalCode();              //109.販売店舗所在地：（郵便番号）
+                if(empty($chainStorePostalCode)){
+                    //$error .= "109.販売店舗所在地：（郵便番号）の値はNULLです\r\n";
+                    $chainStore["chainstorePostalCode"] = $preChainStore->getPostalCode();      //15.所在地・住所：（郵便番号）
+                }else{
+                    $chainStore["chainstorePostalCode"] = $chainStorePostalCode;
+                }
 
                 //==> 住所-都道府県
-                $chainStore["chainstoreAddr01"] = $preChainStore->getChainstoreAddr01();                //111.販売店舗所在地：（都道府県）
+                $chainStoreAddr01 = $preChainStore->getChainstoreAddr01();                      //111.販売店舗所在地：（都道府県）
+                if(empty($chainStoreAddr01)){
+                    //$error .= "111.販売店舗所在地：（都道府県）の値はNULLです\r\n";
+                    $chainStore["chainstoreAddr01"] = $preChainStore->getAddr01();              //17.所在地・住所（都道府県）
+                }else{
+                    $chainStore["chainstoreAddr01"] = $chainStoreAddr01;
+                }
 
                 //==> 住所-市町村名
-                $chainStore["chainstoreAddr02"] = $preChainStore->getChainstoreAddr02();                //113.販売店舗所在地：（市町村名）
+                $chainStoreAddr02 = $preChainStore->getChainstoreAddr02();                      //113.販売店舗所在地：（市町村名）
+                if(empty($chainStoreAddr02)){
+                    //$error .= "113.販売店舗所在地：（市町村名）の値はNULLです\r\n";
+                    $chainStore["chainstoreAddr02"] = $preChainStore->getAddr02();              //19.所在地・住所（市町村名）
+                }else{
+                    $chainStore["chainstoreAddr02"] = $chainStoreAddr02;
+                }
 
                 //==> 住所-番地・ビル名
-                $chainStore["chainstoreAddr03"] = $preChainStore->getChainstoreAddr03();                //115.販売店舗所在地：（番地・ビル名）
+                $chainStoreAddr03 = $preChainStore->getChainstoreAddr03();                      //115.販売店舗所在地：（番地・ビル名）
+                if(empty($chainStoreAddr03)){
+                    //$error .= "115.販売店舗所在地：（番地・ビル名）の値はNULLです\r\n";
+                    $chainStore["chainstoreAddr03"] = $preChainStore->getAddr03();              //21.所在地・住所（番地・ビル名）
+                }else{
+                    $chainStore["chainstoreAddr03"] = $chainStoreAddr03;
+                }
+
+                if(empty($error)){
+                    $result = $chainStore;
+                }else{
+                    //return $this->json(['status' => 'NG', 'message' => $error]);
+                    return $this->json(['status' => 'NG', 'message' => $fixedMessage, 'debug' => $error]);
+                }
 
                 //以下備用
-                //$chainStore["email"] = $preChainStore->getEmail();                          //35.連絡用メールアドレス
+                //$chainStore["email"] = $preChainStore->getEmail();                                    //35.連絡用メールアドレス                
 
-                array_push($result, $chainStore);
+                //array_push($result, $chainStore);
+            }else{
+                return $this->json(['status' => 'NF', 'message' => "「".$email."」に一致する情報は見つかりませんでした。"]); 
             }
         } catch (\Exception $e) {
             log_error('予期しないエラーです', [$e->getMessage()]);
 
-            return $this->json(['status' => 'NG', 'message' => $e->getMessage()]);
+            return $this->json(['status' => 'NG', 'message' => $fixedMessage, 'debug' => $e->getMessage()]); 
+            //return $this->json(['status' => 'NG', 'message' => "予期しないエラーです"]); 
         }
 
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));

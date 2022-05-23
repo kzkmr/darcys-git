@@ -85,14 +85,8 @@ class ChainStoreType extends AbstractType
         $applicantContractType = $this->applicantContractTypeRepository->findBy([], ['sort_no' => 'ASC']);
 
         $builder
-            ->add('applicant_contract_type', EntityType::class, [
-                'required' => true,
-                'class' => ApplicantContractType::class,
-                'placeholder' => 'common.select__applicant_contract_type',
-                'choices' => $applicantContractType,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
+            ->add('pre_chainstore', TextType::class, [
+                'required' => false,
             ])
             ->add('name', NameType::class, [
                 'required' => false,

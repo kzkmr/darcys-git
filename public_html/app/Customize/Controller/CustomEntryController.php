@@ -29,6 +29,7 @@ use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\Master\ContractTypeRepository;
 use Eccube\Repository\Master\CustomerStatusRepository;
 use Customize\Repository\Master\ChainStoreStatusRepository;
+use Customize\Repository\PreChainStoreRepository;
 use Eccube\Repository\PageRepository;
 use Eccube\Service\CartService;
 use Customize\Service\MailService;
@@ -109,6 +110,11 @@ class CustomEntryController extends BaseEntryController
      * @var ContractTypeRepository
      */
     protected $contractTypeRepository;
+
+    /**
+     * @var PreChainStoreRepository
+     */
+    protected $preChainStoreRepository;
     
     private $chainstore_type;
 
@@ -127,6 +133,7 @@ class CustomEntryController extends BaseEntryController
      * @param ValidatorInterface $validatorInterface
      * @param TokenStorageInterface $tokenStorage
      * @param ContractTypeRepository $contractTypeRepository
+     * @param PreChainStoreRepository $preChainStoreRepository
      */
     public function __construct(
         CartService $cartService,
@@ -141,7 +148,8 @@ class CustomEntryController extends BaseEntryController
         ValidatorInterface $validatorInterface,
         TokenStorageInterface $tokenStorage,
         PageRepository $pageRepository,
-        ContractTypeRepository $contractTypeRepository
+        ContractTypeRepository $contractTypeRepository,
+        PreChainStoreRepository $preChainStoreRepository
     ) {
         $this->customerStatusRepository = $customerStatusRepository;
         $this->mailService = $mailService;
@@ -156,6 +164,7 @@ class CustomEntryController extends BaseEntryController
         $this->cartService = $cartService;
         $this->pageRepository = $pageRepository;
         $this->contractTypeRepository = $contractTypeRepository;
+        $this->preChainStoreRepository = $preChainStoreRepository;
     }
 
     /**
@@ -244,17 +253,21 @@ class CustomEntryController extends BaseEntryController
 
                     if($ChainstoreType){
                         $ChainStoreStatus = $this->entityManager->find(ChainStoreStatus::class, ChainStoreStatus::PROVISIONAL);
+                        $preChainStore = $this->preChainStoreRepository->findOneBy(["id" => $Customer->getChainStore()->getPreChainStore()]);
+
                         $Customer->getChainStore()->setStatus($ChainStoreStatus);
                         $Customer->getChainStore()->setMarginPrice(0);
+                        $Customer->getChainStore()->setPurchasingLimitPrice(0);
+                        $Customer->getChainStore()->setPreChainStore($preChainStore);
                         
                         if($ChainstoreType->getId()=="1"){
                             $Customer->getChainStore()->setPurchasingLimitPrice(1000000);
                         }
 
                         if($ChainstoreType->getId()=="3"){
-                            $Customer->getChainStore()->setDeliveryRegistrations(1);
+                            $Customer->getChainStore()->setDeliveryRegistrations(0);
                         }else{
-                            $Customer->getChainStore()->setDeliveryRegistrations(10);
+                            $Customer->getChainStore()->setDeliveryRegistrations(9);
                         }
                     }
 
