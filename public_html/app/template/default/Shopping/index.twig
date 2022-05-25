@@ -372,7 +372,7 @@ file that was distributed with this source code.
                             <div class="ec-orderDelivery__change">
                                 {% if is_granted('ROLE_USER') %}
                                     {% if ChainStore %}
-                                        {% if ChainStore.ContractType.id != 3 %}
+                                        {% if ChainStore.deliveryRegistrations > 0 %}
                                             <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
                                         {% endif %}
                                     {% else %}
@@ -437,7 +437,7 @@ file that was distributed with this source code.
                     {% endfor %}
                     <div class="ec-orderDelivery__edit">
                         {% if ChainStore %}
-                            {% if ChainStore.ContractType.id != 3 %}
+                            {% if ChainStore.deliveryRegistrations > 0 %}
                                 <button type="button" class="ec-inlineBtn" data-trigger="click" data-path="{{ path('shopping_shipping_multiple') }}">商品ごとに販売店舗を指定する</button>
                             {% endif %}
                         {% else %}

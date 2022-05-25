@@ -120,6 +120,8 @@ parameters:
   eccube_shipping_notify_mail_template_id: 8 #出荷通知メール
   eccube_chainstore_confirm_admin_mail_template_id: 9 #販売店会員登録メール
   eccube_check_chainstore_admin_mail_template_id: 10 #チェック販売店会員登録メール
+  eccube_chainstore_entry_confirm_mail_template_id: 11 #販売店会員仮登録メール
+  eccube_chainstore_entry_complete_mail_template_id: 12 #販売店会員本登録メール
   # メールアドレスをRFC準拠でチェックするか true: チェックする、false: チェックしない
   eccube_rfc_email_check: false
   eccube_package_api_url: "%env(ECCUBE_PACKAGE_API_URL)%"

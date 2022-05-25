@@ -195,6 +195,12 @@ file that was distributed with this source code.
             $(".ec-modal-close, .ec-inlineBtn--cancel").on("click", function(){
                 $(this).parents(".ec-modal").modal('hide');
             });
+
+            {% if ChainStore %}
+                $("#cform :input").prop("readonly", true);
+                $("#cform select, #cform :radio").prop("disabled", true);
+                $(".btn_bank_search").hide();
+            {% endif %}
         });
 
     </script>
@@ -212,7 +218,7 @@ file that was distributed with this source code.
             <div class="ec-editRole">
                 <div class="ec-off1Grid">
                     <div class="ec-off1Grid__cell">
-                        <form method="post" action="{{ url('mypage_change_chainstore') }}" novalidate class="h-adr">
+                        <form method="post" action="{{ url('mypage_change_chainstore') }}" novalidate class="h-adr" id="cform">
                             <span class="p-country-name" style="display:none;">Japan</span>
                             {{ form_widget(form._token) }}
                             <div class="ec-borderedDefs">

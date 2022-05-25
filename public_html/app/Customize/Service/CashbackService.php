@@ -215,6 +215,16 @@ class CashbackService
             //請求金額
             $requestAmount = ($margin["self_total"]+$margin["kouri_self_total"]) - ($margin["margin_total"] + $previousMarginPrice);
 
+            if(is_object($ChainStore)){
+                //応援
+                if( $ChainStore->getContractType()->getId() == 2 ){
+                    //請求金額
+                    if($margin["oen_self_total"] > $margin["margin_total"]){
+                        $requestAmount = $margin["oen_self_total"] - $margin["margin_total"];
+                    }
+                }
+            }
+
             $cashbackSummary = new CashbackSummary();
             $cashbackSummary->setReferenceYm($calcYM);
             $cashbackSummary->setChainStore($ChainStore);
@@ -234,6 +244,11 @@ class CashbackService
             }
 
             if($ChainStore){
+                if( $ChainStore->getContractType()->getId() == 2 ){
+                    if($margin["oen_self_total"]){
+                        $cashbackSummary->setPurchaseAmount($margin["oen_self_total"]);
+                    }
+                }
                 if( $ChainStore->getContractType()->getId() == 3 ){
                     if($margin["kouri_self_total"]){
                         $cashbackSummary->setPurchaseAmount($margin["kouri_self_total"]);
@@ -248,6 +263,14 @@ class CashbackService
             }else{
                 //マージン残高
                 $marginBalance = ($margin["margin_total"] + $previousMarginPrice) - $margin["self_total"];
+
+                if($ChainStore){
+                    //応援
+                    if( $ChainStore->getContractType()->getId() == 2 ){
+                        $marginBalance = $marginBalance - $margin["oen_self_total"];
+                    }
+                }
+
                 $cashbackSummary->setMarginBalance($marginBalance);
                 //繰り越しマージン
                 if($marginBalance < 2000){

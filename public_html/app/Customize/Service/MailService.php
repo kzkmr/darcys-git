@@ -100,16 +100,16 @@ class MailService extends BaseMailService
     }
 
     /**
-     * Send customer confirm mail.
+     * Send chainstore confirm mail.
      *
-     * @param $Customer 会員情報
+     * @param $Customer 販売店会員情報
      * @param string $activateUrl アクティベート用url
      */
-    public function sendCustomerConfirmMail(Customer $Customer, $activateUrl, ContractType $ContractType = null)
+    public function sendChainStoreConfirmMail(Customer $Customer, $activateUrl, ContractType $ContractType = null)
     {
-        log_info('仮会員登録メール送信開始');
+        log_info('仮販売店会員登録メール送信開始');
 
-        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_entry_confirm_mail_template_id']);
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_entry_confirm_mail_template_id']);
 
         $body = $this->twig->render($MailTemplate->getFileName(), [
             'Customer' => $Customer,
@@ -158,10 +158,69 @@ class MailService extends BaseMailService
 
         $count = $this->mailer->send($message, $failures);
 
-        log_info('仮会員登録メール送信完了', ['count' => $count]);
+        log_info('仮販売店会員登録メール送信完了', ['count' => $count]);
 
         return $count;
     }
+
+
+    /**
+     * Send ChainStore complete mail.
+     *
+     * @param $Customer 販売店会員情報
+     */
+    public function sendChainStoreCompleteMail(Customer $Customer)
+    {
+        log_info('販売店会員登録完了メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_entry_complete_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'Customer' => $Customer,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
+            ->setTo([$Customer->getEmail()])
+            ->setBcc($this->BaseInfo->getEmail01())
+            ->setReplyTo($this->BaseInfo->getEmail03())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'Customer' => $Customer,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'Customer' => $Customer,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::MAIL_CUSTOMER_COMPLETE, $event);
+
+        $count = $this->mailer->send($message);
+
+        log_info('販売店会員登録完了メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+
 
 
     /**

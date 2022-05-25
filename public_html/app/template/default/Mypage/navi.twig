@@ -15,16 +15,27 @@ file that was distributed with this source code.
         font-size: 18px;
     }
 </style>
+<script>
+    $(function() {
+        {% if ChainStore %}
+            var changeTitle = $("ul.ec-navlistRole__navlist li.active").data("change-title");
+            if(changeTitle){
+                var shopName = document.title.substr(0, document.title.indexOf('/'));
+                document.title = shopName + " / " + changeTitle;
+            }
+        {% endif %}
+    });
+</script>
 <div class="ec-navlistRole">
     <ul class="ec-navlistRole__navlist">
         {% if ChainStore %}
             {% if ChainStore.ContractType.id != 2 %}
                 <li class="ec-navlistRole__item">
-                    <a href="{{ url('product_list') }}">{{ '商品発注'|trans }}</a>
+                    <a href="{{ url('product_list') }}?category_id=1">{{ '商品発注'|trans }}</a>
                 </li>
             {% endif %}
             <li class="ec-navlistRole__item">
-                <a href="{{ url('product_list') }}">{{ '販促発注'|trans }}</a>
+                <a href="{{ url('product_list') }}?category_id=7">{{ '販促発注'|trans }}</a>
             </li>
             {% if ChainStore.ContractType.page_coupon_list == 'Y' %}
                 <li class="ec-navlistRole__item {% if mypageno|default('') == 'chainstore_coupon_jisseki' %}active{% endif %}">
@@ -44,14 +55,14 @@ file that was distributed with this source code.
                     <a href="{{ url('mypage_favorite') }}">{{ 'front.mypage.nav__favorite'|trans }}</a>
                 </li>
             {% endif %}
-            <li class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}active{% endif %}">
+            <li data-change-title="MYページ/登録情報編集" class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}active{% endif %}">
                 <a href="{{ url('mypage_change') }}">{{ '登録情報'|trans }}</a>
             </li>
             <li class="ec-navlistRole__item {% if mypageno|default('') == 'change_chainstore' %}active{% endif %}">
                 <a href="{{ url('mypage_change_chainstore') }}">{{ '契約情報'|trans }}</a>
             </li>
-            {% if ChainStore.ContractType.id != 3 %}
-                <li class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
+            {% if ChainStore.deliveryRegistrations > 0 %}
+                <li data-change-title="MYページ/販売店舗一覧" class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
                     <a href="{{ url('mypage_delivery') }}">{{ '販売店舗一覧'|trans }}</a>
                 </li>
             {% endif %}

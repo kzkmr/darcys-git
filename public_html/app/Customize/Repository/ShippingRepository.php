@@ -315,7 +315,7 @@ class ShippingRepository extends AbstractRepository
                                 0
                             END AS kouri_self_total,
                             CASE WHEN base.contract_type_id = 2 THEN
-                                0   /* SUM(chain.self_total)  */
+                                SUM(chain.self_total)
                             ELSE
                                 0
                             END AS oen_self_total,                            
@@ -472,7 +472,7 @@ class ShippingRepository extends AbstractRepository
                             ELSE
                                 0
                             END AS self_total,
-                            CASE WHEN base.contract_type_id != 3 THEN
+                            CASE WHEN base.contract_type_id = 1 THEN
                                 FLOOR(SUM(chain_notax.self_total) * 0.03)
                             ELSE
                                 0

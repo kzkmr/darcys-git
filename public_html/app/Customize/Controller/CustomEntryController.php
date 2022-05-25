@@ -264,10 +264,10 @@ class CustomEntryController extends BaseEntryController
                             $Customer->getChainStore()->setPurchasingLimitPrice(1000000);
                         }
 
-                        if($ChainstoreType->getId()=="3"){
-                            $Customer->getChainStore()->setDeliveryRegistrations(0);
-                        }else{
+                        if($ChainstoreType->getId()=="1"){
                             $Customer->getChainStore()->setDeliveryRegistrations(9);
+                        }else{
+                            $Customer->getChainStore()->setDeliveryRegistrations(0);
                         }
                     }
 
@@ -294,7 +294,7 @@ class CustomEntryController extends BaseEntryController
                         $activateUrl = $this->generateUrl('entry_activate', ['secret_key' => $Customer->getSecretKey()], UrlGeneratorInterface::ABSOLUTE_URL);
 
                         // メール送信
-                        $this->mailService->sendCustomerConfirmMail($Customer, $activateUrl, $ChainstoreType);
+                        $this->mailService->sendChainStoreConfirmMail($Customer, $activateUrl, $ChainstoreType);
 
                         if ($event->hasResponse()) {
                             return $event->getResponse();
@@ -423,7 +423,7 @@ class CustomEntryController extends BaseEntryController
         $this->eventDispatcher->dispatch(EccubeEvents::FRONT_ENTRY_ACTIVATE_COMPLETE, $event);
 
         // メール送信
-        $this->mailService->sendCustomerCompleteMail($Customer);
+        $this->mailService->sendChainStoreCompleteMail($Customer);
 
         $ChainStore = $Customer->getChainstore();
 

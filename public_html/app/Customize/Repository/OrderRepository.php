@@ -19,6 +19,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Eccube\Doctrine\Query\Queries;
 use Eccube\Entity\Customer;
+use Customize\Entity\ChainStore;
 use Eccube\Repository\QueryKey;
 use Eccube\Entity\Master\OrderStatus;
 use Eccube\Entity\Order;
@@ -56,14 +57,16 @@ class OrderRepository extends BaseOrderRepository
      *
      * @return QueryBuilder
      */
-    public function getQueryBuilderBySearchDataForAdmin($searchData)
+    public function getQueryBuilderBySearchDataForAdminNew($searchData, $isCSV)
     {
         $qb = $this->createQueryBuilder('o')
             ->select('o, s')
-            ->addSelect('oi', 'pref')
+            ->addSelect('oi', 'pref', 'cc', 'ccs')
             ->leftJoin('o.OrderItems', 'oi')
             ->leftJoin('o.Pref', 'pref')
-            ->innerJoin('o.Shippings', 's');
+            ->innerJoin('o.Shippings', 's')
+            ->leftJoin('o.Customer', 'cc')
+            ->leftJoin('cc.ChainStore', 'ccs');
 
         // order_id_start
         if (isset($searchData['order_id']) && StringUtil::isNotBlank($searchData['order_id'])) {
@@ -131,10 +134,12 @@ class OrderRepository extends BaseOrderRepository
 
         //class_sale_type
         if (isset($searchData['class_sale_type']) && StringUtil::isNotBlank($searchData['class_sale_type'])) {
-            $qb
-                ->leftJoin('oi.ProductClass', 'pc')
-                ->andWhere('pc.SaleType = :saleType')
-                ->setParameter('saleType', $searchData['class_sale_type']);
+            $searchIds = $this->getSaleTypeProductList($searchData);
+            if(!empty($searchIds)){
+                $qb
+                    ->andWhere($qb->expr()->in('o.id', ':order_id'))
+                    ->setParameter('order_id', $searchIds);
+            }
         }
 
         // order_id_end
@@ -371,7 +376,30 @@ class OrderRepository extends BaseOrderRepository
         $qb->orderBy('o.update_date', 'DESC');
         $qb->addorderBy('o.id', 'DESC');
 
+        if($isCSV){
+            $qb->addorderBy('oi.id', 'ASC');
+        }
+
         return $this->queries->customize(QueryKey::ORDER_SEARCH_ADMIN, $qb, $searchData);
     }
 
+    private function getSaleTypeProductList($searchData){
+        $qb = $this->createQueryBuilder('o')
+            ->select('o')
+            ->leftJoin('o.OrderItems', 'oi')
+            ->leftJoin('oi.ProductClass', 'pc')
+            ->andWhere('pc.SaleType = :saleType')
+            ->setParameter('saleType', $searchData['class_sale_type']);
+
+        $rs = $qb->getQuery()->getResult();
+
+        if($rs){
+            $searchIds = [];
+            foreach($rs as $row){
+                $searchIds[] = $row->getId();
+            }
+            return $searchIds;
+        }
+        return [];
+    }
 }

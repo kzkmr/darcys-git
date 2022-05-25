@@ -34,7 +34,11 @@ file that was distributed with this source code.
                         <dl>
                             <dt>
                                 {% if ChainStore %}
-                                    {{ form_label(form.name, '販売店舗担当者名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% if ChainStore.ContractType.id != 2 %}
+                                        {{ form_label(form.name, '販売店舗担当者名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% else %}
+                                        {{ form_label(form.name, '代表者名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% endif %}
                                 {% else %}
                                     {{ form_label(form.name, 'common.name', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 {% endif %}
@@ -51,7 +55,11 @@ file that was distributed with this source code.
                         <dl>
                             <dt>
                                 {% if ChainStore %}
-                                    {{ form_label(form.kana, '販売店舗担当者名（フリガナ）', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% if ChainStore.ContractType.id != 2 %}
+                                        {{ form_label(form.kana, '販売店舗担当者名（フリガナ）', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% else %}
+                                        {{ form_label(form.kana, '代表者名（フリガナ）', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% endif %}
                                 {% else %}
                                     {{ form_label(form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 {% endif %}
@@ -68,7 +76,11 @@ file that was distributed with this source code.
                         <dl>
                             <dt>
                                 {% if ChainStore %}
-                                    {{ form_label(form.company_name, '販売店舗名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% if ChainStore.ContractType.id != 2 %}
+                                        {{ form_label(form.company_name, '販売店舗名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% else %}
+                                        {{ form_label(form.company_name, '法人名・屋号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% endif %}
                                 {% else %}
                                     {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 {% endif %}
@@ -83,7 +95,11 @@ file that was distributed with this source code.
                         <dl>
                             <dt>
                                 {% if ChainStore %}
-                                    {{ form_label(form.address, '販売店舗所在地', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% if ChainStore.ContractType.id != 2 %}
+                                        {{ form_label(form.address, '販売店舗所在地', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% else %}
+                                        {{ form_label(form.address, '所在地・住所', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% endif %}
                                 {% else %}
                                     {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 {% endif %}
@@ -115,7 +131,11 @@ file that was distributed with this source code.
                         <dl>
                             <dt>
                                 {% if ChainStore %}
-                                    {{ form_label(form.phone_number, '店舗or担当者電話番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% if ChainStore.ContractType.id != 2 %}
+                                        {{ form_label(form.phone_number, '店舗or担当者電話番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% else %}
+                                        {{ form_label(form.phone_number, '電話番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% endif %}
                                 {% else %}
                                     {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 {% endif %}

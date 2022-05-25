@@ -377,7 +377,7 @@ file that was distributed with this source code.
                 {% endif %}
                 
                 if(!delivery_registrations.data("isLock")){
-                    if( $("#admin_chain_store_contract_type").val() != "3" ){
+                    if( $("#admin_chain_store_contract_type").val() == "1" ){
                         delivery_registrations.val("9");
                     }else{
                         delivery_registrations.val("0");

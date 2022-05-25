@@ -173,6 +173,7 @@ class ProductRepository extends BaseProductRepository
             if($ClassCategory){
                 $qb->innerJoin('p.ProductClasses', 'pc1');
                 $qb->andWhere('pc1.visible = true');
+                $qb->andWhere('pc1.price02 > 0');
                 $qb->andWhere('pc1.ClassCategory1 = :ClassCategory1')
                     ->setParameter('ClassCategory1', $ClassCategory);
             }
