@@ -17,22 +17,15 @@ use Composer\Script\ScriptEvents;
 class UpdateEvent extends Event
 {
     private $force;
-    private $reset;
 
-    public function __construct(bool $force, bool $reset)
+    public function __construct(bool $force)
     {
         $this->name = ScriptEvents::POST_UPDATE_CMD;
         $this->force = $force;
-        $this->reset = $reset;
     }
 
     public function force(): bool
     {
         return $this->force;
-    }
-
-    public function reset(): bool
-    {
-        return $this->reset;
     }
 }

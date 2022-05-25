@@ -662,7 +662,7 @@ abstract class Client
     protected function getAbsoluteUri($uri)
     {
         // already absolute?
-        if (str_starts_with($uri, 'http://') || str_starts_with($uri, 'https://')) {
+        if (0 === strpos($uri, 'http://') || 0 === strpos($uri, 'https://')) {
             return $uri;
         }
 
@@ -676,7 +676,7 @@ abstract class Client
         }
 
         // protocol relative URL
-        if (str_starts_with($uri, '//')) {
+        if (0 === strpos($uri, '//')) {
             return parse_url($currentUri, \PHP_URL_SCHEME).':'.$uri;
         }
 
@@ -688,7 +688,7 @@ abstract class Client
         if ('/' !== $uri[0]) {
             $path = parse_url($currentUri, \PHP_URL_PATH);
 
-            if (!str_ends_with($path, '/')) {
+            if ('/' !== substr($path, -1)) {
                 $path = substr($path, 0, strrpos($path, '/') + 1);
             }
 

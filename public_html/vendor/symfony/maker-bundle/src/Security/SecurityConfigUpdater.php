@@ -145,7 +145,7 @@ final class SecurityConfigUpdater
         return $this->manipulator->getContents();
     }
 
-    private function normalizeSecurityYamlFile(): void
+    private function normalizeSecurityYamlFile()
     {
         if (!isset($this->manipulator->getData()['security'])) {
             $newData = $this->manipulator->getData();
@@ -154,7 +154,7 @@ final class SecurityConfigUpdater
         }
     }
 
-    private function updateProviders(UserClassConfiguration $userConfig, string $userClass): void
+    private function updateProviders(UserClassConfiguration $userConfig, string $userClass)
     {
         $this->removeMemoryProviderIfIsSingleConfigured();
 
@@ -185,12 +185,12 @@ final class SecurityConfigUpdater
         $this->manipulator->setData($newData);
     }
 
-    private function updatePasswordHashers(UserClassConfiguration $userConfig, string $userClass, string $keyName = 'password_hashers'): void
+    private function updatePasswordHashers(UserClassConfiguration $userConfig, string $userClass, string $keyName = 'password_hashers')
     {
         $newData = $this->manipulator->getData();
         if ('password_hashers' === $keyName && isset($newData['security']['encoders'])) {
             // fallback to "encoders" if the user already defined encoder config
-            $this->updatePasswordHashers($userConfig, $userClass, 'encoders');
+            $this->updatePasswordHashers($userClass, $userClass, 'encoders');
 
             return;
         }
@@ -217,7 +217,7 @@ final class SecurityConfigUpdater
         $this->manipulator->setData($newData);
     }
 
-    private function removeMemoryProviderIfIsSingleConfigured(): void
+    private function removeMemoryProviderIfIsSingleConfigured()
     {
         if (!$this->isSingleInMemoryProviderConfigured()) {
             return;

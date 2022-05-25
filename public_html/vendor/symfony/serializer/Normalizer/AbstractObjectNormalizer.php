@@ -11,13 +11,11 @@
 
 namespace Symfony\Component\Serializer\Normalizer;
 
-use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Exception\ExtraAttributesException;
 use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
@@ -145,7 +143,17 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
             $context['cache_key'] = $this->getCacheKey($format, $context);
         }
 
-        $this->validateCallbackContext($context);
+        if (isset($context[self::CALLBACKS])) {
+            if (!\is_array($context[self::CALLBACKS])) {
+                throw new InvalidArgumentException(sprintf('The "%s" context option must be an array of callables.', self::CALLBACKS));
+            }
+
+            foreach ($context[self::CALLBACKS] as $attribute => $callback) {
+                if (!\is_callable($callback)) {
+                    throw new InvalidArgumentException(sprintf('Invalid callback found for attribute "%s" in the "%s" context option.', $attribute, self::CALLBACKS));
+                }
+            }
+        }
 
         if ($this->isCircularReference($object, $context)) {
             return $this->handleCircularReference($object, $format, $context);
@@ -172,28 +180,18 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
                 continue;
             }
 
-            try {
-                $attributeValue = $this->getAttributeValue($object, $attribute, $format, $context);
-            } catch (AccessException $e) {
-                if (sprintf('The property "%s::$%s" is not initialized.', \get_class($object), $attribute) === $e->getMessage()) {
-                    continue;
-                }
-                if (($p = $e->getPrevious()) && 'Error' === \get_class($p) && $this->isUninitializedValueError($p)) {
-                    continue;
-                }
-                throw $e;
-            } catch (\Error $e) {
-                if ($this->isUninitializedValueError($e)) {
-                    continue;
-                }
-                throw $e;
-            }
-
+            $attributeValue = $this->getAttributeValue($object, $attribute, $format, $context);
             if ($maxDepthReached) {
                 $attributeValue = $maxDepthHandler($attributeValue, $object, $attribute, $format, $context);
             }
 
-            $attributeValue = $this->applyCallbacks($attributeValue, $object, $attribute, $format, $context);
+            /**
+             * @var callable|null
+             */
+            $callback = $context[self::CALLBACKS][$attribute] ?? $this->defaultContext[self::CALLBACKS][$attribute] ?? $this->callbacks[$attribute] ?? null;
+            if ($callback) {
+                $attributeValue = $callback($attributeValue, $object, $attribute, $format, $context);
+            }
 
             if (null !== $attributeValue && !is_scalar($attributeValue)) {
                 $stack[$attribute] = $attributeValue;
@@ -330,8 +328,6 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
             $context['cache_key'] = $this->getCacheKey($format, $context);
         }
 
-        $this->validateCallbackContext($context);
-
         $allowedAttributes = $this->getAllowedAttributes($type, $context, true);
         $normalizedData = $this->prepareForDenormalization($data);
         $extraAttributes = [];
@@ -361,8 +357,6 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
             }
 
             $value = $this->validateAndDenormalize($resolvedClass, $attribute, $value, $format, $context);
-            $value = $this->applyCallbacks($value, $resolvedClass, $attribute, $format, $context);
-
             try {
                 $this->setAttributeValue($object, $attribute, $value, $format, $context);
             } catch (InvalidArgumentException $e) {
@@ -404,7 +398,6 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
         }
 
         $expectedTypes = [];
-        $isUnionType = \count($types) > 1;
         foreach ($types as $type) {
             if (null === $data && $type->isNullable()) {
                 return null;
@@ -416,10 +409,6 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
             // This is special to xml format only
             if ('xml' === $format && null !== $collectionValueType && (!\is_array($data) || !\is_int(key($data)))) {
                 $data = [$data];
-            }
-
-            if (XmlEncoder::FORMAT === $format && '' === $data && Type::BUILTIN_TYPE_ARRAY === $type->getBuiltinType()) {
-                return [];
             }
 
             if (null !== $collectionValueType && Type::BUILTIN_TYPE_OBJECT === $collectionValueType->getBuiltinType()) {
@@ -456,40 +445,29 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
 
             $expectedTypes[Type::BUILTIN_TYPE_OBJECT === $builtinType && $class ? $class : $builtinType] = true;
 
-            // This try-catch should cover all NotNormalizableValueException (and all return branches after the first
-            // exception) so we could try denormalizing all types of an union type. If the target type is not an union
-            // type, we will just re-throw the catched exception.
-            // In the case of no denormalization succeeds with an union type, it will fall back to the default exception
-            // with the acceptable types list.
-            try {
-                if (Type::BUILTIN_TYPE_OBJECT === $builtinType) {
-                    if (!$this->serializer instanceof DenormalizerInterface) {
-                        throw new LogicException(sprintf('Cannot denormalize attribute "%s" for class "%s" because injected serializer is not a denormalizer.', $attribute, $class));
-                    }
-
-                    $childContext = $this->createChildContext($context, $attribute, $format);
-                    if ($this->serializer->supportsDenormalization($data, $class, $format, $childContext)) {
-                        return $this->serializer->denormalize($data, $class, $format, $childContext);
-                    }
+            if (Type::BUILTIN_TYPE_OBJECT === $builtinType) {
+                if (!$this->serializer instanceof DenormalizerInterface) {
+                    throw new LogicException(sprintf('Cannot denormalize attribute "%s" for class "%s" because injected serializer is not a denormalizer.', $attribute, $class));
                 }
 
-                // JSON only has a Number type corresponding to both int and float PHP types.
-                // PHP's json_encode, JavaScript's JSON.stringify, Go's json.Marshal as well as most other JSON encoders convert
-                // floating-point numbers like 12.0 to 12 (the decimal part is dropped when possible).
-                // PHP's json_decode automatically converts Numbers without a decimal part to integers.
-                // To circumvent this behavior, integers are converted to floats when denormalizing JSON based formats and when
-                // a float is expected.
-                if (Type::BUILTIN_TYPE_FLOAT === $builtinType && \is_int($data) && null !== $format && str_contains($format, JsonEncoder::FORMAT)) {
-                    return (float) $data;
+                $childContext = $this->createChildContext($context, $attribute, $format);
+                if ($this->serializer->supportsDenormalization($data, $class, $format, $childContext)) {
+                    return $this->serializer->denormalize($data, $class, $format, $childContext);
                 }
+            }
 
-                if (('is_'.$builtinType)($data)) {
-                    return $data;
-                }
-            } catch (NotNormalizableValueException $e) {
-                if (!$isUnionType) {
-                    throw $e;
-                }
+            // JSON only has a Number type corresponding to both int and float PHP types.
+            // PHP's json_encode, JavaScript's JSON.stringify, Go's json.Marshal as well as most other JSON encoders convert
+            // floating-point numbers like 12.0 to 12 (the decimal part is dropped when possible).
+            // PHP's json_decode automatically converts Numbers without a decimal part to integers.
+            // To circumvent this behavior, integers are converted to floats when denormalizing JSON based formats and when
+            // a float is expected.
+            if (Type::BUILTIN_TYPE_FLOAT === $builtinType && \is_int($data) && false !== strpos($format, JsonEncoder::FORMAT)) {
+                return (float) $data;
+            }
+
+            if (('is_'.$builtinType)($data)) {
+                return $data;
             }
         }
 
@@ -509,9 +487,7 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
             return parent::denormalizeParameter($class, $parameter, $parameterName, $parameterData, $context, $format);
         }
 
-        $parameterData = $this->validateAndDenormalize($class->getName(), $parameterName, $parameterData, $format, $context);
-
-        return $this->applyCallbacks($parameterData, $class->getName(), $parameterName, $format, $context);
+        return $this->validateAndDenormalize($class->getName(), $parameterName, $parameterData, $format, $context);
     }
 
     /**
@@ -651,20 +627,9 @@ abstract class AbstractObjectNormalizer extends AbstractNormalizer
                 'ignored' => $this->ignoredAttributes,
                 'camelized' => $this->camelizedAttributes,
             ]));
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // The context cannot be serialized, skip the cache
             return false;
         }
-    }
-
-    /**
-     * This error may occur when specific object normalizer implementation gets attribute value
-     * by accessing a public uninitialized property or by calling a method accessing such property.
-     */
-    private function isUninitializedValueError(\Error $e): bool
-    {
-        return \PHP_VERSION_ID >= 70400
-            && str_starts_with($e->getMessage(), 'Typed property')
-            && str_ends_with($e->getMessage(), 'must not be accessed before initialization');
     }
 }

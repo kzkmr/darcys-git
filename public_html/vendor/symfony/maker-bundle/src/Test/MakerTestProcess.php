@@ -54,17 +54,17 @@ final class MakerTestProcess
         return $this;
     }
 
-    public function isSuccessful(): bool
+    public function isSuccessful()
     {
         return $this->process->isSuccessful();
     }
 
-    public function getOutput(): string
+    public function getOutput()
     {
         return $this->process->getOutput();
     }
 
-    public function getErrorOutput(): string
+    public function getErrorOutput()
     {
         return $this->process->getErrorOutput();
     }

@@ -296,7 +296,7 @@ abstract class Type
      * Gets the types array map which holds all registered types and the corresponding
      * type class
      *
-     * @return array<string, string>
+     * @return string[]
      */
     public static function getTypesMap()
     {

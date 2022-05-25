@@ -12,7 +12,6 @@
 
 namespace Composer\Package\Archiver;
 
-use Composer\Pcre\Preg;
 use Symfony\Component\Finder;
 
 /**
@@ -26,7 +25,7 @@ abstract class BaseExcludeFilter
     protected $sourcePath;
 
     /**
-     * @var array<array{0: non-empty-string, 1: bool, 2: bool}> array of [$pattern, $negate, $stripLeadingSlash] arrays
+     * @var array
      */
     protected $excludePatterns;
 
@@ -45,7 +44,7 @@ abstract class BaseExcludeFilter
      * Negated patterns overwrite exclude decisions of previous filters.
      *
      * @param string $relativePath The file's path relative to the sourcePath
-     * @param bool $exclude Whether a previous filter wants to exclude this file
+     * @param bool   $exclude      Whether a previous filter wants to exclude this file
      *
      * @return bool Whether the file should be excluded
      */
@@ -60,12 +59,8 @@ abstract class BaseExcludeFilter
                 $path = $relativePath;
             }
 
-            try {
-                if (Preg::isMatch($pattern, $path)) {
-                    $exclude = !$negate;
-                }
-            } catch (\RuntimeException $e) {
-                // suppressed
+            if (@preg_match($pattern, $path)) {
+                $exclude = !$negate;
             }
         }
 
@@ -75,10 +70,10 @@ abstract class BaseExcludeFilter
     /**
      * Processes a file containing exclude rules of different formats per line
      *
-     * @param string[] $lines A set of lines to be parsed
+     * @param array    $lines      A set of lines to be parsed
      * @param callable $lineParser The parser to be used on each line
      *
-     * @return array<array{0: non-empty-string, 1: bool, 2: bool}> Exclude patterns to be used in filter()
+     * @return array Exclude patterns to be used in filter()
      */
     protected function parseLines(array $lines, $lineParser)
     {
@@ -104,9 +99,9 @@ abstract class BaseExcludeFilter
     /**
      * Generates a set of exclude patterns for filter() from gitignore rules
      *
-     * @param string[] $rules A list of exclude rules in gitignore syntax
+     * @param array $rules A list of exclude rules in gitignore syntax
      *
-     * @return array<int, array{0: non-empty-string, 1: bool, 2: bool}> Exclude patterns
+     * @return array Exclude patterns
      */
     protected function generatePatterns($rules)
     {
@@ -123,7 +118,7 @@ abstract class BaseExcludeFilter
      *
      * @param string $rule An exclude rule in gitignore syntax
      *
-     * @return array{0: non-empty-string, 1: bool, 2: bool} An exclude pattern
+     * @return array An exclude pattern
      */
     protected function generatePattern($rule)
     {

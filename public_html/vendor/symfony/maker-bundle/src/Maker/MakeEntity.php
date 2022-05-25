@@ -160,10 +160,6 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
             'Entity\\'
         );
 
-        if (!$this->doctrineHelper->isDoctrineSupportingAttributes() && $this->doctrineHelper->doesClassUsesAttributes($entityClassDetails->getFullName())) {
-            throw new RuntimeCommandException('To use Doctrine entity attributes you\'ll need PHP 8, doctrine/orm 2.9, doctrine/doctrine-bundle 2.4 and symfony/framework-bundle 5.2.');
-        }
-
         $classExists = class_exists($entityClassDetails->getFullName());
         if (!$classExists) {
             $broadcast = $input->getOption('broadcast');
@@ -190,11 +186,8 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
             $generator->writeChanges();
         }
 
-        if (
-            !$this->doesEntityUseAnnotationMapping($entityClassDetails->getFullName())
-            && !$this->doesEntityUseAttributeMapping($entityClassDetails->getFullName())
-        ) {
-            throw new RuntimeCommandException(sprintf('Only annotation or attribute mapping is supported by make:entity, but the <info>%s</info> class uses a different format. If you would like this command to generate the properties & getter/setter methods, add your mapping configuration, and then re-run this command with the <info>--regenerate</info> flag.', $entityClassDetails->getFullName()));
+        if (!$this->doesEntityUseAnnotationMapping($entityClassDetails->getFullName())) {
+            throw new RuntimeCommandException(sprintf('Only annotation mapping is supported by make:entity, but the <info>%s</info> class uses a different format. If you would like this command to generate the properties & getter/setter methods, add your mapping configuration, and then re-run this command with the <info>--regenerate</info> flag.', $entityClassDetails->getFullName()));
         }
 
         if ($classExists) {
@@ -211,7 +204,7 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
         }
 
         $currentFields = $this->getPropertyNames($entityClassDetails->getFullName());
-        $manipulator = $this->createClassManipulator($entityPath, $io, $overwrite, $entityClassDetails->getFullName());
+        $manipulator = $this->createClassManipulator($entityPath, $io, $overwrite);
 
         $isFirstField = true;
         while (true) {
@@ -239,7 +232,7 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
                     $otherManipulator = $manipulator;
                 } else {
                     $otherManipulatorFilename = $this->getPathOfClass($newField->getInverseClass());
-                    $otherManipulator = $this->createClassManipulator($otherManipulatorFilename, $io, $overwrite, $entityClassDetails->getFullName());
+                    $otherManipulator = $this->createClassManipulator($otherManipulatorFilename, $io, $overwrite);
                 }
                 switch ($newField->getType()) {
                     case EntityRelation::MANY_TO_ONE:
@@ -254,7 +247,7 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
                             // the new field being added to THIS entity is the inverse
                             $newFieldName = $newField->getInverseProperty();
                             $otherManipulatorFilename = $this->getPathOfClass($newField->getOwningClass());
-                            $otherManipulator = $this->createClassManipulator($otherManipulatorFilename, $io, $overwrite, $entityClassDetails->getFullName());
+                            $otherManipulator = $this->createClassManipulator($otherManipulatorFilename, $io, $overwrite);
 
                             // The *other* class will receive the ManyToOne
                             $otherManipulator->addManyToOneRelation($newField->getOwningRelation());
@@ -374,7 +367,9 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
         }
 
         $type = null;
-        $types = $this->getTypesMap();
+        $types = Type::getTypesMap();
+        // remove deprecated json_array
+        unset($types[Type::JSON_ARRAY]);
 
         $allValidTypes = array_merge(
             array_keys($types),
@@ -426,7 +421,7 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
 
     private function printAvailableTypes(ConsoleStyle $io)
     {
-        $allTypes = $this->getTypesMap();
+        $allTypes = Type::getTypesMap();
 
         if ('Hyper' === getenv('TERM_PROGRAM')) {
             $wizard = 'wizard 🧙';
@@ -796,13 +791,9 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
         return $io->askQuestion($question);
     }
 
-    private function createClassManipulator(string $path, ConsoleStyle $io, bool $overwrite, string $className): ClassSourceManipulator
+    private function createClassManipulator(string $path, ConsoleStyle $io, bool $overwrite): ClassSourceManipulator
     {
-        $useAttributes = $this->doctrineHelper->doesClassUsesAttributes($className) && $this->doctrineHelper->isDoctrineSupportingAttributes();
-        $useAnnotations = $this->doctrineHelper->isClassAnnotated($className) || !$useAttributes;
-
-        $manipulator = new ClassSourceManipulator($this->fileManager->getFileContents($path), $overwrite, $useAnnotations, true, $useAttributes);
-
+        $manipulator = new ClassSourceManipulator($this->fileManager->getFileContents($path), $overwrite);
         $manipulator->setIo($io);
 
         return $manipulator;
@@ -857,40 +848,8 @@ final class MakeEntity extends AbstractMaker implements InputAwareMakerInterface
         return $this->doctrineHelper->isClassAnnotated($className);
     }
 
-    private function doesEntityUseAttributeMapping(string $className): bool
-    {
-        if (\PHP_VERSION < 80000) {
-            return false;
-        }
-
-        if (!class_exists($className)) {
-            $otherClassMetadatas = $this->doctrineHelper->getMetadata(Str::getNamespace($className).'\\', true);
-
-            // if we have no metadata, we should assume this is the first class being mapped
-            if (empty($otherClassMetadatas)) {
-                return false;
-            }
-
-            $className = reset($otherClassMetadatas)->getName();
-        }
-
-        return $this->doctrineHelper->doesClassUsesAttributes($className);
-    }
-
     private function getEntityNamespace(): string
     {
         return $this->doctrineHelper->getEntityNamespace();
-    }
-
-    private function getTypesMap(): array
-    {
-        $types = Type::getTypesMap();
-
-        // remove deprecated json_array if it exists
-        if (\defined(sprintf('%s::JSON_ARRAY', Type::class))) {
-            unset($types[Type::JSON_ARRAY]);
-        }
-
-        return $types;
     }
 }

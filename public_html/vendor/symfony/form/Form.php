@@ -23,7 +23,6 @@ use Symfony\Component\Form\Exception\OutOfBoundsException;
 use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Util\FormUtil;
 use Symfony\Component\Form\Util\InheritDataAwareIterator;
 use Symfony\Component\Form\Util\OrderedHashMap;
@@ -81,14 +80,12 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $parent;
 
     /**
-     * A map of FormInterface instances.
-     *
-     * @var FormInterface[]|OrderedHashMap
+     * @var FormInterface[]|OrderedHashMap A map of FormInterface instances
      */
     private $children;
 
     /**
-     * @var FormError[]
+     * @var FormError[] An array of FormError instances
      */
     private $errors = [];
 
@@ -98,9 +95,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $submitted = false;
 
     /**
-     * The button that was used to submit the form.
-     *
-     * @var FormInterface|ClickableInterface|null
+     * @var FormInterface|ClickableInterface|null The button that was used to submit the form
      */
     private $clickedButton;
 
@@ -120,16 +115,12 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $viewData;
 
     /**
-     * The submitted values that don't belong to any children.
-     *
-     * @var array
+     * @var array The submitted values that don't belong to any children
      */
     private $extraData = [];
 
     /**
-     * The transformation failure generated during submission, if any.
-     *
-     * @var TransformationFailedException|null
+     * @var TransformationFailedException|null The transformation failure generated during submission, if any
      */
     private $transformationFailure;
 
@@ -160,9 +151,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     private $name = '';
 
     /**
-     * Whether the form inherits its underlying data from its parent.
-     *
-     * @var bool
+     * @var bool Whether the form inherits its underlying data from its parent
      */
     private $inheritData;
 
@@ -868,7 +857,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
             $options['auto_initialize'] = false;
 
             if (null === $type && null === $this->config->getDataClass()) {
-                $type = TextType::class;
+                $type = 'Symfony\Component\Form\Extension\Core\Type\TextType';
             }
 
             if (null === $type) {
@@ -958,7 +947,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($name)
     {
         return $this->has($name);
@@ -973,7 +961,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @throws OutOfBoundsException if the named child does not exist
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($name)
     {
         return $this->get($name);
@@ -985,14 +972,11 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      * @param string        $name  Ignored. The name of the child is used
      * @param FormInterface $child The child to be added
      *
-     * @return void
-     *
      * @throws AlreadySubmittedException if the form has already been submitted
      * @throws LogicException            when trying to add a child to a non-compound form
      *
      * @see self::add()
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($name, $child)
     {
         $this->add($child);
@@ -1003,11 +987,8 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @param string $name The name of the child to remove
      *
-     * @return void
-     *
      * @throws AlreadySubmittedException if the form has already been submitted
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($name)
     {
         $this->remove($name);
@@ -1016,9 +997,8 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
     /**
      * Returns the iterator for this group.
      *
-     * @return \Traversable<FormInterface>
+     * @return \Traversable|FormInterface[]
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return $this->children;
@@ -1029,7 +1009,6 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
      *
      * @return int The number of embedded form children
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->children);

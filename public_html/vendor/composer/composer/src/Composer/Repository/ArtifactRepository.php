@@ -14,7 +14,6 @@ namespace Composer\Repository;
 
 use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
-use Composer\Package\BasePackage;
 use Composer\Package\Loader\ArrayLoader;
 use Composer\Package\Loader\LoaderInterface;
 use Composer\Util\Tar;
@@ -28,16 +27,10 @@ class ArtifactRepository extends ArrayRepository implements ConfigurableReposito
     /** @var LoaderInterface */
     protected $loader;
 
-    /** @var string */
     protected $lookup;
-    /** @var array{url: string} */
     protected $repoConfig;
-    /** @var IOInterface */
     private $io;
 
-    /**
-     * @param array{url: string} $repoConfig
-     */
     public function __construct(array $repoConfig, IOInterface $io)
     {
         parent::__construct();
@@ -68,18 +61,13 @@ class ArtifactRepository extends ArrayRepository implements ConfigurableReposito
         $this->scanDirectory($this->lookup);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return void
-     */
     private function scanDirectory($path)
     {
         $io = $this->io;
 
         $directory = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::FOLLOW_SYMLINKS);
         $iterator = new \RecursiveIteratorIterator($directory);
-        $regex = new \RegexIterator($iterator, '/^.+\.(zip|tar|gz|tgz)$/i');
+        $regex = new \RegexIterator($iterator, '/^.+\.(zip|phar|tar|gz|tgz)$/i');
         foreach ($regex as $file) {
             /* @var $file \SplFileInfo */
             if (!$file->isFile()) {
@@ -99,9 +87,6 @@ class ArtifactRepository extends ArrayRepository implements ConfigurableReposito
         }
     }
 
-    /**
-     * @return ?BasePackage
-     */
     private function getComposerInformation(\SplFileInfo $file)
     {
         $json = null;
@@ -126,7 +111,7 @@ class ArtifactRepository extends ArrayRepository implements ConfigurableReposito
         }
 
         if (null === $json) {
-            return null;
+            return false;
         }
 
         $package = JsonFile::parseJson($json, $file->getPathname().'#composer.json');

@@ -13,8 +13,7 @@
 namespace Composer\DependencyResolver;
 
 use Composer\Package\AliasPackage;
-use Composer\Package\BasePackage;
-use Composer\Package\Package;
+use Composer\Package\RootAliasPackage;
 
 /**
  * @author Nils Adermann <naderman@naderman.de>
@@ -24,32 +23,22 @@ class LockTransaction extends Transaction
 {
     /**
      * packages in current lock file, platform repo or otherwise present
-     *
-     * Indexed by spl_object_hash
-     *
-     * @var array<string, BasePackage>
+     * @var array
      */
     protected $presentMap;
 
     /**
      * Packages which cannot be mapped, platform repo, root package, other fixed repos
-     *
-     * Indexed by package id
-     *
-     * @var array<int, BasePackage>
+     * @var array
      */
     protected $unlockableMap;
 
     /**
-     * @var array{dev: BasePackage[], non-dev: BasePackage[], all: BasePackage[]}
+     * @var array
      */
     protected $resultPackages;
 
-    /**
-     * @param array<string, BasePackage> $presentMap
-     * @param array<int, BasePackage> $unlockableMap
-     */
-    public function __construct(Pool $pool, array $presentMap, array $unlockableMap, Decisions $decisions)
+    public function __construct(Pool $pool, $presentMap, $unlockableMap, $decisions)
     {
         $this->presentMap = $presentMap;
         $this->unlockableMap = $unlockableMap;
@@ -59,9 +48,6 @@ class LockTransaction extends Transaction
     }
 
     // TODO make this a bit prettier instead of the two text indexes?
-    /**
-     * @return void
-     */
     public function setResultPackages(Pool $pool, Decisions $decisions)
     {
         $this->resultPackages = array('all' => array(), 'non-dev' => array(), 'dev' => array());
@@ -79,9 +65,6 @@ class LockTransaction extends Transaction
         }
     }
 
-    /**
-     * @return void
-     */
     public function setNonDevPackages(LockTransaction $extractionResult)
     {
         $packages = $extractionResult->getNewLockPackages(false);
@@ -101,16 +84,11 @@ class LockTransaction extends Transaction
     }
 
     // TODO additionalFixedRepository needs to be looked at here as well?
-    /**
-     * @param bool $devMode
-     * @param bool $updateMirrors
-     * @return BasePackage[]
-     */
     public function getNewLockPackages($devMode, $updateMirrors = false)
     {
         $packages = array();
         foreach ($this->resultPackages[$devMode ? 'dev' : 'non-dev'] as $package) {
-            if (!$package instanceof AliasPackage) {
+            if (!($package instanceof AliasPackage) && !($package instanceof RootAliasPackage)) {
                 // if we're just updating mirrors we need to reset references to the same as currently "present" packages' references to keep the lock file as-is
                 // we do not reset references if the currently present package didn't have any, or if the type of VCS has changed
                 if ($updateMirrors && !isset($this->presentMap[spl_object_hash($package)])) {
@@ -119,7 +97,7 @@ class LockTransaction extends Transaction
                             if ($presentPackage->getSourceReference() && $presentPackage->getSourceType() === $package->getSourceType()) {
                                 $package->setSourceDistReferences($presentPackage->getSourceReference());
                             }
-                            if ($presentPackage->getReleaseDate() && $package instanceof Package) {
+                            if ($presentPackage->getReleaseDate()) {
                                 $package->setReleaseDate($presentPackage->getReleaseDate());
                             }
                         }
@@ -134,8 +112,6 @@ class LockTransaction extends Transaction
 
     /**
      * Checks which of the given aliases from composer.json are actually in use for the lock file
-     * @param array<array{package: string, version: string, alias: string, alias_normalized: string}> $aliases
-     * @return array<array{package: string, version: string, alias: string, alias_normalized: string}>
      */
     public function getAliases($aliases)
     {

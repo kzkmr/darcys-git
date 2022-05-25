@@ -63,11 +63,11 @@ class Translator implements TranslatorInterface
 
     public static function getXpathLiteral(string $element): string
     {
-        if (!str_contains($element, "'")) {
+        if (false === strpos($element, "'")) {
             return "'".$element."'";
         }
 
-        if (!str_contains($element, '"')) {
+        if (false === strpos($element, '"')) {
             return '"'.$element.'"';
         }
 

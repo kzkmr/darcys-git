@@ -12,9 +12,8 @@
 
 namespace Composer\Util;
 
-use React\Promise\CancellablePromiseInterface;
+use React\Promise\Promise;
 use Symfony\Component\Console\Helper\ProgressBar;
-use React\Promise\PromiseInterface;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
@@ -25,7 +24,7 @@ class Loop
     private $httpDownloader;
     /** @var ProcessExecutor|null */
     private $processExecutor;
-    /** @var PromiseInterface[][] */
+    /** @var Promise[][] */
     private $currentPromises = array();
     /** @var int */
     private $waitIndex = 0;
@@ -57,11 +56,6 @@ class Loop
         return $this->processExecutor;
     }
 
-    /**
-     * @param  PromiseInterface[] $promises
-     * @param  ?ProgressBar       $progress
-     * @return void
-     */
     public function wait(array $promises, ProgressBar $progress = null)
     {
         /** @var \Exception|null */
@@ -119,16 +113,11 @@ class Loop
         }
     }
 
-    /**
-     * @return void
-     */
     public function abortJobs()
     {
         foreach ($this->currentPromises as $promiseGroup) {
             foreach ($promiseGroup as $promise) {
-                if ($promise instanceof CancellablePromiseInterface) {
-                    $promise->cancel();
-                }
+                $promise->cancel();
             }
         }
     }

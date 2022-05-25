@@ -1,0 +1,136 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['customer', 'admin_customer_group'] %}
+
+{% block title %}{{'会員グループ一覧'|trans}}{% endblock %}
+{% block sub_title %}{{'会員管理'|trans}}{% endblock %}
+
+{% block stylesheet %}{% endblock stylesheet %}
+
+{% block javascript %}
+<script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.core.min.js', 'admin') }}"></script>
+<script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.widget.min.js', 'admin') }}"></script>
+<script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.mouse.min.js', 'admin') }}"></script>
+<script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.sortable.min.js', 'admin') }}"></script>
+<script>
+    $(function () {
+        $('table#group-list tbody').sortable({
+            item: 'tr',
+            axis: 'y',
+            update: function (event, ui) {
+                $.ajax({
+                    type: 'PUT',
+                    dataType: 'json',
+                    url: '{{ url('admin_customer_group_sort') }}',
+                    data: {
+                        groups: $(this).sortable('serialize')
+                    }
+                }).done((data) => {
+                    console.log(data)
+                }).fail((data) => {
+                    alert(data.message);
+                }).always((data) => {
+
+                });
+            }
+        }).disableSelection();
+    })
+</script>
+{% endblock javascript %}
+
+{% block main %}
+    <div class="c-contentsArea__cols">
+        <div class="c-contentsArea__primaryCol">
+            <div class="c-primaryCol">
+                <div class="d-block mb-3">
+                    <a class="btn btn-ec-regular" href="{{ url('admin_customer_group_new') }}">{{ 'admin.common.registration__new'|trans }}</a>
+                </div>
+                <div class="card rounded border-0 mb-4">
+                    <div class="card-body p-0">
+                        <form name="form1" id="form1" method="post" action="">
+                            <table class="table table-sm" id="group-list">
+                                <thead>
+                                <tr>
+                                    <th class="border-top-0 pt-2 pb-2 pl-3 text-center">
+                                        {{'ID'|trans}}
+                                    </th>
+                                    <th class="border-top-0 pt-2 pb-2 pl-3">
+                                        {{'会員グループ名'|trans}}
+                                    </th>
+                                    <th class="border-top-0 pt-2 pb-2 text-center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for group in groups %}
+                                    <tr id="group-{{ group.id }}">
+                                        <td class="align-middle text-center pl-3">
+                                            {{ group.id }}
+                                        </td>
+                                        <td class="align-middle pl-3">
+                                            {{ group.name }} [{{ '管理名'|trans }}{{ 'admin.common.separator__colon'|trans }}{{ group.backendName }}]
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <div class="row justify-content-end">
+                                                <div class="col-auto text-center">
+                                                    <a class="btn btn-ec-actionIcon action-edit"
+                                                       href="{{ url('admin_customer_group_edit', { 'id' : group.id }) }}"
+                                                       data-toggle="tooltip"
+                                                       data-placement="top"
+                                                       data-original-title="{{'admin.setting.system.member.691'|trans}}">
+                                                        <i class="fa fa-pencil fa-lg text-secondary" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-auto text-center">
+                                                    <div class="d-inline-block mr-3" data-tooltip="true" data-placement="top"
+                                                         title="{{ 'admin.common.delete'|trans }}">
+                                                        <a class="btn btn-ec-actionIcon action-delete"
+                                                           data-toggle="modal"
+                                                           data-target="#delete_{{ group.id }}">
+                                                            <i class="fa fa-close fa-lg text-secondary" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="modal fade" id="delete_{{ group.id }}" tabindex="-1"
+                                                         role="dialog"
+                                                         aria-labelledby="delete_{{ group.id }}" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title font-weight-bold">
+                                                                        {{ '権限を削除します'|trans }}</h5>
+                                                                    <button class="close" type="button"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close"><span
+                                                                            aria-hidden="true">×</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body text-left">
+                                                                    <p class="text-left">
+                                                                        {{ '会員グループを削除してよろしいですか?'|trans }}</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-ec-sub" type="button" data-dismiss="modal">{{ 'admin.common.cancel'|trans }}
+                                                                    </button>
+                                                                    <a class="btn btn-ec-delete"
+                                                                       href="{{ url('admin_customer_group_delete', {id: group.id}) }}"
+                                                                        {{ csrf_token_for_anchor() }}
+                                                                       data-method="delete" data-confirm="false">
+                                                                        {{ 'admin.common.delete'|trans }}
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

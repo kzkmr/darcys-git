@@ -32,7 +32,7 @@ class ServerLogHandler extends AbstractHandler
     {
         parent::__construct($level, $bubble);
 
-        if (!str_contains($host, '://')) {
+        if (false === strpos($host, '://')) {
             $host = 'tcp://'.$host;
         }
 

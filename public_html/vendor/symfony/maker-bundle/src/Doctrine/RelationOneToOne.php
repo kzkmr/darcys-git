@@ -25,19 +25,19 @@ final class RelationOneToOne extends BaseSingleRelation
         return $this->isOwning;
     }
 
-    public function setIsOwning($isOwning): self
+    public function setIsOwning($isOwning)
     {
         $this->isOwning = $isOwning;
 
         return $this;
     }
 
-    public function getTargetGetterMethodName(): string
+    public function getTargetGetterMethodName()
     {
         return 'get'.Str::asCamelCase($this->getTargetPropertyName());
     }
 
-    public function getTargetSetterMethodName(): string
+    public function getTargetSetterMethodName()
     {
         return 'set'.Str::asCamelCase($this->getTargetPropertyName());
     }

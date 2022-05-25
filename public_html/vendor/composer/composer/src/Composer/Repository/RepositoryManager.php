@@ -32,7 +32,7 @@ class RepositoryManager
     private $localRepository;
     /** @var list<RepositoryInterface> */
     private $repositories = array();
-    /** @var array<string, class-string<RepositoryInterface>> */
+    /** @var array<string, string> */
     private $repositoryClasses = array();
     /** @var IOInterface */
     private $io;
@@ -55,7 +55,7 @@ class RepositoryManager
     }
 
     /**
-     * Searches for a package by its name and version in managed repositories.
+     * Searches for a package by it's name and version in managed repositories.
      *
      * @param string                                                 $name       package name
      * @param string|\Composer\Semver\Constraint\ConstraintInterface $constraint package version or version constraint to match against
@@ -97,8 +97,6 @@ class RepositoryManager
      * Adds repository
      *
      * @param RepositoryInterface $repository repository instance
-     *
-     * @return void
      */
     public function addRepository(RepositoryInterface $repository)
     {
@@ -111,8 +109,6 @@ class RepositoryManager
      * This is useful when injecting additional repositories that should trump Packagist, e.g. from a plugin.
      *
      * @param RepositoryInterface $repository repository instance
-     *
-     * @return void
      */
     public function prependRepository(RepositoryInterface $repository)
     {
@@ -123,7 +119,7 @@ class RepositoryManager
      * Returns a new repository for a specific installation type.
      *
      * @param  string                    $type   repository type
-     * @param  array<string, mixed>      $config repository configuration
+     * @param  array                     $config repository configuration
      * @param  string                    $name   repository name
      * @throws \InvalidArgumentException if repository for provided type is not registered
      * @return RepositoryInterface
@@ -158,9 +154,7 @@ class RepositoryManager
      * Stores repository class for a specific installation type.
      *
      * @param string $type  installation type
-     * @param class-string<RepositoryInterface> $class class name of the repo implementation
-     *
-     * @return void
+     * @param string $class class name of the repo implementation
      */
     public function setRepositoryClass($type, $class)
     {
@@ -181,8 +175,6 @@ class RepositoryManager
      * Sets local repository for the project.
      *
      * @param InstalledRepositoryInterface $repository repository instance
-     *
-     * @return void
      */
     public function setLocalRepository(InstalledRepositoryInterface $repository)
     {

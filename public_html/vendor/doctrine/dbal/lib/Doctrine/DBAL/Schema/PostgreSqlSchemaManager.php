@@ -21,6 +21,7 @@ use function preg_match;
 use function preg_replace;
 use function sprintf;
 use function str_replace;
+use function strlen;
 use function strpos;
 use function strtolower;
 use function trim;
@@ -84,8 +85,6 @@ class PostgreSqlSchemaManager extends AbstractSchemaManager
         if ($this->existingSchemaPaths === null) {
             $this->determineExistingSchemaSearchPaths();
         }
-
-        assert($this->existingSchemaPaths !== null);
 
         return $this->existingSchemaPaths;
     }
@@ -335,22 +334,16 @@ class PostgreSqlSchemaManager extends AbstractSchemaManager
         $matches = [];
 
         $autoincrement = false;
-
-        if (
-            $tableColumn['default'] !== null
-            && preg_match("/^nextval\('(.*)'(::.*)?\)$/", $tableColumn['default'], $matches) === 1
-        ) {
+        if (preg_match("/^nextval\('(.*)'(::.*)?\)$/", $tableColumn['default'], $matches)) {
             $tableColumn['sequence'] = $matches[1];
             $tableColumn['default']  = null;
             $autoincrement           = true;
         }
 
-        if ($tableColumn['default'] !== null) {
-            if (preg_match("/^['(](.*)[')]::/", $tableColumn['default'], $matches) === 1) {
-                $tableColumn['default'] = $matches[1];
-            } elseif (preg_match('/^NULL::/', $tableColumn['default']) === 1) {
-                $tableColumn['default'] = null;
-            }
+        if (preg_match("/^['(](.*)[')]::/", $tableColumn['default'], $matches)) {
+            $tableColumn['default'] = $matches[1];
+        } elseif (preg_match('/^NULL::/', $tableColumn['default'])) {
+            $tableColumn['default'] = null;
         }
 
         $length = $tableColumn['length'] ?? null;
@@ -374,8 +367,7 @@ class PostgreSqlSchemaManager extends AbstractSchemaManager
 
         $dbType = strtolower($tableColumn['type']);
         if (
-            $tableColumn['domain_type'] !== null
-            && $tableColumn['domain_type'] !== ''
+            strlen($tableColumn['domain_type'])
             && ! $this->_platform->hasDoctrineTypeMappingFor($tableColumn['type'])
         ) {
             $dbType                       = strtolower($tableColumn['domain_type']);
@@ -503,7 +495,7 @@ class PostgreSqlSchemaManager extends AbstractSchemaManager
      */
     private function fixVersion94NegativeNumericDefaultValue($defaultValue)
     {
-        if ($defaultValue !== null && strpos($defaultValue, '(') === 0) {
+        if (strpos($defaultValue, '(') === 0) {
             return trim($defaultValue, '()');
         }
 

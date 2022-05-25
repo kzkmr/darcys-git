@@ -35,17 +35,14 @@ abstract class MakerTestCase extends TestCase
 
     abstract public function getTestDetails();
 
-    abstract protected function getMakerClass(): string;
-
-    protected function createMakerTest(): MakerTestDetails
-    {
-        return new MakerTestDetails($this->getMakerInstance($this->getMakerClass()));
-    }
-
     protected function executeMakerCommand(MakerTestDetails $testDetails)
     {
         if (!class_exists(Process::class)) {
             throw new \LogicException('The MakerTestCase cannot be run as the Process component is not installed. Try running "compose require --dev symfony/process".');
+        }
+
+        if ($testDetails->shouldSkip()) {
+            $this->markTestSkipped($testDetails->getSkipMessage());
         }
 
         if (!$testDetails->isSupportedByCurrentPhpVersion()) {
@@ -55,25 +52,22 @@ abstract class MakerTestCase extends TestCase
         $testEnv = MakerTestEnvironment::create($testDetails);
 
         // prepare environment to test
-        $testEnv->prepareDirectory();
+        $testEnv->prepare();
 
         if (!$this->hasRequiredDependencyVersions($testDetails, $testEnv)) {
             $this->markTestSkipped('Some dependencies versions are too low');
         }
 
-        $makerRunner = new MakerTestRunner($testEnv);
-        foreach ($testDetails->getPreRunCallbacks() as $preRunCallback) {
-            $preRunCallback($makerRunner);
-        }
-
-        $callback = $testDetails->getRunCallback();
-        $callback($makerRunner);
-
         // run tests
+        $makerTestProcess = $testEnv->runMaker();
         $files = $testEnv->getGeneratedFilesFromOutputText();
 
         foreach ($files as $file) {
             $this->assertTrue($testEnv->fileExists($file), sprintf('The file "%s" does not exist after generation', $file));
+
+            if (\PHP_VERSION_ID >= 80000) {
+                continue;
+            }
 
             if ('.php' === substr($file, -4)) {
                 $csProcess = $testEnv->runPhpCSFixer($file);
@@ -91,6 +85,19 @@ abstract class MakerTestCase extends TestCase
                 $this->assertTrue($csProcess->isSuccessful(), sprintf('File "%s" has a twig-cs problem: %s', $file, $csProcess->getErrorOutput()."\n".$csProcess->getOutput()));
             }
         }
+
+        // run internal tests
+        $internalTestProcess = $testEnv->runInternalTests();
+        if (null !== $internalTestProcess) {
+            $this->assertTrue($internalTestProcess->isSuccessful(), sprintf("Error while running the PHPUnit tests *in* the project: \n\n %s \n\n Command Output: %s", $internalTestProcess->getErrorOutput()."\n".$internalTestProcess->getOutput(), $makerTestProcess->getErrorOutput()."\n".$makerTestProcess->getOutput()));
+        }
+
+        // checkout user asserts
+        if (null === $testDetails->getAssert()) {
+            $this->assertStringContainsString('Success', $makerTestProcess->getOutput(), $makerTestProcess->getErrorOutput());
+        } else {
+            ($testDetails->getAssert())($makerTestProcess->getOutput(), $testEnv->getPath());
+        }
     }
 
     protected function assertContainsCount(string $needle, string $haystack, int $count)
@@ -98,7 +105,7 @@ abstract class MakerTestCase extends TestCase
         $this->assertEquals(1, substr_count($haystack, $needle), sprintf('Found more than %d occurrences of "%s" in "%s"', $count, $needle, $haystack));
     }
 
-    private function getMakerInstance(string $makerClass): MakerInterface
+    protected function getMakerInstance(string $makerClass): MakerInterface
     {
         if (null === $this->kernel) {
             $this->kernel = $this->createKernel();
@@ -106,7 +113,7 @@ abstract class MakerTestCase extends TestCase
         }
 
         // a cheap way to guess the service id
-        $serviceId = $serviceId ?? sprintf('maker.maker.%s', Str::asSnakeCase((new \ReflectionClass($makerClass))->getShortName()));
+        $serviceId = $serviceId ?? sprintf('maker.maker.%s', Str::asRouteName((new \ReflectionClass($makerClass))->getShortName()));
 
         return $this->kernel->getContainer()->get($serviceId);
     }
@@ -142,25 +149,5 @@ abstract class MakerTestCase extends TestCase
         }
 
         return true;
-    }
-
-    public static function assertStringContainsString(string $needle, string $haystack, string $message = ''): void
-    {
-        if (method_exists(TestCase::class, 'assertStringContainsString')) {
-            parent::assertStringContainsString($needle, $haystack, $message);
-        } else {
-            // legacy for older phpunit versions (e.g. older php version on CI)
-            self::assertContains($needle, $haystack, $message);
-        }
-    }
-
-    public static function assertStringNotContainsString(string $needle, string $haystack, string $message = ''): void
-    {
-        if (method_exists(TestCase::class, 'assertStringNotContainsString')) {
-            parent::assertStringNotContainsString($needle, $haystack, $message);
-        } else {
-            // legacy for older phpunit versions (e.g. older php version on CI)
-            self::assertNotContains($needle, $haystack, $message);
-        }
     }
 }

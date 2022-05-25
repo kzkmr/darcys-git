@@ -31,9 +31,9 @@ final class StreamContextFactory
      * Creates a context supporting HTTP proxies
      *
      * @param string $url URL the context is to be used for
-     * @phpstan-param array{http?: array{follow_location?: int, max_redirects?: int, header?: string|array<string>}} $defaultOptions
-     * @param  mixed[]           $defaultOptions Options to merge with the default
-     * @param  mixed[]           $defaultParams  Parameters to specify on the context
+     * @phpstan-param array{http?: array{follow_location?: int, max_redirects?: int, header?: string|array<string, string|int>}} $defaultOptions
+     * @param  array             $defaultOptions Options to merge with the default
+     * @param  array             $defaultParams  Parameters to specify on the context
      * @throws \RuntimeException if https proxy required and OpenSSL uninstalled
      * @return resource          Default context
      */
@@ -57,10 +57,10 @@ final class StreamContextFactory
     }
 
     /**
-     * @param string  $url
-     * @param mixed[] $options
-     * @param bool    $forCurl When true, will not add proxy values as these are handled separately
-     * @phpstan-return array{http: array{header: string[], proxy?: string, request_fulluri: bool}, ssl?: mixed[]}
+     * @param string $url
+     * @param array  $options
+     * @param bool   $forCurl When true, will not add proxy values as these are handled separately
+     * @phpstan-return array{http: array{header: string[], proxy?: string, request_fulluri: bool}, ssl: array}
      * @return array formatted as a stream context array
      */
     public static function initOptions($url, array $options, $forCurl = false)
@@ -122,7 +122,7 @@ final class StreamContextFactory
                 $phpVersion,
                 $httpVersion,
                 $platformPhpVersion ? '; Platform-PHP '.$platformPhpVersion : '',
-                Platform::getEnv('CI') ? '; CI' : ''
+                getenv('CI') ? '; CI' : ''
             );
         }
 
@@ -130,9 +130,9 @@ final class StreamContextFactory
     }
 
     /**
-     * @param mixed[] $options
+     * @param array $options
      *
-     * @return mixed[]
+     * @return array
      */
     public static function getTlsDefaults(array $options, LoggerInterface $logger = null)
     {
@@ -239,8 +239,8 @@ final class StreamContextFactory
      * This method fixes the array by moving the content-type header to the end
      *
      * @link https://bugs.php.net/bug.php?id=61548
-     * @param  string|string[] $header
-     * @return string[]
+     * @param  string|array $header
+     * @return array
      */
     private static function fixHttpHeaderField($header)
     {

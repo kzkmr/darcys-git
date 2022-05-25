@@ -3,7 +3,6 @@
 namespace Doctrine\DBAL\Driver;
 
 use PDOStatement;
-use ReturnTypeWillChange;
 
 use function func_get_args;
 
@@ -18,7 +17,6 @@ if (PHP_VERSION_ID >= 80000) {
         /**
          * @return PDOStatement
          */
-        #[ReturnTypeWillChange]
         public function query(?string $query = null, ?int $fetchMode = null, mixed ...$fetchModeArgs)
         {
             return $this->doQuery($query, $fetchMode, ...$fetchModeArgs);

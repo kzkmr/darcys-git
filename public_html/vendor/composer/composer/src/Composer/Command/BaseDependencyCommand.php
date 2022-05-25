@@ -14,7 +14,6 @@ namespace Composer\Command;
 
 use Composer\Package\Link;
 use Composer\Package\PackageInterface;
-use Composer\Package\CompletePackageInterface;
 use Composer\Package\RootPackage;
 use Composer\Repository\InstalledArrayRepository;
 use Composer\Repository\CompositeRepository;
@@ -41,12 +40,13 @@ class BaseDependencyCommand extends BaseCommand
     const OPTION_RECURSIVE = 'recursive';
     const OPTION_TREE = 'tree';
 
-    /** @var ?string[] */
     protected $colors;
 
     /**
      * Execute the command.
      *
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @param  bool            $inverted Whether to invert matching process (why-not vs why behaviour)
      * @return int             Exit code of the operation.
      */
@@ -120,7 +120,7 @@ class BaseDependencyCommand extends BaseCommand
         } elseif ($renderTree) {
             $this->initStyles($output);
             $root = $packages[0];
-            $this->getIO()->write(sprintf('<info>%s</info> %s %s', $root->getPrettyName(), $root->getPrettyVersion(), $root instanceof CompletePackageInterface ? $root->getDescription() : ''));
+            $this->getIO()->write(sprintf('<info>%s</info> %s %s', $root->getPrettyName(), $root->getPrettyVersion(), $root->getDescription()));
             $this->printTree($results);
         } else {
             $this->printTable($output, $results);
@@ -132,9 +132,8 @@ class BaseDependencyCommand extends BaseCommand
     /**
      * Assembles and prints a bottom-up table of the dependencies.
      *
-     * @param array{PackageInterface, Link, mixed}[] $results
-     *
-     * @return void
+     * @param OutputInterface $output
+     * @param array           $results
      */
     protected function printTable(OutputInterface $output, $results)
     {
@@ -170,7 +169,7 @@ class BaseDependencyCommand extends BaseCommand
     /**
      * Init styles for tree
      *
-     * @return void
+     * @param OutputInterface $output
      */
     protected function initStyles(OutputInterface $output)
     {
@@ -191,17 +190,20 @@ class BaseDependencyCommand extends BaseCommand
     /**
      * Recursively prints a tree of the selected results.
      *
-     * @param array{PackageInterface, Link, mixed[]|bool}[] $results Results to be printed at this level.
-     * @param string  $prefix  Prefix of the current tree level.
-     * @param int     $level   Current level of recursion.
-     *
-     * @return void
+     * @param array  $results Results to be printed at this level.
+     * @param string $prefix  Prefix of the current tree level.
+     * @param int    $level   Current level of recursion.
      */
     protected function printTree($results, $prefix = '', $level = 1)
     {
         $count = count($results);
         $idx = 0;
         foreach ($results as $result) {
+            /**
+             * @var PackageInterface $package
+             * @var Link             $link
+             * @var array|bool       $children
+             */
             list($package, $link, $children) = $result;
 
             $color = $this->colors[$level % count($this->colors)];
@@ -218,11 +220,6 @@ class BaseDependencyCommand extends BaseCommand
         }
     }
 
-    /**
-     * @param string $line
-     *
-     * @return void
-     */
     private function writeTreeLine($line)
     {
         $io = $this->getIO();

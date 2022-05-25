@@ -47,6 +47,24 @@ class MainConfiguration implements ConfigurationInterface
         $rootNode = $tb->getRootNode();
 
         $rootNode
+            ->beforeNormalization()
+                ->ifTrue(function ($v) {
+                    if (!isset($v['access_decision_manager'])) {
+                        return true;
+                    }
+
+                    if (!isset($v['access_decision_manager']['strategy']) && !isset($v['access_decision_manager']['service'])) {
+                        return true;
+                    }
+
+                    return false;
+                })
+                ->then(function ($v) {
+                    $v['access_decision_manager']['strategy'] = AccessDecisionManager::STRATEGY_AFFIRMATIVE;
+
+                    return $v;
+                })
+            ->end()
             ->children()
                 ->scalarNode('access_denied_url')->defaultNull()->example('/foo/error403')->end()
                 ->enumNode('session_fixation_strategy')
@@ -208,7 +226,7 @@ class MainConfiguration implements ConfigurationInterface
                         ->beforeNormalization()
                             ->ifArray()->then(function ($v) {
                                 foreach ($v as $originalName => $cookieConfig) {
-                                    if (str_contains($originalName, '-')) {
+                                    if (false !== strpos($originalName, '-')) {
                                         $normalizedName = str_replace('-', '_', $originalName);
                                         @trigger_error(sprintf('Normalization of cookie names is deprecated since Symfony 4.3. Starting from Symfony 5.0, the "%s" cookie configured in "logout.delete_cookies" will delete the "%s" cookie instead of the "%s" cookie.', $originalName, $originalName, $normalizedName), \E_USER_DEPRECATED);
 
@@ -286,7 +304,7 @@ class MainConfiguration implements ConfigurationInterface
                             continue;
                         }
 
-                        if (str_contains($firewall[$k]['check_path'], '/') && !preg_match('#'.$firewall['pattern'].'#', $firewall[$k]['check_path'])) {
+                        if (false !== strpos($firewall[$k]['check_path'], '/') && !preg_match('#'.$firewall['pattern'].'#', $firewall[$k]['check_path'])) {
                             throw new \LogicException(sprintf('The check_path "%s" for login method "%s" is not matched by the firewall pattern "%s".', $firewall[$k]['check_path'], $k, $firewall['pattern']));
                         }
                     }

@@ -49,7 +49,7 @@ class FileManager
         $this->twigDefaultPath = $twigDefaultPath ? rtrim($this->relativizePath($twigDefaultPath), '/') : null;
     }
 
-    public function setIO(SymfonyStyle $io): void
+    public function setIO(SymfonyStyle $io)
     {
         $this->io = $io;
     }
@@ -63,7 +63,7 @@ class FileManager
         return ob_get_clean();
     }
 
-    public function dumpFile(string $filename, string $content): void
+    public function dumpFile(string $filename, string $content)
     {
         $absolutePath = $this->absolutizePath($filename);
         $newFile = !$this->fileExists($filename);
@@ -155,9 +155,11 @@ class FileManager
     }
 
     /**
+     * @return string|null
+     *
      * @throws \Exception
      */
-    public function getRelativePathForFutureClass(string $className): ?string
+    public function getRelativePathForFutureClass(string $className)
     {
         $path = $this->autoloaderUtil->getPathForFutureClass($className);
 

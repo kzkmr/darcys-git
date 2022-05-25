@@ -12,8 +12,6 @@
 
 namespace Composer\Util;
 
-use Composer\Pcre\Preg;
-
 /**
  * Platform helper for uniform platform-specific tests.
  *
@@ -25,24 +23,6 @@ class Platform
     private static $isVirtualBoxGuest = null;
     /** @var ?bool */
     private static $isWindowsSubsystemForLinux = null;
-
-    /**
-     * getenv() equivalent but reads from the runtime global variables first
-     *
-     * @param  string $name
-     * @return string|false
-     */
-    public static function getEnv($name)
-    {
-        if (array_key_exists($name, $_SERVER)) {
-            return (string) $_SERVER[$name];
-        }
-        if (array_key_exists($name, $_ENV)) {
-            return (string) $_ENV[$name];
-        }
-
-        return getenv($name);
-    }
 
     /**
      * putenv() equivalent but updates the runtime global variables too
@@ -78,17 +58,17 @@ class Platform
      */
     public static function expandPath($path)
     {
-        if (Preg::isMatch('#^~[\\/]#', $path)) {
+        if (preg_match('#^~[\\/]#', $path)) {
             return self::getUserDirectory() . substr($path, 1);
         }
 
-        return Preg::replaceCallback('#^(\$|(?P<percent>%))(?P<var>\w++)(?(percent)%)(?P<path>.*)#', function ($matches) {
+        return preg_replace_callback('#^(\$|(?P<percent>%))(?P<var>\w++)(?(percent)%)(?P<path>.*)#', function ($matches) {
             // Treat HOME as an alias for USERPROFILE on Windows for legacy reasons
             if (Platform::isWindows() && $matches['var'] == 'HOME') {
-                return (Platform::getEnv('HOME') ?: Platform::getEnv('USERPROFILE')) . $matches['path'];
+                return (getenv('HOME') ?: getenv('USERPROFILE')) . $matches['path'];
             }
 
-            return Platform::getEnv($matches['var']) . $matches['path'];
+            return getenv($matches['var']) . $matches['path'];
         }, $path);
     }
 
@@ -98,11 +78,11 @@ class Platform
      */
     public static function getUserDirectory()
     {
-        if (false !== ($home = self::getEnv('HOME'))) {
+        if (false !== ($home = getenv('HOME'))) {
             return $home;
         }
 
-        if (self::isWindows() && false !== ($home = self::getEnv('USERPROFILE'))) {
+        if (self::isWindows() && false !== ($home = getenv('USERPROFILE'))) {
             return $home;
         }
 
@@ -128,12 +108,7 @@ class Platform
                 return self::$isWindowsSubsystemForLinux = false;
             }
 
-            if (
-                !ini_get('open_basedir')
-                && is_readable('/proc/version')
-                && false !== stripos(Silencer::call('file_get_contents', '/proc/version'), 'microsoft')
-                && !file_exists('/.dockerenv') // docker running inside WSL should not be seen as WSL
-            ) {
+            if (is_readable('/proc/version') && false !== stripos(file_get_contents('/proc/version'), 'microsoft')) {
                 return self::$isWindowsSubsystemForLinux = true;
             }
         }
@@ -167,10 +142,6 @@ class Platform
         return \strlen($str);
     }
 
-    /**
-     * @param  ?resource $fd Open file descriptor or null to default to STDOUT
-     * @return bool
-     */
     public static function isTty($fd = null)
     {
         if ($fd === null) {
@@ -179,7 +150,7 @@ class Platform
 
         // detect msysgit/mingw and assume this is a tty because detection
         // does not work correctly, see https://github.com/composer/composer/issues/9690
-        if (in_array(strtoupper(self::getEnv('MSYSTEM') ?: ''), array('MINGW32', 'MINGW64'), true)) {
+        if (in_array(strtoupper(getenv('MSYSTEM') ?: ''), array('MINGW32', 'MINGW64'), true)) {
             return true;
         }
 
@@ -199,9 +170,6 @@ class Platform
         return $stat ? 0020000 === ($stat['mode'] & 0170000) : false;
     }
 
-    /**
-     * @return void
-     */
     public static function workaroundFilesystemIssues()
     {
         if (self::isVirtualBoxGuest()) {
@@ -231,7 +199,7 @@ class Platform
                 }
             }
 
-            if (self::getEnv('COMPOSER_RUNTIME_ENV') === 'virtualbox') {
+            if (getenv('COMPOSER_RUNTIME_ENV') === 'virtualbox') {
                 return self::$isVirtualBoxGuest = true;
             }
 
@@ -248,17 +216,5 @@ class Platform
         }
 
         return self::$isVirtualBoxGuest;
-    }
-
-    /**
-     * @return 'NUL'|'/dev/null'
-     */
-    public static function getDevNull()
-    {
-        if (self::isWindows()) {
-            return 'NUL';
-        }
-
-        return '/dev/null';
     }
 }

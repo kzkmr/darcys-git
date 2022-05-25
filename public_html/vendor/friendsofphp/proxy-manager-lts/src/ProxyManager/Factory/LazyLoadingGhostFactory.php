@@ -8,6 +8,7 @@ use Closure;
 use OutOfBoundsException;
 use ProxyManager\Configuration;
 use ProxyManager\Proxy\GhostObjectInterface;
+use ProxyManager\Proxy\LazyLoadingInterface;
 use ProxyManager\ProxyGenerator\LazyLoadingGhostGenerator;
 use ProxyManager\ProxyGenerator\ProxyGeneratorInterface;
 use ProxyManager\Signature\Exception\InvalidSignatureException;
@@ -66,6 +67,13 @@ class LazyLoadingGhostFactory extends AbstractBaseFactory
      *                              key "skippedProperties", which allows to skip lazy-loading of some properties.
      *                              "skippedProperties" is a string[], containing a list of properties referenced
      *                              via PHP's internal property name (i.e. "\0ClassName\0propertyName")
+     *
+     * @throws MissingSignatureException
+     * @throws InvalidSignatureException
+     * @throws OutOfBoundsException
+     *
+     * @psalm-template RealObjectType as object
+     *
      * @psalm-param class-string<RealObjectType> $className
      * @psalm-param Closure(
      *   RealObjectType&GhostObjectInterface<RealObjectType>=,
@@ -78,11 +86,6 @@ class LazyLoadingGhostFactory extends AbstractBaseFactory
      *
      * @psalm-return RealObjectType&GhostObjectInterface<RealObjectType>
      *
-     * @throws MissingSignatureException
-     * @throws InvalidSignatureException
-     * @throws OutOfBoundsException
-     *
-     * @psalm-template RealObjectType as object
      * @psalm-suppress MixedInferredReturnType We ignore type checks here, since `staticProxyConstructor` is not
      *                                         interfaced (by design)
      */

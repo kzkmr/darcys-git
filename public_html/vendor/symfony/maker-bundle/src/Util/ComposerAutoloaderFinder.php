@@ -48,7 +48,10 @@ class ComposerAutoloaderFinder
         return $this->classLoader;
     }
 
-    private function findComposerClassLoader(): ?ClassLoader
+    /**
+     * @return ClassLoader|null
+     */
+    private function findComposerClassLoader()
     {
         $autoloadFunctions = spl_autoload_functions();
 
@@ -71,7 +74,10 @@ class ComposerAutoloaderFinder
         return null;
     }
 
-    private function extractComposerClassLoader(array $autoloader): ?ClassLoader
+    /**
+     * @return ClassLoader|null
+     */
+    private function extractComposerClassLoader(array $autoloader)
     {
         if (isset($autoloader[0]) && \is_object($autoloader[0])) {
             if ($autoloader[0] instanceof ClassLoader) {
@@ -89,7 +95,10 @@ class ComposerAutoloaderFinder
         return null;
     }
 
-    private function locateMatchingClassLoader(ClassLoader $classLoader): ?ClassLoader
+    /**
+     * @return ClassLoader|null
+     */
+    private function locateMatchingClassLoader(ClassLoader $classLoader)
     {
         $makerClassLoader = null;
         foreach ($classLoader->getPrefixesPsr4() as $prefix => $paths) {

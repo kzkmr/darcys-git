@@ -12,24 +12,22 @@
 
 namespace Composer\DependencyResolver;
 
+use Composer\Package\BasePackage;
+use Composer\Package\Link;
+
 /**
  * @author Nils Adermann <naderman@naderman.de>
- * @phpstan-import-type ReasonData from Rule
  */
 class Rule2Literals extends Rule
 {
-    /** @var int */
     protected $literal1;
-    /** @var int */
     protected $literal2;
 
     /**
-     * @param int $literal1
-     * @param int $literal2
-     * @param Rule::RULE_* $reason A RULE_* constant
-     * @param mixed $reasonData
-     *
-     * @phpstan-param ReasonData $reasonData
+     * @param int              $literal1
+     * @param int              $literal2
+     * @param int              $reason     A RULE_* constant describing the reason for generating this rule
+     * @param Link|BasePackage $reasonData
      */
     public function __construct($literal1, $literal2, $reason, $reasonData)
     {
@@ -44,15 +42,11 @@ class Rule2Literals extends Rule
         }
     }
 
-    /** @return int[] */
     public function getLiterals()
     {
         return array($this->literal1, $this->literal2);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getHash()
     {
         return $this->literal1.','.$this->literal2;
@@ -97,7 +91,6 @@ class Rule2Literals extends Rule
         return true;
     }
 
-    /** @return false */
     public function isAssertion()
     {
         return false;

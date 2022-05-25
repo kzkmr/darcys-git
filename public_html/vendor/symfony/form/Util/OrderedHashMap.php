@@ -101,7 +101,6 @@ class OrderedHashMap implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($key)
     {
         return isset($this->elements[$key]);
@@ -109,10 +108,7 @@ class OrderedHashMap implements \ArrayAccess, \IteratorAggregate, \Countable
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         if (!isset($this->elements[$key])) {
@@ -124,10 +120,7 @@ class OrderedHashMap implements \ArrayAccess, \IteratorAggregate, \Countable
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         if (null === $key || !isset($this->elements[$key])) {
@@ -148,10 +141,7 @@ class OrderedHashMap implements \ArrayAccess, \IteratorAggregate, \Countable
 
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         if (false !== ($position = array_search((string) $key, $this->orderedKeys))) {
@@ -169,7 +159,6 @@ class OrderedHashMap implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * @return \Traversable
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new OrderedHashMapIterator($this->elements, $this->orderedKeys, $this->managedCursors);
@@ -178,7 +167,6 @@ class OrderedHashMap implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * @return int
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->elements);

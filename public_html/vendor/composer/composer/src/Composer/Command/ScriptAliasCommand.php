@@ -22,15 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ScriptAliasCommand extends BaseCommand
 {
-    /** @var string */
     private $script;
-    /** @var string */
     private $description;
 
-    /**
-     * @param string $script
-     * @param string $description
-     */
     public function __construct($script, $description)
     {
         $this->script = $script;
@@ -39,9 +33,6 @@ class ScriptAliasCommand extends BaseCommand
         parent::__construct();
     }
 
-    /**
-     * @return void
-     */
     protected function configure()
     {
         $this
@@ -64,9 +55,6 @@ EOT
         ;
     }
 
-    /**
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $composer = $this->getComposer();

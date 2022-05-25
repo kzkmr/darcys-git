@@ -11,7 +11,6 @@ use Throwable;
 use function array_change_key_case;
 use function array_values;
 use function assert;
-use function is_string;
 use function preg_match;
 use function sprintf;
 use function str_replace;
@@ -102,7 +101,7 @@ class OracleSchemaManager extends AbstractSchemaManager
             $keyName = strtolower($tableIndex['name']);
             $buffer  = [];
 
-            if ($tableIndex['is_primary'] === 'P') {
+            if (strtolower($tableIndex['is_primary']) === 'p') {
                 $keyName              = 'primary';
                 $buffer['primary']    = true;
                 $buffer['non_unique'] = false;
@@ -142,9 +141,7 @@ class OracleSchemaManager extends AbstractSchemaManager
         }
 
         // Default values returned from database sometimes have trailing spaces.
-        if (is_string($tableColumn['data_default'])) {
-            $tableColumn['data_default'] = trim($tableColumn['data_default']);
-        }
+        $tableColumn['data_default'] = trim($tableColumn['data_default']);
 
         if ($tableColumn['data_default'] === '' || $tableColumn['data_default'] === 'NULL') {
             $tableColumn['data_default'] = null;

@@ -12,8 +12,6 @@
 
 namespace Composer\Platform;
 
-use Composer\Pcre\Preg;
-
 /**
  * @author Lars Strojny <lars@strojny.net>
  */
@@ -28,7 +26,7 @@ class Version
     {
         $isFips = false;
 
-        if (!Preg::isMatch('/^(?<version>[0-9.]+)(?<patch>[a-z]{0,2})?(?<suffix>(?:-?(?:dev|pre|alpha|beta|rc|fips)[\d]*)*)?(?<garbage>-\w+)?$/', $opensslVersion, $matches)) {
+        if (!preg_match('/^(?<version>[0-9.]+)(?<patch>[a-z]{0,2})?(?<suffix>(?:-?(?:dev|pre|alpha|beta|rc|fips)[\d]*)*)?$/', $opensslVersion, $matches)) {
             return null;
         }
 
@@ -45,7 +43,7 @@ class Version
      */
     public static function parseLibjpeg($libjpegVersion)
     {
-        if (!Preg::isMatch('/^(?<major>\d+)(?<minor>[a-z]*)$/', $libjpegVersion, $matches)) {
+        if (!preg_match('/^(?<major>\d+)(?<minor>[a-z]*)$/', $libjpegVersion, $matches)) {
             return null;
         }
 
@@ -58,7 +56,7 @@ class Version
      */
     public static function parseZoneinfoVersion($zoneinfoVersion)
     {
-        if (!Preg::isMatch('/^(?<year>\d{4})(?<revision>[a-z]*)$/', $zoneinfoVersion, $matches)) {
+        if (!preg_match('/^(?<year>\d{4})(?<revision>[a-z]*)$/', $zoneinfoVersion, $matches)) {
             return null;
         }
 
@@ -94,12 +92,6 @@ class Version
         return self::convertVersionId($versionId, 100);
     }
 
-    /**
-     * @param int $versionId
-     * @param int $base
-     *
-     * @return string
-     */
     private static function convertVersionId($versionId, $base)
     {
         return sprintf(

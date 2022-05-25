@@ -17,7 +17,7 @@ use <?= $className ?>;
 
 class <?= $class_name ?> extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
 <?php foreach ($form_fields as $form_field => $typeOptions): ?>
@@ -34,7 +34,7 @@ class <?= $class_name ?> extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
 <?php if ($bounded_full_class_name): ?>

@@ -11,43 +11,23 @@
 
 namespace Symfony\Component\Form;
 
-use Symfony\Contracts\Service\ResetInterface;
-
 /**
  * Default implementation of {@link FormRendererEngineInterface}.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-abstract class AbstractRendererEngine implements FormRendererEngineInterface, ResetInterface
+abstract class AbstractRendererEngine implements FormRendererEngineInterface
 {
     /**
      * The variable in {@link FormView} used as cache key.
      */
     public const CACHE_KEY_VAR = 'cache_key';
 
-    /**
-     * @var array
-     */
     protected $defaultThemes;
-
-    /**
-     * @var array[]
-     */
     protected $themes = [];
-
-    /**
-     * @var bool[]
-     */
     protected $useDefaultThemes = [];
-
-    /**
-     * @var array[]
-     */
     protected $resources = [];
 
-    /**
-     * @var array<array<int|false>>
-     */
     private $resourceHierarchyLevels = [];
 
     /**
@@ -147,7 +127,7 @@ abstract class AbstractRendererEngine implements FormRendererEngineInterface, Re
      *
      * @see getResourceForBlockHierarchy()
      */
-    private function loadResourceForBlockNameHierarchy(string $cacheKey, FormView $view, array $blockNameHierarchy, int $hierarchyLevel): bool
+    private function loadResourceForBlockNameHierarchy(string $cacheKey, FormView $view, array $blockNameHierarchy, $hierarchyLevel): bool
     {
         $blockName = $blockNameHierarchy[$hierarchyLevel];
 
@@ -198,13 +178,5 @@ abstract class AbstractRendererEngine implements FormRendererEngineInterface, Re
         $this->resourceHierarchyLevels[$cacheKey][$blockName] = false;
 
         return false;
-    }
-
-    public function reset(): void
-    {
-        $this->themes = [];
-        $this->useDefaultThemes = [];
-        $this->resources = [];
-        $this->resourceHierarchyLevels = [];
     }
 }

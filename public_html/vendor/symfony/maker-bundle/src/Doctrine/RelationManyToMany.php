@@ -25,7 +25,7 @@ final class RelationManyToMany extends BaseCollectionRelation
         return $this->isOwning;
     }
 
-    public function setIsOwning($isOwning): self
+    public function setIsOwning($isOwning)
     {
         $this->isOwning = $isOwning;
 

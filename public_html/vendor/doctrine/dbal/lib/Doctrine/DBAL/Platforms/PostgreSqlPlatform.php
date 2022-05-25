@@ -950,7 +950,7 @@ SQL
      */
     public function convertFromBoolean($item)
     {
-        if ($item !== null && in_array(strtolower($item), $this->booleanLiterals['false'], true)) {
+        if (in_array(strtolower($item), $this->booleanLiterals['false'], true)) {
             return false;
         }
 

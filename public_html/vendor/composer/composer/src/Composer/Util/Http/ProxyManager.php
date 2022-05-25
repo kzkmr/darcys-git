@@ -22,18 +22,13 @@ use Composer\Util\Url;
  */
 class ProxyManager
 {
-    /** @var ?string */
-    private $error = null;
-    /** @var array{http: ?string, https: ?string} */
+    private $error;
     private $fullProxy;
-    /** @var array{http: ?string, https: ?string} */
     private $safeProxy;
-    /** @var array{http: array{options: mixed[]|null}, https: array{options: mixed[]|null}} */
     private $streams;
-    /** @var bool */
     private $hasProxy;
-    /** @var ?string */
-    private $info = null;
+    private $info;
+    private $lastProxy;
     /** @var ?NoProxyPattern */
     private $noProxyHandler = null;
 
@@ -69,8 +64,6 @@ class ProxyManager
 
     /**
      * Clears the persistent instance
-     *
-     * @return void
      */
     public static function reset()
     {
@@ -130,8 +123,6 @@ class ProxyManager
 
     /**
      * Initializes proxy values from the environment
-     *
-     * @return void
      */
     private function initProxyData()
     {
@@ -162,10 +153,8 @@ class ProxyManager
     /**
      * Sets initial data
      *
-     * @param non-empty-string $url    Proxy url
-     * @param 'http'|'https'   $scheme Environment variable scheme
-     *
-     * @return non-empty-string
+     * @param string $url    Proxy url
+     * @param string $scheme Environment variable scheme
      */
     private function setData($url, $scheme)
     {
@@ -186,6 +175,14 @@ class ProxyManager
      */
     private function noProxy($requestUrl)
     {
-        return $this->noProxyHandler && $this->noProxyHandler->test($requestUrl);
+        if ($this->noProxyHandler) {
+            if ($this->noProxyHandler->test($requestUrl)) {
+                $this->lastProxy = 'excluded by no_proxy';
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

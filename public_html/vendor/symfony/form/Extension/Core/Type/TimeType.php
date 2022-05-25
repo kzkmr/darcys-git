@@ -29,8 +29,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TimeType extends AbstractType
 {
     private const WIDGETS = [
-        'text' => TextType::class,
-        'choice' => ChoiceType::class,
+        'text' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
+        'choice' => 'Symfony\Component\Form\Extension\Core\Type\ChoiceType',
     ];
 
     /**
@@ -204,7 +204,7 @@ class TimeType extends AbstractType
             ));
         } elseif ('array' === $options['input']) {
             $builder->addModelTransformer(new ReversedTransformer(
-                new DateTimeToArrayTransformer($options['model_timezone'], $options['model_timezone'], $parts, 'text' === $options['widget'], $options['reference_date'])
+                new DateTimeToArrayTransformer($options['model_timezone'], $options['model_timezone'], $parts)
             ));
         }
     }

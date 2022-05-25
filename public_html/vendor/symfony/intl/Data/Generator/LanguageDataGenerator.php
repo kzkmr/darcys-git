@@ -135,7 +135,7 @@ class LanguageDataGenerator extends AbstractDataGenerator
             $names = [];
             $localizedNames = [];
             foreach (self::generateLanguageNames($localeBundle) as $language => $name) {
-                if (!str_contains($language, '_')) {
+                if (false === strpos($language, '_')) {
                     $this->languageCodes[] = $language;
                     $names[$language] = $name;
                 } else {

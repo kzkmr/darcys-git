@@ -20,13 +20,12 @@ use Composer\Util\Filesystem;
  */
 class ZipArchiver implements ArchiverInterface
 {
-    /** @var array<string, bool> */
     protected static $formats = array(
-        'zip' => true,
+        'zip' => 1,
     );
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function archive($sources, $target, $format, array $excludes = array(), $ignoreFilters = false)
     {
@@ -52,9 +51,8 @@ class ZipArchiver implements ArchiverInterface
 
                 /**
                  * ZipArchive::setExternalAttributesName is available from >= PHP 5.6
-                 * setExternalAttributesName() is only available with libzip 0.11.2 or above
                  */
-                if (PHP_VERSION_ID >= 50600 && method_exists($zip, 'setExternalAttributesName')) {
+                if (PHP_VERSION_ID >= 50600) {
                     $perms = fileperms($filepath);
 
                     /**
@@ -77,16 +75,13 @@ class ZipArchiver implements ArchiverInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format, $sourceType)
     {
         return isset(static::$formats[$format]) && $this->compressionAvailable();
     }
 
-    /**
-     * @return bool
-     */
     private function compressionAvailable()
     {
         return class_exists('ZipArchive');

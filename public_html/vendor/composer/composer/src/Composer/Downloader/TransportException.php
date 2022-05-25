@@ -17,71 +17,43 @@ namespace Composer\Downloader;
  */
 class TransportException extends \RuntimeException
 {
-    /** @var ?array<string> */
     protected $headers;
-    /** @var ?string */
     protected $response;
-    /** @var ?int */
     protected $statusCode;
-    /** @var array<mixed> */
     protected $responseInfo = array();
 
-    /**
-     * @param array<string> $headers
-     *
-     * @return void
-     */
     public function setHeaders($headers)
     {
         $this->headers = $headers;
     }
 
-    /**
-     * @return ?array<string>
-     */
     public function getHeaders()
     {
         return $this->headers;
     }
 
-    /**
-     * @param ?string $response
-     *
-     * @return void
-     */
     public function setResponse($response)
     {
         $this->response = $response;
     }
 
-    /**
-     * @return ?string
-     */
     public function getResponse()
     {
         return $this->response;
     }
 
-    /**
-     * @param ?int $statusCode
-     *
-     * @return void
-     */
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
     }
 
-    /**
-     * @return ?int
-     */
     public function getStatusCode()
     {
         return $this->statusCode;
     }
 
     /**
-     * @return array<mixed>
+     * @return array
      */
     public function getResponseInfo()
     {
@@ -89,9 +61,7 @@ class TransportException extends \RuntimeException
     }
 
     /**
-     * @param array<mixed> $responseInfo
-     *
-     * @return void
+     * @param array $responseInfo
      */
     public function setResponseInfo(array $responseInfo)
     {

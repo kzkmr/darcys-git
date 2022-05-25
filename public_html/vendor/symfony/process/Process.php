@@ -53,7 +53,7 @@ class Process implements \IteratorAggregate
     private $hasCallback = false;
     private $commandline;
     private $cwd;
-    private $env = [];
+    private $env;
     private $input;
     private $starttime;
     private $lastOutputTime;
@@ -177,7 +177,7 @@ class Process implements \IteratorAggregate
      * In order to inject dynamic values into command-lines, we strongly recommend using placeholders.
      * This will save escaping values, which is not portable nor secure anyway:
      *
-     *   $process = Process::fromShellCommandline('my_command "${:MY_VAR}"');
+     *   $process = Process::fromShellCommandline('my_command "$MY_VAR"');
      *   $process->run(null, ['MY_VAR' => $theValue]);
      *
      * @param string         $command The command line to pass to the shell of the OS
@@ -198,9 +198,6 @@ class Process implements \IteratorAggregate
         return $process;
     }
 
-    /**
-     * @return array
-     */
     public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
@@ -304,10 +301,10 @@ class Process implements \IteratorAggregate
         $descriptors = $this->getDescriptors();
 
         if ($this->env) {
-            $env += '\\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($this->env, $env, 'strcasecmp') : $this->env;
+            $env += $this->env;
         }
 
-        $env += '\\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($this->getDefaultEnv(), $env, 'strcasecmp') : $this->getDefaultEnv();
+        $env += $this->getDefaultEnv();
 
         if (\is_array($commandline = $this->commandline)) {
             $commandline = implode(' ', array_map([$this, 'escapeArgument'], $commandline));
@@ -340,7 +337,7 @@ class Process implements \IteratorAggregate
 
         $envPairs = [];
         foreach ($env as $k => $v) {
-            if (false !== $v && false === \in_array($k, ['argc', 'argv', 'ARGC', 'ARGV'], true)) {
+            if (false !== $v) {
                 $envPairs[] = $k.'='.$v;
             }
         }
@@ -622,7 +619,6 @@ class Process implements \IteratorAggregate
      *
      * @return \Generator
      */
-    #[\ReturnTypeWillChange]
     public function getIterator($flags = 0)
     {
         $this->readPipesForOutput(__FUNCTION__, false);
@@ -973,6 +969,8 @@ class Process implements \IteratorAggregate
 
     /**
      * Gets the last output time in seconds.
+     *
+     * @return float|null The last output time in seconds or null if it isn't started
      */
     public function getLastOutputTime(): ?float
     {
@@ -1169,12 +1167,25 @@ class Process implements \IteratorAggregate
     /**
      * Sets the environment variables.
      *
-     * @param array<string|\Stringable> $env The new environment variables
+     * Each environment variable value should be a string.
+     * If it is an array, the variable is ignored.
+     * If it is false or null, it will be removed when
+     * env vars are otherwise inherited.
+     *
+     * That happens in PHP when 'argv' is registered into
+     * the $_ENV array for instance.
+     *
+     * @param array $env The new environment variables
      *
      * @return $this
      */
     public function setEnv(array $env)
     {
+        // Process can not handle env values that are arrays
+        $env = array_filter($env, function ($value) {
+            return !\is_array($value);
+        });
+
         $this->env = $env;
 
         return $this;
@@ -1384,7 +1395,7 @@ class Process implements \IteratorAggregate
         ob_start();
         phpinfo(\INFO_GENERAL);
 
-        return self::$sigchild = str_contains(ob_get_clean(), '--enable-sigchild');
+        return self::$sigchild = false !== strpos(ob_get_clean(), '--enable-sigchild');
     }
 
     /**
@@ -1501,6 +1512,8 @@ class Process implements \IteratorAggregate
      * @param int  $signal         A valid POSIX signal (see https://php.net/pcntl.constants)
      * @param bool $throwException Whether to throw exception in case signal failed
      *
+     * @return bool True if the signal was sent successfully, false otherwise
+     *
      * @throws LogicException   In case the process is not running
      * @throws RuntimeException In case --enable-sigchild is activated and the process can't be killed
      * @throws RuntimeException In case of failure
@@ -1569,7 +1582,7 @@ class Process implements \IteratorAggregate
                 if (isset($varCache[$m[0]])) {
                     return $varCache[$m[0]];
                 }
-                if (str_contains($value = $m[1], "\0")) {
+                if (false !== strpos($value = $m[1], "\0")) {
                     $value = str_replace("\0", '?', $value);
                 }
                 if (false === strpbrk($value, "\"%!\n")) {
@@ -1630,7 +1643,7 @@ class Process implements \IteratorAggregate
         if ('\\' !== \DIRECTORY_SEPARATOR) {
             return "'".str_replace("'", "'\\''", $argument)."'";
         }
-        if (str_contains($argument, "\0")) {
+        if (false !== strpos($argument, "\0")) {
             $argument = str_replace("\0", '?', $argument);
         }
         if (!preg_match('/[\/()%!^"<>&|\s]/', $argument)) {
@@ -1654,9 +1667,20 @@ class Process implements \IteratorAggregate
 
     private function getDefaultEnv(): array
     {
-        $env = getenv();
-        $env = ('\\' === \DIRECTORY_SEPARATOR ? array_intersect_ukey($env, $_SERVER, 'strcasecmp') : array_intersect_key($env, $_SERVER)) ?: $env;
+        $env = [];
 
-        return $_ENV + ('\\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($env, $_ENV, 'strcasecmp') : $env);
+        foreach ($_SERVER as $k => $v) {
+            if (\is_string($v) && false !== $v = getenv($k)) {
+                $env[$k] = $v;
+            }
+        }
+
+        foreach ($_ENV as $k => $v) {
+            if (\is_string($v)) {
+                $env[$k] = $v;
+            }
+        }
+
+        return $env;
     }
 }

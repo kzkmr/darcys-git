@@ -12,7 +12,6 @@ use LogicException;
 use ReflectionClass;
 use RuntimeException;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
-
 use function array_key_exists;
 use function array_values;
 use function get_class;
@@ -28,10 +27,8 @@ final class SymfonyFixturesLoader extends ContainerAwareLoader
 
     /**
      * @internal
-     *
-     * @psalm-param list<array{fixture: FixtureInterface, groups: list<string>}> $fixtures
      */
-    public function addFixtures(array $fixtures): void
+    public function addFixtures(array $fixtures) : void
     {
         // Because parent::addFixture may call $this->createFixture
         // we cannot call $this->addFixture in this loop
@@ -48,7 +45,7 @@ final class SymfonyFixturesLoader extends ContainerAwareLoader
         }
     }
 
-    public function addFixture(FixtureInterface $fixture): void
+    public function addFixture(FixtureInterface $fixture) : void
     {
         $class                        = get_class($fixture);
         $this->loadedFixtures[$class] = $fixture;
@@ -65,9 +62,10 @@ final class SymfonyFixturesLoader extends ContainerAwareLoader
 
     /**
      * Overridden to not allow new fixture classes to be instantiated.
-     * {@inheritDoc}
+     *
+     * @param string $class
      */
-    protected function createFixture($class): FixtureInterface
+    protected function createFixture($class) : FixtureInterface
     {
         /*
          * We don't actually need to create the fixture. We just
@@ -92,7 +90,7 @@ final class SymfonyFixturesLoader extends ContainerAwareLoader
      *
      * @return FixtureInterface[]
      */
-    public function getFixtures(array $groups = []): array
+    public function getFixtures(array $groups = []) : array
     {
         $fixtures = parent::getFixtures();
 
@@ -123,7 +121,7 @@ final class SymfonyFixturesLoader extends ContainerAwareLoader
      *
      * @param string[] $groups
      */
-    private function addGroupsFixtureMapping(string $className, array $groups): void
+    private function addGroupsFixtureMapping(string $className, array $groups) : void
     {
         foreach ($groups as $group) {
             $this->groupsFixtureMapping[$group][$className] = true;
@@ -135,7 +133,7 @@ final class SymfonyFixturesLoader extends ContainerAwareLoader
      *
      * @throws RuntimeException
      */
-    private function validateDependencies(array $fixtures, FixtureInterface $fixture): void
+    private function validateDependencies(array $fixtures, FixtureInterface $fixture) : void
     {
         if (! $fixture instanceof DependentFixtureInterface) {
             return;

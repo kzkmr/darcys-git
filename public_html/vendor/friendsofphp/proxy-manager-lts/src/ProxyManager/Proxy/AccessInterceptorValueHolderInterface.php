@@ -35,6 +35,7 @@ interface AccessInterceptorValueHolderInterface extends AccessInterceptorInterfa
      *
      * @param string       $methodName        name of the intercepted method
      * @param Closure|null $suffixInterceptor interceptor closure or null to unset the currently active interceptor
+     *
      * @psalm-param null|Closure(
      *   InterceptedObjectType&AccessInterceptorInterface=,
      *   InterceptedObjectType=,

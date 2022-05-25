@@ -16,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\MakerBundle\Exception\RuntimeCommandException;
 use Symfony\Bundle\MakerBundle\Util\ClassNameDetails;
 use Symfony\Bundle\MakerBundle\Util\PhpCompatUtil;
-use Symfony\Bundle\MakerBundle\Util\TemplateComponentGenerator;
 
 /**
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
@@ -29,9 +28,8 @@ class Generator
     private $pendingOperations = [];
     private $namespacePrefix;
     private $phpCompatUtil;
-    private $templateComponentGenerator;
 
-    public function __construct(FileManager $fileManager, string $namespacePrefix, PhpCompatUtil $phpCompatUtil = null, TemplateComponentGenerator $templateComponentGenerator = null)
+    public function __construct(FileManager $fileManager, string $namespacePrefix, PhpCompatUtil $phpCompatUtil = null)
     {
         $this->fileManager = $fileManager;
         $this->twigHelper = new GeneratorTwigHelper($fileManager);
@@ -44,7 +42,6 @@ class Generator
         }
 
         $this->phpCompatUtil = $phpCompatUtil;
-        $this->templateComponentGenerator = $templateComponentGenerator;
     }
 
     /**
@@ -173,7 +170,6 @@ class Generator
         $variables['relative_path'] = $this->fileManager->relativizePath($targetPath);
         $variables['use_attributes'] = $this->phpCompatUtil->canUseAttributes();
         $variables['use_typed_properties'] = $this->phpCompatUtil->canUseTypedProperties();
-        $variables['use_union_types'] = $this->phpCompatUtil->canUseUnionTypes();
 
         $templatePath = $templateName;
         if (!file_exists($templatePath)) {
@@ -228,7 +224,6 @@ class Generator
             $controllerTemplatePath,
             $parameters +
             [
-                'generator' => $this->templateComponentGenerator,
                 'parent_class_name' => static::getControllerBaseClass()->getShortName(),
             ]
         );
@@ -248,7 +243,7 @@ class Generator
 
     public static function getControllerBaseClass(): ClassNameDetails
     {
-        // @legacy Support for Controller::class can be dropped when FrameworkBundle minimum supported version is >=4.1
+        // Support for Controller::class can be dropped when FrameworkBundle minimum supported version is >=4.1
         $class = method_exists(AbstractController::class, 'getParameter') ? AbstractController::class : Controller::class;
 
         return new ClassNameDetails($class, '\\');

@@ -19,7 +19,6 @@ namespace Composer\Package\Archiver;
  */
 class PharArchiver implements ArchiverInterface
 {
-    /** @var array<string, int> */
     protected static $formats = array(
         'zip' => \Phar::ZIP,
         'tar' => \Phar::TAR,
@@ -27,14 +26,13 @@ class PharArchiver implements ArchiverInterface
         'tar.bz2' => \Phar::TAR,
     );
 
-    /** @var array<string, int> */
     protected static $compressFormats = array(
         'tar.gz' => \Phar::GZ,
         'tar.bz2' => \Phar::BZ2,
     );
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function archive($sources, $target, $format, array $excludes = array(), $ignoreFilters = false)
     {
@@ -54,12 +52,7 @@ class PharArchiver implements ArchiverInterface
                 $target = $filename . '.tar';
             }
 
-            $phar = new \PharData(
-                $target,
-                \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::CURRENT_AS_FILEINFO,
-                '',
-                static::$formats[$format]
-            );
+            $phar = new \PharData($target, null, null, static::$formats[$format]);
             $files = new ArchivableFilesFinder($sources, $excludes, $ignoreFilters);
             $filesOnly = new ArchivableFilesFilter($files);
             $phar->buildFromIterator($filesOnly, $sources);
@@ -95,7 +88,7 @@ class PharArchiver implements ArchiverInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports($format, $sourceType)
     {

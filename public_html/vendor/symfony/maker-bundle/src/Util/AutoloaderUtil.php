@@ -33,9 +33,11 @@ class AutoloaderUtil
     /**
      * Returns the relative path to where a new class should live.
      *
+     * @return string|null
+     *
      * @throws \Exception
      */
-    public function getPathForFutureClass(string $className): ?string
+    public function getPathForFutureClass(string $className)
     {
         $classLoader = $this->getClassLoader();
 

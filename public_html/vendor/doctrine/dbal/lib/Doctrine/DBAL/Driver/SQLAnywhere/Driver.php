@@ -12,8 +12,6 @@ use function implode;
 
 /**
  * A Doctrine DBAL driver for the SAP Sybase SQL Anywhere PHP extension.
- *
- * @deprecated Support for SQLAnywhere will be removed in 3.0.
  */
 class Driver extends AbstractSQLAnywhereDriver
 {

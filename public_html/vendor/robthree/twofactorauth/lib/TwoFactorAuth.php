@@ -272,7 +272,7 @@ class TwoFactorAuth
     {
         return 'otpauth://totp/' . rawurlencode($label)
             . '?secret=' . rawurlencode($secret)
-            . '&issuer=' . rawurlencode((string)$this->issuer)
+            . '&issuer=' . rawurlencode($this->issuer)
             . '&period=' . intval($this->period)
             . '&algorithm=' . rawurlencode(strtoupper($this->algorithm))
             . '&digits=' . intval($this->digits);

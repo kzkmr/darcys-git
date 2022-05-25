@@ -82,14 +82,14 @@ class ObjectNormalizer extends AbstractObjectNormalizer
             $name = $reflMethod->name;
             $attributeName = null;
 
-            if (str_starts_with($name, 'get') || str_starts_with($name, 'has')) {
+            if (0 === strpos($name, 'get') || 0 === strpos($name, 'has')) {
                 // getters and hassers
                 $attributeName = substr($name, 3);
 
                 if (!$reflClass->hasProperty($attributeName)) {
                     $attributeName = lcfirst($attributeName);
                 }
-            } elseif (str_starts_with($name, 'is')) {
+            } elseif (0 === strpos($name, 'is')) {
                 // issers
                 $attributeName = substr($name, 2);
 
@@ -103,9 +103,23 @@ class ObjectNormalizer extends AbstractObjectNormalizer
             }
         }
 
+        $checkPropertyInitialization = \PHP_VERSION_ID >= 70400;
+
         // properties
         foreach ($reflClass->getProperties() as $reflProperty) {
-            if (!$reflProperty->isPublic()) {
+            $isPublic = $reflProperty->isPublic();
+
+            if ($checkPropertyInitialization) {
+                if (!$isPublic) {
+                    $reflProperty->setAccessible(true);
+                }
+                if (!$reflProperty->isInitialized($object)) {
+                    unset($attributes[$reflProperty->name]);
+                    continue;
+                }
+            }
+
+            if (!$isPublic) {
                 continue;
             }
 

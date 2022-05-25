@@ -6,7 +6,6 @@ namespace ProxyManager\Generator;
 
 use Laminas\Code\Generator\ParameterGenerator;
 use ReflectionClass;
-use ReflectionNamedType;
 
 use function strtolower;
 
@@ -32,13 +31,6 @@ class MagicMethodGenerator extends MethodGenerator
             return;
         }
 
-        $originalMethod = $originalClass->getMethod($name);
-        $returnType     = $originalMethod->getReturnType();
-
-        if ($returnType instanceof ReflectionNamedType) {
-            $this->setReturnType($returnType->getName());
-        }
-
-        $this->setReturnsReference($originalMethod->returnsReference());
+        $this->setReturnsReference($originalClass->getMethod($name)->returnsReference());
     }
 }

@@ -1,22 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\Common\DataFixtures;
 
-use function file_exists;
-use function file_get_contents;
-use function file_put_contents;
-use function get_class;
-use function serialize;
-use function substr;
-use function unserialize;
+use Doctrine\Common\Version;
+use Doctrine\Common\Util\ClassUtils;
 
 /**
  * Proxy reference repository
  *
  * Allow data fixture references and identities to be persisted when cached data fixtures
  * are pre-loaded, for example, by LiipFunctionalTestBundle\Test\WebTestCase loadFixtures().
+ *
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author Anthon Pang <anthonp@nationalfibre.net>
  */
 class ProxyReferenceRepository extends ReferenceRepository
 {
@@ -29,6 +25,10 @@ class ProxyReferenceRepository extends ReferenceRepository
      */
     protected function getRealClass($className)
     {
+        if (Version::compare('2.2.0') <= 0) {
+            return ClassUtils::getRealClass($className);
+        }
+
         if (substr($className, -5) === 'Proxy') {
             return substr($className, 0, -5);
         }
@@ -52,10 +52,12 @@ class ProxyReferenceRepository extends ReferenceRepository
             $simpleReferences[$name] = [$className, $this->getIdentifier($reference, $unitOfWork)];
         }
 
-        return serialize([
+        $serializedData = json_encode([
             'references' => $simpleReferences,
             'identities' => $this->getIdentities(),
         ]);
+
+        return $serializedData;
     }
 
     /**
@@ -65,7 +67,7 @@ class ProxyReferenceRepository extends ReferenceRepository
      */
     public function unserialize($serializedData)
     {
-        $repositoryData = unserialize($serializedData);
+        $repositoryData = json_decode($serializedData, true);
         $references     = $repositoryData['references'];
 
         foreach ($references as $name => $proxyReference) {
@@ -90,19 +92,13 @@ class ProxyReferenceRepository extends ReferenceRepository
      *
      * @param string $baseCacheName Base cache name
      *
-     * @return bool
+     * @return boolean
      */
     public function load($baseCacheName)
     {
         $filename = $baseCacheName . '.ser';
 
-        if (! file_exists($filename)) {
-            return false;
-        }
-
-        $serializedData = file_get_contents($filename);
-
-        if ($serializedData === false) {
+        if ( ! file_exists($filename) || ($serializedData = file_get_contents($filename)) === false) {
             return false;
         }
 

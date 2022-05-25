@@ -42,7 +42,7 @@ class Unpacker
         $this->versionParser = new VersionParser();
     }
 
-    public function unpack(Operation $op, Result $result = null, &$links = [], bool $devRequire = false): Result
+    public function unpack(Operation $op, Result $result = null, &$links = []): Result
     {
         if (null === $result) {
             $result = new Result();
@@ -50,7 +50,7 @@ class Unpacker
 
         $localRepo = $this->composer->getRepositoryManager()->getLocalRepository();
         foreach ($op->getPackages() as $package) {
-            $pkg = $localRepo->findPackage($package['name'], '*');
+            $pkg = $localRepo->findPackage($package['name'], $package['version'] ?: '*');
             $pkg = $pkg ?? $this->composer->getRepositoryManager()->findPackage($package['name'], $package['version'] ?: '*');
 
             // not unpackable or no --unpack flag or empty packs (markers)
@@ -69,67 +69,50 @@ class Unpacker
                 continue;
             }
 
-            $requires = [];
-            foreach ($pkg->getRequires() as $link) {
-                $requires[$link->getTarget()] = $link;
-            }
-            $devRequires = $pkg->getDevRequires();
-
-            foreach ($devRequires as $i => $link) {
-                if (!isset($requires[$link->getTarget()])) {
-                    throw new \RuntimeException(sprintf('Symfony pack "%s" must duplicate all entries from "require-dev" into "require" but entry "%s" was not found.', $package['name'], $link->getTarget()));
-                }
-                $devRequires[$i] = $requires[$link->getTarget()];
-                unset($requires[$link->getTarget()]);
-            }
-
             $versionSelector = null;
-            foreach ([$requires, $devRequires] as $dev => $requires) {
-                $dev = $dev ?: $devRequire ?: $package['dev'];
+            foreach ($pkg->getRequires() as $link) {
+                if ('php' === $link->getTarget()) {
+                    continue;
+                }
 
-                foreach ($requires as $link) {
-                    if ('php' === $linkName = $link->getTarget()) {
+                $constraint = $link->getPrettyConstraint();
+                $constraint = substr($this->resolver->parseVersion($link->getTarget(), $constraint, !$package['dev']), 1) ?: $constraint;
+
+                if ($subPkg = $localRepo->findPackage($link->getTarget(), '*')) {
+                    if ('symfony-pack' === $subPkg->getType()) {
+                        $subOp = new Operation(true, $op->shouldSort());
+                        $subOp->addPackage($subPkg->getName(), $constraint, $package['dev']);
+                        $result = $this->unpack($subOp, $result, $links);
                         continue;
                     }
 
-                    $constraint = $link->getPrettyConstraint();
-                    $constraint = substr($this->resolver->parseVersion($linkName, $constraint, true), 1) ?: $constraint;
-
-                    if ($subPkg = $localRepo->findPackage($linkName, '*')) {
-                        if ('symfony-pack' === $subPkg->getType()) {
-                            $subOp = new Operation(true, $op->shouldSort());
-                            $subOp->addPackage($subPkg->getName(), $constraint, $dev);
-                            $result = $this->unpack($subOp, $result, $links, $dev);
-                            continue;
+                    if ('*' === $constraint) {
+                        if (null === $versionSelector) {
+                            $pool = class_exists(RepositorySet::class) ? RepositorySet::class : Pool::class;
+                            $pool = new $pool($this->composer->getPackage()->getMinimumStability(), $this->composer->getPackage()->getStabilityFlags());
+                            $pool->addRepository(new CompositeRepository($this->composer->getRepositoryManager()->getRepositories()));
+                            $versionSelector = new VersionSelector($pool);
                         }
 
-                        if ('*' === $constraint) {
-                            if (null === $versionSelector) {
-                                $pool = class_exists(RepositorySet::class) ? RepositorySet::class : Pool::class;
-                                $pool = new $pool($this->composer->getPackage()->getMinimumStability(), $this->composer->getPackage()->getStabilityFlags());
-                                $pool->addRepository(new CompositeRepository($this->composer->getRepositoryManager()->getRepositories()));
-                                $versionSelector = new VersionSelector($pool);
-                            }
-
-                            $constraint = $versionSelector->findRecommendedRequireVersion($subPkg);
-                        }
+                        $constraint = $versionSelector->findRecommendedRequireVersion($subPkg);
                     }
+                }
 
-                    $linkType = $dev ? 'require-dev' : 'require';
-                    $constraint = $this->versionParser->parseConstraints($constraint);
+                $linkName = $link->getTarget();
+                $linkType = $package['dev'] ? 'require-dev' : 'require';
+                $constraint = $this->versionParser->parseConstraints($constraint);
 
-                    if (isset($links[$linkName])) {
-                        $links[$linkName]['constraints'][] = $constraint;
-                        if ('require' === $linkType) {
-                            $links[$linkName]['type'] = 'require';
-                        }
-                    } else {
-                        $links[$linkName] = [
-                            'type' => $linkType,
-                            'name' => $linkName,
-                            'constraints' => [$constraint],
-                        ];
+                if (isset($links[$linkName])) {
+                    $links[$linkName]['constraints'][] = $constraint;
+                    if ('require' === $linkType) {
+                        $links[$linkName]['type'] = 'require';
                     }
+                } else {
+                    $links[$linkName] = [
+                        'type' => $linkType,
+                        'name' => $linkName,
+                        'constraints' => [$constraint],
+                    ];
                 }
             }
         }

@@ -27,38 +27,7 @@ use Composer\DependencyResolver\Operation\InstallOperation;
 abstract class ArchiveDownloader extends FileDownloader
 {
     /**
-     * @var array<string, true>
-     * @protected
-     */
-    public $cleanupExecuted = array();
-
-    /**
-     * @return PromiseInterface|null
-     */
-    public function prepare($type, PackageInterface $package, $path, PackageInterface $prevPackage = null)
-    {
-        unset($this->cleanupExecuted[$package->getName()]);
-
-        return parent::prepare($type, $package, $path, $prevPackage);
-    }
-
-    /**
-     * @return PromiseInterface|null
-     */
-    public function cleanup($type, PackageInterface $package, $path, PackageInterface $prevPackage = null)
-    {
-        $this->cleanupExecuted[$package->getName()] = true;
-
-        return parent::cleanup($type, $package, $path, $prevPackage);
-    }
-
-    /**
-     * @inheritDoc
-     *
-     * @param bool $output
-     *
-     * @return PromiseInterface
-     *
+     * {@inheritDoc}
      * @throws \RuntimeException
      * @throws \UnexpectedValueException
      */
@@ -120,9 +89,7 @@ abstract class ArchiveDownloader extends FileDownloader
         }
 
         return $promise->then(function () use ($self, $package, $filesystem, $fileName, $temporaryDir, $path) {
-            if (file_exists($fileName)) {
-                $filesystem->unlink($fileName);
-            }
+            $filesystem->unlink($fileName);
 
             /**
              * Returns the folder content, excluding .DS_Store
@@ -217,7 +184,7 @@ abstract class ArchiveDownloader extends FileDownloader
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getInstallOperationAppendix(PackageInterface $package, $path)
     {

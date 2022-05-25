@@ -13,7 +13,6 @@
 namespace Composer\Command;
 
 use Composer\Factory;
-use Composer\Pcre\Preg;
 use Composer\Util\Filesystem;
 use Composer\Util\Platform;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,9 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class GlobalCommand extends BaseCommand
 {
-    /**
-     * @return void
-     */
     protected function configure()
     {
         $this
@@ -61,10 +57,6 @@ EOT
         ;
     }
 
-    /**
-     * @return int|void
-     * @throws \Symfony\Component\Console\Exception\ExceptionInterface
-     */
     public function run(InputInterface $input, OutputInterface $output)
     {
         if (!method_exists($input, '__toString')) {
@@ -72,7 +64,7 @@ EOT
         }
 
         // extract real command name
-        $tokens = Preg::split('{\s+}', $input->__toString());
+        $tokens = preg_split('{\s+}', $input->__toString());
         $args = array();
         foreach ($tokens as $token) {
             if ($token && $token[0] !== '-') {
@@ -89,7 +81,7 @@ EOT
         }
 
         // The COMPOSER env var should not apply to the global execution scope
-        if (Platform::getEnv('COMPOSER')) {
+        if (getenv('COMPOSER')) {
             Platform::clearEnv('COMPOSER');
         }
 
@@ -113,14 +105,14 @@ EOT
         $this->getIO()->writeError('<info>Changed current directory to '.$home.'</info>');
 
         // create new input without "global" command prefix
-        $input = new StringInput(Preg::replace('{\bg(?:l(?:o(?:b(?:a(?:l)?)?)?)?)?\b}', '', $input->__toString(), 1));
+        $input = new StringInput(preg_replace('{\bg(?:l(?:o(?:b(?:a(?:l)?)?)?)?)?\b}', '', $input->__toString(), 1));
         $this->getApplication()->resetComposer();
 
         return $this->getApplication()->run($input, $output);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function isProxyCommand()
     {

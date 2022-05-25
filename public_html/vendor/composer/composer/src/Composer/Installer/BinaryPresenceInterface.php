@@ -25,8 +25,6 @@ interface BinaryPresenceInterface
      * Make sure binaries are installed for a given package.
      *
      * @param PackageInterface $package package instance
-     *
-     * @return void
      */
     public function ensureBinariesPresence(PackageInterface $package);
 }

@@ -14,10 +14,8 @@ namespace Composer\Package\Archiver;
 
 use Composer\Downloader\DownloadManager;
 use Composer\Package\RootPackageInterface;
-use Composer\Pcre\Preg;
 use Composer\Util\Filesystem;
 use Composer\Util\Loop;
-use Composer\Util\SyncHelper;
 use Composer\Json\JsonFile;
 use Composer\Package\CompletePackageInterface;
 
@@ -53,8 +51,6 @@ class ArchiveManager
 
     /**
      * @param ArchiverInterface $archiver
-     *
-     * @return void
      */
     public function addArchiver(ArchiverInterface $archiver)
     {
@@ -87,11 +83,11 @@ class ArchiveManager
         if ($package->getArchiveName()) {
             $baseName = $package->getArchiveName();
         } else {
-            $baseName = Preg::replace('#[^a-z0-9-_]#i', '-', $package->getName());
+            $baseName = preg_replace('#[^a-z0-9-_]#i', '-', $package->getName());
         }
         $nameParts = array($baseName);
 
-        if (null !== $package->getDistReference() && Preg::isMatch('{^[a-f0-9]{40}$}', $package->getDistReference())) {
+        if (preg_match('{^[a-f0-9]{40}$}', $package->getDistReference())) {
             array_push($nameParts, $package->getDistReference(), $package->getDistType());
         } else {
             array_push($nameParts, $package->getPrettyVersion(), $package->getDistReference());
@@ -153,9 +149,8 @@ class ArchiveManager
             try {
                 // Download sources
                 $promise = $this->downloadManager->download($package, $sourcePath);
-                SyncHelper::await($this->loop, $promise);
-                $promise = $this->downloadManager->install($package, $sourcePath);
-                SyncHelper::await($this->loop, $promise);
+                $this->loop->wait(array($promise));
+                $this->downloadManager->install($package, $sourcePath);
             } catch (\Exception $e) {
                 $filesystem->removeDirectory($sourcePath);
                 throw  $e;

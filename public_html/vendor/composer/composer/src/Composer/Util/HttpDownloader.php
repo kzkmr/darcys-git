@@ -15,20 +15,15 @@ namespace Composer\Util;
 use Composer\Config;
 use Composer\IO\IOInterface;
 use Composer\Downloader\TransportException;
-use Composer\Pcre\Preg;
 use Composer\Util\Http\Response;
-use Composer\Util\Http\CurlDownloader;
 use Composer\Composer;
 use Composer\Package\Version\VersionParser;
 use Composer\Semver\Constraint\Constraint;
 use Composer\Exception\IrrecoverableDownloadException;
 use React\Promise\Promise;
-use React\Promise\PromiseInterface;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
- * @phpstan-type Request array{url: string, options?: mixed[], copyTo?: ?string}
- * @phpstan-type Job array{id: int, status: int, request: Request, sync: bool, origin: string, resolve?: callable, reject?: callable, curl_id?: int, response?: Response, exception?: TransportException}
  */
 class HttpDownloader
 {
@@ -38,40 +33,29 @@ class HttpDownloader
     const STATUS_FAILED = 4;
     const STATUS_ABORTED = 5;
 
-    /** @var IOInterface */
     private $io;
-    /** @var Config */
     private $config;
-    /** @var array<Job> */
     private $jobs = array();
-    /** @var mixed[] */
     private $options = array();
-    /** @var int */
     private $runningJobs = 0;
-    /** @var int */
     private $maxJobs = 12;
-    /** @var ?CurlDownloader */
     private $curl;
-    /** @var ?RemoteFilesystem */
     private $rfs;
-    /** @var int */
     private $idGen = 0;
-    /** @var bool */
     private $disabled;
-    /** @var bool */
     private $allowAsync = false;
 
     /**
      * @param IOInterface $io         The IO instance
      * @param Config      $config     The config
-     * @param mixed[]     $options    The options
+     * @param array       $options    The options
      * @param bool        $disableTls
      */
     public function __construct(IOInterface $io, Config $config, array $options = array(), $disableTls = false)
     {
         $this->io = $io;
 
-        $this->disabled = (bool) Platform::getEnv('COMPOSER_DISABLE_NETWORK');
+        $this->disabled = (bool) getenv('COMPOSER_DISABLE_NETWORK');
 
         // Setup TLS options
         // The cafile option can be set via config.json
@@ -84,12 +68,12 @@ class HttpDownloader
         $this->config = $config;
 
         if (self::isCurlEnabled()) {
-            $this->curl = new CurlDownloader($io, $config, $options, $disableTls);
+            $this->curl = new Http\CurlDownloader($io, $config, $options, $disableTls);
         }
 
         $this->rfs = new RemoteFilesystem($io, $config, $options, $disableTls);
 
-        if (is_numeric($maxJobs = Platform::getEnv('COMPOSER_MAX_PARALLEL_HTTP'))) {
+        if (is_numeric($maxJobs = getenv('COMPOSER_MAX_PARALLEL_HTTP'))) {
             $this->maxJobs = max(1, min(50, (int) $maxJobs));
         }
     }
@@ -98,14 +82,14 @@ class HttpDownloader
      * Download a file synchronously
      *
      * @param  string             $url     URL to download
-     * @param  mixed[]            $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
+     * @param  array              $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
      *                                     although not all options are supported when using the default curl downloader
      * @throws TransportException
      * @return Response
      */
     public function get($url, $options = array())
     {
-        list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => null), true);
+        list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => false), true);
         $this->wait($job['id']);
 
         $response = $this->getResponse($job['id']);
@@ -122,7 +106,7 @@ class HttpDownloader
 
             $this->curl = null;
 
-            list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => null), true);
+            list($job) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => false), true);
             $this->wait($job['id']);
 
             $response = $this->getResponse($job['id']);
@@ -135,14 +119,14 @@ class HttpDownloader
      * Create an async download operation
      *
      * @param  string             $url     URL to download
-     * @param  mixed[]            $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
+     * @param  array              $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
      *                                     although not all options are supported when using the default curl downloader
      * @throws TransportException
-     * @return PromiseInterface
+     * @return Promise
      */
     public function add($url, $options = array())
     {
-        list(, $promise) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => null));
+        list(, $promise) = $this->addJob(array('url' => $url, 'options' => $options, 'copyTo' => false));
 
         return $promise;
     }
@@ -152,7 +136,7 @@ class HttpDownloader
      *
      * @param  string             $url     URL to download
      * @param  string             $to      Path to copy to
-     * @param  mixed[]            $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
+     * @param  array              $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
      *                                     although not all options are supported when using the default curl downloader
      * @throws TransportException
      * @return Response
@@ -170,10 +154,10 @@ class HttpDownloader
      *
      * @param  string             $url     URL to download
      * @param  string             $to      Path to copy to
-     * @param  mixed[]            $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
+     * @param  array              $options Stream context options e.g. https://www.php.net/manual/en/context.http.php
      *                                     although not all options are supported when using the default curl downloader
      * @throws TransportException
-     * @return PromiseInterface
+     * @return Promise
      */
     public function addCopy($url, $to, $options = array())
     {
@@ -185,7 +169,7 @@ class HttpDownloader
     /**
      * Retrieve the options set in the constructor
      *
-     * @return mixed[] Options
+     * @return array Options
      */
     public function getOptions()
     {
@@ -195,7 +179,6 @@ class HttpDownloader
     /**
      * Merges new options
      *
-     * @param  mixed[] $options
      * @return void
      */
     public function setOptions(array $options)
@@ -203,17 +186,10 @@ class HttpDownloader
         $this->options = array_replace_recursive($this->options, $options);
     }
 
-    /**
-     * @param Request $request
-     * @param bool    $sync
-     *
-     * @return array{Job, PromiseInterface}
-     */
     private function addJob($request, $sync = false)
     {
         $request['options'] = array_replace_recursive($this->options, $request['options']);
 
-        /** @var Job */
         $job = array(
             'id' => $this->idGen++,
             'status' => self::STATUS_QUEUED,
@@ -227,7 +203,7 @@ class HttpDownloader
         }
 
         // capture username/password from URL if there is one
-        if (Preg::isMatch('{^https?://([^:/]+):([^@/]+)@([^/]+)}i', $request['url'], $match)) {
+        if (preg_match('{^https?://([^:/]+):([^@/]+)@([^/]+)}i', $request['url'], $match)) {
             $this->io->setAuthentication($job['origin'], rawurldecode($match[1]), rawurldecode($match[2]));
         }
 
@@ -307,10 +283,6 @@ class HttpDownloader
         return array($job, $promise);
     }
 
-    /**
-     * @param  int  $id
-     * @return void
-     */
     private function startJob($id)
     {
         $job = &$this->jobs[$id];
@@ -353,7 +325,6 @@ class HttpDownloader
 
     /**
      * @private
-     * @return void
      */
     public function markJobDone()
     {
@@ -364,8 +335,6 @@ class HttpDownloader
      * Wait for current async download jobs to complete
      *
      * @param int|null $index For internal use only, the job id
-     *
-     * @return void
      */
     public function wait($index = null)
     {
@@ -376,8 +345,6 @@ class HttpDownloader
 
     /**
      * @internal
-     *
-     * @return void
      */
     public function enableAsync()
     {
@@ -420,10 +387,6 @@ class HttpDownloader
         return $active;
     }
 
-    /**
-     * @param  int $index Job id
-     * @return Response
-     */
     private function getResponse($index)
     {
         if (!isset($this->jobs[$index])) {
@@ -447,22 +410,9 @@ class HttpDownloader
 
     /**
      * @internal
-     *
-     * @param  string                                                                                    $url
-     * @param  array{warning?: string, info?: string, warning-versions?: string, info-versions?: string, warnings?: array<array{versions: string, message: string}>, infos?: array<array{versions: string, message: string}>} $data
-     * @return void
      */
     public static function outputWarnings(IOInterface $io, $url, $data)
     {
-        $cleanMessage = function ($msg) use ($io) {
-            if (!$io->isDecorated()) {
-                $msg = Preg::replace('{'.chr(27).'\\[[;\d]*m}u', '', $msg);
-            }
-
-            return $msg;
-        };
-
-        // legacy warning/info keys
         foreach (array('warning', 'info') as $type) {
             if (empty($data[$type])) {
                 continue;
@@ -477,38 +427,17 @@ class HttpDownloader
                 }
             }
 
-            $io->writeError('<'.$type.'>'.ucfirst($type).' from '.Url::sanitize($url).': '.$cleanMessage($data[$type]).'</'.$type.'>');
-        }
-
-        // modern Composer 2.2+ format with support for multiple warning/info messages
-        foreach (array('warnings', 'infos') as $key) {
-            if (empty($data[$key])) {
-                continue;
-            }
-
-            $versionParser = new VersionParser();
-            foreach ($data[$key] as $spec) {
-                $type = substr($key, 0, -1);
-                $constraint = $versionParser->parseConstraints($spec['versions']);
-                $composer = new Constraint('==', $versionParser->normalize(Composer::getVersion()));
-                if (!$constraint->matches($composer)) {
-                    continue;
-                }
-
-                $io->writeError('<'.$type.'>'.ucfirst($type).' from '.Url::sanitize($url).': '.$cleanMessage($spec['message']).'</'.$type.'>');
-            }
+            $io->writeError('<'.$type.'>'.ucfirst($type).' from '.Url::sanitize($url).': '.$data[$type].'</'.$type.'>');
         }
     }
 
     /**
      * @internal
-     *
-     * @return ?string[]
      */
     public static function getExceptionHints(\Exception $e)
     {
         if (!$e instanceof TransportException) {
-            return null;
+            return;
         }
 
         if (
@@ -531,21 +460,15 @@ class HttpDownloader
                 '<error>The following exception probably indicates you are offline or have misconfigured DNS resolver(s)</error>',
             );
         }
-
-        return null;
     }
 
-    /**
-     * @param  Job  $job
-     * @return bool
-     */
     private function canUseCurl(array $job)
     {
         if (!$this->curl) {
             return false;
         }
 
-        if (!Preg::isMatch('{^https?://}i', $job['request']['url'])) {
+        if (!preg_match('{^https?://}i', $job['request']['url'])) {
             return false;
         }
 
@@ -558,7 +481,6 @@ class HttpDownloader
 
     /**
      * @internal
-     * @return bool
      */
     public static function isCurlEnabled()
     {

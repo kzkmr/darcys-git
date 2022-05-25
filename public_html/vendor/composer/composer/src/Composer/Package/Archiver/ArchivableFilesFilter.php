@@ -17,13 +17,11 @@ use PharData;
 
 class ArchivableFilesFilter extends FilterIterator
 {
-    /** @var string[] */
     private $dirs = array();
 
     /**
      * @return bool true if the current element is acceptable, otherwise false.
      */
-    #[\ReturnTypeWillChange]
     public function accept()
     {
         $file = $this->getInnerIterator()->current();
@@ -36,11 +34,6 @@ class ArchivableFilesFilter extends FilterIterator
         return true;
     }
 
-    /**
-     * @param string $sources
-     *
-     * @return void
-     */
     public function addEmptyDir(PharData $phar, $sources)
     {
         foreach ($this->dirs as $filepath) {

@@ -1,0 +1,121 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['customer_class_price4', 'customer_class_price4_customer_class'] %}
+
+{% block title %}{{'特定会員価格プラグイン'|trans}}{% endblock %}
+{% block sub_title %}{{'会員種別登録'|trans}}{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block main %}
+    <form name="member_form" role="form" id="member_form" method="post"
+          action=""
+          novalidate>
+        {{ form_widget(form._token) }}
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8"><span class="card-title">{{ '会員種別登録・編集'|trans }}</span>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a data-toggle="collapse" href="#ordererInfo"
+                                       aria-expanded="false" aria-controls="ordererInfo">
+                                        <i class="fa fa-angle-up fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse show ec-cardCollapse" id="ordererInfo">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ '会員種別名'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                {{ form_widget(form.name) }}
+                                            </div>
+                                            {{ form_errors(form.name) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ '割引率'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    {{ form_widget(form.discount_rate) }}
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">{{ '%'|trans }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{ form_errors(form.discount_rate) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {# エンティティ拡張の自動出力 #}
+                                {% for f in form if f.vars.eccube_form_options.auto_render %}
+                                    {% if f.vars.eccube_form_options.form_theme %}
+                                        {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                        {{ form_row(f) }}
+                                    {% else %}
+                                        <div class="row mb-2">
+                                            <div class="col-3">
+                                                <span>{{ f.vars.label|trans }}</span>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        {{ form_widget(f) }}
+                                                    </div>
+                                                    {{ form_errors(f) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="c-conversionArea">
+            <div class="c-conversionArea__container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-6">
+                        <div class="c-conversionArea__leftBlockItem">
+                            <a class="c-baseLink"
+                               href="{{ url('plg_ccp_customer_class_admin') }}">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                                <span>{{ '割引会員種別管理'|trans }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-ec-conversion px-5"
+                                        type="submit">{{ 'admin.common.save'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+
+

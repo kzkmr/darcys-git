@@ -37,7 +37,7 @@ use function substr;
  * The SQLAnywherePlatform provides the behavior, features and SQL dialect of the
  * SAP Sybase SQL Anywhere 10 database platform.
  *
- * @deprecated Support for SQLAnywhere will be removed in 3.0.
+ * @deprecated Use SQLAnywhere 16 or newer
  */
 class SQLAnywherePlatform extends AbstractPlatform
 {
@@ -406,11 +406,11 @@ class SQLAnywherePlatform extends AbstractPlatform
     /**
      * {@inheritdoc}
      */
-    public function getCreateDatabaseSQL($name)
+    public function getCreateDatabaseSQL($database)
     {
-        $name = new Identifier($name);
+        $database = new Identifier($database);
 
-        return "CREATE DATABASE '" . $name->getName() . "'";
+        return "CREATE DATABASE '" . $database->getName() . "'";
     }
 
     /**
@@ -540,11 +540,11 @@ class SQLAnywherePlatform extends AbstractPlatform
     /**
      * {@inheritdoc}
      */
-    public function getDropDatabaseSQL($name)
+    public function getDropDatabaseSQL($database)
     {
-        $name = new Identifier($name);
+        $database = new Identifier($database);
 
-        return "DROP DATABASE '" . $name->getName() . "'";
+        return "DROP DATABASE '" . $database->getName() . "'";
     }
 
     /**

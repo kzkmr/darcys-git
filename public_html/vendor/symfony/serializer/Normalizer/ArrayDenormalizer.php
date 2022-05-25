@@ -46,7 +46,7 @@ class ArrayDenormalizer implements ContextAwareDenormalizerInterface, Serializer
         if (!\is_array($data)) {
             throw new InvalidArgumentException('Data expected to be an array, '.\gettype($data).' given.');
         }
-        if (!str_ends_with($type, '[]')) {
+        if ('[]' !== substr($type, -2)) {
             throw new InvalidArgumentException('Unsupported class: '.$type);
         }
 
@@ -74,7 +74,7 @@ class ArrayDenormalizer implements ContextAwareDenormalizerInterface, Serializer
             throw new BadMethodCallException(sprintf('The serializer needs to be set to allow "%s()" to be used.', __METHOD__));
         }
 
-        return str_ends_with($type, '[]')
+        return '[]' === substr($type, -2)
             && $this->serializer->supportsDenormalization($data, substr($type, 0, -2), $format, $context);
     }
 

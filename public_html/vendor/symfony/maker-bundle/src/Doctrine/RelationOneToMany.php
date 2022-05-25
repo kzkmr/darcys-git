@@ -25,7 +25,7 @@ final class RelationOneToMany extends BaseCollectionRelation
         return $this->orphanRemoval;
     }
 
-    public function setOrphanRemoval($orphanRemoval): self
+    public function setOrphanRemoval($orphanRemoval)
     {
         $this->orphanRemoval = $orphanRemoval;
 

@@ -13,12 +13,10 @@ use Doctrine\Deprecations\Deprecation;
 use IteratorAggregate;
 use PDO;
 use PDOStatement;
-use ReturnTypeWillChange;
 use Throwable;
 use Traversable;
 
 use function array_shift;
-use function func_get_args;
 use function is_array;
 use function is_string;
 
@@ -321,7 +319,6 @@ class Statement implements IteratorAggregate, DriverStatement, Result
      *
      * {@inheritdoc}
      */
-    #[ReturnTypeWillChange]
     public function getIterator()
     {
         Deprecation::trigger(
@@ -347,7 +344,7 @@ class Statement implements IteratorAggregate, DriverStatement, Result
             'Statement::fetch() is deprecated, use Result::fetchNumeric(), fetchAssociative() or fetchOne() instead.'
         );
 
-        return $this->stmt->fetch(...func_get_args());
+        return $this->stmt->fetch($fetchMode);
     }
 
     /**
@@ -779,7 +776,7 @@ class Statement implements IteratorAggregate, DriverStatement, Result
     /**
      * Returns the number of rows affected by the last execution of this statement.
      *
-     * @return int|string The number of affected rows.
+     * @return int The number of affected rows.
      */
     public function rowCount()
     {

@@ -6,7 +6,6 @@ namespace Doctrine\DBAL\Driver;
 
 use Doctrine\Deprecations\Deprecation;
 use Exception as BaseException;
-use Throwable;
 
 /**
  * Base implementation of the {@link Exception} interface.
@@ -36,9 +35,9 @@ abstract class AbstractException extends BaseException implements DriverExceptio
      * @param string|null     $sqlState  The SQLSTATE the driver is in at the time the error occurred, if any.
      * @param int|string|null $errorCode The driver specific error code if any.
      */
-    public function __construct($message, $sqlState = null, $errorCode = null, ?Throwable $previous = null)
+    public function __construct($message, $sqlState = null, $errorCode = null)
     {
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message);
 
         $this->errorCode = $errorCode;
         $this->sqlState  = $sqlState;

@@ -342,8 +342,6 @@ class TextDescriptor extends Descriptor
                     $argumentsInformation[] = sprintf('Service locator (%d element(s))', \count($argument->getValues()));
                 } elseif ($argument instanceof Definition) {
                     $argumentsInformation[] = 'Inlined Service';
-                } elseif ($argument instanceof \UnitEnum) {
-                    $argumentsInformation[] = ltrim(var_export($argument, true), '\\');
                 } else {
                     $argumentsInformation[] = \is_array($argument) ? sprintf('Array (%d element(s))', \count($argument)) : $argument;
                 }
@@ -444,7 +442,7 @@ class TextDescriptor extends Descriptor
 
     protected function describeEventDispatcherListeners(EventDispatcherInterface $eventDispatcher, array $options = [])
     {
-        $event = $options['event'] ?? null;
+        $event = \array_key_exists('event', $options) ? $options['event'] : null;
 
         if (null !== $event) {
             $title = sprintf('Registered Listeners for "%s" Event', $event);
@@ -516,7 +514,7 @@ class TextDescriptor extends Descriptor
                 $r = new \ReflectionMethod($controller, '__invoke');
             } elseif (!\is_string($controller)) {
                 return $anchorText;
-            } elseif (str_contains($controller, '::')) {
+            } elseif (false !== strpos($controller, '::')) {
                 $r = new \ReflectionMethod($controller);
             } else {
                 $r = new \ReflectionFunction($controller);
@@ -549,7 +547,7 @@ class TextDescriptor extends Descriptor
 
         if ($callable instanceof \Closure) {
             $r = new \ReflectionFunction($callable);
-            if (str_contains($r->name, '{closure}')) {
+            if (false !== strpos($r->name, '{closure}')) {
                 return 'Closure()';
             }
             if ($class = $r->getClosureScopeClass()) {

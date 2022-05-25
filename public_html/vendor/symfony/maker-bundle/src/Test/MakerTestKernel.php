@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 
 class MakerTestKernel extends Kernel implements CompilerPassInterface
 {
@@ -34,7 +35,7 @@ class MakerTestKernel extends Kernel implements CompilerPassInterface
         parent::__construct($environment, $debug);
     }
 
-    public function registerBundles(): iterable
+    public function registerBundles()
     {
         return [
             new FrameworkBundle(),
@@ -42,7 +43,7 @@ class MakerTestKernel extends Kernel implements CompilerPassInterface
         ];
     }
 
-    protected function configureRoutes(RoutingConfigurator $routes)
+    protected function configureRoutes(RouteCollectionBuilder $routes)
     {
     }
 
@@ -60,12 +61,12 @@ class MakerTestKernel extends Kernel implements CompilerPassInterface
         ]);
     }
 
-    public function getProjectDir(): string
+    public function getProjectDir()
     {
         return $this->getRootDir();
     }
 
-    public function getRootDir(): string
+    public function getRootDir()
     {
         return $this->testRootDir;
     }

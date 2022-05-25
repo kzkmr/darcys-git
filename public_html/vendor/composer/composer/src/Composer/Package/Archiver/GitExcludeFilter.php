@@ -12,10 +12,8 @@
 
 namespace Composer\Package\Archiver;
 
-use Composer\Pcre\Preg;
-
 /**
- * An exclude filter that processes gitattributes
+ * An exclude filter that processes gitignore and gitattributes
  *
  * It respects export-ignore git attributes
  *
@@ -24,7 +22,7 @@ use Composer\Pcre\Preg;
 class GitExcludeFilter extends BaseExcludeFilter
 {
     /**
-     * Parses .gitattributes if it exists
+     * Parses .gitignore and .gitattributes files if they exist
      *
      * @param string $sourcePath
      */
@@ -32,6 +30,12 @@ class GitExcludeFilter extends BaseExcludeFilter
     {
         parent::__construct($sourcePath);
 
+        if (file_exists($sourcePath.'/.gitignore')) {
+            $this->excludePatterns = $this->parseLines(
+                file($sourcePath.'/.gitignore'),
+                array($this, 'parseGitIgnoreLine')
+            );
+        }
         if (file_exists($sourcePath.'/.gitattributes')) {
             $this->excludePatterns = array_merge(
                 $this->excludePatterns,
@@ -44,22 +48,30 @@ class GitExcludeFilter extends BaseExcludeFilter
     }
 
     /**
+     * Callback line parser which process gitignore lines
+     *
+     * @param string $line A line from .gitignore
+     *
+     * @return array An exclude pattern for filter()
+     */
+    public function parseGitIgnoreLine($line)
+    {
+        return $this->generatePattern($line);
+    }
+
+    /**
      * Callback parser which finds export-ignore rules in git attribute lines
      *
      * @param string $line A line from .gitattributes
      *
-     * @return array{0: string, 1: bool, 2: bool}|null An exclude pattern for filter()
+     * @return array|null An exclude pattern for filter()
      */
     public function parseGitAttributesLine($line)
     {
-        $parts = Preg::split('#\s+#', $line);
+        $parts = preg_split('#\s+#', $line);
 
         if (count($parts) == 2 && $parts[1] === 'export-ignore') {
             return $this->generatePattern($parts[0]);
-        }
-
-        if (count($parts) == 2 && $parts[1] === '-export-ignore') {
-            return $this->generatePattern('!'.$parts[0]);
         }
 
         return null;

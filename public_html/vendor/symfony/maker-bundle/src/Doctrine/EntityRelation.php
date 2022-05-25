@@ -55,12 +55,12 @@ final class EntityRelation
         $this->isSelfReferencing = $owningClass === $inverseClass;
     }
 
-    public function setOwningProperty(string $owningProperty): void
+    public function setOwningProperty(string $owningProperty)
     {
         $this->owningProperty = $owningProperty;
     }
 
-    public function setInverseProperty(string $inverseProperty): void
+    public function setInverseProperty(string $inverseProperty)
     {
         if (!$this->mapInverseRelation) {
             throw new \Exception('Cannot call setInverseProperty() when the inverse relation will not be mapped.');
@@ -69,12 +69,12 @@ final class EntityRelation
         $this->inverseProperty = $inverseProperty;
     }
 
-    public function setIsNullable(bool $isNullable): void
+    public function setIsNullable(bool $isNullable)
     {
         $this->isNullable = $isNullable;
     }
 
-    public function setOrphanRemoval(bool $orphanRemoval): void
+    public function setOrphanRemoval(bool $orphanRemoval)
     {
         $this->orphanRemoval = $orphanRemoval;
     }

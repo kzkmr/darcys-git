@@ -54,7 +54,7 @@ class ContainerAwareEventManager extends EventManager
             return;
         }
 
-        $eventArgs = $eventArgs ?? EventArgs::getEmptyInstance();
+        $eventArgs = null === $eventArgs ? EventArgs::getEmptyInstance() : $eventArgs;
 
         if (!isset($this->initialized[$eventName])) {
             $this->initializeListeners($eventName);

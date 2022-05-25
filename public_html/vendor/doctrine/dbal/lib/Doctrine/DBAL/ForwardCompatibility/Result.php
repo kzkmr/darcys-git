@@ -9,11 +9,9 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\Deprecations\Deprecation;
 use IteratorAggregate;
 use PDO;
-use ReturnTypeWillChange;
 use Traversable;
 
 use function array_shift;
-use function func_get_args;
 use function method_exists;
 
 /**
@@ -42,7 +40,6 @@ class Result implements IteratorAggregate, DriverStatement, DriverResultStatemen
     /**
      * @return Driver\ResultStatement
      */
-    #[ReturnTypeWillChange]
     public function getIterator()
     {
         return $this->stmt;
@@ -89,7 +86,7 @@ class Result implements IteratorAggregate, DriverStatement, DriverResultStatemen
             'Result::fetch() is deprecated, use Result::fetchNumeric(), fetchAssociative() or fetchOne() instead.'
         );
 
-        return $this->stmt->fetch(...func_get_args());
+        return $this->stmt->fetch($fetchMode, $cursorOrientation, $cursorOffset);
     }
 
     /**

@@ -56,7 +56,6 @@ class EventFiringWebElement implements WebDriverElement, WebDriverLocatable
     public function sendKeys($value)
     {
         $this->dispatch('beforeChangeValueOf', $this);
-
         try {
             $this->element->sendKeys($value);
         } catch (WebDriverException $exception) {
@@ -75,7 +74,6 @@ class EventFiringWebElement implements WebDriverElement, WebDriverLocatable
     public function click()
     {
         $this->dispatch('beforeClickOn', $this);
-
         try {
             $this->element->click();
         } catch (WebDriverException $exception) {
@@ -131,7 +129,6 @@ class EventFiringWebElement implements WebDriverElement, WebDriverLocatable
             $this,
             $this->dispatcher->getDefaultDriver()
         );
-
         try {
             $elements = [];
             foreach ($this->element->findElements($by) as $element) {

@@ -7,7 +7,7 @@ contributing.
 
 If you would like to contribute to Composer, please read the
 [README](https://github.com/composer/composer) and
-[CONTRIBUTING](https://github.com/composer/composer/blob/main/.github/CONTRIBUTING.md)
+[CONTRIBUTING](https://github.com/composer/composer/blob/master/.github/CONTRIBUTING.md)
 documents.
 
 The most important guidelines are described as follows:
@@ -21,16 +21,15 @@ The most important guidelines are described as follows:
 > To ensure a consistent code base, you should make sure the code follows
 > the [PSR-2 Coding Standards](https://www.php-fig.org/psr/psr-2/).
 
-## Support
+## IRC / mailing list
 
-The IRC channel is on irc.libera.chat: [#composer](ircs://irc.libera.chat:6697/composer).
+Mailing lists for [user support](https://groups.google.com/group/composer-users) and
+[development](https://groups.google.com/group/composer-dev).
 
-[Stack Overflow](https://stackoverflow.com/questions/tagged/composer-php) and
-[GitHub Discussions](https://github.com/composer/composer/discussions) both have a
-collection of Composer related questions.
+IRC channels are on irc.freenode.org: [#composer](irc://irc.freenode.org/composer)
+for users and [#composer-dev](irc://irc.freenode.org/composer-dev) for development.
 
-For paid support, we do provide Composer-related support via chat and email to
-[Private Packagist](https://packagist.com) customers.
-
+Stack Overflow has a growing collection of
+[Composer related questions](https://stackoverflow.com/questions/tagged/composer-php).
 
 &larr; [Config](07-runtime.md)

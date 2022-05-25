@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/customergroup",
+  "version": "2.0.0",
+  "description": "会員グループ管理プラグイン for EC-CUBE4",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+  },
+  "extra": {
+    "code": "CustomerGroup"
+  }
+}

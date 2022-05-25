@@ -33,7 +33,6 @@ interface DownloaderInterface
     /**
      * This should do any network-related tasks to prepare for an upcoming install/update
      *
-     * @param  string $path download path
      * @return PromiseInterface|null
      */
     public function download(PackageInterface $package, $path, PackageInterface $prevPackage = null);

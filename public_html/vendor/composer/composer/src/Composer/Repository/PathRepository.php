@@ -15,12 +15,9 @@ namespace Composer\Repository;
 use Composer\Config;
 use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
-use Composer\Package\CompleteAliasPackage;
-use Composer\Package\CompletePackage;
 use Composer\Package\Loader\ArrayLoader;
 use Composer\Package\Version\VersionGuesser;
 use Composer\Package\Version\VersionParser;
-use Composer\Pcre\Preg;
 use Composer\Util\Platform;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\Filesystem;
@@ -80,8 +77,7 @@ class PathRepository extends ArrayRepository implements ConfigurableRepositoryIn
     private $url;
 
     /**
-     * @var mixed[]
-     * @phpstan-var array{url: string, options?: array{symlink?: bool, relative?: bool, versions?: array<string, string>}}
+     * @var array
      */
     private $repoConfig;
 
@@ -91,14 +87,14 @@ class PathRepository extends ArrayRepository implements ConfigurableRepositoryIn
     private $process;
 
     /**
-     * @var array{symlink?: bool, relative?: bool, versions?: array<string, string>}
+     * @var array
      */
     private $options;
 
     /**
      * Initializes path repository.
      *
-     * @param array{url?: string, options?: array{symlink?: bool, relative?: bool, versions?: array<string, string>}} $repoConfig
+     * @param array       $repoConfig
      * @param IOInterface $io
      * @param Config      $config
      */
@@ -144,9 +140,9 @@ class PathRepository extends ArrayRepository implements ConfigurableRepositoryIn
         $urlMatches = $this->getUrlMatches();
 
         if (empty($urlMatches)) {
-            if (Preg::isMatch('{[*{}]}', $this->url)) {
+            if (preg_match('{[*{}]}', $this->url)) {
                 $url = $this->url;
-                while (Preg::isMatch('{[*{}]}', $url)) {
+                while (preg_match('{[*{}]}', $url)) {
                     $url = dirname($url);
                 }
                 // the parent directory before any wildcard exists, so we assume it is correctly configured but simply empty
@@ -173,9 +169,8 @@ class PathRepository extends ArrayRepository implements ConfigurableRepositoryIn
                 'url' => $url,
                 'reference' => sha1($json . serialize($this->options)),
             );
-
-            // copy symlink/relative options to transport options
-            $package['transport-options'] = array_intersect_key($this->options, array('symlink' => true, 'relative' => true));
+            $package['transport-options'] = $this->options;
+            unset($package['transport-options']['versions']);
 
             // use the version provided as option if available
             if (isset($package['name'], $this->options['versions'][$package['name']])) {
@@ -183,7 +178,7 @@ class PathRepository extends ArrayRepository implements ConfigurableRepositoryIn
             }
 
             // carry over the root package version if this path repo is in the same git repository as root package
-            if (!isset($package['version']) && ($rootVersion = Platform::getEnv('COMPOSER_ROOT_VERSION'))) {
+            if (!isset($package['version']) && ($rootVersion = getenv('COMPOSER_ROOT_VERSION'))) {
                 if (
                     0 === $this->process->execute('git rev-parse HEAD', $ref1, $path)
                     && 0 === $this->process->execute('git rev-parse HEAD', $ref2)
@@ -209,11 +204,12 @@ class PathRepository extends ArrayRepository implements ConfigurableRepositoryIn
 
                     $package['version'] = $versionData['pretty_version'];
                 } else {
-                    $package['version'] = 'dev-main';
+                    $package['version'] = 'dev-master';
                 }
             }
 
-            $this->addPackage($this->loader->load($package));
+            $package = $this->loader->load($package);
+            $this->addPackage($package);
         }
     }
 

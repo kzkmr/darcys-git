@@ -22,7 +22,7 @@ interface CompletePackageInterface extends PackageInterface
     /**
      * Returns the scripts of this package
      *
-     * @return array<string, string[]> Map of script name to array of handlers
+     * @return array<string, string[]> array('script name' => array('listeners'))
      */
     public function getScripts();
 
@@ -35,14 +35,14 @@ interface CompletePackageInterface extends PackageInterface
     /**
      * Returns an array of repositories
      *
-     * @return mixed[] Repositories
+     * @return array<array{type: string, url?: string}> Repositories
      */
     public function getRepositories();
 
     /**
      * Set the repositories
      *
-     * @param  mixed[] $repositories
+     * @param  array<array{type: string, url?: string}> $repositories
      * @return void
      */
     public function setRepositories(array $repositories);
@@ -80,7 +80,7 @@ interface CompletePackageInterface extends PackageInterface
     /**
      * Returns the package description
      *
-     * @return ?string
+     * @return string
      */
     public function getDescription();
 
@@ -95,7 +95,7 @@ interface CompletePackageInterface extends PackageInterface
     /**
      * Returns the package homepage
      *
-     * @return ?string
+     * @return string
      */
     public function getHomepage();
 
@@ -127,14 +127,14 @@ interface CompletePackageInterface extends PackageInterface
     /**
      * Returns the support information
      *
-     * @return array{issues?: string, forum?: string, wiki?: string, source?: string, email?: string, irc?: string, docs?: string, rss?: string, chat?: string}
+     * @return array<string, string>
      */
     public function getSupport();
 
     /**
      * Set the support information
      *
-     * @param  array{issues?: string, forum?: string, wiki?: string, source?: string, email?: string, irc?: string, docs?: string, rss?: string, chat?: string} $support
+     * @param  array<string, string> $support
      * @return void
      */
     public function setSupport(array $support);
@@ -144,14 +144,14 @@ interface CompletePackageInterface extends PackageInterface
      *
      * Each item will contain type and url keys
      *
-     * @return array<array{type?: string, url?: string}>
+     * @return array<array{type: string, url: string}>
      */
     public function getFunding();
 
     /**
      * Set the funding
      *
-     * @param  array<array{type?: string, url?: string}> $funding
+     * @param  array<array{type: string, url: string}> $funding
      * @return void
      */
     public function setFunding(array $funding);
@@ -179,7 +179,7 @@ interface CompletePackageInterface extends PackageInterface
     /**
      * Returns default base filename for archive
      *
-     * @return ?string
+     * @return array
      */
     public function getArchiveName();
 
@@ -194,7 +194,7 @@ interface CompletePackageInterface extends PackageInterface
     /**
      * Returns a list of patterns to exclude from package archives
      *
-     * @return string[]
+     * @return array
      */
     public function getArchiveExcludes();
 

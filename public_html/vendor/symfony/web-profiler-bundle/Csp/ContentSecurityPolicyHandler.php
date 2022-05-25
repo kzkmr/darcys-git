@@ -221,7 +221,7 @@ class ContentSecurityPolicyHandler
     private function hasHashOrNonce(array $directives): bool
     {
         foreach ($directives as $directive) {
-            if (!str_ends_with($directive, '\'')) {
+            if ('\'' !== substr($directive, -1)) {
                 continue;
             }
             if ('\'nonce-' === substr($directive, 0, 7)) {

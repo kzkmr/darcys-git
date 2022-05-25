@@ -15,7 +15,6 @@ namespace Composer\Repository\Vcs;
 use Composer\Config;
 use Composer\Cache;
 use Composer\IO\IOInterface;
-use Composer\Pcre\Preg;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\Perforce;
 
@@ -24,15 +23,13 @@ use Composer\Util\Perforce;
  */
 class PerforceDriver extends VcsDriver
 {
-    /** @var string */
     protected $depot;
-    /** @var string */
     protected $branch;
     /** @var ?Perforce */
     protected $perforce = null;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function initialize()
     {
@@ -48,20 +45,17 @@ class PerforceDriver extends VcsDriver
 
         $this->perforce->writeP4ClientSpec();
         $this->perforce->connectClient();
+
+        return true;
     }
 
-    /**
-     * @param array<string, mixed> $repoConfig
-     *
-     * @return void
-     */
     private function initPerforce($repoConfig)
     {
         if (!empty($this->perforce)) {
             return;
         }
 
-        if (!Cache::isUsable((string) $this->config->get('cache-vcs-dir'))) {
+        if (!Cache::isUsable($this->config->get('cache-vcs-dir'))) {
             throw new \RuntimeException('PerforceDriver requires a usable cache directory, and it looks like you set it to be disabled');
         }
 
@@ -70,7 +64,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getFileContent($file, $identifier)
     {
@@ -78,7 +72,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getChangeDate($identifier)
     {
@@ -86,7 +80,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getRootIdentifier()
     {
@@ -94,7 +88,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getBranches()
     {
@@ -102,7 +96,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getTags()
     {
@@ -110,7 +104,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getDist($identifier)
     {
@@ -118,7 +112,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getSource($identifier)
     {
@@ -131,7 +125,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getUrl()
     {
@@ -139,7 +133,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function hasComposerFile($identifier)
     {
@@ -149,7 +143,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getContents($url)
     {
@@ -157,11 +151,11 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function supports(IOInterface $io, Config $config, $url, $deep = false)
     {
-        if ($deep || Preg::isMatch('#\b(perforce|p4)\b#i', $url)) {
+        if ($deep || preg_match('#\b(perforce|p4)\b#i', $url)) {
             return Perforce::checkServerExists($url, new ProcessExecutor($io));
         }
 
@@ -169,7 +163,7 @@ class PerforceDriver extends VcsDriver
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function cleanup()
     {
@@ -177,17 +171,11 @@ class PerforceDriver extends VcsDriver
         $this->perforce = null;
     }
 
-    /**
-     * @return string
-     */
     public function getDepot()
     {
         return $this->depot;
     }
 
-    /**
-     * @return string
-     */
     public function getBranch()
     {
         return $this->branch;

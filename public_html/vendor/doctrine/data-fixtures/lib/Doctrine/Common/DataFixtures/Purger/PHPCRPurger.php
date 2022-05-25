@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\Common\DataFixtures\Purger;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
@@ -10,13 +8,17 @@ use PHPCR\Util\NodeHelper;
 
 /**
  * Class responsible for purging databases of data before reloading data fixtures.
+ *
+ * @author Daniel Barsotti <daniel.barsotti@liip.ch>
  */
 class PHPCRPurger implements PurgerInterface
 {
-    /** @var DocumentManagerInterface|null */
+    /**
+     * @var DocumentManagerInterface
+     */
     private $dm;
 
-    public function __construct(?DocumentManagerInterface $dm = null)
+    public function __construct(DocumentManagerInterface $dm = null)
     {
         $this->dm = $dm;
     }
@@ -26,9 +28,6 @@ class PHPCRPurger implements PurgerInterface
         $this->dm = $dm;
     }
 
-    /**
-     * @return DocumentManagerInterface|null
-     */
     public function getObjectManager()
     {
         return $this->dm;

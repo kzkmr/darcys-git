@@ -111,7 +111,7 @@ class ErrorHandler
     public static function register(self $handler = null, bool $replace = true): self
     {
         if (null === self::$reservedMemory) {
-            self::$reservedMemory = str_repeat('x', 32768);
+            self::$reservedMemory = str_repeat('x', 10240);
             register_shutdown_function(__CLASS__.'::handleFatalError');
         }
 
@@ -196,7 +196,7 @@ class ErrorHandler
      * Sets a logger to non assigned errors levels.
      *
      * @param LoggerInterface $logger  A PSR-3 logger to put as default for the given levels
-     * @param array|int|null  $levels  An array map of E_* to LogLevel::* or an integer bit field of E_* constants
+     * @param array|int       $levels  An array map of E_* to LogLevel::* or an integer bit field of E_* constants
      * @param bool            $replace Whether to replace or not any existing logger
      */
     public function setDefaultLogger(LoggerInterface $logger, $levels = \E_ALL, bool $replace = false): void
@@ -342,7 +342,7 @@ class ErrorHandler
     public function traceAt(int $levels, bool $replace = false): int
     {
         $prev = $this->tracedErrors;
-        $this->tracedErrors = $levels;
+        $this->tracedErrors = (int) $levels;
         if (!$replace) {
             $this->tracedErrors |= $prev;
         }
@@ -609,9 +609,7 @@ class ErrorHandler
         }
 
         $loggedErrors = $this->loggedErrors;
-        if ($exception === $handlerException) {
-            $this->loggedErrors &= ~$type;
-        }
+        $this->loggedErrors = $exception === $handlerException ? 0 : $this->loggedErrors;
 
         try {
             $this->handleException($handlerException);

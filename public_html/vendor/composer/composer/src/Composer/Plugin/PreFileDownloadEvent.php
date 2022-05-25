@@ -48,7 +48,7 @@ class PreFileDownloadEvent extends Event
     private $context;
 
     /**
-     * @var mixed[]
+     * @var array
      */
     private $transportOptions = array();
 
@@ -92,8 +92,6 @@ class PreFileDownloadEvent extends Event
      * Sets the processed URL that will be downloaded.
      *
      * @param string $processedUrl New processed URL
-     *
-     * @return void
      */
     public function setProcessedUrl($processedUrl)
     {
@@ -114,8 +112,6 @@ class PreFileDownloadEvent extends Event
      * Sets a custom package cache key for this download.
      *
      * @param string|null $customCacheKey New cache key
-     *
-     * @return void
      */
     public function setCustomCacheKey($customCacheKey)
     {
@@ -150,7 +146,7 @@ class PreFileDownloadEvent extends Event
      *
      * Only available for events with type metadata, for packages set the transport options on the package itself.
      *
-     * @return mixed[]
+     * @return array
      */
     public function getTransportOptions()
     {
@@ -162,9 +158,7 @@ class PreFileDownloadEvent extends Event
      *
      * Only available for events with type metadata, for packages set the transport options on the package itself.
      *
-     * @param mixed[] $options
-     *
-     * @return void
+     * @param array $options
      */
     public function setTransportOptions(array $options)
     {

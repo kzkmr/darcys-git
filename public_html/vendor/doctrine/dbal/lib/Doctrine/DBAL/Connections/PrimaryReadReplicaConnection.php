@@ -367,11 +367,11 @@ class PrimaryReadReplicaConnection extends Connection
     /**
      * {@inheritDoc}
      */
-    public function exec($sql)
+    public function exec($statement)
     {
         $this->ensureConnectedToPrimary();
 
-        return parent::exec($sql);
+        return parent::exec($statement);
     }
 
     /**
@@ -433,10 +433,10 @@ class PrimaryReadReplicaConnection extends Connection
     /**
      * {@inheritDoc}
      */
-    public function prepare($sql)
+    public function prepare($statement)
     {
         $this->ensureConnectedToPrimary();
 
-        return parent::prepare($sql);
+        return parent::prepare($statement);
     }
 }

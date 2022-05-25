@@ -14,7 +14,6 @@ namespace Composer\Repository;
 
 use Composer\Package\PackageInterface;
 use Composer\Package\BasePackage;
-use Composer\Pcre\Preg;
 
 /**
  * Filters which packages are seen as canonical on this repo by loadPackages
@@ -23,31 +22,28 @@ use Composer\Pcre\Preg;
  */
 class FilterRepository implements RepositoryInterface
 {
-    /** @var ?string */
-    private $only = null;
-    /** @var ?non-empty-string */
-    private $exclude = null;
-    /** @var bool */
+    private $only = array();
+    private $exclude = array();
     private $canonical = true;
-    /** @var RepositoryInterface */
     private $repo;
 
-    /**
-     * @param array{only?: array<string>, exclude?: array<string>, canonical?: bool} $options
-     */
     public function __construct(RepositoryInterface $repo, array $options)
     {
         if (isset($options['only'])) {
             if (!is_array($options['only'])) {
                 throw new \InvalidArgumentException('"only" key for repository '.$repo->getRepoName().' should be an array');
             }
-            $this->only = BasePackage::packageNamesToRegexp($options['only']);
+            $this->only = '{^'.implode('|', array_map(function ($val) {
+                return BasePackage::packageNameToRegexp($val, '%s');
+            }, $options['only'])) .'$}iD';
         }
         if (isset($options['exclude'])) {
             if (!is_array($options['exclude'])) {
                 throw new \InvalidArgumentException('"exclude" key for repository '.$repo->getRepoName().' should be an array');
             }
-            $this->exclude = BasePackage::packageNamesToRegexp($options['exclude']);
+            $this->exclude = '{^'.implode('|', array_map(function ($val) {
+                return BasePackage::packageNameToRegexp($val, '%s');
+            }, $options['exclude'])) .'$}iD';
         }
         if ($this->exclude && $this->only) {
             throw new \InvalidArgumentException('Only one of "only" and "exclude" can be specified for repository '.$repo->getRepoName());
@@ -78,7 +74,7 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function hasPackage(PackageInterface $package)
     {
@@ -86,7 +82,7 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findPackage($name, $constraint)
     {
@@ -98,7 +94,7 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findPackages($name, $constraint = null)
     {
@@ -110,7 +106,7 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function loadPackages(array $packageMap, array $acceptableStabilities, array $stabilityFlags, array $alreadyLoaded = array())
     {
@@ -133,7 +129,7 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function search($query, $mode = 0, $type = null)
     {
@@ -149,7 +145,7 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getPackages()
     {
@@ -164,7 +160,7 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getProviders($packageName)
     {
@@ -179,9 +175,16 @@ class FilterRepository implements RepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    #[\ReturnTypeWillChange]
+    public function removePackage(PackageInterface $package)
+    {
+        return $this->repo->removePackage($package);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count()
     {
         if ($this->repo->count() > 0) {
@@ -191,11 +194,6 @@ class FilterRepository implements RepositoryInterface
         return 0;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     private function isAllowed($name)
     {
         if (!$this->only && !$this->exclude) {
@@ -203,13 +201,9 @@ class FilterRepository implements RepositoryInterface
         }
 
         if ($this->only) {
-            return Preg::isMatch($this->only, $name);
+            return (bool) preg_match($this->only, $name);
         }
 
-        if ($this->exclude === null) {
-            return true;
-        }
-
-        return !Preg::isMatch($this->exclude, $name);
+        return !preg_match($this->exclude, $name);
     }
 }

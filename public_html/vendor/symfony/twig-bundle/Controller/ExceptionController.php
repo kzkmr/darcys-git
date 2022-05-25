@@ -64,7 +64,7 @@ class ExceptionController
         $code = $exception->getStatusCode();
 
         return new Response($this->twig->render(
-            $this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
+            (string) $this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
             [
                 'status_code' => $code,
                 'status_text' => Response::$statusTexts[$code] ?? '',

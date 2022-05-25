@@ -26,36 +26,36 @@ abstract class BaseRelation
 
     abstract public function isOwning(): bool;
 
-    public function getPropertyName(): string
+    public function getPropertyName()
     {
         return $this->propertyName;
     }
 
-    public function setPropertyName(string $propertyName): self
+    public function setPropertyName($propertyName)
     {
         $this->propertyName = $propertyName;
 
         return $this;
     }
 
-    public function getTargetClassName(): string
+    public function getTargetClassName()
     {
         return $this->targetClassName;
     }
 
-    public function setTargetClassName(string $targetClassName): self
+    public function setTargetClassName($targetClassName)
     {
         $this->targetClassName = $targetClassName;
 
         return $this;
     }
 
-    public function getTargetPropertyName(): ?string
+    public function getTargetPropertyName()
     {
         return $this->targetPropertyName;
     }
 
-    public function setTargetPropertyName(?string $targetPropertyName): self
+    public function setTargetPropertyName($targetPropertyName)
     {
         $this->targetPropertyName = $targetPropertyName;
 
@@ -67,7 +67,7 @@ abstract class BaseRelation
         return $this->isSelfReferencing;
     }
 
-    public function setIsSelfReferencing(bool $isSelfReferencing): self
+    public function setIsSelfReferencing(bool $isSelfReferencing)
     {
         $this->isSelfReferencing = $isSelfReferencing;
 
@@ -79,7 +79,7 @@ abstract class BaseRelation
         return $this->mapInverseRelation;
     }
 
-    public function setMapInverseRelation(bool $mapInverseRelation): self
+    public function setMapInverseRelation(bool $mapInverseRelation)
     {
         $this->mapInverseRelation = $mapInverseRelation;
 
@@ -91,7 +91,7 @@ abstract class BaseRelation
         return $this->avoidSetter;
     }
 
-    public function avoidSetter(bool $avoidSetter = true): self
+    public function avoidSetter(bool $avoidSetter = true)
     {
         $this->avoidSetter = $avoidSetter;
 

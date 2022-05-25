@@ -65,7 +65,7 @@ abstract class SMime
     protected function getStreamIterator($stream): iterable
     {
         while (!feof($stream)) {
-            yield str_replace("\n", "\r\n", str_replace("\r\n", "\n", fread($stream, 16372)));
+            yield fread($stream, 16372);
         }
     }
 
@@ -83,7 +83,7 @@ abstract class SMime
             }
 
             // Handle headers that span multiple lines
-            if (!str_contains($headerLine, ':')) {
+            if (false === strpos($headerLine, ':')) {
                 $headers[$currentHeaderName] .= ' '.trim($headerLine);
                 continue;
             }

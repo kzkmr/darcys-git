@@ -32,15 +32,13 @@ interface PluginInterface
      *
      * @var string
      */
-    const PLUGIN_API_VERSION = '2.2.0';
+    const PLUGIN_API_VERSION = '2.1.0';
 
     /**
      * Apply plugin modifications to Composer
      *
      * @param Composer    $composer
      * @param IOInterface $io
-     *
-     * @return void
      */
     public function activate(Composer $composer, IOInterface $io);
 
@@ -53,8 +51,6 @@ interface PluginInterface
      *
      * @param Composer    $composer
      * @param IOInterface $io
-     *
-     * @return void
      */
     public function deactivate(Composer $composer, IOInterface $io);
 
@@ -65,8 +61,6 @@ interface PluginInterface
      *
      * @param Composer    $composer
      * @param IOInterface $io
-     *
-     * @return void
      */
     public function uninstall(Composer $composer, IOInterface $io);
 }

@@ -12,6 +12,7 @@
 namespace Symfony\Component\Templating\Loader;
 
 use Symfony\Component\Templating\Storage\FileStorage;
+use Symfony\Component\Templating\Storage\Storage;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 
 /**
@@ -38,7 +39,9 @@ class CacheLoader extends Loader
     }
 
     /**
-     * {@inheritdoc}
+     * Loads a template.
+     *
+     * @return Storage|bool false if the template cannot be loaded, a Storage instance otherwise
      */
     public function load(TemplateReferenceInterface $template)
     {
@@ -75,7 +78,11 @@ class CacheLoader extends Loader
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if the template is still fresh.
+     *
+     * @param int $time The last modification time of the cached template (timestamp)
+     *
+     * @return bool
      */
     public function isFresh(TemplateReferenceInterface $template, $time)
     {

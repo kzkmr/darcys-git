@@ -43,7 +43,7 @@ interface Connection
      *
      * @param string $sql
      *
-     * @return int|string
+     * @return int
      */
     public function exec($sql);
 
@@ -52,7 +52,7 @@ interface Connection
      *
      * @param string|null $name
      *
-     * @return string|int|false
+     * @return string
      */
     public function lastInsertId($name = null);
 

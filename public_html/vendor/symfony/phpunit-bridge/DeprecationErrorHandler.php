@@ -12,7 +12,6 @@
 namespace Symfony\Bridge\PhpUnit;
 
 use PHPUnit\Framework\TestResult;
-use PHPUnit\Util\Error\Handler;
 use PHPUnit\Util\ErrorHandler;
 use Symfony\Bridge\PhpUnit\DeprecationErrorHandler\Configuration;
 use Symfony\Bridge\PhpUnit\DeprecationErrorHandler\Deprecation;
@@ -52,7 +51,7 @@ class DeprecationErrorHandler
     ];
 
     private static $isRegistered = false;
-    private static $errorHandler;
+    private static $isAtLeastPhpUnit83;
 
     /**
      * Registers and configures the deprecation handler.
@@ -146,7 +145,7 @@ class DeprecationErrorHandler
 
         $msg = $deprecation->getMessage();
 
-        if (\E_DEPRECATED !== $type && (error_reporting() & $type)) {
+        if (error_reporting() & $type) {
             $group = 'unsilenced';
         } elseif ($deprecation->isLegacy()) {
             $group = 'legacy';
@@ -336,23 +335,16 @@ class DeprecationErrorHandler
 
     private static function getPhpUnitErrorHandler()
     {
-        if (!$eh = self::$errorHandler) {
-            if (class_exists(Handler::class)) {
-                $eh = self::$errorHandler = Handler::class;
-            } elseif (method_exists(ErrorHandler::class, '__invoke')) {
-                $eh = self::$errorHandler = ErrorHandler::class;
-            } else {
-                return self::$errorHandler = 'PHPUnit\Util\ErrorHandler::handleError';
-            }
+        if (!isset(self::$isAtLeastPhpUnit83)) {
+            self::$isAtLeastPhpUnit83 = class_exists(ErrorHandler::class) && method_exists(ErrorHandler::class, '__invoke');
         }
-
-        if ('PHPUnit\Util\ErrorHandler::handleError' === $eh) {
-            return $eh;
+        if (!self::$isAtLeastPhpUnit83) {
+            return 'PHPUnit\Util\ErrorHandler::handleError';
         }
 
         foreach (debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS) as $frame) {
             if (isset($frame['object']) && $frame['object'] instanceof TestResult) {
-                return new $eh(
+                return new ErrorHandler(
                     $frame['object']->getConvertDeprecationsToExceptions(),
                     $frame['object']->getConvertErrorsToExceptions(),
                     $frame['object']->getConvertNoticesToExceptions(),
@@ -396,11 +388,11 @@ class DeprecationErrorHandler
         }
 
         if (\function_exists('stream_isatty')) {
-            return @stream_isatty(\STDOUT);
+            return stream_isatty(\STDOUT);
         }
 
         if (\function_exists('posix_isatty')) {
-            return @posix_isatty(\STDOUT);
+            return posix_isatty(\STDOUT);
         }
 
         $stat = fstat(\STDOUT);

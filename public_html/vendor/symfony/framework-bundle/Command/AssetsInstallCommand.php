@@ -99,7 +99,8 @@ EOT
     {
         /** @var KernelInterface $kernel */
         $kernel = $this->getApplication()->getKernel();
-        $targetArg = rtrim($input->getArgument('target') ?? '', '/');
+        $targetArg = rtrim($input->getArgument('target'), '/');
+
         if (!$targetArg) {
             $targetArg = $this->getPublicDirectory($kernel->getContainer());
         }
@@ -277,6 +278,10 @@ EOT
 
         $composerConfig = json_decode(file_get_contents($composerFilePath), true);
 
-        return $composerConfig['extra']['public-dir'] ?? $defaultPublicDir;
+        if (isset($composerConfig['extra']['public-dir'])) {
+            return $composerConfig['extra']['public-dir'];
+        }
+
+        return $defaultPublicDir;
     }
 }

@@ -104,7 +104,7 @@ final class ContainerLintCommand extends Command
 
             $skippedIds = [];
             foreach ($container->getServiceIds() as $serviceId) {
-                if (str_starts_with($serviceId, '.errored.')) {
+                if (0 === strpos($serviceId, '.errored.')) {
                     $skippedIds[$serviceId] = true;
                 }
             }

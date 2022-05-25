@@ -12,7 +12,6 @@
 
 namespace Composer\Package\Archiver;
 
-use Composer\Pcre\Preg;
 use Composer\Util\Filesystem;
 use FilesystemIterator;
 use Symfony\Component\Finder\Finder;
@@ -36,9 +35,9 @@ class ArchivableFilesFinder extends \FilterIterator
     /**
      * Initializes the internal Symfony Finder with appropriate filters
      *
-     * @param string $sources Path to source files to be archived
-     * @param string[] $excludes Composer's own exclude rules from composer.json
-     * @param bool $ignoreFilters Ignore filters when looking for files
+     * @param string $sources       Path to source files to be archived
+     * @param array  $excludes      Composer's own exclude rules from composer.json
+     * @param bool   $ignoreFilters Ignore filters when looking for files
      */
     public function __construct($sources, array $excludes, $ignoreFilters = false)
     {
@@ -50,6 +49,7 @@ class ArchivableFilesFinder extends \FilterIterator
             $filters = array();
         } else {
             $filters = array(
+                new HgExcludeFilter($sources),
                 new GitExcludeFilter($sources),
                 new ComposerExcludeFilter($sources, $excludes),
             );
@@ -62,7 +62,7 @@ class ArchivableFilesFinder extends \FilterIterator
                 return false;
             }
 
-            $relativePath = Preg::replace(
+            $relativePath = preg_replace(
                 '#^'.preg_quote($sources, '#').'#',
                 '',
                 $fs->normalizePath($file->getRealPath())
@@ -84,13 +84,11 @@ class ArchivableFilesFinder extends \FilterIterator
             ->in($sources)
             ->filter($filter)
             ->ignoreVCS(true)
-            ->ignoreDotFiles(false)
-            ->sortByName();
+            ->ignoreDotFiles(false);
 
         parent::__construct($this->finder->getIterator());
     }
 
-    #[\ReturnTypeWillChange]
     public function accept()
     {
         /** @var SplFileInfo $current */

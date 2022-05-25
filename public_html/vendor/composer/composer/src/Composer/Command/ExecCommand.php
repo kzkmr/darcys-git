@@ -22,9 +22,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class ExecCommand extends BaseCommand
 {
-    /**
-     * @return void
-     */
     protected function configure()
     {
         $this
@@ -49,9 +46,6 @@ EOT
         ;
     }
 
-    /**
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $composer = $this->getComposer();

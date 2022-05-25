@@ -27,7 +27,7 @@ abstract class AccountStatusException extends AuthenticationException
     /**
      * Get the user.
      *
-     * @return UserInterface|null
+     * @return UserInterface
      */
     public function getUser()
     {

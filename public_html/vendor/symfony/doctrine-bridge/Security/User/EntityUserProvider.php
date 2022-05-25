@@ -144,7 +144,7 @@ class EntityUserProvider implements UserProviderInterface, PasswordUpgraderInter
         if (null === $this->class) {
             $class = $this->classOrAlias;
 
-            if (str_contains($class, ':')) {
+            if (false !== strpos($class, ':')) {
                 $class = $this->getClassMetadata()->getName();
             }
 

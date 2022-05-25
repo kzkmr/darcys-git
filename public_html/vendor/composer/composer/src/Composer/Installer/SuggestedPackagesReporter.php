@@ -14,7 +14,6 @@ namespace Composer\Installer;
 
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
-use Composer\Pcre\Preg;
 use Composer\Repository\InstalledRepository;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 
@@ -30,7 +29,7 @@ class SuggestedPackagesReporter
     const MODE_BY_SUGGESTION = 4;
 
     /**
-     * @var array<array{source: string, target: string, reason: string}>
+     * @var array
      */
     protected $suggestedPackages = array();
 
@@ -45,7 +44,7 @@ class SuggestedPackagesReporter
     }
 
     /**
-     * @return array<array{source: string, target: string, reason: string}> Suggested packages with source, target and reason keys.
+     * @return array Suggested packages with source, target and reason keys.
      */
     public function getPackages()
     {
@@ -181,7 +180,7 @@ class SuggestedPackagesReporter
     /**
      * @param  InstalledRepository|null $installedRepo    If passed in, suggested packages which are installed already will be skipped
      * @param  PackageInterface|null    $onlyDependentsOf If passed in, only the suggestions from direct dependents of that package, or from the package itself, will be shown
-     * @return mixed[]
+     * @return array[]
      */
     private function getFilteredSuggestions(InstalledRepository $installedRepo = null, PackageInterface $onlyDependentsOf = null)
     {
@@ -233,7 +232,7 @@ class SuggestedPackagesReporter
      */
     private function removeControlCharacters($string)
     {
-        return Preg::replace(
+        return preg_replace(
             '/[[:cntrl:]]/',
             '',
             str_replace("\n", ' ', $string)

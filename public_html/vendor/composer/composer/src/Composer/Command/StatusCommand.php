@@ -37,7 +37,6 @@ class StatusCommand extends BaseCommand
     const EXIT_CODE_VERSION_CHANGES = 4;
 
     /**
-     * @return void
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     protected function configure()
@@ -60,6 +59,8 @@ EOT
     }
 
     /**
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -81,6 +82,7 @@ EOT
     }
 
     /**
+     * @param  InputInterface $input
      * @return int
      */
     private function doExecute(InputInterface $input)

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\LazyLoadingGhost\MethodGenerator;
 
-use Closure;
 use Laminas\Code\Generator\ParameterGenerator;
 use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MethodGenerator;
@@ -22,7 +21,7 @@ class SetProxyInitializer extends MethodGenerator
     {
         parent::__construct(
             'setProxyInitializer',
-            [(new ParameterGenerator('initializer', Closure::class))->setDefaultValue(null)],
+            [(new ParameterGenerator('initializer', 'Closure'))->setDefaultValue(null)],
             self::FLAG_PUBLIC,
             '$this->' . $initializerProperty->getName() . ' = $initializer;'
         );

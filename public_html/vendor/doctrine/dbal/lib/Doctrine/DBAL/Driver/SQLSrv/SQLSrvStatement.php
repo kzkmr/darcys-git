@@ -11,7 +11,6 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use IteratorAggregate;
 use PDO;
-use ReturnTypeWillChange;
 
 use function array_key_exists;
 use function count;
@@ -350,7 +349,6 @@ class SQLSrvStatement implements IteratorAggregate, StatementInterface, Result
      *
      * @deprecated Use iterateNumeric(), iterateAssociative() or iterateColumn() instead.
      */
-    #[ReturnTypeWillChange]
     public function getIterator()
     {
         return new StatementIterator($this);

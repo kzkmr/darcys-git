@@ -27,7 +27,7 @@ final class ConsoleErrorSubscriber implements EventSubscriberInterface
 {
     private $setExitCode = false;
 
-    public function onConsoleError(ConsoleErrorEvent $event): void
+    public function onConsoleError(ConsoleErrorEvent $event)
     {
         if (!$event->getError() instanceof RuntimeCommandException) {
             return;
@@ -43,7 +43,7 @@ final class ConsoleErrorSubscriber implements EventSubscriberInterface
         $io->error($event->getError()->getMessage());
     }
 
-    public function onConsoleTerminate(ConsoleTerminateEvent $event): void
+    public function onConsoleTerminate(ConsoleTerminateEvent $event)
     {
         if (!$this->setExitCode) {
             return;
@@ -53,7 +53,7 @@ final class ConsoleErrorSubscriber implements EventSubscriberInterface
         $event->setExitCode(1);
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents()
     {
         return [
             ConsoleEvents::ERROR => 'onConsoleError',

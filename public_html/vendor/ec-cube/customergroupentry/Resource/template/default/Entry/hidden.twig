@@ -1,0 +1,8 @@
+{#
+    Entry/index.twigとEntry/confirm.twigに追記
+    {{ include('@CustomerGroupEntry/default/Entry/hidden.twig', ignore_missing=true) }}
+#}
+{% if form.groups is defined %}
+    {{ form_widget(form.groups) }}
+    {{ form_errors(form.groups) }}
+{% endif %}

@@ -232,6 +232,10 @@ class OptionsResolver implements Options
     }
 
     /**
+     * Sets a list of default values.
+     *
+     * @param array $defaults The default values to set
+     *
      * @return $this
      *
      * @throws AccessException If called from a lazy option or normalizer
@@ -464,7 +468,8 @@ class OptionsResolver implements Options
      *
      * The resolved option value is set to the return value of the closure.
      *
-     * @param string $option The option name
+     * @param string   $option     The option name
+     * @param \Closure $normalizer The normalizer
      *
      * @return $this
      *
@@ -506,6 +511,10 @@ class OptionsResolver implements Options
      * the option.
      *
      * The resolved option value is set to the return value of the closure.
+     *
+     * @param string   $option       The option name
+     * @param \Closure $normalizer   The normalizer
+     * @param bool     $forcePrepend If set to true, prepend instead of appending
      *
      * @return $this
      *
@@ -758,6 +767,8 @@ class OptionsResolver implements Options
      *  - Options have invalid types;
      *  - Options have invalid values.
      *
+     * @param array $options A map of option names to values
+     *
      * @return array The merged and validated options
      *
      * @throws UndefinedOptionsException If an option name is undefined
@@ -832,7 +843,6 @@ class OptionsResolver implements Options
      * @throws OptionDefinitionException If there is a cyclic dependency between
      *                                   lazy options and/or normalizers
      */
-    #[\ReturnTypeWillChange]
     public function offsetGet($option/*, bool $triggerDeprecation = true*/)
     {
         if (!$this->locked) {
@@ -928,7 +938,7 @@ class OptionsResolver implements Options
                 $fmtAllowedTypes = implode('" or "', $this->allowedTypes[$option]);
                 $fmtProvidedTypes = implode('|', array_keys($invalidTypes));
                 $allowedContainsArrayType = \count(array_filter($this->allowedTypes[$option], static function ($item) {
-                    return str_ends_with(self::TYPE_ALIASES[$item] ?? $item, '[]');
+                    return '[]' === substr(self::TYPE_ALIASES[$item] ?? $item, -2);
                 })) > 0;
 
                 if (\is_array($value) && $allowedContainsArrayType) {
@@ -1073,7 +1083,6 @@ class OptionsResolver implements Options
      *
      * @see \ArrayAccess::offsetExists()
      */
-    #[\ReturnTypeWillChange]
     public function offsetExists($option)
     {
         if (!$this->locked) {
@@ -1086,11 +1095,8 @@ class OptionsResolver implements Options
     /**
      * Not supported.
      *
-     * @return void
-     *
      * @throws AccessException
      */
-    #[\ReturnTypeWillChange]
     public function offsetSet($option, $value)
     {
         throw new AccessException('Setting options via array access is not supported. Use setDefault() instead.');
@@ -1099,11 +1105,8 @@ class OptionsResolver implements Options
     /**
      * Not supported.
      *
-     * @return void
-     *
      * @throws AccessException
      */
-    #[\ReturnTypeWillChange]
     public function offsetUnset($option)
     {
         throw new AccessException('Removing options via array access is not supported. Use remove() instead.');
@@ -1120,7 +1123,6 @@ class OptionsResolver implements Options
      *
      * @see \Countable::count()
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         if (!$this->locked) {

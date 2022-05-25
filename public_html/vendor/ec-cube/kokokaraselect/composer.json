@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/kokokaraselect",
+  "version": "2.1.0",
+  "description": "ココから選択",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.7 || ^2.0"
+  },
+  "extra": {
+    "code": "KokokaraSelect"
+  }
+}

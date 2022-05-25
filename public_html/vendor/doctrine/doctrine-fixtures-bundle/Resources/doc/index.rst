@@ -74,6 +74,10 @@ Create a fixtures class and start adding products::
         }
     }
 
+.. tip::
+
+    You can also create multiple fixtures classes. See :ref:`multiple-files`.
+
 Loading Fixtures
 ----------------
 
@@ -108,15 +112,15 @@ class. No problem! Your fixtures class is a service, so you can use normal depen
 injection::
 
     // src/DataFixtures/AppFixtures.php
-    use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+    use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
     class AppFixtures extends Fixture
     {
-        private UserPasswordHasherInterface $hasher;
+        private $encoder;
 
-        public function __construct(UserPasswordHasherInterface $hasher)
+        public function __construct(UserPasswordEncoderInterface $encoder)
         {
-            $this->hasher = $hasher;
+            $this->encoder = $encoder;
         }
 
         // ...
@@ -125,7 +129,7 @@ injection::
             $user = new User();
             $user->setUsername('admin');
 
-            $password = $this->hasher->hashPassword($user, 'pass_1234');
+            $password = $this->encoder->encodePassword($user, 'pass_1234');
             $user->setPassword($password);
 
             $manager->persist($user);
@@ -152,9 +156,7 @@ Sharing Objects between Fixtures
 When using multiple fixtures files, you can reuse PHP objects across different
 files thanks to the **object references**. Use the ``addReference()`` method to
 give a name to any object and then, use the ``getReference()`` method to get the
-exact same object via its name:
-
-.. code-block:: php
+exact same object via its name::
 
     // src/DataFixtures/UserFixtures.php
     // ...
@@ -172,8 +174,6 @@ exact same object via its name:
             $this->addReference(self::ADMIN_USER_REFERENCE, $userAdmin);
         }
     }
-
-.. code-block:: php
 
     // src/DataFixtures/GroupFixtures.php
     // ...
@@ -232,9 +232,9 @@ an array of the fixture classes that must be loaded before this one::
 
         public function getDependencies()
         {
-            return [
+            return array(
                 UserFixtures::class,
-            ];
+            );
         }
     }
 
@@ -327,7 +327,7 @@ You can also customize purging behavior significantly more and implement a custo
 
     class CustomPurgerFactory implements PurgerFactory
     {
-        public function createForEntityManager(?string $emName, EntityManagerInterface $em, array $excluded = [], bool $purgeWithTruncate = false) : PurgerInterface
+        public function createForEntityManager(?string $emName, EntityManagerInterface $em, array $excluded = [], bool $purgeWithTruncate = false) : PurgerInterface;
         {
             return new CustomPurger($em);
         }

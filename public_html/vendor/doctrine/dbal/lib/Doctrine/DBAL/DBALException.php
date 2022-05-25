@@ -156,7 +156,7 @@ class DBALException extends \Exception
 
         $msg .= ":\n\n" . $driverEx->getMessage();
 
-        return self::wrapException($driver, $driverEx, $msg);
+        return static::wrapException($driver, $driverEx, $msg);
     }
 
     /**
@@ -166,7 +166,7 @@ class DBALException extends \Exception
      */
     public static function driverException(Driver $driver, Throwable $driverEx)
     {
-        return self::wrapException($driver, $driverEx, 'An exception occurred in driver: ' . $driverEx->getMessage());
+        return static::wrapException($driver, $driverEx, 'An exception occurred in driver: ' . $driverEx->getMessage());
     }
 
     /**

@@ -22,16 +22,14 @@ interface VcsDriverInterface
 {
     /**
      * Initializes the driver (git clone, svn checkout, fetch info etc)
-     *
-     * @return void
      */
     public function initialize();
 
     /**
      * Return the composer.json file information
      *
-     * @param  string  $identifier Any identifier to a specific branch/tag/commit
-     * @return mixed[] containing all infos from the composer.json file
+     * @param  string $identifier Any identifier to a specific branch/tag/commit
+     * @return array  containing all infos from the composer.json file
      */
     public function getComposerInformation($identifier);
 
@@ -62,28 +60,26 @@ interface VcsDriverInterface
     /**
      * Return list of branches in the repository
      *
-     * @return array<int|string, string> Branch names as keys, identifiers as values
+     * @return array Branch names as keys, identifiers as values
      */
     public function getBranches();
 
     /**
      * Return list of tags in the repository
      *
-     * @return array<int|string, string> Tag names as keys, identifiers as values
+     * @return array Tag names as keys, identifiers as values
      */
     public function getTags();
 
     /**
-     * @param string $identifier Any identifier to a specific branch/tag/commit
-     *
-     * @return array{type: string, url: string, reference: string, shasum: string}|null
+     * @param  string     $identifier Any identifier to a specific branch/tag/commit
+     * @return array|null With type, url reference and shasum keys.
      */
     public function getDist($identifier);
 
     /**
-     * @param string $identifier Any identifier to a specific branch/tag/commit
-     *
-     * @return array{type: string, url: string, reference: string}
+     * @param  string $identifier Any identifier to a specific branch/tag/commit
+     * @return array  With type, url and reference keys.
      */
     public function getSource($identifier);
 
@@ -105,8 +101,6 @@ interface VcsDriverInterface
 
     /**
      * Performs any cleanup necessary as the driver is not longer needed
-     *
-     * @return void
      */
     public function cleanup();
 

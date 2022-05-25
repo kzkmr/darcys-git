@@ -45,7 +45,6 @@ class TemplateIterator implements \IteratorAggregate
     /**
      * @return \Traversable
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         if (null !== $this->templates) {
@@ -62,7 +61,7 @@ class TemplateIterator implements \IteratorAggregate
         }
         foreach ($this->kernel->getBundles() as $bundle) {
             $name = $bundle->getName();
-            if (str_ends_with($name, 'Bundle')) {
+            if ('Bundle' === substr($name, -6)) {
                 $name = substr($name, 0, -6);
             }
 

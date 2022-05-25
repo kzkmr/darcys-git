@@ -16,7 +16,6 @@ use Composer\Json\JsonFile;
 use Composer\Package\AliasPackage;
 use Composer\Package\BasePackage;
 use Composer\Package\CompletePackageInterface;
-use Composer\Pcre\Preg;
 use Composer\Repository\CompositeRepository;
 use Composer\Semver\Constraint\MatchAllConstraint;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,9 +28,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class FundCommand extends BaseCommand
 {
-    /**
-     * @return void
-     */
     protected function configure()
     {
         $this->setName('fund')
@@ -42,9 +38,6 @@ class FundCommand extends BaseCommand
         ;
     }
 
-    /**
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $composer = $this->getComposer();
@@ -132,10 +125,6 @@ class FundCommand extends BaseCommand
         return 0;
     }
 
-    /**
-     * @param mixed[] $fundings
-     * @return mixed[]
-     */
     private function insertFundingData(array $fundings, CompletePackageInterface $package)
     {
         foreach ($package->getFunding() as $fundingOption) {
@@ -145,7 +134,7 @@ class FundCommand extends BaseCommand
                 continue;
             }
             $url = $fundingOption['url'];
-            if (!empty($fundingOption['type']) && $fundingOption['type'] === 'github' && Preg::isMatch('{^https://github.com/([^/]+)$}', $url, $match)) {
+            if (!empty($fundingOption['type']) && $fundingOption['type'] === 'github' && preg_match('{^https://github.com/([^/]+)$}', $url, $match)) {
                 $url = 'https://github.com/sponsors/'.$match[1];
             }
             $fundings[$vendor][$url][] = $packageName;

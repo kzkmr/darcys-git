@@ -23,9 +23,6 @@ use Composer\Repository\InstalledRepository;
 
 class CheckPlatformReqsCommand extends BaseCommand
 {
-    /**
-     * @return void
-     */
     protected function configure()
     {
         $this->setName('check-platform-reqs')
@@ -46,9 +43,6 @@ EOT
             );
     }
 
-    /**
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $composer = $this->getComposer();
@@ -172,11 +166,6 @@ EOT
         return $exitCode;
     }
 
-    /**
-     * @param mixed[] $results
-     *
-     * @return void
-     */
     protected function printTable(OutputInterface $output, $results)
     {
         $rows = array();

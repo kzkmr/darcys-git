@@ -23,7 +23,7 @@ final class ORMDependencyBuilder
     /**
      * Central method to add dependencies needed for Doctrine ORM.
      */
-    public static function buildDependencies(DependencyBuilder $dependencies): void
+    public static function buildDependencies(DependencyBuilder $dependencies)
     {
         $classes = [
             // guarantee DoctrineBundle

@@ -40,11 +40,11 @@ final class EntityRegenerator
         $this->overwrite = $overwrite;
     }
 
-    public function regenerateEntities(string $classOrNamespace): void
+    public function regenerateEntities(string $classOrNamespace)
     {
         try {
             $metadata = $this->doctrineHelper->getMetadata($classOrNamespace);
-        } catch (MappingException|LegacyCommonMappingException|PersistenceMappingException $mappingException) {
+        } catch (MappingException | LegacyCommonMappingException | PersistenceMappingException $mappingException) {
             $metadata = $this->doctrineHelper->getMetadata($classOrNamespace, true);
         }
 
@@ -87,10 +87,6 @@ final class EntityRegenerator
                 $embeddedClasses[$fieldName] = $this->getPathOfClass($className);
 
                 $operations[$embeddedClasses[$fieldName]] = $this->createClassManipulator($embeddedClasses[$fieldName]);
-
-                if (!\in_array($fieldName, $mappedFields)) {
-                    continue;
-                }
 
                 $manipulator->addEmbeddedEntity($fieldName, $className);
             }
@@ -219,7 +215,7 @@ final class EntityRegenerator
         return (new \ReflectionClass($class))->getFileName();
     }
 
-    private function generateRepository(ClassMetadata $metadata): void
+    private function generateRepository(ClassMetadata $metadata)
     {
         if (!$metadata->customRepositoryClassName) {
             return;
@@ -239,15 +235,14 @@ final class EntityRegenerator
         $this->generator->writeChanges();
     }
 
-    private function getMappedFieldsInEntity(ClassMetadata $classMetadata): array
+    private function getMappedFieldsInEntity(ClassMetadata $classMetadata)
     {
-        /** @var \ReflectionClass $classReflection */
+        /* @var $classReflection \ReflectionClass */
         $classReflection = $classMetadata->reflClass;
 
         $targetFields = array_merge(
             array_keys($classMetadata->fieldMappings),
-            array_keys($classMetadata->associationMappings),
-            array_keys($classMetadata->embeddedClasses)
+            array_keys($classMetadata->associationMappings)
         );
 
         if ($classReflection) {

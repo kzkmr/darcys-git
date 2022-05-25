@@ -23,9 +23,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SuggestsCommand extends BaseCommand
 {
-    /**
-     * @return void
-     */
     protected function configure()
     {
         $this
@@ -51,7 +48,7 @@ EOT
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

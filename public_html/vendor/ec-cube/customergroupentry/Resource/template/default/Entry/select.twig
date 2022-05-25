@@ -1,0 +1,17 @@
+{#
+    Entry/index.twigに追記
+    {{ include('@CustomerGroupEntry/default/Entry/select.twig', ignore_missing=true) }}
+#}
+{% if form.groups is defined %}
+    <dl>
+        <dt>
+            {{ form_label(form.groups, 'customer_group_entry.front.group.label', { 'label_attr': { 'class': 'ec-label' }}) }}
+        </dt>
+        <dd>
+            <div class="ec-select{{ has_errors(form.groups) ? ' error' }}">
+                {{ form_widget(form.groups) }}
+                {{ form_errors(form.groups) }}
+            </div>
+        </dd>
+    </dl>
+{% endif %}

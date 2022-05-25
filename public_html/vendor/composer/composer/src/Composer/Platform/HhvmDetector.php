@@ -18,30 +18,21 @@ use Symfony\Component\Process\ExecutableFinder;
 
 class HhvmDetector
 {
-    /** @var string|false|null */
-    private static $hhvmVersion = null;
-    /** @var ?ExecutableFinder */
+    private static $hhvmVersion;
     private $executableFinder;
-    /** @var ?ProcessExecutor */
     private $processExecutor;
 
-    public function __construct(ExecutableFinder $executableFinder = null, ProcessExecutor $processExecutor = null)
+    public function __construct(ExecutableFinder  $executableFinder = null, ProcessExecutor $processExecutor = null)
     {
         $this->executableFinder = $executableFinder;
         $this->processExecutor = $processExecutor;
     }
 
-    /**
-     * @return void
-     */
     public function reset()
     {
         self::$hhvmVersion = null;
     }
 
-    /**
-     * @return string|null
-     */
     public function getVersion()
     {
         if (null !== self::$hhvmVersion) {
@@ -66,6 +57,6 @@ class HhvmDetector
             }
         }
 
-        return self::$hhvmVersion ?: null;
+        return self::$hhvmVersion;
     }
 }

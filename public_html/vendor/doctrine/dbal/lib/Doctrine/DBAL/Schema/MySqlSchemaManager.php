@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Type;
 
 use function array_change_key_case;
 use function array_shift;
+use function array_values;
 use function assert;
 use function explode;
 use function is_string;
@@ -305,9 +306,9 @@ class MySqlSchemaManager extends AbstractSchemaManager
         $result = [];
         foreach ($list as $constraint) {
             $result[] = new ForeignKeyConstraint(
-                $constraint['local'],
+                array_values($constraint['local']),
                 $constraint['foreignTable'],
-                $constraint['foreign'],
+                array_values($constraint['foreign']),
                 $constraint['name'],
                 [
                     'onDelete' => $constraint['onDelete'],

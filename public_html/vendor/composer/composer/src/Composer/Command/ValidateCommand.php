@@ -13,7 +13,6 @@
 namespace Composer\Command;
 
 use Composer\Factory;
-use Composer\IO\IOInterface;
 use Composer\Package\Loader\ValidatingArrayLoader;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
@@ -36,7 +35,6 @@ class ValidateCommand extends BaseCommand
 {
     /**
      * configure
-     * @return void
      */
     protected function configure()
     {
@@ -45,7 +43,6 @@ class ValidateCommand extends BaseCommand
             ->setDescription('Validates a composer.json and composer.lock.')
             ->setDefinition(array(
                 new InputOption('no-check-all', null, InputOption::VALUE_NONE, 'Do not validate requires for overly strict/loose constraints'),
-                new InputOption('check-lock', null, InputOption::VALUE_NONE, 'Check if lock file is up to date (even when config.lock is false)'),
                 new InputOption('no-check-lock', null, InputOption::VALUE_NONE, 'Do not check if lock file is up to date'),
                 new InputOption('no-check-publish', null, InputOption::VALUE_NONE, 'Do not check for publish errors'),
                 new InputOption('no-check-version', null, InputOption::VALUE_NONE, 'Do not report a warning if the version field is present'),
@@ -68,6 +65,9 @@ EOT
     }
 
     /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -96,8 +96,6 @@ EOT
 
         $lockErrors = array();
         $composer = Factory::create($io, $file, $input->hasParameterOption('--no-plugins'));
-        // config.lock = false ~= implicit --no-check-lock; --check-lock overrides
-        $checkLock = ($checkLock && $composer->getConfig()->get('lock')) || $input->getOption('check-lock');
         $locker = $composer->getLocker();
         if ($locker->isLocked() && !$locker->isFresh()) {
             $lockErrors[] = '- The lock file is not up to date with the latest changes in composer.json, it is recommended that you run `composer update` or `composer update <package name>`.';
@@ -163,19 +161,7 @@ EOT
         return max($eventCode, $exitCode);
     }
 
-    /**
-     * @param string $name
-     * @param string[] $errors
-     * @param string[] $warnings
-     * @param bool $checkPublish
-     * @param string[] $publishErrors
-     * @param bool $checkLock
-     * @param string[] $lockErrors
-     * @param bool $printSchemaUrl
-     *
-     * @return void
-     */
-    private function outputResult(IOInterface $io, $name, &$errors, &$warnings, $checkPublish = false, $publishErrors = array(), $checkLock = false, $lockErrors = array(), $printSchemaUrl = false)
+    private function outputResult($io, $name, &$errors, &$warnings, $checkPublish = false, $publishErrors = array(), $checkLock = false, $lockErrors = array(), $printSchemaUrl = false)
     {
         $doPrintSchemaUrl = false;
 

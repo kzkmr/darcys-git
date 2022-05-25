@@ -28,7 +28,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DateIntervalType extends AbstractType
 {
-    private const TIME_PARTS = [
+    private $timeParts = [
         'years',
         'months',
         'weeks',
@@ -96,7 +96,7 @@ class DateIntervalType extends AbstractType
         if ('single_text' === $options['widget']) {
             $builder->addViewTransformer(new DateIntervalToStringTransformer($format));
         } else {
-            foreach (self::TIME_PARTS as $part) {
+            foreach ($this->timeParts as $part) {
                 if ($options['with_'.$part]) {
                     $childOptions = [
                         'error_bubbling' => true,
@@ -157,7 +157,7 @@ class DateIntervalType extends AbstractType
             'widget' => $options['widget'],
             'with_invert' => $options['with_invert'],
         ];
-        foreach (self::TIME_PARTS as $part) {
+        foreach ($this->timeParts as $part) {
             $vars['with_'.$part] = $options['with_'.$part];
         }
         $view->vars = array_replace($view->vars, $vars);
@@ -168,6 +168,7 @@ class DateIntervalType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $timeParts = $this->timeParts;
         $compound = function (Options $options) {
             return 'single_text' !== $options['widget'];
         };
@@ -179,14 +180,14 @@ class DateIntervalType extends AbstractType
             return $options['required'] ? null : '';
         };
 
-        $placeholderNormalizer = function (Options $options, $placeholder) use ($placeholderDefault) {
+        $placeholderNormalizer = function (Options $options, $placeholder) use ($placeholderDefault, $timeParts) {
             if (\is_array($placeholder)) {
                 $default = $placeholderDefault($options);
 
-                return array_merge(array_fill_keys(self::TIME_PARTS, $default), $placeholder);
+                return array_merge(array_fill_keys($timeParts, $default), $placeholder);
             }
 
-            return array_fill_keys(self::TIME_PARTS, $placeholder);
+            return array_fill_keys($timeParts, $placeholder);
         };
 
         $labelsNormalizer = function (Options $options, array $labels) {

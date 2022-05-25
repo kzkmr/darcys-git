@@ -54,14 +54,7 @@ trait ApcuTrait
         $unserializeCallbackHandler = ini_set('unserialize_callback_func', __CLASS__.'::handleUnserializeCallback');
         try {
             $values = [];
-            $ids = array_flip($ids);
-            foreach (apcu_fetch(array_keys($ids), $ok) ?: [] as $k => $v) {
-                if (!isset($ids[$k])) {
-                    // work around https://github.com/krakjoe/apcu/issues/247
-                    $k = key($ids);
-                }
-                unset($ids[$k]);
-
+            foreach (apcu_fetch($ids, $ok) ?: [] as $k => $v) {
                 if (null !== $v || $ok) {
                     $values[$k] = $v;
                 }
@@ -119,7 +112,7 @@ trait ApcuTrait
         } catch (\Throwable $e) {
             if (1 === \count($values)) {
                 // Workaround https://github.com/krakjoe/apcu/issues/170
-                apcu_delete(array_key_first($values));
+                apcu_delete(key($values));
             }
 
             throw $e;

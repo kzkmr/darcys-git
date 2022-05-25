@@ -14,38 +14,7 @@ namespace Symfony\Bundle\MakerBundle\Console;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-if (\PHP_VERSION_ID < 80000
-    // look for the "string|iterable" type on OutputInterface::write()
-    || !(new \ReflectionMethod(OutputInterface::class, 'write'))->getParameters()[0]->getType()) {
-    class MigrationDiffFilteredOutput implements OutputInterface
-    {
-        use BaseMakerMigrationDiffFilteredOuputTrait;
-
-        public function write($messages, $newline = false, $options = 0)
-        {
-            $this->_write($messages, $newline, $options);
-        }
-
-        public function writeln($messages, $options = 0)
-        {
-            $this->_writeln($messages, $options);
-        }
-
-        public function setVerbosity($level)
-        {
-            $this->output->setVerbosity($level);
-        }
-
-        public function setDecorated($decorated)
-        {
-            $this->output->setDecorated($decorated);
-        }
-    }
-} else {
-    require __DIR__.'/MigrationDiffFilteredOutput_php8';
-}
-
-trait BaseMakerMigrationDiffFilteredOuputTrait
+class MigrationDiffFilteredOutput implements OutputInterface
 {
     private $output;
     private $buffer = '';
@@ -56,46 +25,56 @@ trait BaseMakerMigrationDiffFilteredOuputTrait
         $this->output = $output;
     }
 
-    public function _write($messages, bool $newline = false, $options = 0)
+    public function write($messages, $newline = false, $options = 0)
     {
         $messages = $this->filterMessages($messages, $newline);
 
         $this->output->write($messages, $newline, $options);
     }
 
-    public function _writeln($messages, int $options = 0)
+    public function writeln($messages, $options = 0)
     {
         $messages = $this->filterMessages($messages, true);
 
         $this->output->writeln($messages, $options);
     }
 
-    public function getVerbosity(): int
+    public function setVerbosity($level)
+    {
+        $this->output->setVerbosity($level);
+    }
+
+    public function getVerbosity()
     {
         return $this->output->getVerbosity();
     }
 
-    public function isQuiet(): bool
+    public function isQuiet()
     {
         return $this->output->isQuiet();
     }
 
-    public function isVerbose(): bool
+    public function isVerbose()
     {
         return $this->output->isVerbose();
     }
 
-    public function isVeryVerbose(): bool
+    public function isVeryVerbose()
     {
         return $this->output->isVeryVerbose();
     }
 
-    public function isDebug(): bool
+    public function isDebug()
     {
         return $this->output->isDebug();
     }
 
-    public function isDecorated(): bool
+    public function setDecorated($decorated)
+    {
+        $this->output->setDecorated($decorated);
+    }
+
+    public function isDecorated()
     {
         return $this->output->isDecorated();
     }
@@ -105,7 +84,7 @@ trait BaseMakerMigrationDiffFilteredOuputTrait
         $this->output->setFormatter($formatter);
     }
 
-    public function getFormatter(): OutputFormatterInterface
+    public function getFormatter()
     {
         return $this->output->getFormatter();
     }

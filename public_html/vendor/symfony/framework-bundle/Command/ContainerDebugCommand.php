@@ -270,7 +270,7 @@ EOF
         $serviceIds = $builder->getServiceIds();
         $foundServiceIds = $foundServiceIdsIgnoringBackslashes = [];
         foreach ($serviceIds as $serviceId) {
-            if (!$showHidden && str_starts_with($serviceId, '.')) {
+            if (!$showHidden && 0 === strpos($serviceId, '.')) {
                 continue;
             }
             if (false !== stripos(str_replace('\\', '', $serviceId), $name)) {
@@ -295,7 +295,7 @@ EOF
         }
 
         // if the id has a \, assume it is a class
-        if (str_contains($serviceId, '\\')) {
+        if (false !== strpos($serviceId, '\\')) {
             return true;
         }
 

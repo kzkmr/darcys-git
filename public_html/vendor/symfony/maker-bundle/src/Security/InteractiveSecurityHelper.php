@@ -184,24 +184,24 @@ authenticators will be ignored, and can be blank.',
 
     public function getAuthenticatorClasses(array $firewallData): array
     {
-        if (isset($firewallData['guard'])) {
-            return array_filter($firewallData['guard']['authenticators'] ?? [], function ($authenticator) {
-                return class_exists($authenticator);
-            });
+        $authenticatorClasses = [];
+
+        if (!isset($firewallData['guard'])) {
+            return [];
         }
 
-        if (isset($firewallData['custom_authenticator'])) {
-            $authenticators = $firewallData['custom_authenticator'];
-            if (\is_string($authenticators)) {
-                $authenticators = [$authenticators];
+        if (!isset($firewallData['guard']['authenticators'])) {
+            return [];
+        }
+
+        foreach ($firewallData['guard']['authenticators'] as $authenticator) {
+            // skip service id's - as they won't work for autowiring
+            if (class_exists($authenticator)) {
+                $authenticatorClasses[] = $authenticator;
             }
-
-            return array_filter($authenticators, function ($authenticator) {
-                return class_exists($authenticator);
-            });
         }
 
-        return [];
+        return $authenticatorClasses;
     }
 
     public function guessPasswordSetter(SymfonyStyle $io, string $userClass): string

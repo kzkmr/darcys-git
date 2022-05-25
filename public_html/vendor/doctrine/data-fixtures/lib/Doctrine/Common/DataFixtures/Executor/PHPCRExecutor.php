@@ -1,42 +1,38 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Doctrine\Common\DataFixtures\Executor;
 
-use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
-
-use function method_exists;
+use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
 
 /**
  * Class responsible for executing data fixtures.
+ *
+ * @author Jonathan H. Wage <jonwage@gmail.com>
+ * @author Daniel Barsotti <daniel.barsotti@liip.ch>
  */
 class PHPCRExecutor extends AbstractExecutor
 {
-    /** @var DocumentManagerInterface */
+    /**
+     * @var DocumentManagerInterface
+     */
     private $dm;
 
     /**
      * @param DocumentManagerInterface $dm     manager instance used for persisting the fixtures
      * @param PHPCRPurger              $purger to remove the current data if append is false
      */
-    public function __construct(DocumentManagerInterface $dm, ?PHPCRPurger $purger = null)
+    public function __construct(DocumentManagerInterface $dm, PHPCRPurger $purger = null)
     {
         parent::__construct($dm);
 
         $this->dm = $dm;
-        if ($purger === null) {
-            return;
+        if ($purger !== null) {
+            $purger->setDocumentManager($dm);
+            $this->setPurger($purger);
         }
-
-        $purger->setDocumentManager($dm);
-        $this->setPurger($purger);
     }
 
-    /**
-     * @return DocumentManagerInterface
-     */
     public function getObjectManager()
     {
         return $this->dm;
@@ -47,7 +43,7 @@ class PHPCRExecutor extends AbstractExecutor
     {
         $that = $this;
 
-        $function = static function ($dm) use ($append, $that, $fixtures) {
+        $function = function ($dm) use ($append, $that, $fixtures) {
             if ($append === false) {
                 $that->purge();
             }
@@ -64,3 +60,4 @@ class PHPCRExecutor extends AbstractExecutor
         }
     }
 }
+

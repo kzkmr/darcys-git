@@ -96,7 +96,7 @@ abstract class AbstractConfigCommand extends ContainerDebugCommand
             }
         }
 
-        if (!str_ends_with($name, 'Bundle')) {
+        if ('Bundle' !== substr($name, -6)) {
             $message = sprintf('No extensions with configuration available for "%s".', $name);
         } else {
             $message = sprintf('No extension with alias "%s" is enabled.', $name);

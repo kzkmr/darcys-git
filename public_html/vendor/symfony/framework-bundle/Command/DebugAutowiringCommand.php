@@ -80,7 +80,7 @@ EOF
 
         if ($search = $input->getArgument('search')) {
             $serviceIds = array_filter($serviceIds, function ($serviceId) use ($search) {
-                return false !== stripos(str_replace('\\', '', $serviceId), $search) && !str_starts_with($serviceId, '.');
+                return false !== stripos(str_replace('\\', '', $serviceId), $search) && 0 !== strpos($serviceId, '.');
             });
 
             if (empty($serviceIds)) {
@@ -104,7 +104,7 @@ EOF
         foreach ($serviceIds as $serviceId) {
             $text = [];
             $resolvedServiceId = $serviceId;
-            if (!str_starts_with($serviceId, $previousId)) {
+            if (0 !== strpos($serviceId, $previousId)) {
                 $text[] = '';
                 if ('' !== $description = Descriptor::getClassDescription($serviceId, $resolvedServiceId)) {
                     if (isset($hasAlias[$serviceId])) {

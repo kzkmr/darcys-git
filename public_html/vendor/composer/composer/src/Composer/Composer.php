@@ -14,7 +14,6 @@ namespace Composer;
 
 use Composer\Package\RootPackageInterface;
 use Composer\Package\Locker;
-use Composer\Pcre\Preg;
 use Composer\Util\Loop;
 use Composer\Repository\RepositoryManager;
 use Composer\Installer\InstallationManager;
@@ -52,9 +51,9 @@ class Composer
      * const RELEASE_DATE = '@release_date@';
      * const SOURCE_VERSION = '1.8-dev+source';
      */
-    const VERSION = '2.2.12';
+    const VERSION = '2.1.3';
     const BRANCH_ALIAS_VERSION = '';
-    const RELEASE_DATE = '2022-04-13 16:42:25';
+    const RELEASE_DATE = '2021-06-09 16:31:20';
     const SOURCE_VERSION = '';
 
     /**
@@ -66,11 +65,8 @@ class Composer
      *
      * @var string
      */
-    const RUNTIME_API_VERSION = '2.2.2';
+    const RUNTIME_API_VERSION = '2.1.0';
 
-    /**
-     * @return string
-     */
     public static function getVersion()
     {
         // no replacement done, this must be a source checkout
@@ -79,7 +75,7 @@ class Composer
         }
 
         // we have a branch alias and version is a commit id, this must be a snapshot build
-        if (self::BRANCH_ALIAS_VERSION !== '' && Preg::isMatch('{^[a-f0-9]{40}$}', self::VERSION)) {
+        if (self::BRANCH_ALIAS_VERSION !== '' && preg_match('{^[a-f0-9]{40}$}', self::VERSION)) {
             return self::BRANCH_ALIAS_VERSION.'+'.self::VERSION;
         }
 
@@ -92,9 +88,9 @@ class Composer
     private $package;
 
     /**
-     * @var ?Locker
+     * @var Locker
      */
-    private $locker = null;
+    private $locker;
 
     /**
      * @var Loop
@@ -142,6 +138,7 @@ class Composer
     private $archiveManager;
 
     /**
+     * @param  RootPackageInterface $package
      * @return void
      */
     public function setPackage(RootPackageInterface $package)
@@ -158,7 +155,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param Config $config
      */
     public function setConfig(Config $config)
     {
@@ -174,7 +171,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param Locker $locker
      */
     public function setLocker(Locker $locker)
     {
@@ -182,7 +179,7 @@ class Composer
     }
 
     /**
-     * @return ?Locker
+     * @return Locker
      */
     public function getLocker()
     {
@@ -190,7 +187,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param Loop $loop
      */
     public function setLoop(Loop $loop)
     {
@@ -206,7 +203,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param RepositoryManager $manager
      */
     public function setRepositoryManager(RepositoryManager $manager)
     {
@@ -222,7 +219,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param DownloadManager $manager
      */
     public function setDownloadManager(DownloadManager $manager)
     {
@@ -238,7 +235,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param ArchiveManager $manager
      */
     public function setArchiveManager(ArchiveManager $manager)
     {
@@ -254,7 +251,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param InstallationManager $manager
      */
     public function setInstallationManager(InstallationManager $manager)
     {
@@ -270,7 +267,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param PluginManager $manager
      */
     public function setPluginManager(PluginManager $manager)
     {
@@ -286,7 +283,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param EventDispatcher $eventDispatcher
      */
     public function setEventDispatcher(EventDispatcher $eventDispatcher)
     {
@@ -302,7 +299,7 @@ class Composer
     }
 
     /**
-     * @return void
+     * @param AutoloadGenerator $autoloadGenerator
      */
     public function setAutoloadGenerator(AutoloadGenerator $autoloadGenerator)
     {

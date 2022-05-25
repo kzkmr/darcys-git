@@ -126,7 +126,11 @@ class RemoteWebDriver implements WebDriver, JavaScriptExecutor, WebDriverHasInpu
 
         $parameters['desiredCapabilities'] = (object) $desired_capabilities->toArray();
 
-        $command = WebDriverCommand::newSession($parameters);
+        $command = new WebDriverCommand(
+            null,
+            DriverCommand::NEW_SESSION,
+            $parameters
+        );
 
         $response = $executor->execute($command);
 
@@ -364,7 +368,9 @@ class RemoteWebDriver implements WebDriver, JavaScriptExecutor, WebDriverHasInpu
      */
     public function takeScreenshot($save_as = null)
     {
-        $screenshot = base64_decode($this->execute(DriverCommand::SCREENSHOT), true);
+        $screenshot = base64_decode(
+            $this->execute(DriverCommand::SCREENSHOT)
+        );
 
         if ($save_as !== null) {
             $directoryPath = dirname($save_as);
