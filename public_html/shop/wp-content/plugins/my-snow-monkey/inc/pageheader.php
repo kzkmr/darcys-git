@@ -50,7 +50,7 @@
 <?php elseif ( is_singular('post') ): ?>
   <div class="pageheader-wrap">
     <div class="pageheader">
-      <?php
+      <?php /*
       if (has_post_thumbnail()) {
           the_post_thumbnail();// サムネイルタグを出力
           $thumbnail = get_the_post_thumbnail();// サムネイル画像情報を変数に格納
@@ -59,9 +59,11 @@
           <img src="<?php echo wp_upload_dir()['url']; ?>/products-detail.jpg" alt="">
         <?php
       }
-      ?>
+      */ ?>
+      <img src="<?php echo wp_upload_dir()['url']; ?>/news.jpg" alt="">
       <h1 class="pageheader__title">
-        <?php single_post_title(); ?>
+        NEWS
+        <?php /* single_post_title(); */ ?>
       </h1>
     </div>
   </div>

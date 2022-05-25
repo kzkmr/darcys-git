@@ -7,9 +7,19 @@ const shops = {
 	yahoo: 'Yahoo',
 };
 
+const generateCvkey = () => {
+	const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	const length = 8;
+	return Array.from(Array(length))
+		.map(() => characters[Math.floor(Math.random() * characters.length)])
+		.join('');
+};
+
 export default ({ value, item, onChange, closePopover }) => {
 	const { hasAffi } = window.pchppVars;
+	const hasPro = window.pchppProVars !== undefined;
 	const isAllHidden = hasAffi && Object.values(hasAffi).every((v) => v === '');
+	const cvKeyTag = hasPro ? ` cvkey="${generateCvkey()}"` : '';
 
 	return (
 		<div className='pochipp-popover__card'>
@@ -41,7 +51,7 @@ export default ({ value, item, onChange, closePopover }) => {
 										onChange(
 											insert(
 												value,
-												`[pochipp_btn id="${item.pid}" shop="${shop}"]${label}[/pochipp_btn]`,
+												`[pochipp_btn id="${item.pid}" shop="${shop}"${cvKeyTag}]${label}[/pochipp_btn]`,
 												value.start,
 												value.end
 											)
@@ -60,7 +70,7 @@ export default ({ value, item, onChange, closePopover }) => {
 								onChange(
 									insert(
 										value,
-										`[pochipp_btn id="${item.pid}" shop="custom1"]${item.customBtnText}[/pochipp_btn]`,
+										`[pochipp_btn id="${item.pid}" shop="custom1"${cvKeyTag}"]${item.customBtnText}[/pochipp_btn]`,
 										value.start,
 										value.end
 									)
@@ -77,7 +87,7 @@ export default ({ value, item, onChange, closePopover }) => {
 								onChange(
 									insert(
 										value,
-										`[pochipp_btn id="${item.pid}" shop="custom2"]${item.customBtnText2}[/pochipp_btn]`,
+										`[pochipp_btn id="${item.pid}" shop="custom2"${cvKeyTag}]${item.customBtnText2}[/pochipp_btn]`,
 										value.start,
 										value.end
 									)

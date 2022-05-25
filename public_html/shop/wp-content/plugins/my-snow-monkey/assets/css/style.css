@@ -463,6 +463,16 @@ h3 {
     z-index: 100;
   }
 }
+.ec-header-bottom__gnav .p-global-navi-child__jp {
+  display: block;
+  margin: -2px 0 7px;
+  padding-left: 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
 .ec-header-bottom__store-link {
   display: flex;
   align-items: center;
@@ -1280,6 +1290,10 @@ Styleguide 11.3.2
   margin: 0 auto !important;
   padding: 0 !important;
 }
+.c-entry__content__title {
+  background-color: transparent !important;
+  margin-bottom: 2rem !important;
+}
 
 .c-entries__item a .c-entry-summary__figure {
   position: relative;
@@ -1369,17 +1383,10 @@ Styleguide 11.3.2
 .pageheader {
   position: relative;
   width: auto !important;
-  max-width: 1400px;
   margin: 0 calc(50% - 50vw);
-  padding-top: 45%;
+  padding-top: 600px;
   z-index: 0;
   overflow: hidden;
-}
-@media (min-width: 1401px) {
-  .pageheader {
-    width: 1400px !important;
-    margin: 0 -170px;
-  }
 }
 .pageheader img {
   position: absolute;
@@ -2086,15 +2093,15 @@ Styleguide 11.3.2
   padding: 0 !important;
 }
 .section-static .smb-section__body h2 {
-  margin: 0 !important;
-  padding: 0 !important;
-  border: none !important;
-  border-bottom: 1px solid #333 !important;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid #333;
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.333;
   letter-spacing: 0;
-  background-color: transparent !important;
+  background-color: transparent;
   color: #333;
 }
 .section-static .smb-section__body figure {

@@ -31,14 +31,15 @@ function sc_pochipp_btn( $atts, $content = null ) {
 
 	if ( ! isset( $atts['id'] ) ) return '';
 
-	$pid      = $atts['id'];
-	$shop     = $atts['shop'] ?? '';
-	$metadata = [];
+	$pid   = $atts['id'];
+	$shop  = $atts['shop'] ?? '';
+	$cvKey = $atts['cvkey'] ?? '';
 
 	// メタデータ取得
 	if ( $pid ) {
-		$metadata = get_post_meta( $pid, \POCHIPP::META_SLUG, true );
-		$metadata = json_decode( $metadata, true ) ?: [];
+		$metadata          = get_post_meta( $pid, \POCHIPP::META_SLUG, true );
+		$metadata          = json_decode( $metadata, true ) ?: [];
+		$metadata['cvkey'] = $cvKey;
 	}
 
 	// 商品未選択時

@@ -64,7 +64,7 @@
 		})();
 
 		(function () {
-			const $btns = $('.pchpp-inline-setting__preview .pochipp-box__btnwrap');
+			const $btns = $('.pchpp-inline-setting__preview .pochipp-inline__btnwrap');
 
 			// inline_btn_style
 			$('[name="pochipp_settings[inline_btn_style]"]').change(function () {

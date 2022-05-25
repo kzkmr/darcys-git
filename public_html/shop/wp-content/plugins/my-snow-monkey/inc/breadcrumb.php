@@ -131,7 +131,7 @@
       </li>
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
         <a itemprop="item" href="<?php echo esc_url(home_url('/stores/')); ?>">
-          <span itemprop="name">STORE</span>
+          <span itemprop="name">STORES</span>
         </a>
         <meta itemprop="position" content="2" />
       </li>
@@ -148,7 +148,7 @@
       </li>
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
         <a itemprop="item" href="<?php echo esc_url(home_url('/stores/')); ?>">
-          <span itemprop="name">STORE</span>
+          <span itemprop="name">STORES</span>
         </a>
         <meta itemprop="position" content="2" />
       </li>

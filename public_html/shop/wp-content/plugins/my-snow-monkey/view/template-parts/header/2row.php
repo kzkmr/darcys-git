@@ -104,10 +104,10 @@ $hamburger_btn_position = get_theme_mod( 'hamburger-btn-position' );
               <a href="<?php echo esc_url(home_url('/products-list/')); ?>" class="p-global-navi__jp">商品ラインアップ</a>
               <ul class="p-global-navi-child">
                 <li class="p-global-navi-child__item">
-                  <a href="<?php echo esc_url(home_url('/story/')); ?>">- STORY</a>
+                  <a href="<?php echo esc_url(home_url('/story/')); ?>">- STORY<span class="p-global-navi-child__jp">製品の誕生ものがたり</span></a>
                 </li>
                 <li class="p-global-navi-child__item">
-                  <a href="<?php echo esc_url(home_url('/concept/')); ?>">- CONCEPT</a>
+                  <a href="<?php echo esc_url(home_url('/concept/')); ?>">- CONCEPT<span class="p-global-navi-child__jp">製品のこだわり</span></a>
                 </li>
                 <!-- <li class="p-global-navi-child__item">
                   <a href="" style="pointer-events:none;">- BREAD</a>

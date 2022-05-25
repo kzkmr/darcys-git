@@ -15,8 +15,7 @@ function get_inline_btn( $pid, $shop, $content, $pdata = [] ) {
 	$custom_btn_url_2     = $pdata['custom_btn_url_2'] ?? '';
 	$custom_btn_text_2    = $pdata['custom_btn_text_2'] ?? '';
 	$is_all_search_result = $pdata['is_all_search_result'] ?? '';
-	$isCount              = $pdata['isCount'] ?? false;
-	$cvKey                = $pdata['cvKey'] ?? '';
+	$cvKey                = $pdata['cvkey'] ?? '';
 
 	// もしも用aid
 	$aid = \POCHIPP::get_setting( "moshimo_{$shop}_aid" );
@@ -55,7 +54,7 @@ function get_inline_btn( $pid, $shop, $content, $pdata = [] ) {
 
 	// 追加属性
 	$ex_props = '';
-	if ( $isCount && $cvKey ) {
+	if ( $cvKey ) {
 		$ex_props .= ' data-cvkey="' . esc_attr( $cvKey ) . '"';
 	}
 
@@ -144,7 +143,7 @@ function render_pochipp_btn( $btn_data = [] ) {
 		<a href="<?php echo esc_url( $url ); ?>" class="pochipp-inline__btn" <?php echo $rel_target; ?>>
 			<?php echo $btn_text; ?>
 		</a>
-        <?php echo $imp_tag; ?>
+		<?php echo $imp_tag; ?>
 	</span>
 	<?php endif; ?>
 	<?php

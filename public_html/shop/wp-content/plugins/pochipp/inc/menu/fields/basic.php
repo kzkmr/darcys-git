@@ -215,34 +215,34 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 						<td>リンク</td>
 						<td>
 							<span
-								class="pochipp-box__btnwrap -amazon -inline"
+								class="pochipp-inline__btnwrap -amazon -inline"
 								data-inline-btn-width="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_width' ) ); ?>"
 								data-inline-btn-style="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_style' ) ); ?>"
 								data-inline-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_radius' ) ); ?>"
 							>
-								<a href="###" class="pochipp-box__btn">Amazon</a>
+								<a href="###" class="pochipp-inline__btn">Amazon</a>
 								<img src="###" width="1" height="1" style="border:none;" alt="">
 							</span>
 						</td>
 						<td>
 							<span
-								class="pochipp-box__btnwrap -rakuten -inline"
+								class="pochipp-inline__btnwrap -rakuten -inline"
 								data-inline-btn-width="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_width' ) ); ?>"
 								data-inline-btn-style="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_style' ) ); ?>"
 								data-inline-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_radius' ) ); ?>"
 							>
-								<a href="###" class="pochipp-box__btn">楽天</a>
+								<a href="###" class="pochipp-inline__btn">楽天</a>
 								<img src="###" width="1" height="1" style="border:none;" alt="">
 							</span>
 						</td>
 						<td>
 							<span
-								class="pochipp-box__btnwrap -yahoo -inline"
+								class="pochipp-inline__btnwrap -yahoo -inline"
 								data-inline-btn-width="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_width' ) ); ?>"
 								data-inline-btn-style="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_style' ) ); ?>"
 								data-inline-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'inline_btn_radius' ) ); ?>"
 							>
-								<a href="###" class="pochipp-box__btn">Yahooショッピング</a>
+								<a href="###" class="pochipp-inline__btn">Yahooショッピング</a>
 								<img src="###" width="1" height="1" style="border:none;" alt="">
 							</span>
 						</td>
