@@ -1,3 +1,4 @@
+{% if IsChainStore() == false %}
 {% if ConfigNoshi.noshi_enable %}
 
 <style type="text/css">
@@ -46,7 +47,6 @@
     });
 </script>
 
-{% if IsChainStore() == false %}
 <div id="noshi_area">
     <div class="ec-orderWrapping">
         <div class="ec-rectHeading">
@@ -119,6 +119,6 @@
         </div>
     </div>
 </div>
-{% endif %}
 
+{% endif %}
 {% endif %}

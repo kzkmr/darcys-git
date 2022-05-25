@@ -1,0 +1,1 @@
+{"name":"ec-cube\/csvdownloadfilter","version":"1.0.2","description":"\u9078\u629e\u3057\u305f\u53d7\u6ce8\u30c7\u30fc\u30bf\u3092CSV\u51fa\u529b","type":"eccube-plugin","require":{"ec-cube\/plugin-installer":"~0.0.6 || ^2.0"},"extra":{"code":"CSVDownloadFilter","id":1808}}

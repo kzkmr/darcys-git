@@ -5683,6 +5683,16 @@ Styleguide 11.2
     z-index: 100;
   }
 }
+.ec-header-bottom__gnav .p-global-navi-child__jp {
+  display: block;
+  margin: -2px 0 7px;
+  padding-left: 1.5rem;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
 .ec-header-bottom__store-link {
   display: flex;
   align-items: center;
@@ -10360,17 +10370,10 @@ Styleguide 23
 .page-header {
   position: relative;
   width: auto !important;
-  max-width: 1400px;
   margin: 0 calc(50% - 50vw);
-  padding-top: 45%;
+  padding-top: 600px;
   z-index: 0;
   overflow: hidden;
-}
-@media (min-width: 1401px) {
-  .page-header {
-    width: 1400px !important;
-    margin: 0 -170px;
-  }
 }
 .page-header img {
   position: absolute;

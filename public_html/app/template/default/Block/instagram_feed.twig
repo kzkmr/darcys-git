@@ -321,16 +321,15 @@
     transition: color 0.5s ease;
 }
 .sbi_no_avatar .sbi_header_img{
-    background: #333;
-    color: #fff;
-    width: 50px;
-    height: 50px;
-    position: relative;
+    background: transparent;
+    color: #333;
+    width: 36px;
+    height: 36px;
 }
 .sbi_no_avatar .sbi_header_hashtag_icon {
     display: block;
-    color: #fff;
-    opacity: .9;
+    color: #333;
+    opacity: 1;
     -webkit-transition: background .6s linear,color .6s linear;
     -moz-transition: background .6s linear,color .6s linear;
     -ms-transition: background .6s linear,color .6s linear;
@@ -351,123 +350,51 @@
 /* Only use medium & large headers on devices above 480px */
 @media all and (min-width: 480px){
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_img {
-        width: 80px;
-        height: 80px;
-        border-radius: 40px;
+        width: 36px;
+        height: 36px;
     }
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_img img {
-        width: 80px;
-        height: 80px;
-        border-radius: 40px;
+        width: 36px;
+        height: 36px;
     }
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text h3 {
-        font-size: 20px;
+        display: none;
     }
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text .sbi_bio_info,
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text .sbi_bio{
-        font-size: 14px;
+        display: none;
     }
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text h3,
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text .sbi_bio_info,
     #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text .sbi_bio{
-        margin-left: 95px !important;
-        line-height: 1.4
-    }
-    #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text h3{
-        margin-right: -85px !important;
-    }
-    #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text .sbi_bio_info{
-        margin-top: 4px !important;
-    }
-    #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_text.sbi_no_bio h3{
-        padding-top: 20px !important;
-    }
-    /** Large Header */
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_img {
-        width: 120px;
-        height: 120px;
-        border-radius: 60px;
-    }
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_img img {
-        width: 120px;
-        height: 120px;
-        border-radius: 60px;
-    }
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text h3 {
-        font-size: 28px;
-    }
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text .sbi_bio_info,
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text .sbi_bio{
-        font-size: 16px;
-    }
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text h3,
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text .sbi_bio_info,
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text .sbi_bio{
-        margin-left: 140px !important;
-        line-height: 1.5;
-    }
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text h3{
-        margin-right: -120px !important;
-    }
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text .sbi_bio_info{
-        margin-top: 12px !important;
-    }
-    #sb_instagram .sb_instagram_header.sbi_large .sbi_header_text.sbi_no_bio h3{
-        padding-top: 32px !important;
+        display: none;
     }
 }
 
 /* Header profile pic */
 #sb_instagram .sb_instagram_header .sbi_header_img{
-    float: left;
-    position: relative;
-    width: 50px;
-    margin: 0 0 0 -100% !important;
-    overflow: hidden;
-
-    -moz-border-radius: 40px;
-    -webkit-border-radius: 40px;
-    border-radius: 40px;
+  width: 36px;
+  overflow: hidden;
 }
 #sb_instagram .sb_instagram_header .sbi_header_img img{
-    float: left;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-
-    -moz-border-radius: 40px;
-    -webkit-border-radius: 40px;
-    border-radius: 40px;
+    border-radius: 0;
 }
 /* Profile pic hover */
 /* Profile pic hover */
 #sb_instagram .sb_instagram_header .sbi_header_img_hover{
-    opacity: 0;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    text-align: center;
-    color: #fff;
-    background: rgba(0,0,0,0.75);
+    opacity: .8;
 }
 
 #sb_instagram .sb_instagram_header .sbi_header_img_hover .sbi_new_logo,
 #sb_instagram .sb_instagram_header .sbi_header_hashtag_icon .sbi_new_logo{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -12px;
-    margin-left: -12px;
-    width: 24px;
-    height: 24px;
-    font-size: 24px;
+    margin: 0;
+    width: 36px;
+    height: 36px;
+    font-size: 36px;
 }
 #sb_instagram .sb_instagram_header.sbi_medium .sbi_header_hashtag_icon .sbi_new_logo,
 .sb_instagram_header.sbi_medium .sbi_header_hashtag_icon .sbi_new_logo{
-    margin-top: -18px;
-    margin-left: -18px;
+    margin: 0;
     width: 36px;
     height: 36px;
     font-size: 36px
@@ -475,11 +402,10 @@
 
 #sb_instagram .sb_instagram_header.sbi_large .sbi_header_hashtag_icon .sbi_new_logo,
 .sb_instagram_header.sbi_large .sbi_header_hashtag_icon .sbi_new_logo {
-    margin-top: -24px;
-    margin-left: -24px;
-    width: 48px;
-    height: 48px;
-    font-size: 48px
+    margin: 0;
+    width: 36px;
+    height: 36px;
+    font-size: 36px
 }
 #sb_instagram .sb_instagram_header .sbi_header_img_hover i {
     overflow: hidden;
@@ -500,7 +426,7 @@
     bottom: 0;
     left: 0;
     text-align: center;
-    color: #fff;
+    color: #333;
     background: rgba(0,0,0,0.75);
 
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
@@ -508,7 +434,7 @@
     -moz-opacity: 0;
     -khtml-opacity: 0;
     opacity: 0;
-    border-radius: 40px;
+    border-radius: 0;
     transition: opacity 0.2s;
 }
 /* Fade the Instagram icon in when hovering on the header */
@@ -517,21 +443,23 @@
     opacity: 1;
 }
 /* Header text */
-#sb_instagram .sb_instagram_header .sbi_header_text{
-    float: left;
+#sb_instagram .sb_instagram_header .sbi_header_text {
+  display: none;
+    /*float: left;
     width: 100%;
-    padding-top: 5px;
+    padding-top: 5px;*/
 }
 #sb_instagram .sb_instagram_header a{
     text-decoration: none;
 }
 #sb_instagram .sb_instagram_header .sbi_header_text .sbi_bio,
 #sb_instagram .sb_instagram_header .sbi_header_text h3{
-    float: left;
+  display: none;
+    /* float: left;
     clear: both;
     width: auto;
     margin: 0 0 0 60px !important;
-    padding: 0 !important;
+    padding: 0 !important; */
 }
 #sb_instagram .sb_instagram_header h3{
     font-size: 16px;

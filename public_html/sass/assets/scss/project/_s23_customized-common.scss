@@ -14,16 +14,17 @@ Styleguide 23
 .page-header {
   position: relative;
   width: auto !important;
-  max-width: 1400px;
+  // max-width: 1400px;
   margin: 0 calc(50% - 50vw);
-  padding-top: 45%;
+  // padding-top: 45%;
+  padding-top: 600px;
   z-index: 0;
   overflow: hidden;
 
-  @media (min-width:1401px) {
-    width: 1400px !important;
-    margin: 0 -170px;
-  }
+  // @media (min-width:1401px) {
+  //   width: 1400px !important;
+  //   margin: 0 -170px;
+  // }
 
   img {
     position: absolute;

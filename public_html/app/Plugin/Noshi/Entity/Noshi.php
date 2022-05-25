@@ -54,7 +54,7 @@ class Noshi extends AbstractEntity
 	/**
 	* @var \Eccube\Entity\Master\NoshiKind
 	*
-	* @ORM\ManyToOne(targetEntity="Eccube\Entity\Master\NoshiKind")
+	* @ORM\ManyToOne(targetEntity="Plugin\Noshi\Entity\NoshiKind")
 	* @ORM\JoinColumns({
 	*   @ORM\JoinColumn(name="noshi_kind", referencedColumnName="id")
 	* })
@@ -64,7 +64,7 @@ class Noshi extends AbstractEntity
 	/**
 	* @var \Eccube\Entity\Master\NoshiTie
 	*
-	* @ORM\ManyToOne(targetEntity="Eccube\Entity\Master\NoshiTie")
+	* @ORM\ManyToOne(targetEntity="Plugin\Noshi\Entity\NoshiTie")
 	* @ORM\JoinColumns({
 	*   @ORM\JoinColumn(name="noshi_tie", referencedColumnName="id")
 	* })
