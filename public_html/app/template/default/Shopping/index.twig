@@ -478,7 +478,7 @@ file that was distributed with this source code.
                     </div>
                     <div class="ec-input {{ has_errors(form.Payment) ? ' error' }}">{{ form_errors(form.Payment) }}</div>
                 </div>
-                {% if ChainStore %}
+                {% if ChainStore and  BaseInfo.isOptionPoint %}
                     {{ form_widget(form.use_point, { 'attr': { 'type': 'hidden', 'style': 'display:none;'}}) }}
                 {% elseif BaseInfo.isOptionPoint and Order.Customer is not null %}
                     <div class="ec-orderPayment">

@@ -24,7 +24,7 @@ trait  CustomerTrait
     /**
      * @var \Customize\Entity\ChainStore
      *
-     * @ORM\ManyToOne(targetEntity="Customize\Entity\ChainStore")
+     * @ORM\ManyToOne(targetEntity="Customize\Entity\ChainStore",cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="chain_store_id", referencedColumnName="id")
      * })

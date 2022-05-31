@@ -294,7 +294,11 @@ class CustomEntryController extends BaseEntryController
                         $activateUrl = $this->generateUrl('entry_activate', ['secret_key' => $Customer->getSecretKey()], UrlGeneratorInterface::ABSOLUTE_URL);
 
                         // メール送信
-                        $this->mailService->sendChainStoreConfirmMail($Customer, $activateUrl, $ChainstoreType);
+                        if($ChainstoreType){
+                            $this->mailService->sendChainStoreConfirmMail($Customer, $activateUrl, $ChainstoreType);
+                        }else{
+                            $this->mailService->sendCustomerConfirmMail($Customer, $activateUrl);
+                        }
 
                         if ($event->hasResponse()) {
                             return $event->getResponse();
@@ -423,7 +427,11 @@ class CustomEntryController extends BaseEntryController
         $this->eventDispatcher->dispatch(EccubeEvents::FRONT_ENTRY_ACTIVATE_COMPLETE, $event);
 
         // メール送信
-        $this->mailService->sendChainStoreCompleteMail($Customer);
+        if(is_object($ChainStore)){
+            $this->mailService->sendChainStoreCompleteMail($Customer);
+        }else{
+            $this->mailService->sendCustomerCompleteMail($Customer);
+        }
 
         $ChainStore = $Customer->getChainstore();
 
