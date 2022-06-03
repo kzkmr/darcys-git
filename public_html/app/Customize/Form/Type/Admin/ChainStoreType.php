@@ -191,6 +191,8 @@ class ChainStoreType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ])
+            // マージン対象／非対象
+            ->add('margin_not_included', ToggleSwitchType::class)
             ->add('purchasing_limit_price', PriceType::class, [
                 'required' => false
             ])

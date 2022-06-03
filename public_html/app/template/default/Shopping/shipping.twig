@@ -24,6 +24,7 @@ file that was distributed with this source code.
     <div class="ec-registerRole">
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
+                {#
                 {% if ChainStore %}
                     {% if Customer.CustomerAddresses|length > 0 %}
                         {% set chainstoreLength = Customer.CustomerAddresses|length %}
@@ -31,10 +32,13 @@ file that was distributed with this source code.
                         <p class="ec-para-normal">{{chainstoreLength}}件の販売店舗があります（{{ChainStore.delivery_registrations}}件まで登録可能です）</p>
                     {% endif %}
                 {% endif %}
+                #}
                 <div class="ec-addressRole">
                     {% if ChainStore %}
                         {% if Customer.CustomerAddresses|length < ChainStore.delivery_registrations %}
+                            {#
                             <div class="ec-addressRole__actions"><a class="ec-inlineBtn" href="{{ url('shopping_shipping_edit', {'id': shippingId}) }}">新規販売店舗を追加する</a></div>
+                            #}
                         {% else %}
                             <div class="ec-alert-warning">
                                 <div class="ec-alert-warning__text">

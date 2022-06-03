@@ -113,6 +113,7 @@ admin.chainstore.no_customer_address: この販売店のお届け先がありま
 admin.chainstore.no_purchase_history: この販売店の購入履歴がありません
 admin.chainstore.notfound: この販売店が見つかりません
 admin.chainstore.has_registered: この販売店識別番号として既に登録されていて使用できない
+admin.chainstore.option_margin_not_included: マージン対象外
 
 tooltip.chain_store.multi_search_label: 情報を入力して一覧の絞り込み検索ができます。より詳細な条件を指定するには［詳細検索］を開いてください。
 tooltip.chain_store.chain_store_id: 自動的に採番される販売店のIDです。

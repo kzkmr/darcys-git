@@ -234,6 +234,13 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var string|null
          *
+         * @ORM\Column(name="margin_not_included", type="boolean", options={"default":false})
+         */
+        private $marginNotIncluded;
+
+        /**
+         * @var string|null
+         *
          * @ORM\Column(name="purchasing_limit_price", type="integer", options={"unsigned":true, "default":0})
          */
         private $purchasingLimitPrice;
@@ -961,6 +968,30 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
             return $this->marginPrice;
         }
 
+        /**
+         * Set marginNotIncluded.
+         *
+         * @param string $marginNotIncluded
+         *
+         * @return ChainStore
+         */
+        public function setMarginNotIncluded($marginNotIncluded)
+        {
+            $this->marginNotIncluded = $marginNotIncluded;
+
+            return $this;
+        }
+
+        /**
+         * Get marginNotIncluded.
+         *
+         * @return string
+         */
+        public function getMarginNotIncluded()
+        {
+            return $this->marginNotIncluded;
+        }
+        
         /**
          * Set purchasingLimitPrice.
          *

@@ -386,9 +386,19 @@ file that was distributed with this source code.
             };
             delivery_registrations_chk();
 
+            var margin_not_included_chk = function(){
+                if( $("#admin_chain_store_contract_type").val() == "2" ){
+                    $(".margin_not_included").show();
+                }else{
+                    $(".margin_not_included").hide();
+                }
+            };
+            margin_not_included_chk();
+
             $("#admin_chain_store_contract_type").on("change", function(){
                 purchasingLimitPrice();
                 delivery_registrations_chk();
+                margin_not_included_chk();
             });
 
             if($("#admin_chain_store_margin_price").val()==""){
@@ -559,6 +569,15 @@ file that was distributed with this source code.
                                     <div class="col">
                                         {{ form_widget(form.dealer_code, { attr : { placeholder : 'admin.common.dealer_code_ex' }}) }}
                                         {{ form_errors(form.dealer_code) }}
+                                    </div>
+                                </div>
+                                <div class="row margin_not_included">
+                                    <div class="col-3">
+                                        <div class="d-inline-block"><span>{{ 'admin.chainstore.option_margin_not_included'|trans }}</span></div>
+                                    </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.margin_not_included) }}
+                                        {{ form_errors(form.margin_not_included) }}
                                     </div>
                                 </div>
                                 <div class="row">
