@@ -19,8 +19,12 @@ body {
   letter-spacing: .05em;
   color:#231815;
   transition: z-index 0ms 5.28455ms;
-  background: #fff;
+  background-color: #fff;
   overflow-x: hidden;
+
+  &.layout-store {
+    background-color: #f8f7f0;
+  }
 }
 
 ul,

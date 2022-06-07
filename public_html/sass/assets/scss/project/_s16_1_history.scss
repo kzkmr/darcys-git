@@ -42,13 +42,13 @@ Styleguide 16.1
 
     .ec-historyRole__detailTitle {
       margin-bottom: 8px;
-      font-size: 1.6rem;
+      font-size: .875rem;
       font-weight: bold;
     }
 
     .ec-historyRole__detailPrice {
       margin-bottom: 8px;
-      font-size: 1.6rem;
+      font-size: .875rem;
       font-weight: bold;
     }
 
@@ -80,7 +80,7 @@ Styleguide 16.1.1
       display: inline-block;
       margin-bottom: 8px;
       margin-right: .5rem;
-      font-size: 1.6rem;
+      font-size: .875rem;
     }
     .ec-historyRole__detailOption::after {
       display: inline-block;
@@ -111,10 +111,10 @@ Styleguide 16.1.2
 .ec-historyListHeader{
   & &__date{
     font-weight: bold;
-    font-size: 16px;
+    font-size: .875rem;
     @include media_desktop {
       font-weight: bold;
-      font-size: 20px;
+      font-size: .875rem;
     }
   }
   & &__action{
@@ -123,8 +123,16 @@ Styleguide 16.1.2
       font-size: 12px;
       font-weight: normal;
       @include media_desktop {
-        font-size: 14px;
+        font-size: .875rem;
       }
+    }
+  }
+
+  .ec-definitions {
+
+    dt,
+    dd {
+      font-size: .875rem;
     }
   }
 }

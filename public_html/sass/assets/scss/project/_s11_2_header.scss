@@ -22,7 +22,7 @@ Styleguide 11.2
 .ec-layoutRole {
   width: 100%;
   transition: transform 0.3s;
-  background: #fff;
+  background-color: transparent;
   color: $bl;
   overflow: hidden;
 
@@ -228,7 +228,7 @@ Styleguide 11.2
     top: -22px;
     left: 20px;
 
-    @media (min-width:1080px) {
+    @media (min-width:1260px) {
       top: auto;
       left: 5%;
     }
@@ -236,11 +236,17 @@ Styleguide 11.2
 
   &__center {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin: 0 auto;
 
     .ec-header-bottom-title {
       text-align: center;
+
+      h1 {
+        @include font(26px,700,1.4,.05em);
+      }
     }
   }
 
@@ -251,7 +257,7 @@ Styleguide 11.2
     right: 20px;
     margin: auto 0;
 
-    @media (min-width:1080px) {
+    @media (min-width:1260px) {
       top: 40px;
       right: 20px;
     }
@@ -281,7 +287,7 @@ Styleguide 11.2
       padding-top: 60px;
       list-style: none;
 
-      @media (min-width:1080px) {
+      @media (min-width:1260px) {
         padding-top: 20px;
       }
 
@@ -290,12 +296,11 @@ Styleguide 11.2
         z-index: 1;
 
         & + .p-global-navi__item {
-          margin-left: 30px;
+          margin-left: 1.2rem;
         }
 
         a {
-          font-size: 17px;
-          letter-spacing: .06em;
+          @include font(17px,400,1.6,.05em);
           color: #555;
         }
       }
@@ -317,6 +322,10 @@ Styleguide 11.2
           white-space: nowrap;
         }
       }
+
+      &__small {
+        font-size: 86%;
+      }
     }
 
     .p-global-navi-child {
@@ -330,6 +339,7 @@ Styleguide 11.2
         padding: 10px 14px;
         border: 1px solid #fbfbfb;
         background-color: #e7c4b9;
+        color: #555;
         visibility: visible;
         opacity: 1;
         transition: none;
@@ -349,25 +359,26 @@ Styleguide 11.2
   &__store-link {
     display: flex;
     align-items: center;
+    margin-left: .5rem;
   }
 
   &__store-link-item {
-    width: 105px;
+    position: relative;
+    // width: 60px;
     height: 54px;
-
-    & + .ec-header-bottom__store-link-item {
-      margin-left: 15px;
-    }
+    margin-left: 1.2rem;
+    z-index: 1;
 
     a {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       position: relative;
-      width: 100%;
+      // width: 100%;
       height: 100%;
-      border-radius: 27px;
-      background-color: #ddd;
+      color: #555;
+      // border-radius: 27px;
+      // background-color: #ddd;
 
       .ec-cartNavi-badge {
         position: absolute;
@@ -382,8 +393,95 @@ Styleguide 11.2
     }
 
     span {
-      @include font(13px,400,1,0);
-      color: $bl;
+      @include font(17px,400,1.6,.05em);
+
+      &.store-link-small {
+        font-size: 94%;
+      }
+    }
+
+    .store-link-jp {
+      display: none;
+
+      &.active {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        padding: 15px 0 4px;
+        font-size: 14px;
+        line-height: 1;
+        letter-spacing: .06em;
+        color: #555;
+        line-height: 20px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.ec-header-bottom-list {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 25px 20px;
+  background-color: #fff;
+
+  @media (min-width:1100px) {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 25px calc(50vw - 50%);
+  }
+
+  &__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__item {
+    position: relative;
+
+    & + .ec-header-bottom-list__item {
+      margin-left: 30px;
+    }
+
+    a {
+      @include font(16px,500,1.6,0);
+      color: #354e57;
+    }
+
+    &--colored {
+
+      a {
+        display: block;
+        padding: .5em 1.4em;
+        border-radius: 20px;
+        border: 1px solid #354e57;
+        background-color: #354e57;
+        color: #fff;
+
+        &:hover {
+          background-color: #fff;
+          color: #354e57;
+        }
+      }
+    }
+
+    &.active {
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        width: 50px;
+        height: 3px;
+        margin: 0 auto;
+        background-color: #666;
+      }
     }
   }
 }

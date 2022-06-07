@@ -44,21 +44,29 @@ Styleguide 9.1.1
   }
 
   & &__item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     border-color: #D0D0D0;
     border-style: solid;
     border-width: 0 1px 1px 0;
     text-align: center;
-    font-weight: bold;
+    font-weight: 400;
+
     a {
-      padding: 16px;
+      display: block;
       width: 100%;
-      display: inline-block;
+      padding: 8px 5px;
+      font-family: 'メイリオ', Meiryo,'ヒラギノ丸ゴ ProN','Hiragino Maru Gothic ProN',sans-serif;
+      font-size: 13px;
+
       &:hover{
         background: #f5f7f8;
       }
     }
   }
+
   .active {
     a {
       color: #DE5D50;
@@ -121,8 +129,6 @@ Styleguide 9.1.4
   & &__header {
     margin-bottom: 16px;
   }
-  & &__detail {
-  }
   & &__itemList {
     @include reset_link;
     display: flex;
@@ -173,5 +179,109 @@ Styleguide 9.1.4
     font-weight: bold;
     margin-bottom: 0;
   }
+}
 
+.ec-mypage-blog {
+  margin-top: 30px;
+
+  @include media_desktop() {
+    margin-top: 50px;
+  }
+
+  &__heading {
+    @include font(20px,700,1,.05em);
+    color: $bl;
+  }
+
+  &__body {
+    width: 100%;
+    margin-top: 20px;
+    padding: 28px 40px;
+    background-color: #f3eee8;
+
+    &--all {
+      min-height: 300px;
+
+      @include media_desktop() {
+        min-height: 600px;
+      }
+    }
+  }
+
+  &__item {
+
+    & + .ec-mypage-blog__item {
+      margin-top: 18px;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      @include font(16px,500,1.6,0);
+      color: $bl;
+
+      time {
+        display: inline-block;
+        margin-right: 1.5em;
+        @include font(16px,500,1.6,0);
+      }
+
+      p {
+        margin: 0 !important;
+      }
+    }
+  }
+
+  &__btn {
+    margin-top: 8px;
+    text-align: right;
+
+    a {
+      @include font(16px,500,1,.05em);
+      color: $bl;
+    }
+  }
+}
+
+.ec-mypage-menu {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 35px;
+
+  @include media_desktop() {
+    margin-top: 70px;
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  &__item {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+    padding: 0;
+
+    @include media_desktop() {
+      flex: 0 0 33.333%;
+      margin-bottom: 30px;
+      padding: 0 20px;
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 120px;
+      border-radius: 10px;
+      @include font(22px,400,1.333,.05em);
+      background-color: #956A53;
+      color: #fff;
+    }
+
+    .text {
+      margin-top: 10px;
+      @include font(15px,500,1.4,.05em);
+      color: #354e57;
+    }
+  }
 }
