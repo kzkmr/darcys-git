@@ -35,6 +35,7 @@ Styleguide 11.2
     flex-wrap: nowrap;
     padding-top: 72px;
     width: 100%;
+    min-height: 50vh;
 
     @include media_desktop() {
       padding-top: 30px;
