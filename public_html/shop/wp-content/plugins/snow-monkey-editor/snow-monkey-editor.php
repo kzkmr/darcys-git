@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin name: Snow Monkey Editor
- * Version: 7.0.1
+ * Version: 8.0.1
  * Description: Extends gutenberg block editor
  * Author: inc2734
  * Author URI: https://2inc.org
@@ -230,6 +230,9 @@ class Bootstrap {
 		$registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
 		foreach ( $registered_blocks as $name => $block ) {
+			if ( ! isset( $block->attributes ) || ! is_array( $block->attributes ) ) {
+				$block->attributes = [];
+			}
 			foreach ( $attributes as $name => $detail ) {
 				$block->attributes[ $name ] = $detail;
 			}

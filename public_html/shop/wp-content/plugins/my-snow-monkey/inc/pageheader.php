@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package snow-monkey
  * @author Basic Figure
@@ -8,14 +9,14 @@
  */
 ?>
 
-<?php if ( is_page('news') ): ?>
+<?php if (is_page('news')) : ?>
   <div class="pageheader">
     <img src="<?php echo wp_upload_dir()['url']; ?>/news.jpg" alt="">
     <h1 class="pageheader__title">
       NEWS
     </h1>
   </div>
-<?php elseif ( is_page('story') ): ?>
+<?php elseif (is_page('story')) : ?>
   <div class="pageheader">
     <img src="<?php echo wp_upload_dir()['url']; ?>/story.jpg" alt="">
     <h1 class="pageheader__title">
@@ -23,7 +24,7 @@
       <span>製品の誕生物語</span>
     </h1>
   </div>
-<?php elseif ( is_page('story-ice-cream') ): ?>
+<?php elseif (is_page('story-ice-cream')) : ?>
   <div class="pageheader">
     <img src="<?php echo wp_upload_dir()['url']; ?>/story_ice.jpg" alt="">
     <h1 class="pageheader__title">
@@ -31,43 +32,27 @@
       <span>ICE CREAM</span>
     </h1>
   </div>
-<?php elseif ( is_page('products-list') ): ?>
-  <div class="pageheader">
+<?php elseif (is_page('products-list')) : ?>
+  <div class="pageheader not_store hide">
     <img src="<?php echo wp_upload_dir()['url']; ?>/products.jpg" alt="">
     <h1 class="pageheader__title">
       PRODUCTS
       <span>ダシーズファクトリーの商品ラインアップ</span>
     </h1>
   </div>
-<?php elseif ( is_archive('stores') ): ?>
+  <div class="p-chain-store-heading is_store hide">
+    <h2 class="p-chain-store-heading__title">商品紹介</h2>
+    <p class="p-chain-store-heading__lead">発注いただける商品一覧です。詳細をご覧いただけます。</p>
+  </div>
+<?php elseif (is_archive('stores')) : ?>
   <div class="pageheader">
     <img src="<?php echo wp_upload_dir()['url']; ?>/stores.jpg" alt="">
     <h1 class="pageheader__title">
-      STORE
+      STORES
       <span>ダシーズファクトリー実店舗のご案内</span>
     </h1>
   </div>
-<?php elseif ( is_singular('post') ): ?>
-  <div class="pageheader-wrap">
-    <div class="pageheader">
-      <?php /*
-      if (has_post_thumbnail()) {
-          the_post_thumbnail();// サムネイルタグを出力
-          $thumbnail = get_the_post_thumbnail();// サムネイル画像情報を変数に格納
-      } else {
-        ?>
-          <img src="<?php echo wp_upload_dir()['url']; ?>/products-detail.jpg" alt="">
-        <?php
-      }
-      */ ?>
-      <img src="<?php echo wp_upload_dir()['url']; ?>/news.jpg" alt="">
-      <h1 class="pageheader__title">
-        NEWS
-        <?php /* single_post_title(); */ ?>
-      </h1>
-    </div>
-  </div>
-<?php elseif ( is_page('concept') || is_parent_slug() === 'concept' ): ?>
+<?php elseif (is_page('concept') || is_parent_slug() === 'concept') : ?>
   <div class="pageheader">
     <img src="<?php echo wp_upload_dir()['url']; ?>/concept_02.jpg" alt="">
     <h1 class="pageheader__title">
@@ -75,8 +60,8 @@
       <span>製品のこだわり</span>
     </h1>
   </div>
-<?php elseif ( get_post_type() == 'products' ): ?>
-  <div class="pageheader-wrap">
+<?php elseif (get_post_type() == 'products') : ?>
+  <div class="pageheader-wrap not_store hide">
     <div class="pageheader">
       <img src="<?php echo wp_upload_dir()['url']; ?>/products-detail.jpg" alt="">
       <h1 class="pageheader__title">
@@ -84,5 +69,9 @@
         <span>ICE CREAM</span>
       </h1>
     </div>
+  </div>
+  <div class="p-chain-store-heading is_store hide">
+    <h2 class="p-chain-store-heading__title">商品紹介</h2>
+    <p class="p-chain-store-heading__lead">発注いただける商品一覧です。詳細をご覧いただけます。</p>
   </div>
 <?php endif; ?>

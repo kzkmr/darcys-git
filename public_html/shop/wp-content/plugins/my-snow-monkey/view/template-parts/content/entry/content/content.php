@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package snow-monkey
  * @author inc2734
@@ -9,22 +10,25 @@
 use Framework\Helper;
 ?>
 
-<?php do_action( 'snow_monkey_before_entry_content' ); ?>
+<?php do_action('snow_monkey_before_entry_content'); ?>
 
 <div class="c-entry__content p-entry-content">
 
-	<?php if( is_singular('post') ): ?>
-		<h2 class="c-entry__content__title">
-			<?php the_title(); ?>
-		</h2>
-	<?php endif; ?>
+  <?php if (is_singular('post') || is_single('store_news')) : ?>
+    <h2 class="c-entry__content__title">
+      <?php the_title(); ?>
+    </h2>
+    <p class="c-entry__content__date time-format">
+      <?php the_time(get_option('date_format')); ?>
+    </p>
+  <?php endif; ?>
 
-	<?php do_action( 'snow_monkey_prepend_entry_content' ); ?>
+  <?php do_action('snow_monkey_prepend_entry_content'); ?>
 
-	<?php the_content(); ?>
-	<?php Helper::get_template_part( 'template-parts/content/link-pages' ); ?>
+  <?php the_content(); ?>
+  <?php Helper::get_template_part('template-parts/content/link-pages'); ?>
 
-	<?php do_action( 'snow_monkey_append_entry_content' ); ?>
+  <?php do_action('snow_monkey_append_entry_content'); ?>
 </div>
 
-<?php do_action( 'snow_monkey_after_entry_content' ); ?>
+<?php do_action('snow_monkey_after_entry_content'); ?>

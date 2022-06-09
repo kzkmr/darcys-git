@@ -104,7 +104,7 @@
     </ol>
   </div>
 <?php elseif ( is_page('products-list') ): ?>
-  <div class="breadcrumb-wrapper">
+  <div class="breadcrumb-wrapper not_store hide">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
         <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
@@ -182,7 +182,7 @@
     </ol>
   </div>
 <?php elseif ( is_singular('products') ): ?>
-  <div class="breadcrumb-wrapper">
+  <div class="breadcrumb-wrapper not_store hide">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
         <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">

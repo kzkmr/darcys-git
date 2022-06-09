@@ -195,8 +195,9 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	if ( apply_filters( 'pochipp_show_amazon_btn', ! $pdata['hideAmazon'], $pid ) ) {
 		// $pdata['amazon_custom_url']
 		$show_detail_url = $asin && ! $pdata['is_all_search_result'];
+		$amazon_affi_url = $show_detail_url ? $pdata['amazon_affi_url'] : '';
 		$amazon_url      = $show_detail_url ? 'https://www.amazon.co.jp/dp/' . $asin : \POCHIPP::get_amazon_searched_url( $keywords );
-		$amazon_url      = \POCHIPP::get_amazon_affi_url( $pdata['amazon_affi_url'], $amazon_url, $amazon_aid );
+		$amazon_url      = \POCHIPP::get_amazon_affi_url( $amazon_affi_url, $amazon_url, $amazon_aid );
 	}
 
 	// 楽天ボタンURL

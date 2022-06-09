@@ -55,6 +55,14 @@ $(function() {
       }
     }
   );
+  $('.ec-header-bottom__store-link-item').hover(
+    function() {
+      $(this).find('.store-link-jp').addClass('active');
+    },
+    function() {
+      $(this).find('.store-link-jp').removeClass('active');
+    }
+  );
 });
 
 // $(function () {
@@ -78,20 +86,54 @@ $(function() {
 
 // 時刻表示
 $(function() {
-  var time = $('.c-meta__item--published');
+  var time = $('.c-meta__item--published, .time-format');
   time.each(function() {
     var timeText = $(this).text();
-    var result = timeText.replaceAll('-', '.');
+    var result = timeText.replaceAll('-', '/');
     console.log(result);
     $(this).text(result);
   });
 });
 
+// 販売店ヘッダーナビ
+$(function() {
+  var url = location.pathname;
+  var item = $('.ec-header-bottom-list__item');
+  console.log(url);
+  switch(url) {
+    case '/shop/store-guide/':
+    item.eq(2).addClass('active');
+    break;
+    case '/mypage/news':
+    item.eq(1).addClass('active');
+    break;
+  }
+});
+
 
 // Chainstore api読み込み
 var path = '../../../../../../'; // ECCUBE設置パス
-$('.is_store').hide();  // is_storeを非表示
-$('.not_store').hide();  // not_storeを非表示
+$.ajax({
+    url: path+"mypage/api_isstore", // apiパス
+    type: 'post',
+    dataType: 'json',
+}).done(function(data) {
+    if (data.done) {
+        // 販売店時の処理を記載
+        $('.is_store').removeClass('hide');  // is_storeを表示
+        $('body').addClass('layout-store');
+        //console.log('store');
+    }else{
+        // 販売店以外の処理を記載
+        $('.not_store').removeClass('hide');  // not_storeを表示
+        //console.log('not store');
+    }
+}).fail(function(data) {
+        // エラー発生：販売店以外の処理を記載
+        $('.not_store').removeClass('hide');  // not_storeを表示
+        //console.log('error');
+});
+
 $.ajax({
     url: path+"mypage/api_login", // apiパス
     type: 'post',
@@ -99,14 +141,15 @@ $.ajax({
 }).done(function(data) {
     if (data.done) {
         // ログイン時の処理を記載
-        $('.is_store').show();  // is_storeを表示
+        $('.nologin_block').removeClass('hide');  // login_blockを表示
+        console.log('logged in!');
     }else{
         // 未ログイン時の処理を記載
-        $('.not_store').show();  // not_storeを表示
-        console.log('ok');
+        $('.login_block').removeClass('hide');  // nologin_blockを表示
+        console.log('logged out!');
     }
 }).fail(function(data) {
         // エラー発生：未ログイン時の処理を記載
-        $('.not_store').show();
-        console.log('error');  // not_storeを表示
+        $('.login_block').removeClass('hide');  // nologin_blockを表示
+        console.log('log error!');
 });
