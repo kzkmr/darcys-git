@@ -47,12 +47,12 @@
             'dev_requirement' => false,
         ),
         'inc2734/wp-basis' => array(
-            'pretty_version' => '11.0.1',
-            'version' => '11.0.1.0',
+            'pretty_version' => '11.0.2',
+            'version' => '11.0.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../inc2734/wp-basis',
             'aliases' => array(),
-            'reference' => '9c6ceea3a4f5e94390e0f6567cce0ae6a8e85d07',
+            'reference' => '2ab59decb3926dbc58740831cdb1e36cf2b3a8ef',
             'dev_requirement' => false,
         ),
         'inc2734/wp-breadcrumbs' => array(

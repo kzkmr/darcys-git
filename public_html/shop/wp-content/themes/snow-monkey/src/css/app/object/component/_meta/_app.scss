@@ -1,16 +1,28 @@
 .#{ $_prefix }c-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
   &__item {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     white-space: nowrap;
 
     &:not(:last-child) {
       margin-right: .75em;
     }
 
+    img,
+    svg {
+      flex: 0 0 auto;
+      margin-right: 5px;
+    }
+
     &--author {
+      white-space: initial;
+
       img {
         @include _circle(24px);
-        margin-right: 5px;
       }
     }
   }

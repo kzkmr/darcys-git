@@ -1,33 +1,33 @@
 {
   "_args": [
     [
-      "@inc2734/spider@0.0.30",
+      "@inc2734/spider@0.0.31",
       "/home/runner/work/snow-monkey/snow-monkey"
     ]
   ],
   "_development": true,
-  "_from": "@inc2734/spider@0.0.30",
-  "_id": "@inc2734/spider@0.0.30",
+  "_from": "@inc2734/spider@0.0.31",
+  "_id": "@inc2734/spider@0.0.31",
   "_inBundle": false,
-  "_integrity": "sha512-NPhH3pmIF0VaZkd4YbyMQcaTpreEL0yYyp8FavLtwCZoe2160utXeCpU4IrYIXxc2JYF0WJ1uLDRPAfdLRqjAg==",
+  "_integrity": "sha512-oJVeU0mV+2bheiO2jymO9jFfsnPBSQ2/0ALp0HIBFbBCzJ+AvkZifKk27IuF7zuot+TE8/JeUeCi6lqFjspZtQ==",
   "_location": "/@inc2734/spider",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@inc2734/spider@0.0.30",
+    "raw": "@inc2734/spider@0.0.31",
     "name": "@inc2734/spider",
     "escapedName": "@inc2734%2fspider",
     "scope": "@inc2734",
-    "rawSpec": "0.0.30",
+    "rawSpec": "0.0.31",
     "saveSpec": null,
-    "fetchSpec": "0.0.30"
+    "fetchSpec": "0.0.31"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/@inc2734/spider/-/spider-0.0.30.tgz",
-  "_spec": "0.0.30",
+  "_resolved": "https://registry.npmjs.org/@inc2734/spider/-/spider-0.0.31.tgz",
+  "_spec": "0.0.31",
   "_where": "/home/runner/work/snow-monkey/snow-monkey",
   "author": {
     "name": "inc2734"
@@ -75,7 +75,7 @@
     "clean:css": "rimraf dist/css && mkdir -p dist/css",
     "clean:js": "rimraf dist/js && mkdir -p dist/js",
     "clean:zip": "rimraf spider.zip",
-    "css": "npm run clean:js && node-sass src/css/spider.scss dist/css/spider.css && postcss -r dist/css/spider.css -c=postcss.config.js",
+    "css": "npm run clean:css && node-sass src/css/spider.scss dist/css/spider.css && postcss -r dist/css/spider.css -c=postcss.config.js",
     "docs": "npm-run-all -p docs:js docs:css",
     "docs:clean:css": "rimraf docs/dist/css && mkdir -p docs/dist/css",
     "docs:clean:js": "rimraf docs/dist/js && mkdir -p docs/dist/js",
@@ -90,5 +90,5 @@
     "zip:archive": "zip -9 -qmr spider.zip spider",
     "zip:pack": "rsync -a --exclude='/node_modules' --exclude='.*' --exclude='*.config.js' --exclude='package*.json' . spider && cd spider"
   },
-  "version": "0.0.30"
+  "version": "0.0.31"
 }

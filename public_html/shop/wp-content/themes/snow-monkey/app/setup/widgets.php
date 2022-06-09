@@ -3,7 +3,7 @@
  * @package snow-monkey
  * @author inc2734
  * @license GPL-2.0+
- * @version 15.8.2
+ * @version 17.0.0
  */
 
 use Framework\Helper;
@@ -149,7 +149,7 @@ add_filter(
 
 		return str_replace(
 			'<li class="wpaw-local-nav__subitem">',
-			'<li class="wpaw-local-nav__subitem"><span class="wpaw-local-nav__subitem__icon"><i class="fas fa-angle-right"></i></span>',
+			'<li class="wpaw-local-nav__subitem"><span class="wpaw-local-nav__subitem__icon"><i class="fa-solid fa-angle-right"></i></span>',
 			$content
 		);
 	},
@@ -321,20 +321,13 @@ add_filter(
 		];
 
 		if ( ! isset( $widget_args['id'] ) || in_array( $widget_args['id'], $content_widget_areas, true ) ) {
-			if ( false !== strpos( $widget, 'class="wpaw-pickup-slider ' ) ) {
-				return str_replace( 'class="wpaw-pickup-slider ', 'class="wpaw-pickup-slider alignfull ', $widget );
-			}
-
-			if ( false !== strpos( $widget, 'class="wpaw-showcase ' ) ) {
-				return str_replace( 'class="wpaw-showcase ', 'class="wpaw-showcase alignfull ', $widget );
-			}
-
-			if ( false !== strpos( $widget, 'class="wpaw-pr-box ' ) ) {
-				return str_replace( 'class="wpaw-pr-box ', 'class="wpaw-pr-box alignfull ', $widget );
-			}
-
-			if ( false !== strpos( $widget, 'class="wpaw-slider ' ) ) {
-				return str_replace( 'class="wpaw-slider ', 'class="wpaw-slider alignfull ', $widget );
+			if (
+				false !== strpos( $widget, 'class="wpaw-pickup-slider ' )
+				|| false !== strpos( $widget, 'class="wpaw-showcase ' )
+				|| false !== strpos( $widget, 'class="wpaw-pr-box ' )
+				|| false !== strpos( $widget, 'class="wpaw-slider ' )
+			) {
+				return str_replace( 'class="c-section ', 'class="c-section alignfull ', $widget );
 			}
 		}
 
