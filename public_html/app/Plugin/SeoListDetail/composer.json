@@ -1,0 +1,1 @@
+{"name":"ec-cube\/seolistdetail","version":"4.1.2","description":"\u5546\u54c1\u4e00\u89a7\u30fb\u8a73\u7d30\u30da\u30fc\u30b8SEO\u5bfe\u7b56\u30d7\u30e9\u30b0\u30a4\u30f3","type":"eccube-plugin","require":{"ec-cube\/plugin-installer":"~0.0.6 || ^2.0"},"extra":{"code":"SeoListDetail","id":1883}}

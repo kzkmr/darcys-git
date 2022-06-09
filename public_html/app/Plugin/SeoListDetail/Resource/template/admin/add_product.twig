@@ -1,0 +1,96 @@
+<script>
+    $(function() {
+		$('#add_seo_list_detail_area').appendTo($('.c-primaryCol'));
+    });
+</script>
+
+<div id="add_seo_list_detail_area">
+	<div class="card rounded border-0 mb-4">
+		<div class="card-header">
+			<div class="row">
+				<div class="col-8">
+					<div class="d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'tooltip.product.itoben_seo_meta'|trans }}">
+						<span class="card-title">{{ 'admin.product.itoben_seo_area__card_title'|trans }}</span>
+						<i class="fa fa-question-circle fa-lg ml-1"></i>
+					</div>
+				</div>
+				<div class="col-4 text-right">
+					<a data-toggle="collapse" href="#seoArea" aria-expanded="false" aria-controls="seoArea"><i class="fa fa-angle-down fa-lg"></i></a>
+				</div>
+			</div>
+		</div>
+		<div class="collapse hide ec-cardCollapse" id="seoArea">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3">
+						<span>{{ 'title'|trans }}</span>
+					</div>
+					<div class="col mb-2">
+						<div>
+							{{ form_widget(form.itoben_seo_title) }}
+							{{ form_errors(form.itoben_seo_title) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						<span>{{ 'author'|trans }}</span>
+					</div>
+					<div class="col mb-2">
+						<div>
+							{{ form_widget(form.itoben_seo_author) }}
+							{{ form_errors(form.itoben_seo_author) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						<span>{{ 'description'|trans }}</span>
+					</div>
+					<div class="col mb-2">
+						<div>
+							{{ form_widget(form.itoben_seo_description) }}
+							{{ form_errors(form.itoben_seo_description) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						<span>{{ 'keyword'|trans }}</span>
+					</div>
+					<div class="col mb-2">
+						<div>
+							{{ form_widget(form.itoben_seo_keyword) }}
+							{{ form_errors(form.itoben_seo_keyword) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						<span>{{ 'robot'|trans }}</span>
+					</div>
+					<div class="col mb-2">
+						<div>
+							{{ form_widget(form.itoben_seo_meta_robots) }}
+							{{ form_errors(form.itoben_seo_meta_robots) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						<div class="d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'tooltip.content.page_meta_tags'|trans }}">
+							<span>{{ 'metatag'|trans }}</span>
+							<i class="fa fa-question-circle fa-lg ml-1"></i>
+						</div>
+					</div>
+					<div class="col mb-2">
+						<div>
+							{{ form_widget(form.itoben_seo_meta_tags, { attr : { placeholder : 'admin.content.page_meta_metatag_placeholder'|trans, rows : '10' }}) }}
+							{{ form_errors(form.itoben_seo_meta_tags) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

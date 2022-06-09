@@ -431,6 +431,30 @@ file that was distributed with this source code.
             {{ form_widget(form.quantity, {'type': 'hidden'}) }}
             {{ form_widget(form.ksCartKey) }}
         {% endif %}
+
+        {% if IsChainStore() == false %}
+            <div class="breadcrumb-wrapper">
+                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a itemprop="item" href="{{ url('homepage') }}">
+                            <span itemprop="name">HOME</span>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a itemprop="item" href="/shop/products-list/">
+                            <span itemprop="name">ONLINE SHOP</span>
+                        </a>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <span itemprop="name">{{ Product.name }}</span>
+                        <meta itemprop="position" content="3" />
+                    </li>
+                </ol>
+            </div>
+        {% endif %}
+
         <div class="ec-productRole">
             {# 商品名 #}
             <div class="ec-productRole__title">

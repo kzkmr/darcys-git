@@ -1,0 +1,4 @@
+parameters:
+  jwt_key_private: '%kernel.project_dir%/app/Plugin/Webapi/Resource/config/jwt/private.pem'
+  jwt_key_public: '%kernel.project_dir%/app/Plugin/Webapi/Resource/config/jwt/public.pem'
+  jwt_key_passphrase: 'bnksolution123'

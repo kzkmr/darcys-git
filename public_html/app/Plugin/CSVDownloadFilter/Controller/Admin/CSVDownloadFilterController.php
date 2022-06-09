@@ -92,9 +92,7 @@ class CSVDownloadFilterController extends AbstractController
      * @var ProductStockRepository
      */
     protected $productStockRepository;
-    /**
-     * @var OrderPdfService
-     * */
+    /** @var OrderPdfService */
     protected $orderPdfService;
     /**
      * @var ValidatorInterface
