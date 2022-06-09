@@ -1,1 +1,27 @@
 /* カスタマイズ用CSS */
+/*購入ページ・商品詳細リスト*/
+.details-list{
+    width:100%;
+    margin-top:1rem;
+    margin-bottom: 0.5rem;
+    border-collapse: collapse;
+}
+td{
+        border:1px solid #ddd;
+        padding: 6px 12px;
+}
+.details-list_l{
+    width:150px;
+    background-color: #fdf3f1;
+    font-size: 0.8rem;
+}
+
+.details-list_r{
+    font-size: 0.8rem;
+
+}
+.details-list_exp{
+    border:none;
+    padding:8px;
+    font-size:0.9rem;
+}

@@ -233,4 +233,43 @@ $(function() {
       }
     }
   );
+  $('.ec-header-bottom__store-link-item').hover(
+    function() {
+      $(this).find('.store-link-jp').addClass('active');
+    },
+    function() {
+      $(this).find('.store-link-jp').removeClass('active');
+    }
+  );
+});
+
+// 販売店ヘッダーナビ
+$(function() {
+  var url = location.pathname;
+  var query = location.search ? location.search : '';
+  url = url + query;
+  var item = $('.ec-header-bottom-list__item');
+  // console.log(url);
+  // console.log(url.startsWith('/mypage'));
+
+  switch(url) {
+    case '/mypage/menu':
+    item.eq(0).addClass('active');
+    break;
+    case '/mypage/news':
+    item.eq(1).addClass('active');
+    break;
+    case '/products/list':
+    case '/products/list?category_id=1':
+    item.eq(3).addClass('active');
+    break;
+    case '/products/list?category_id=8':
+    item.eq(4).addClass('active');
+    break;
+    // case '/mypage':
+    // case '/mypage/chainstore_coupon_jisseki':
+    // case '/mypage/chainstore_coupon_list':
+    // item.eq(4).addClass('active');
+    // break;
+  }
 });

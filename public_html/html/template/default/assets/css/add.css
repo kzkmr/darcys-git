@@ -2,250 +2,493 @@
 
 /*//////////// ヘッダー /////////////*/
 /*ヘッダーの幅を広げる*/
-.ec-header-top{
-    max-width: inherit;
-        margin: 0 1rem;
+.ec-header-top {
+  max-width: inherit;
+  margin: 0.2rem 1rem 0 0;
 }
+
 /*上記プラス、グローバルメニューの下揃え*/
-.ec-header-bottom{
-    max-width: inherit;
-    padding:0!important;
-    margin-bottom: calc(var(--_space, 1.8rem)*1.5);
+.ec-header-bottom {
+  max-width: inherit;
+  padding: 0 !important;
+  margin-bottom: calc(1.8rem*1);
 }
+
 ul.p-global-navi {
-    position: relative;
-    top: 0.5rem;
+  position: relative;
+  top: 0.5rem;
 }
+
 /*グローバルメニューとカートの横並び*/
-.ec-header-bottom__center{
-    margin:unset;
+.ec-header-bottom__center {
+  margin: unset;
 }
-.ec-header-bottom__gnav .p-global-navi__item a{
-    font-size: 1.2rem;
-    font-weight: 300;
+/*WPのTOP画像にてグローバルメニューとの幅調整*/
+.p-entry-content>:first-child, .textwidget>:first-child {
+    margin-top: -1.6rem;
+}
+
+/*MENU一覧のhover日本語調整*/
+a.p-global-navi__jp{
+    background: rgba(255,255,255,0.9);
+    font-size: 0.7rem;
+}
+ul.p-global-navi-child{
+    margin:0 auto;
+}
+.ec-header-bottom__gnav .p-global-navi__jp.active {
+    padding-left:0.4rem;
+    margin-top: 0.3rem;
+}
+/*MENU一覧のhover日本語のもう一つ下の下層*/
+.ec-header-bottom__gnav .p-global-navi-child{
+    width:165px;
+/*    border: 1px solid #f6f6f6;
+*/    background: rgba(255,255,255,0.9);
+        padding: 9px 14px;
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+}
+
+/*MENU一覧の調整*/
+ .ec-header-bottom__gnav .p-global-navi__item a {
+  font-size: 0.9rem;
+  font-weight: 600;
+     padding-left: 1rem;
+    margin: 0 auto;
+width: 165px;
+    position: relative;
+     left: -1rem;
+/*    text-align: center;
+*/}
+
+.l-contents__body {
+  position: relative;
+  /* 6/7 影響範囲が広いためコメントアウト */
+  /* top: -2rem; */
+}
+.ec-header-bottom__gnav .p-global-navi{
+    padding-top:2.5rem;
+    font-family: sans-serif;
 }
 
 /*wp作成グローバルメニュー下の影*/
-.l-header--sticky-sm{
-    box-shadow: none;
-}
-.l-header{
-    overflow: inherit;
-    margin-bottom: 0!important;
-}
-.ec-layoutRole__contents{
-    border: none;
-    padding-top: 0;
-}
-/*キーワード検索*/
-.ec-header-search__keyword{
-    border:none;
-    border-bottom:1px solid #666;
-    border-radius: 0px;
-}
-.ec-header-search__keyword .ec-icon{
-    height: auto;
-}
-input.search-name{
-    height: 28px!important;
+.l-header--sticky-sm {
+  box-shadow: none;
 }
 
-/*カートとONLINEの背景削除*/
-.ec-header-bottom__store-link-item a{
-    background-color: #fff;
+.l-header {
+  overflow: inherit;
+  /* パンくずリストの文字が切れるため修正 5/26 */
+  margin-bottom: 0;
 }
-/*カート数量の高さ*/
-.ec-header-bottom__store-link-item span{
-    line-height: .9;
+
+@media (min-width: 768px) {
+  .ec-layoutRole__contents {
+    border: none;
+    padding-top: 0;
+    margin-top: 2rem/*ヘッダー部分の幅も動く*/;
+      border-top: 1px solid #f6f6f6;
+  }
 }
+
+/*キーワード検索*/
+.ec-header-search__keyword {
+  border: none;
+  border-bottom: 1px solid #666;
+  border-radius: 0px;
+}
+
+.ec-header-search__keyword .ec-icon {
+  height: auto;
+}
+
+input.search-name {
+  height: 28px !important;
+}
+
 /*カートの丸の大きさ・位置*/
-.ec-header-bottom__store-link-item a .ec-cartNavi-badge{
-    padding:5px 6px 3px 6px;
-    top: -3px;
-    right: calc(50% - 26px);
+.ec-header-bottom__store-link-item a .ec-cartNavi-badge {
+  padding: 6px 3px 4px 4px;
+  top: -4px;
+  /* 5/30 グローバルメニュー修正のため修正*/
+  right: -10px;
+  background-color: #de5d50;
+    border: none;
+    font-size: 0.9rem;
+        width: 65%;
+  font-weight: 100;
 }
+
 /*カート数量・online文字大きさ・中央揃え・囲み*/
 .ec-header-bottom__store-link-item span {
-    font-size: 16px;
-    text-align: center;
-border: 1px solid #ddd;
-    padding: 0.2rem;
-    background: #333;
-    color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.5rem 0;
+  background: #333;
+  color: #fff;
+width: 145px;
+    border: 4px double #FFF;
+    box-shadow: 1px 1px 3px #333;
+/*カート数量の高さ*/
+  line-height: .9;
+}
+
+/*.ec-header-bottom__store-link-item span:nth-child(2):before{
+      content: "\f290";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}*/
+.ec-header-bottom__store-link{
+    position: relative;
+    top: -3rem;
+    right: 0.1rem;
 }
 /*カートとonline隙間なし*/
-.ec-header-bottom__store-link-item+.ec-header-bottom__store-link-item{
-    margin-left: 0;
+.ec-header-bottom__store-link-item+.ec-header-bottom__store-link-item {
+/*  margin-left: 0;
+*/
 }
+/*onlineとGuideの日本語表示*/
+a.store-link-jp{
+    background: rgba(255,255,255,0.9);
+    width: 145px;
+    height: 2.5rem;
+    font-size: 0.6rem;
+/*        height: 50px;*/
+position: relative;
+    top: 1rem;
+}
+.ec-header-bottom__store-link-item .store-link-jp.active{
+    font-size: 0.8rem;
+    left:0rem;
+    top:3.3rem;
+    text-align: center;
+}
+.ec-header-bottom__store-link-item{
+    margin-left: 0.5rem;
+}
+.ec-header-bottom__store-link-item:nth-child(2){
+    margin-left:1.4rem;
+}
+.ec-header-bottom__store-link-item:nth-child(1){
+    margin-top:1rem;
+    left:-0.3rem;
+    top:-0.5rem;
+}
+/*GUIDEの調整*/
+.ec-header-bottom__store-link-item span.store-link-small{
+    background-color: #fff;
+    color: #333;
+    padding: -0.05rem 0;
+  border: 4px double #ddd;
+    font-size: 100%;
+}
+
 /*ロゴを上位置へ*/
 .ec-header-bottom__logo {
-top: -1.3rem;
-    left: 5rem;
+  top: -1.1rem;
+  left: 3rem;
 }
+
 /*新規会員・ログイン*/
-.ec-header-nav__item a{
-    border-radius: 0;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    padding:3px 24px;
+.ec-header-nav__item a {
+  border-radius: 0;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 3px 24px;
 }
+
 span.ec-header-nav__item-link {
-    color: #333!important;
-    font-weight: 100;
-    font-size: 0.8rem;
+  color: #333 !important;
+  font-weight: 100;
+  font-size: 0.8rem;
 }
+
 /*カートとオンラインショップ下揃え*/
-.ec-header-bottom__right{
-        position: relative;
-    top: 0.9rem;
+.ec-header-bottom__right {
+  position: absolute;
+  top: 3.9rem;
+    right: 1rem;
 }
 
 /*//////////// フッター /////////////*/
 /*カラー変更など*/
-.ec-footer-navi a{
-    color: #fff;
+.ec-footer-navi a {
+  color: #fff;
+    font-weight: 100;
+    font-size: 0.8rem;
 }
-.ec-footer-role{
-    background-color: #333;
+.ec-footer-navi{
+    flex: 0 0 13%;
 }
-.ec-footer-title{
-        color: #fff;
+
+.ec-footer-role {
+  background-color: #333;
+  padding-top:3rem;
+  font-family: sans-serif;
+    }
+
+.ec-footer-title {
+  color: #fff;
 }
+
 .ec-footer-title__copyright {
-    color: #fff;
+  color: #fff;
+font-size: 0.7rem;
+}
+
+.ec-footer-navi__link {
+    line-height: 1.5;
+}
+.ec-footer-role__top{
+    justify-content: center;
+}
+
+/*SNS*/
+.ec-footer-sns-navi{
+    margin-top: 0;
+    justify-content: flex-end;
+
+}
+.ec-footer-sns-navi__link{
+    width: 11%;
+}
+
+/*下の2ライン部分*/
+.ec-footer-role__bottom{
+    margin-top: 6rem;
+    border-top: 0.1rem solid #444;
+    padding-top: 1rem;
+}
+
+.ec-footer-title{
+    padding: 5px 0px 10px 0px;
+}
+.ec-footer-role__bottom .ec-footer-bottom-navi a {
+    font-size: 0.7rem;
+}
+
+/*//////////// パンくず /////////////*/
+ol.breadcrumb {
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+.breadcrumb-wrapper .breadcrumb__item a{
+    font-size: 0.8rem;
+
 }
 
 /*//////////// TOPページ /////////////*/
 /*NEWS下のドットの飾り*/
 span.ec-secHeading__en {
-    border-bottom: 6px dotted #ddd;
+  border-bottom: 6px dotted #ddd;
 }
+
 /*一覧をみる*/
-.ec-top-blog__btn a{
+.ec-top-blog__btn a {
+  font-size: 0.8rem;
+  color: #333;
+font-weight: 100;
+}
+
+.ec-top-blog__btn {
+  top: 12px;
+}
+p.title{
+    margin-top: 1rem;
+}
+time{
     font-size: 0.8rem;
-    color:#333;
 }
-.ec-top-blog__btn{
-    top:29px;
+.meta time{
+    color: #333;
 }
+/*otherボタンの背景色*/
+p.category{
+/*    background-color: #898989;
+*/    }
+
 /*画像バナーメニューボタン*/
 section.ec-top-links {
-    margin-top: 10rem;
+  margin-top: 10rem;
 }
-.ec-top-links .ec-top-links-item__title{
-    box-shadow: 0.3rem 0.3rem 0.3rem #999;
+
+.ec-top-links .ec-top-links-item__title {
+  box-shadow: 0.2rem 0.2rem 0.1rem #ede4e1;
+  color: #231815;
+    border: 3px double #ddd;
+
 }
-.ec-top-links .ec-top-links-item__title{
-        color: #231815;
+.ec-top-links .ec-top-links-item{
+    border: 1px solid #ede4e1;
 }
 
 /*オンラインバナー*/
-.ec-top-blog .row{
-    margin-bottom: 6rem;
-}
-.ec-top-banner img{
-        box-shadow: 0.3rem 0.3rem 0.3rem #999;
+.ec-top-blog .row {
+  margin-bottom: 6rem;
 }
 
-
+.ec-top-banner img {
+  box-shadow: 0.3rem 0.3rem 0.3rem #999;
+}
 
 /*インスタ上*/
-.ec-top-instagram{
-    margin-top: 10rem;
+.ec-top-instagram {
+  margin-top: 10rem;
 }
-h3{
-    color: #333;
+
+h3 {
+  color: #333;
 }
+
 /*インスタのボタン*/
-#sb_instagram #sbi_load .sbi_load_btn, #sb_instagram .sbi_follow_btn a{
-    border-radius: 0!important;
+#sb_instagram #sbi_load .sbi_load_btn,
+#sb_instagram .sbi_follow_btn a {
+  border-radius: 0 !important;
+color:#333!important;
+    border:1px solid #333!important;
+    background-color: #fff!important;
+    font-weight: bold!important;
+    font-family: sans-serif!important;
 }
 
 section.ec-top-instagram {
-    margin-bottom: 6rem;
+  margin-bottom: 6rem;
 }
 
 /*//////////// NEWS /////////////*/
 /*幅揃える*/
-.c-container , .recommend-list{
-    width: auto;
+.c-container,
+.recommend-list {
+  width: auto;
+    /*パンくず幅いっぱい表示*/
+    display: inline;
 }
+
 /*記事タイトル*/
-.section-news .category-panel a .c-entry-summary__title{
-        font-size: 0.8rem;
-    text-align: left;
-/*    padding: 1rem 0.5rem;*/
-    font-weight: 500;
+.section-news .category-panel a .c-entry-summary__title {
+  font-size: 0.8rem;
+  text-align: left;
+  /*    padding: 1rem 0.5rem;*/
+  font-weight: 500;
 }
-.category-panel,.c-entry-summary__header{
-    padding:0;
-}
+
+.category-panel,
 .c-entry-summary__header {
-    margin-bottom: 2rem;
+  padding: 0;
 }
+
+.c-entry-summary__header {
+  margin-bottom: 2rem;
+}
+
 /*日付*/
-.category-panel .c-entry-summary__header .c-entry-summary__meta .c-meta__item--published{
-    font-size: 0.8rem;
+.category-panel .c-entry-summary__header .c-entry-summary__meta .c-meta__item--published {
+  font-size: 0.8rem;
 }
+
 /*//////////// パンくず /////////////*/
 .breadcrumb-wrapper {
-    margin-bottom: 4rem;}
+  margin-bottom: 4rem;
+    margin-left: 1rem;
+margin-left: calc(50% - 50vw);
+    padding-left: 1rem;
+}
 
 /*//////////// shop/products-list/商品ラインナップ /////////////*/
-section.wp-block-snow-monkey-blocks-section.smb-section.smb-section--fit.section-products-list{
-    padding-top: 0;
+section.wp-block-snow-monkey-blocks-section.smb-section.smb-section--fit.section-products-list {
+  padding-top: 0;
 }
-/*アイス、コーヒーなどh3の余白確保*/
-.smb-section__body>h3{
-    margin-top: 2.5rem!important;
-    margin-bottom: 2rem;
-}
-/*商品名文字の調整*/
-.c-entry-summary__title{
-    font-size:0.9rem;
+
+/*アイス、コーヒーなどh3の余白確保(ガイドページの説明文にもリンク)
+*/
+.smb-section__body>h3 {
+  margin-top: 2.5rem !important;
+/*  margin-bottom: 0.8rem;
+*//*  background: linear-gradient(transparent 75%, #CAE8DA 100%);*/
+  font-size: 1.5rem;
+  padding-left: 0.5rem;
     font-weight: 100;
-    text-align: center;
-/*    background: linear-gradient(transparent 35%, #f6f6f6 100%);*/
-    padding:1rem 0 0.3rem 0;
-/*    border-radius: 10px;*/
 }
+
+
+/*商品名文字の調整*/
+.c-entry-summary__title {
+  font-size: 1rem;
+  font-weight: 100;
+  text-align: center;
+  /*    background: linear-gradient(transparent 35%, #f6f6f6 100%);*/
+  padding: 1rem 0 0.3rem 0;
+  /*    border-radius: 10px;*/
+}
+
 section.c-entry-summary.c-entry-summary--products.c-entry-summary--type-products {
-    border-left: 0.5px solid #f8f8f8;
-    border-top: 0.5px solid #f8f8f8;
-    margin-bottom: 1rem;
-}
-.smb-section__body > h3 {
-    background: linear-gradient(transparent 75%, #CAE8DA 100%);
-    font-size: 1.5rem;
-    padding-left: 0.5rem;
-
+/*  border-left: 0.5px solid #f8f8f8;
+  border-top: 0.5px solid #f8f8f8;*/
+  margin-bottom: 1rem;
 }
 
+/*製品の囲み(実店舗も連動)*/
+.c-entries__item{
+        box-shadow: 1px 1px 3px #f6f6f6;
+    padding:0.5rem;
+}
 
 /*//////////// shop/products/listページ（オンラインショップ） /////////////*/
 /*テキスト*/
-.online-store-information__text{
-    text-align: left;
-    font-weight: 100;
-    font-size: 1rem;
+.online-store-information__text {
+  text-align: left;
+  font-weight: 100;
+  font-size: 1rem;
 }
-.online-store-information__text+.online-store-information__text{
-    margin-top: 0.1rem;
+
+.online-store-information__text+.online-store-information__text {
+  margin-top: 0.1rem;
 }
-.online-store-information{
-    max-width: none;
+
+.online-store-information {
+  max-width: none;
 }
+
 /*カテゴリー部分の背景*/
 .category-tab {
-    background-color: #f6f6f6;
-padding: 0.7rem 0;
+  background-color: #f6eff0;
+  padding: 0.7rem 0;
 }
+
 /*カテゴリー4つのwrap*/
-.category-tab__list{
-    flex-wrap: wrap;
+.category-tab__list {
+  flex-wrap: wrap;
 }
-.category-tab__title{
-    text-align: center;
+.category-tab__title {
+  text-align: center;
+}
+.category-tab__item{
+    margin: 0 3px 10px
+}
+/*購入ボタンの色*/
+/*商品を選択する*/
+.ec-shelfGrid__btn a{
+    background-color: #d15204;
+        border:1px solid #d15204;
+}
+.ec-shelfGrid__btn a:hover{
+    color: #d15204;
+    opacity: 1;
+    background-color: #FEF5F0;
+}
+
+
+/*カートに入れる*/
+ .ec-shelfGrid__btn button{
+    background-color: #824e2e;
+        border:1px solid #824e2e;
+}
+ .ec-shelfGrid__btn button:hover{
+     color:#824e2e;
+     opacity: 1;
+     background-color: #F2EDEA;
 }
 
 
@@ -258,185 +501,707 @@ padding: 0.7rem 0;
 /*//////////// shop/products/個別製品ページ(オンラインショップ) /////////////*/
 /*メイン画像のサイズをマックス横幅に*/
 .pageheader-wrap {
-    max-width: inherit;
+  max-width: inherit;
 }
+
 .pageheader {
-    max-width: inherit;
+  max-width: inherit;
 }
-/**/
+/*フレーバーサブタイトル*/
+.sme-font-size{
+   margin-bottom: 0rem;
+}
+span.sme-text-color {
+    font-size: 1rem;
+    font-weight: 100;
+    color: #535151;
+}
+span.sme-font-size.has-sm-small-font-size{
+        font-size: 1rem;
+    font-weight: 100;
+    color: #535151/*実店舗のフォームリンクボタンと同じ*/;
+}
+
+/*製品名の下のピンクのborder*/
+.smb-section__title:after{
+    display: none;
+}
+
+
+/*製品の説明*/
+.product-box-01{
+    max-width:100%;
+    padding-top:3rem;
+}
 h2.smb-section__title {
-    font-size: 1.4rem;
+  font-size: 1.3rem;
+    font-weight: 100;
+}
+/*製品画像*/
+.product-gallery{
+    max-width:100%;
+}
+/*価格*/
+span.ec-price__price {
+/*    font-family: sans-serif;*/
 }
 
 /*素材のこだわり*/
 .smb-box__background {
-    background-color: #fff!important;
+  background-color: #fff !important;
+}
+.wp-block-snow-monkey-blocks-box.smb-box.product-box-02{
+    max-width:100%;
 }
 
-.product-box-02 h3{
-    font-weight: normal;
-    font-size: 1.1rem;
-    background: linear-gradient(transparent 75%, #FFCFCF 100%);
+.product-box-02 h3 {
+  font-weight: normal;
+  font-size: 1.1rem;
+  background: linear-gradient(transparent 75%, #FFCFCF 100%);
 
 }
-.smb-box__body>h4{
-    font-weight: normal;
-}
-.product-box-02 h4{
-    font-size:1rem;
+.smb-box__body{
+    line-height: 2;
 }
 
+.smb-box__body>h4 {
+  font-weight: normal;
+    font-family: sans-serif;
+}
+.product-box-02 p{
+    font-weight: 100;
+}
+.product-box-02 h4 {
+  font-size: 1rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.8rem;
+}
+/*原材料表示*/
+.product-info{
+      max-width: 100%;
+}
+.smb-information__item__body {
+    font-size: 0.875rem;
+    letter-spacing: 0;
+        font-family: sans-serif;
+        margin-top: 5rem;
+}
+.smb-information__item__label {
+    font-family: sans-serif;
+}
 /*画像ギャラリー*/
-.product-gallery .main-img{
-    background-color:#fff!important;
+.product-gallery .main-img {
+  background-color: #fff !important;
 }
-.product-gallery .sub-img li{
-    background-color: #fff!important;
+
+.product-gallery .sub-img li {
+  background-color: #fff !important;
 }
 
 /*メイン画像のサイズ*/
 /*.pageheader img{
     object-fit: contain;
 }*/
+/*//////////// products（オンラインショップ） /products/detail //////////////*/
+/*商品詳細の幅*/
+.product-freearea {
+    max-width: 100%!important;
+}
+/*/////////////products/select/list/16/new商品選択ページ(オンラインショップ) /////////////*/
+
+/*カートに入れるボタン*/
+.ec-productRole__btn--add button:not(.disabled){
+    background-color: #824e2e;
+    opacity: 1;
+    cursor: pointer;
+}
+.ec-productRole__btn--add button:not(.disabled):hover{
+    background-color: #F2EDEA;
+    color: #824e2e;
+    opacity: 1;
+}
+
+/*カートに進む（ポップアップ）*/
+.ec-inlineBtn--action{
+    background-color:  #824e2e;
+    border: #824e2e;
+}
+.ec-inlineBtn--action:hover{
+    background-color: #F2EDEA;
+    color: #824e2e;
+        border:1px solid #824e2e;
+    opacity: 1;
+}
+
+/*お買い物を続ける（ポップアップ）*/
+.ec-inlineBtn--cancel{
+    background-color:  #d15204;
+    border:#d15204;
+}
+.ec-inlineBtn--cancel:hover{
+    background-color:  #FEF5F0;
+    color: #d15204;
+        border:1px solid #d15204;
+    opacity: 1;
+}
+/*お気に入りと商品一覧ボタン*/
+.ec-blockBtn--cancel{
+    opacity: 1;
+    background-color: #202C23;
+    border:#202C23;
+}
+.ec-blockBtn--cancel:hover{
+    color:#202C23;
+    background-color: #e8e9e9;
+    border:1px solid #202C23;
+    opacity: 1;
+}
+/*.ec-blockBtn--cancel::before{
+    content: "☆"
+}*/
+
+/*お気に入りと商品一覧ボタンの横並び*/
+.like_return-btn {
+    display: flex;
+    justify-content: center;
+}
+.kokokara_select_cart_btn_area {
+   margin: 1rem!important;
+}
+/*//////////// CARTショッピングカートの詳細画面 /////////////*/
+/*レジに進むボタン*/
+.ec-cartRole .ec-blockBtn--action{
+    background-color: #D15204;
+    border: #D15204;
+}
+.ec-cartRole .ec-blockBtn--action:hover{
+    background-color: #FDF9F5;
+    border: 1px solid #D15204;
+    color: #D15204;
+    opacity: 1;
+}
+
+
+
 
 /*//////////// STORY 製品の誕生秘話TOP /////////////*/
-
-.wp-block-image.is-style-rounded img{
-    border-radius: 0;
+/*パンくずとメインの余白*/
+.smb-section{
+    padding-top: 0;
+    display: block;
 }
+
+.wp-block-image.is-style-rounded img {
+  border-radius: 0;
+}
+
 /*メイン画像*/
-.c-entry__content{
-    max-width: inherit!important;
-    margin:none!important;
+.c-entry__content {
+  max-width: inherit !important;
+  margin: none !important;
 }
+
 /*h2*/
-.page-title strong{
-    color: #231815;
-    font-size: 1.1rem;
+.page-title strong {
+  color: #231815;
+  font-size: 1.1rem;
 }
-.smb-btn{
-    background-color: #333;
-    font-size: 0.8rem;
-    border-radius: 0;
-    box-shadow: -1rem 0rem 0rem #ddd;
+.section-story-list .smb-container__body{
+    margin-top: 0;
 }
+
+.smb-btn {
+  background-color: #fff;
+color:#333;
+  font-size: 0.9rem;
+  border-radius: 0;
+font-family: sans-serif!important;
+    font-weight: bold!important;
+/*  box-shadow: -1rem 0rem 0rem #ddd;*/
+    border: 1px solid #333;
+
+}
+
 .smb-buttons.is-content-justification-center {
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
+
 /*//////////// STORY 製品の誕生秘話 アイス編 /////////////*/
-#第一の人生-金メダリスト-松本-薫,#第二の人生-夢を叶える,#子どもたちのためにできること,#食を通じて明るく楽しく元気な未来を{
-    background: linear-gradient(transparent 50%, #FFFCE0 90%);
-            font-size: 1.1rem!important;
-    font-weight: 300!important;
-    margin-top: 8.5rem!important;
+#第一の人生-金メダリスト-松本-薫,
+#第二の人生-夢を叶える,
+#子どもたちのためにできること,
+#食を通じて明るく楽しく元気な未来を {
+/*  background: linear-gradient(transparent 50%, #FFFCE0 90%);
+*/  font-size: 1.1rem !important;
+  font-weight: 300 !important;
+  margin-top: 8.5rem !important;
 }
-#わたし-アイス作ります{
-    border-left: none!important;
-    background-color: #fff!important;
-    text-align: center;
 
+#わたし-アイス作ります {
+  border-left: none !important;
+  background-color: #fff !important;
+  text-align: center;
 }
-#わたし-アイス作ります.strong{
-        color: #333!important;
+
+#わたし-アイス作ります.strong {
+  color: #333 !important;
 }
+
 .smb-section__inner {
-    margin-bottom: 5rem;
+  margin-bottom: 5rem;
+  margin: 1rem;
+}
+.section-story-detail-column p{
+    margin: 0!important;
+        text-align: justify;
+}
+p.has-text-align-left {
+/*    margin-left: 2em!important;*/
+}
+p.text-narrow.mt-40 {
+    text-align: justify;
+    line-height: 1.75;
+
 }
 
-/*//////////// CONCEPT 製品のこだわり /////////////*/
-.section-static .smb-section__body .smb-buttons .smb-btn-wrapper .smb-btn{
-    background-color: #333!important;
+/*//////////// CONCEPT 製品のこだわり（一覧） /////////////*/
+.section-static .smb-section__body .smb-buttons .smb-btn-wrapper .smb-btn {
+  background-color: #fff !important;
+font-family:  sans-serif;
+    color: #333;
+}
+.section-static .smb-section__body .smb-buttons .smb-btn-wrapper .smb-btn:after{
+/*content: "\f0a9";
+*/}
+.section-static .smb-section__body figure {
+  margin-top: 0;
+}
+.section-static .smb-section__body p{
+    font-weight: 100;
+}
+
+
+/*//////////// CONCEPT製品のこだわり (アイス編) /////////////*/
+.section-static-child .smb-section__body p.text-lead {
+  font-weight: 100;
+  max-width: 100%;
+  margin: 1rem 0 3rem 0;
+    text-align: justify;
+}
+.section-static-child .smb-section__body h2 {
+  border-bottom: none !important;
+    font-weight: 100;
+}
+/*タイトル*/
+/*h1,h2#原材料のこだわり{
+    font-family: sans-serif;ここを変えると画像上の文字も変わってしまう
+}*/
+/*もっと読むの矢印アイコン*/
+span.smb-btn__label>img{
+    position: relative;
+    top:-0.1rem;
+}
+
+/*.p-concept-index-link a::after {
+  content: '　▶︎';
+}*/
+/*こだわりの詰まったフレーバーのご紹介ボタン*/
+.p-concept-index-link a{
+    background-color: #f6f6f6;
+    border-radius: 0;
+    color: #333;
+    border: 4px double #ddd;
+    box-shadow: 2px 2px 2px #999;
+    width: 36rem;
+    font-family: serif;
+}
+.wp-container-2.wp-block-column{
+    text-align: justify;
+/*    margin-left: 1em;
+*/    margin-top: 0.5em;
+}
+.wp-container-5.wp-block-column{
+    text-align: justify;
+    margin-left: 1em;
+    margin-top: 0.5em;
+}
+.wp-container-8.wp-block-column{
+    text-align: justify;
+/*    margin-left: 1em;
+*/    margin-top: 0.5em;
+}
+.wp-container-11.wp-block-column{
+    text-align: justify;
+    margin-left: 1em;
+    margin-top: 0.5em;
+}
+.wp-container-16.wp-block-column{
+    text-align: justify;
+    margin-left: 1em;
+    margin-top: 0.5em;
+}
+.section-static-child .smb-section__body p{
+    font-weight: 100;
+    margin-top: 0.7rem;
+    line-height: 1.7;
 }
 
 
 /*//////////// GUIDE お買い物ガイド /////////////*/
-.smb-section__body h2{
- background-color: #333!important;
-    border-left: none!important;
- color: #fff!important;
-    font-size: 1rem!important;
-    padding-left: 0.5rem!important;
-    margin-top: 5rem!important;
-    padding-top:0.2rem!important;
-    padding-bottom:0.2rem!important;
+.smb-section__body h2 {
+  background-color: #fff !important;/*こだわりSTORYと共通*/
+  border-left: none !important;
+  color: #333 !important;
+  font-size: 1.2rem;
+  padding-left: 0.5rem !important;
+/*  margin-top: 5rem !important;*/
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+    border-bottom: 1px solid #ddd;
 }
-.section-guide .smb-section__body h3{
-    font-size: 1rem;
-}
-.smb-section__body h2::before {
-  content: ' ◆ ';
-}
-h2.smb-section__title a{
-    color: #231815;
+.section-static .smb-section__body h2{
+    border-bottom: none;
+    border-bottom: 1px solid #ddd;
 }
 
-/*//////////// aboutus　会社概要 /////////////*/
+.section-guide .smb-section__body h3 {
+  font-size: 1rem;
+    font-weight: bold;
+padding-bottom: 0;
+}
+
+/*.smb-section__body h2::before {
+  content: ' ◆ ';
+}*/
+
+h2.smb-section__title a {
+  color: #231815;
+}
+/*説明文のp*/
+.section-guide .smb-section__body > p{
+    margin-top:0;
+    padding: 0 0.7rem;
+    font-size: 0.95rem;
+
+}
+
+/*//////////// company　会社概要 /////////////*/
 
 /*会社概要のタイトル非表示*/
-.ec-pageHeader{
-    display: none;
+.ec-pageHeader {
+  display: none;
 }
+.ec-label{
+    font-weight: 100;
+}
+.ec-off1Grid {
+    display: block;
+}
+.ec-borderedDefs dd .ec-borderedDefs-text-bold{
+    font-weight: 100;
+}
+.ec-borderedDefs {
+    font-family: sans-serif;
+}
+
 /*パンくずしたの余白*/
 .ec-borderedDefs {
-    margin-top: 5rem;
+  margin-top: 5rem;
 }
 
+/*行の開き調整*/
+.ec-borderedDefs dd p{
+    line-height: 3;
+}
+.ec-borderedDefs dd{
+        line-height: 3;
+}
 
-/*//////////// STORES /////////////*/
+.ec-borderedDefs dd .ec-borderedDefs-text-bold{
+    margin-bottom: 0;
+}
+.ec-borderedDefs dl{
+    padding: 10px 0 10px;
+}
+.ec-borderedDefs dt{
+    margin-left: 1rem;
+}
+iframe {
+    margin-top: 1rem;
+}
+
+/*//////////// STORES_実店舗のご紹介 /////////////*/
 /*直営店・販売店の余白*/
-.p-stores-content__list h3{
-    margin-top:3rem;
-    padding-bottom: 0;
-    font-size: 1.2rem;
+.p-stores-content__list h3 {
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.1rem;
+    background-color: #f6f6f6;
+    padding: 0.5rem 0 0.5rem 1rem;
+    font-weight: 100;
+    box-shadow: 1px 1px 1px #ddd;
 }
-.p-stores-content__list h3:not(:first-of-type){
-    margin-top:4rem!important;
-        padding-bottom: 0;
+.p-stores-content__list h3:not(:first-of-type) {
+  margin-top: 4rem !important;
+  padding-bottom: 0;
 }
+
 /*直営店と販売店の余白*/
-.p-stores-content__list .p-archive--stores{
-    padding-bottom: 3rem;
+.p-stores-content__list .p-archive--stores {
+  padding-bottom: 3rem;
+
 }
+/*h3直営店より下の幅大きく*/
+.c-entry__content>* {
+    width: 100%
+}
+
 /*検索ボックス*/
+.p-stores-search__item{
+    width: 295px;
+    justify-content: space-between;
+    box-shadow: 1px 1px 1px #ddd;
+    background-color:#f6f6f6;
+    padding: 5px 12px;
+    margin: 15px 0 0 0;
+}
+.p-stores-search__text{
+    color:#333;
+    font-size: 0.9rem;
+}
+.p-stores-search__item input[type=submit]{
+    line-height: 1.4;
+    font-size: 0.9rem;
+   background-color: #333;
+    color: #fff;
+}
+.p-stores-search__item select{
+    padding: 2px 15px 2px 7px;
+    border: 1px solid #999;
+}
+  .p-stores-search__item + .p-stores-search__item{
+    margin: 15px 0 0 1px;
+    }
+/* 5/26修正 */
+@media (min-width: 768px) {
+  .p-stores-search {
+    margin-top: 3rem !important;
+/*    margin-right: 0;*/
+  }
+
+}
 .p-stores-search {
-    margin-top: 3rem!important;
-    margin-right:0;
+  justify-content: end;
 }
-/*検索ボックス*/
-.p-stores-search{
+/*@media (min-width: 768px) {
+  .p-stores-search {
     justify-content: flex-end;
+  }
+}*/
+/* 5/26修正ここまで */
+/*取扱商品*/
+.p-stores-content .c-entries--stores .c-entry-summary__product-title{
+    font-weight: 100;
+    font-size: 0.8rem;
+    margin: 1rem 0 0.5rem 0.5rem;
 }
+.p-stores-content .c-entries--stores .c-entry-summary__term-wrap{
+    margin-left:0.5rem;
+}
+
+/*//////////// STORES_実店舗一覧からさらに詳細ページ /////////////*/
+h3.has-text-align-left.shop-core {
+    text-align: center;
+        letter-spacing: 0.3rem;
+}
+.p-single-store-box{
+    width:100%;
+}
+
+/*店舗ごとの問い合わせフォーム*/
+span.tadv-color.sme-font-size.has-sm-small-font-size{
+    color: #333;
+    background-color: #fff;
+    padding: 0.2rem 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+
+}
+span.tadv-color.sme-font-size.has-sm-small-font-size:hover{
+    background-color: #f6f6f6;
+}
+/*一覧へ戻るのボタン*/
+.p-single-stores-link a{
+background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 0px;
+    padding: 0.3rem 0;
+    width: 230px;
+    font-size: 0.8rem;
+        font-weight: bold;
+}
+
+/*//////////// Products/select/list/オンラインショップ各製品購入P /////////////*/
+.ec-headingTitle{
+    color:#333;
+font-family: sans-serif;
+/*    background: linear-gradient(transparent 76%, #f6f6f6 100%);*/
+}
+.kokokara_select_product_left{
+    margin-top:0;
+}
+/*こちらもおすすめ*/
+.ec-products-top-area .ec-product-category-title__title{
+    font-weight: 100;
+    font-size: 20px;
+}
+
 
 /*//////////// メディアクエリ /////////////*/
-@media only screen and (min-width: 768px){
-    /*TOP:ヘッダーMENUと動画の間隔*/
-.ec-layoutRole__header {
-    margin-bottom: 1rem;}
+@media (min-width: 1401px) {
+
+  /*productsページのメイン画像横幅大きく*/
+  .pageheader {
+    width: inherit !important;
+  }
 }
-@media only screen and (max-width: 1079px){
-    /*TOP:カートとオンラインの位置*/
-.ec-header-bottom__right {
-    top: 2rem;
-    right:0;
+@media (max-width: 1378px) {
+ul.ec-header-bottom__store-link {
+    top: -3rem;
+    margin-right: 0.8rem;
+}
+.ec-header-bottom__gnav .p-global-navi{
+    padding-top:4.5rem;
+    }}
+
+@media only screen and (min-width: 768px) {
+
+  /*TOP:ヘッダーMENUと動画の間隔*/
+  .ec-layoutRole__header {
+    margin-bottom: 1rem;
+  }
+.wp-container-8.wp-block-column{
+   margin-left: 1em;
+}
+.wp-container-2.wp-block-column{
+    margin-left: 1em;
+}
+    /*ONLINEページ/products/detail/各製品のスライダー*/
+.ec-productRole .ec-grid2__column {
+    margin-top: 15px;
+}
+}
+
+@media only screen and (max-width: 1079px) {
+
+  /*TOP:カートとオンラインの位置*/
+  .ec-header-bottom__right {
+    top: 3.5rem;
+    right: 0;
+  }
+    /*携帯時の横の余白STORY*/
+    .smb-section__inner{
+        padding: 1rem;
     }
 }
-@media only screen and (max-width: 768px){
-/*TOP:画像メニュー遷移ボタン*/
-section.ec-top-links {
+
+@media only screen and (max-width: 768px) {
+
+  /*TOP:画像メニュー遷移ボタン*/
+  section.ec-top-links {
     margin-top: 5rem;
+  }
+
+  /*TOP:インスタ上*/
+  .ec-top-instagram {
+    margin-top: 5rem;
+  }
+
+  #第一の人生-金メダリスト-松本-薫,
+  #第二の人生-夢を叶える,
+  #子どもたちのためにできること,
+  #食を通じて明るく楽しく元気な未来を {
+    margin-top: 5rem !important;
+  }
+    .ec-footer-sns-navi{
+    justify-content: flex-start;
+    margin-top: 3rem;
+    width: 40%;
     }
-/*TOP:インスタ上*/
-.ec-top-instagram{
-    margin-top: 5rem;
+    .ec-footer-role__top{
+        display: block;
+    }
+    .ec-footer-role__bottom {
+        margin-top: 2rem;
+    }
+    .ec-footer-navi__link{
+        line-height: 2;
+    }
+    /*会社概要の項目*/
+    .ec-borderedDefs dt{
+        margin-left:0;
+    }
+.wp-container-2.wp-block-column{
+    margin-left: 0em;
 }
-#第一の人生-金メダリスト-松本-薫,#第二の人生-夢を叶える,#子どもたちのためにできること,#食を通じて明るく楽しく元気な未来を{
-    margin-top: 5rem!important;
+.wp-container-5.wp-block-column{
+    margin-left: 0em;
 }
-    
+.wp-container-8.wp-block-column{
+    margin-left: 0em;
 }
-@media (min-width: 1401px){
-    /*productsページのメイン画像横幅大きく*/
-.pageheader {
-    width:inherit!important;
-}}
+.wp-container-11.wp-block-column{
+    margin-left: 0em;
+}
+.wp-container-16.wp-block-column{
+    margin-left: 0em;
+}
+}
+
+/* 6/7 追加 */
+@media (max-width: 768px) {
+  .smb-section__inner {
+/*    margin-bottom: 0;効かないコードなのでコメントオフ*/
+    margin: 0;
+  }
+/*お気に入りと商品一覧ボタンの横並び*/
+.like_return-btn {
+    display: block;
+}
+}
+
+@media only screen and (min-width: 768px) and (min-width: 768px){
+    /*新規会員登録ページ　利用規約部分のサイズと位置調整*/
+    .ec-off4Grid .ec-off4Grid__cell{
+        width: 51%;
+        margin-left: 23%;
+        text-align: center;
+}
+    }
+
+@media only screen and (max-width: 690px) {
+    .ec-footer-sns-navi{
+    justify-content: flex-start;
+    margin-top: 3rem;
+    width: 70%;
+    }
+}
+@media only screen and (max-width: 468px) {
+    .sme-font-size{
+            text-align: left;
+    }
+    .smb-section__lede{
+            text-align: left;
+    }
+    /*こだわりが詰まった・・・ボタン*/
+    .p-concept-index-link a{
+        padding:0;
+        font-weight: bold;
+            font-size: 0.6rem;
+
+    }
+        }
+
+
 
