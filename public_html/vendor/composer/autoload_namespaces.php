@@ -10,6 +10,7 @@ return array(
     'UpdateHelper\\' => array($vendorDir . '/kylekatarnls/update-helper/src'),
     'Twig_Extensions_' => array($vendorDir . '/twig/extensions/lib'),
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'Sunra\\PhpSimple\\HtmlDomParser' => array($vendorDir . '/sunra/php-simple-html-dom-parser/Src'),
     'SunCat\\MobileDetectBundle' => array($vendorDir . '/suncat/mobile-detect-bundle'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     'Knp\\Component' => array($vendorDir . '/knplabs/knp-components/src'),

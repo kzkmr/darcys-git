@@ -1,0 +1,8 @@
+{
+	"name":"ec-cube\/seolistdetail",
+	"version":"4.1.2",
+	"description":"商品一覧・詳細ページSEO対策プラグイン",
+	"type":"eccube-plugin",
+	"require":{"ec-cube\/plugin-installer":"~0.0.6 || ^2.0"},
+	"extra":{"code":"SeoListDetail"}
+}

@@ -1,0 +1,7 @@
+admin.product.itoben_seo_area__card_title: 独自メタ設定
+tooltip.product.itoben_seo_meta: ページ管理のメタ設定は反映されず、ここでの設定が優先されて反映されます。metatagの場合は「追加」となり、ページ管理のメタ設定も反映されます。
+admin_product_category_seo_management: カテゴリ管理（SEO）
+plg_seo_csv.product_id_description: 商品IDを指定してください。
+plg_seo_csv.category_id_description: カテゴリIDを指定してください。
+product_csv_import_seo_management: 商品CSV登録（SEO）
+category_csv_import_seo_management: カテゴリCSV登録（SEO）
