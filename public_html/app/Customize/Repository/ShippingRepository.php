@@ -223,11 +223,11 @@ class ShippingRepository extends AbstractRepository
     {
         $sql = "WITH base AS (
                     /* 本販売店のみ */
-                    SELECT c.id, company_name, stock_number, ct.name AS contract_type_name, contract_type_id, margin_not_included
+                    SELECT c.id, company_name, stock_number, ct.name AS contract_type_name, contract_type_id
                     FROM   dtb_chain_store c INNER JOIN mtb_contract_type ct ON c.contract_type_id = ct.id
                     WHERE  c.chain_store_status_id = 2
                     UNION
-                    SELECT 'SYS', '未登録', NULL, NULL, NULL, false
+                    SELECT 'SYS', '未登録', NULL, NULL, NULL
                 ), coupon AS (
                     /* 販売店契約と販売店契約（応援プログラム適用）のみ */
                     SELECT IFNULL(sum_coupon.chain_store_id, 'SYS') AS chain_store_id,
@@ -325,16 +325,11 @@ class ShippingRepository extends AbstractRepository
                                 0
                             END AS self_total,
                             CASE WHEN base.contract_type_id = 2 THEN
-                                /* マージン対象外 */
-                                CASE WHEN base.margin_not_included THEN
+                                /* 最低保証額に満たない場合は必ず「15,000円」をマージンとする。 */
+                                CASE WHEN FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt)) >= 15000 THEN
                                     FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt))
                                 ELSE
-                                    /* 最低保証額に満たない場合は必ず「15,000円」をマージンとする。 */
-                                    CASE WHEN FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt)) >= 15000 THEN
-                                        FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt))
-                                    ELSE
-                                        15000
-                                    END
+                                    15000
                                 END
                             ELSE
                                 0

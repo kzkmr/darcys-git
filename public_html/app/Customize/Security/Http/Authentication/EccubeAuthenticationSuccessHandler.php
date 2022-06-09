@@ -36,7 +36,7 @@ class EccubeAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
                 if($user instanceof Customer) {
                     $ChainStore = $user->getChainStore();
                     if(is_object($ChainStore)){
-                        return new RedirectResponse("/mypage");
+                        return new RedirectResponse("/mypage/menu");
                     }
                 }
             }

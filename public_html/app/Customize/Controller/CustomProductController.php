@@ -262,6 +262,35 @@ class CustomProductController extends BaseProductController
 
         $Category = $searchForm->get('category_id')->getData();
 
+
+        // if (wp_remote_get($request->getSchemeAndHttpHost() . $request->getBasePath() . '/shop/wp-json/wp/v2/store-news?per_page=3&_embed', false)) {
+        //     $response = wp_remote_get($request->getSchemeAndHttpHost() . $request->getBasePath() . '/shop/wp-json/wp/v2/store-news?per_page=3&_embed', false);
+        //     $posts = json_decode($response["body"]);
+        // } else {
+        //     $posts = false;
+        // }
+
+        // $storeBlogDatas = [];
+        // if ($posts) {
+
+        //   foreach ($posts as $data) {
+        //     $item = [];
+        //     $item['title'] = $data->title;
+        //     $item['date'] = $data->date;
+        //     $item['link'] = $data->link;
+        //     $name = 'wp:featuredmedia';
+        //     if (isset($data->_embedded->{$name})) {
+        //       $item['attachment'] = $data->_embedded->{$name}[0];
+        //     }
+        //     $name = 'wp:term';
+        //     if (isset($data->_embedded->{$name})) {
+        //       $item['category'] = $data->_embedded->{$name}[0];
+        //     }
+        //     $storeBlogDatas[] = $item;
+        //   }
+        // }
+
+
         return [
             'subtitle' => $this->getPageTitle($searchData),
             'pagination' => $pagination,
@@ -270,6 +299,7 @@ class CustomProductController extends BaseProductController
             'order_by_form' => $orderByForm->createView(),
             'forms' => $forms,
             'Category' => $Category,
+            // 'storeBlogDatas' => $storeBlogDatas,
         ];
     }
 

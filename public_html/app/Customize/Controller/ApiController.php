@@ -30,13 +30,15 @@ use Customize\Repository\Master\BankAccountTypeRepository;
 use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\PreChainStoreRepository;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 class ApiController extends AbstractController
 {
     /**
      * @var BankBranchRepository
      */
     protected $bankBranchRepository;
-	
+
     /**
      * @var BankAccountTypeRepository
      */
@@ -51,7 +53,7 @@ class ApiController extends AbstractController
      * @var PreChainStoreRepository
      */
     protected $preChainStoreRepository;
-    
+
     /**
      * @var MemberRepository
      */
@@ -67,6 +69,11 @@ class ApiController extends AbstractController
      */
     protected $mailService;
 
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
 	/**
      * BankController constructor.
      */
@@ -77,7 +84,8 @@ class ApiController extends AbstractController
         PreChainStoreRepository $preChainStoreRepository,
         MemberRepository $memberRepository,
         CustomerRepository $customerRepository,
-        MailService $mailService)
+        MailService $mailService,
+        TokenStorageInterface $tokenStorage)
     {
         $this->bankBranchRepository = $bankBranchRepository;
         $this->bankAccountTypeRepository = $bankAccountTypeRepository;
@@ -86,15 +94,16 @@ class ApiController extends AbstractController
         $this->memberRepository = $memberRepository;
         $this->customerRepository = $customerRepository;
         $this->mailService = $mailService;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
      * Bank.
      *
      * @Route("/bank/list/{bank_id}", name="bank_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function bankList(Request $request, $bank_id)
@@ -129,14 +138,14 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $bankBranch], $result));
     }
 
-    
+
     /**
      * chainstore.
      *
      * @Route("/chainstore/api/list/{keyword}", name="chainstore_api_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_list(Request $request, $keyword)
@@ -148,7 +157,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-        
+
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -179,9 +188,9 @@ class ApiController extends AbstractController
      * chainstore.
      *
      * @Route("/chainstore/api/main/list/{keyword}", name="chainstore_api_main_list", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_main_list(Request $request, $keyword)
@@ -193,7 +202,7 @@ class ApiController extends AbstractController
         */
 
         $result = [];
-        
+
         try {
             // タイムアウトを無効にする.
             set_time_limit(0);
@@ -224,9 +233,9 @@ class ApiController extends AbstractController
      * search pre-chainstore.
      *
      * @Route("/chainstore/api/pre", name="chainstore_api_pre", methods={"POST"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function api_chainstore_pre(Request $request)
@@ -242,7 +251,7 @@ class ApiController extends AbstractController
         お手数をおかけしますが、<br>
         <a href=\"mailto:keiyaku@darcys-factory.co.jp\">keiyaku@darcys-factory.co.jp</a><br>
         までご連絡下さい。";
-        
+
         try {
             $params = [];
 
@@ -288,7 +297,7 @@ class ApiController extends AbstractController
                     //11.法人名・屋号（フリガナ）
                     $chainStore["companyNameKana"] = $companyNameKana;
                 }
-                
+
                 //==> お名前（代表者）
                 $name01 = $preChainStore->getName01();                        //25.代表者名・氏名「姓」
                 if(empty($name01)){
@@ -321,7 +330,7 @@ class ApiController extends AbstractController
 
                 //==> 生年月日
                 //設立日ではなく生年月日をログイン用に使う
-                $chainStore["birthday"] = $preChainStore->getBirthday();                    //33.生年月日(設立日ではなく生年月日をログイン用に使う)	
+                $chainStore["birthday"] = $preChainStore->getBirthday();                    //33.生年月日(設立日ではなく生年月日をログイン用に使う)
 
                 //==> 電話番号
                 $cellphoneNo = $preChainStore->getCellphoneNo();                            //41.携帯電話
@@ -334,7 +343,7 @@ class ApiController extends AbstractController
                 //==> ディーラーコード
                 $chainStore["dealerCode"] = $preChainStore->getDealerCode();                //55.ディーラーコード
 
-                //59.取引口座選択(ゆうちょ銀行以外の銀行・)	
+                //59.取引口座選択(ゆうちょ銀行以外の銀行・)
                 if($preChainStore->getIsPostbankList() == "ゆうちょ銀行"){
                     $branchNo = $preChainStore->getPostCodeNumber();                        //81.通帳記号（下5桁）（ゆうちょ）
                     $accountNo = $preChainStore->getPostPassbookNumber();                   //83.通帳番号（8桁）（ゆうちょ）
@@ -364,7 +373,7 @@ class ApiController extends AbstractController
                         //==> 口座番号
                         $chainStore["bankAccountNo"] = $accountNo;
                         //==> 口座名義
-                        
+
                         $bankHolderKana01 = $preChainStore->getPostBankHolderKana01();              //89.口座名義「姓」（フリガナ）（ゆうちょ）
                         $bankHolderKana02 = $preChainStore->getPostBankHolderKana02();              //91.口座名義「名」（フリガナ）（ゆうちょ）
                         if(empty($bankHolderKana01) && empty($bankHolderKana02)){
@@ -418,7 +427,7 @@ class ApiController extends AbstractController
                         //無法取得 銀行資料
                         $error .= "金融取引データの取得に失敗しました。\r\n";
                     }
-                }  
+                }
 
                 //==> お名前（担当者）姓
                 $chainStoreOwner01 = $preChainStore->getChainstoreOwner01();               //117.販売店舗担当者名-姓
@@ -521,17 +530,17 @@ class ApiController extends AbstractController
                 }
 
                 //以下備用
-                //$chainStore["email"] = $preChainStore->getEmail();                                    //35.連絡用メールアドレス                
+                //$chainStore["email"] = $preChainStore->getEmail();                                    //35.連絡用メールアドレス
 
                 //array_push($result, $chainStore);
             }else{
-                return $this->json(['status' => 'NF', 'message' => "「".$email."」に一致する情報は見つかりませんでした。"]); 
+                return $this->json(['status' => 'NF', 'message' => "「".$email."」に一致する情報は見つかりませんでした。"]);
             }
         } catch (\Exception $e) {
             log_error('予期しないエラーです', [$e->getMessage()]);
 
-            return $this->json(['status' => 'NG', 'message' => $fixedMessage, 'debug' => $e->getMessage()]); 
-            //return $this->json(['status' => 'NG', 'message' => "予期しないエラーです"]); 
+            return $this->json(['status' => 'NG', 'message' => $fixedMessage, 'debug' => $e->getMessage()]);
+            //return $this->json(['status' => 'NG', 'message' => "予期しないエラーです"]);
         }
 
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
@@ -542,7 +551,32 @@ class ApiController extends AbstractController
      *
      * @Route("/mypage/api_login", name="api_login", methods={"POST"})
      */
-    function apiLogin(Request $request)
+    public function apiLogin(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        log_info('ログインチェック処理開始',[]);
+
+        // ログインチェック
+        if ($this->isGranted('ROLE_USER')) {
+            $done = true;
+        }else{
+            $done = false;
+        }
+
+        log_info('ログインチェック処理完了',[]);
+
+        return $this->json(['done' => $done ]);
+    }
+
+    /**
+     * 外部からのログインチェック.
+     *
+     * @Route("/mypage/api_isstore", name="api_isstore", methods={"POST"})
+     */
+    function apiIsStore(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
@@ -616,5 +650,6 @@ class ApiController extends AbstractController
 
         return null;
     }
+
 }
 
