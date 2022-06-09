@@ -11,30 +11,83 @@ file that was distributed with this source code.
 #}
 <html lang="{{ eccube_config.locale }}">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#">
+{% if app.request.get('_route') == 'product_list' %}
+{% if app.request.query.get('category_id') is not empty %}
+<link rel="canonical" href="{{ url('homepage') }}products/list?category_id={{ app.request.query.get('category_id') }}" />
+{% else %}
+<link rel="canonical" href="{{ url('homepage') }}products/list" />
+{% endif %}
+{% set pages = pagination.paginationData %}
+{% if pages.pageCount > 1 %}
+{% if pages.previous is defined %}
+<link rel="prev" href="{{ app.request.schemeAndHttpHost() ~ path(app.request.attributes.get('_route'),app.request.query.all|merge({'pageno': pages.previous})) }}">
+{% endif %}
+{% if pages.next is defined %}
+<link rel="next" href="{{ app.request.schemeAndHttpHost() ~ path(app.request.attributes.get('_route'),app.request.query.all|merge({'pageno': pages.next})) }}">
+{% endif %}
+{% endif %}
+{% endif %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-    <meta name="robots" content="noindex,nofollow,noarchive" />
-
-
     <meta name="eccube-csrf-token" content="{{ csrf_token(constant('Eccube\\Common\\Constant::TOKEN_NAME')) }}">
-    <title>{{ BaseInfo.shop_name }}{% if subtitle is defined and subtitle is not empty %} / {{ subtitle }}{% elseif title is defined and title is not empty %} / {{ title }}{% endif %}</title>
-    {% if Page.author is not empty %}
-        <meta name="author" content="{{ Page.author }}">
-    {% endif %}
-    {% if Page.description is not empty %}
-        <meta name="description" content="{{ Page.description }}">
-    {% endif %}
-    {% if Page.keyword is not empty %}
-        <meta name="keywords" content="{{ Page.keyword }}">
-    {% endif %}
-    {% if Page.meta_robots is not empty %}
-        <meta name="robots" content="{{ Page.meta_robots }}">
-    {% endif %}
-    {% if Page.meta_tags is not empty %}
-        {{ include(template_from_string(Page.meta_tags)) }}
-    {% endif %}
+{% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_title is not empty %}
+<title>{{ Product.itoben_seo_title }}</title>
+{% elseif app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}
+<title>全商品 / {{ BaseInfo.shop_name }}</title>
+{% elseif app.request.get('_route') == 'product_list' and Category.itoben_seo_title is not empty %}
+<title>{{ Category.itoben_seo_title }}</title>
+{% else %}
+<title>{% if app.request.get('_route') == 'product_detail' or app.request.get('_route') == 'product_list' %}{{ subtitle }} / {{ BaseInfo.shop_name }}{% else %}{{ BaseInfo.shop_name }}{% if subtitle is defined and subtitle is not empty %} / {{ subtitle }}{% elseif title is defined and title is not empty %} / {{ title }}{% endif %}{% endif %}</title>
+{% endif %}
+{% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_author is not empty %}
+<meta name="author" content="{{ Product.itoben_seo_author }}">
+{% elseif app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}
+{% if Page.author is not empty %}<meta name="author" content="{{ Page.author }}">{% endif %}
+{% elseif app.request.get('_route') == 'product_list' and Category.itoben_seo_author is not empty %}
+<meta name="author" content="{{ Category.itoben_seo_author }}">
+{% elseif Page.author is not empty %}
+<meta name="author" content="{{ Page.author }}">
+{% endif %}
+{% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_description is not empty %}
+<meta name="description" content="{{ Product.itoben_seo_description }}">
+{% elseif app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}
+{% if Page.description is not empty %}<meta name="description" content="{{ Page.description }}">{% endif %}
+{% elseif app.request.get('_route') == 'product_list' and Category.itoben_seo_description is not empty %}
+<meta name="description" content="{{ Category.itoben_seo_description }}">
+{% elseif Page.description is not empty %}
+<meta name="description" content="{{ Page.description }}">
+{% endif %}
+{% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_keyword is not empty %}
+<meta name="keywords" content="{{ Product.itoben_seo_keyword }}">
+{% elseif app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}
+{% if Page.keyword is not empty %}<meta name="keywords" content="{{ Page.keyword }}">{% endif %}
+{% elseif app.request.get('_route') == 'product_list' and Category.itoben_seo_keyword is not empty %}
+<meta name="keywords" content="{{ Category.itoben_seo_keyword }}">
+{% elseif Page.keyword is not empty %}
+<meta name="keywords" content="{{ Page.keyword }}">
+{% endif %}
+{% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_meta_robots is not empty %}
+<meta name="robots" content="{{ Product.itoben_seo_meta_robots }}">
+{% elseif app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}
+{% if Page.meta_robots is not empty %}<meta name="robots" content="{{ Page.meta_robots }}">{% endif %}
+{% elseif app.request.get('_route') == 'product_list' and Category.itoben_seo_meta_robots is not empty %}
+
+{# <meta name="robots" content="{{ Category.itoben_seo_meta_robots }}"> #}
+<meta name="robots" content="noindex,nofollow,noarchive" />
+
+{% elseif Page.meta_robots is not empty %}
+<meta name="robots" content="{{ Page.meta_robots }}">
+{% endif %}
+{% if Page.meta_tags is not empty %}
+{{ include(template_from_string(Page.meta_tags)) }}
+{% endif %}
+{% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_meta_tags is not empty %}
+{{ include(template_from_string(Product.itoben_seo_meta_tags)) }}
+{% endif %}
+{% if app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}
+{% elseif app.request.get('_route') == 'product_list' and Category.itoben_seo_meta_tags is not empty %}
+{{ include(template_from_string(Category.itoben_seo_meta_tags)) }}
+{% endif %}
     <link rel="icon" href="{{ asset('assets/img/common/favicon.ico', 'user_data') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -48,6 +101,7 @@ file that was distributed with this source code.
     {% block stylesheet %}{% endblock %}
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/js/slick.min.js') }}"></script>
+
     <script>
         $(function() {
             $.ajaxSetup({
@@ -57,6 +111,17 @@ file that was distributed with this source code.
             });
         });
     </script>
+    {% if ChainStore %}
+    <script>
+        $(function() {
+          $('body').addClass('layout-store');
+        });
+    </script>
+    {% else %}
+    <script>
+        console.log('not!!');
+    </script>
+    {% endif %}
     {# Layout: HEAD #}
     {% if Layout.Head %}
         {{ include('block.twig', {'Blocks': Layout.Head}) }}
@@ -160,6 +225,7 @@ file that was distributed with this source code.
 <div class="ec-blockTopBtn pagetop"><img src="{{ asset('assets/img/common/totop.svg') }}" alt="" width="40" height="46"></div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
 {% include('@common/lang.twig') %}
 <script src="{{ asset('assets/js/function.js') }}"></script>
 <script src="{{ asset('assets/js/eccube.js') }}"></script>
@@ -172,12 +238,6 @@ file that was distributed with this source code.
 {% if plugin_snippets is defined %}
     {{ include('snippet.twig', { snippets: plugin_snippets }) }}
 {% endif %}
-    {# <script src="{{ asset('assets/js/customize.js', 'user_data') }}"></script> #}
-
-    <script>
-      $(function() {
-        $('.ec-headerNav__item:eq(0)').css('display', 'none');
-      });
-    </script>
+    <script src="{{ asset('assets/js/customize.js', 'user_data') }}"></script>
 </body>
 </html>

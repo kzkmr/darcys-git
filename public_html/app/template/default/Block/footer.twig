@@ -10,8 +10,8 @@ file that was distributed with this source code.
 #}
 <div class="ec-footer-role">
     <div class="ec-footer-role__inner">
-        {% if IsChainStore() == false %}
-            <div class="ec-footer-role__top">
+        {% if ChainStore == false %}
+            <div class="ec-footer-role__top sp-none">
                 <ul class="ec-footer-navi">
                     <li class="ec-footer-navi__link">
                         <a href="/shop/news/">NEWS</a>
@@ -19,31 +19,31 @@ file that was distributed with this source code.
                 </ul>
                 <ul class="ec-footer-navi">
                     <li class="ec-footer-navi__link">
-                        <a href="/shop/products-list/">PRODUCTS</a>
-                    </li>
-                    <li class="ec-footer-navi__link">
                         <a href="/shop/story/">STORY</a>
                     </li>
                     <li class="ec-footer-navi__link">
                         <a href="/shop/concept/">CONCEPT</a>
                     </li>
-                </ul>
-                <ul class="ec-footer-navi">
-                    <li class="ec-footer-navi__link ec-footer-navi__link_wide">
-                        <a href="{{ url('product_list') }}">ONLINE SHOP</a>
-                    </li>
-                    <li class="ec-footer-navi__link ec-footer-navi__link_wide">
-                        <a href="/shop/guide/">GUIDE</a>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/products-list/">PRODUCTS</a>
                     </li>
                 </ul>
                 <ul class="ec-footer-navi">
-                    <li class="ec-footer-navi__link ec-footer-navi__link_wide">
+                    <li class="ec-footer-navi__link">
                         <a href="{{ url('company') }}">ABOUT US</a>
                     </li>
                 </ul>
                 <ul class="ec-footer-navi">
                     <li class="ec-footer-navi__link">
                         <a href="/shop/stores/">STORES</a>
+                    </li>
+                </ul>
+                <ul class="ec-footer-navi">
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('product_list') }}">ONLINE SHOP</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/guide/">GUIDE</a>
                     </li>
                 </ul>
                 <ul class="ec-footer-sns-navi">
@@ -66,6 +66,112 @@ file that was distributed with this source code.
                         <a href="https://www.youtube.com/channel/UCuAPEXbS0ShlRh17cK5dVxg" target="_blank" rel="noopener noreferrer">
                             <img src="{{ asset('assets/icon/icon_youtube.png') }}" width="32" height="32">
                         </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ec-footer-role__top pc-none">
+                <ul class="ec-footer-navi">
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('product_list') }}">ONLINE SHOP</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/guide/">GUIDE</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/news/">NEWS</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/story/">STORY</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/concept/">CONCEPT</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/products-list/">PRODUCTS</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('company') }}">ABOUT US</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/stores/">STORES</a>
+                    </li>
+                    <li class="ec-item-nav__nav-item">
+                        <a href="/shop/contact">CONTACT US</a>
+                    </li>
+                </ul>
+                <ul class="ec-footer-sns-navi">
+                    <li class="ec-footer-sns-navi__link">
+                        <a href="https://twitter.com/Darcysshop" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ asset('assets/icon/icon_tw.png') }}" width="35" height="29">
+                        </a>
+                    </li>
+                    <li class="ec-footer-sns-navi__link">
+                        <a href="https://www.instagram.com/darcys.shop/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ asset('assets/icon/icon_insta.png') }}" width="32" height="32">
+                        </a>
+                    </li>
+                    <li class="ec-footer-sns-navi__link">
+                        <a href="https://www.facebook.com/darcys.japan/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ asset('assets/icon/icon_fb.png') }}" width="32" height="32">
+                        </a>
+                    </li>
+                    <li class="ec-footer-sns-navi__link">
+                        <a href="https://www.youtube.com/channel/UCuAPEXbS0ShlRh17cK5dVxg" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ asset('assets/icon/icon_youtube.png') }}" width="32" height="32">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <div class="ec-footer-role__top sp-none">
+                <ul class="ec-footer-horizontal-navi">
+                    <li class="ec-footer-horizontal-navi__link">
+                        <a href="{{ url('mypage_menu') }}">トップ</a>
+                    </li>
+                    <li class="ec-footer-horizontal-navi__link">
+                        <a href="{{ url('mypage_news') }}">新着情報</a>
+                    </li>
+                    <li class="ec-footer-horizontal-navi__link">
+                        <a href="/shop/store-guide">ご利用案内</a>
+                    </li>
+                    <li class="ec-footer-horizontal-navi__link">
+                        <a href="{{ url('product_list') }}">商品発注</a>
+                    </li>
+                    <li class="ec-footer-horizontal-navi__link">
+                        <a href="{{ url('product_list') }}?category_id=8">販促品発注</a>
+                    </li>
+                    <li class="ec-footer-horizontal-navi__link">
+                        <a href="/shop/products-list/">商品紹介</a>
+                    </li>
+                    <li class="ec-footer-horizontal-navi__link ec-footer-horizontal-navi__link--last">
+                        <a href="{{ url('mypage') }}">マイページ</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ec-footer-role__top pc-none">
+                <ul class="ec-footer-navi">
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('mypage_menu') }}">トップ</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('mypage_news') }}">新着情報</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/store-guide">ご利用案内</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('product_list') }}">商品発注</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('product_list') }}?category_id=8">販促品発注</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="/shop/products-list/">商品紹介</a>
+                    </li>
+                    <li class="ec-footer-navi__link">
+                        <a href="{{ url('mypage') }}">マイページ</a>
                     </li>
                 </ul>
             </div>

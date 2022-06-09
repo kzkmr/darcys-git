@@ -47,7 +47,7 @@ file that was distributed with this source code.
                     return false;
                 });
             });
-            
+
             $(".share-link a").each(function(){
                 var block = $(this).parent();
                 var url = block.data("url");
@@ -74,14 +74,14 @@ file that was distributed with this source code.
                     sns.prop("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
                 }
                 if(sns.hasClass("sns-twitter")){
-                    sns.prop("href", "https://twitter.com/intent/tweet?text=" + encodeURIComponent(url));   //encodeURIComponent(subject) + "%0a" + 
+                    sns.prop("href", "https://twitter.com/intent/tweet?text=" + encodeURIComponent(url));   //encodeURIComponent(subject) + "%0a" +
                 }
             });
 
             function fallbackCopyTextToClipboard(text) {
                 var textArea = document.createElement("textarea");
                 textArea.value = text;
-                
+
                 // Avoid scrolling to bottom
                 textArea.style.top = "0";
                 textArea.style.left = "0";
@@ -135,8 +135,11 @@ file that was distributed with this source code.
             padding: 5px;
         }
         .dzx-detail_title {
-            font-size: 18px;
+            font-size: .875rem;
             font-weight: bold;
+        }
+        .dzx-detail_title select {
+            margin-right: 5px;
         }
         .dzx-btn-func {
             padding: 6px 16px;
@@ -151,6 +154,12 @@ file that was distributed with this source code.
             <div class="ec-pageHeader">
                 <h1>{{ 'マイページ'|trans }}/{{ 'クーポン売上履歴'|trans }}</h1>
             </div>
+            {% if IsChainStore() %}
+                <div class="p-chain-store-heading">
+                    <h1 class="p-chain-store-heading__title">マイページ</h1>
+                    <p class="p-chain-store-heading__lead">ご利用状況をご確認いただけます。</p>
+                </div>
+            {% endif %}
             {% include 'Mypage/navi.twig' %}
         </div>
         <div class="ec-mypageRole">
@@ -161,7 +170,7 @@ file that was distributed with this source code.
                             {% set selYear = selDate|slice(0, 4) %}
                             {% set selMonth = selDate|slice(5, 6) %}
                             <form name="mypage_chainstore_coupon_jisseki" id="mypage_chainstore_coupon_jisseki" method="post" action="{{ url('mypage_chainstore_coupon_jisseki') }}">
-                                <p class="dzx-detail_title">対象月 
+                                <p class="dzx-detail_title">対象月
                                     <select name="selYear" class="selDate">
                                     {% for i in range(2022, currentYear) %}
                                         <option value="{{ i }}" {{ i == selYear ? 'selected' : '' }}>{{ i }}</option>
@@ -185,7 +194,7 @@ file that was distributed with this source code.
 
                                 </p>
                             </form>
-                            
+
                             <div class="dzx-historyRole__row_detail">
                                 {% if pagination is not null and pagination.totalItemCount > 0 %}
                                     <table class="dzx-table_row_detail">
@@ -209,7 +218,7 @@ file that was distributed with this source code.
                                         </tr>
 
                                     {% endfor %}
-                                        
+
                                     </table>
 
                                     <div class="ec-pagerRole">
@@ -218,7 +227,7 @@ file that was distributed with this source code.
                                 {% else %}
                                     <p class="ec-para-normal">{{ 'クーポン売上履歴はありません。'|trans }}</p>
                                 {% endif %}
-                                
+
                             </div>
                             <br /><br />
                             <div class="dzx-historyRole__row_detail">

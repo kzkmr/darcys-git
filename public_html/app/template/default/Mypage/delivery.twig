@@ -24,6 +24,12 @@ file that was distributed with this source code.
                     <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__customer_address'|trans }}</h1>
                 {% endif %}
             </div>
+            {% if ChainStore %}
+                <div class="p-chain-store-heading">
+                    <h2 class="p-chain-store-heading__title">マイページ</h2>
+                    <p class="p-chain-store-heading__lead">ご利用状況をご確認いただけます。</p>
+                </div>
+            {% endif %}
             {{ include('Mypage/navi.twig') }}
         </div>
         <div class="ec-mypageRole">

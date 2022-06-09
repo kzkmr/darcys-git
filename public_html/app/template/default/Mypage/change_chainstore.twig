@@ -212,6 +212,12 @@ file that was distributed with this source code.
             <div class="ec-pageHeader">
                 <h1>{{ 'マイページ'|trans }}/{{ '契約情報編集'|trans }}</h1>
             </div>
+            {% if ChainStore %}
+                <div class="p-chain-store-heading">
+                    <h2 class="p-chain-store-heading__title">マイページ</h2>
+                    <p class="p-chain-store-heading__lead">ご利用状況をご確認いただけます。</p>
+                </div>
+            {% endif %}
             {% include 'Mypage/navi.twig' %}
         </div>
         <div class="ec-mypageRole">
@@ -327,7 +333,7 @@ file that was distributed with this source code.
                                                 </div>
                                             </button>
                                         </div>
-                                        
+
                                         <div class="ec-select{{ has_errors(form.bank_branch) ? ' error' }}">
                                             <select id="bank_branch_code" name="bank_branch_code" class="p-bank-name form-control" placeholder="支店名">
                                             </select>

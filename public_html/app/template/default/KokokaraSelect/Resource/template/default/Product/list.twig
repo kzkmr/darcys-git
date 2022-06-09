@@ -1,0 +1,746 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+
+http://www.lockon.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'product_page' %}
+
+{% set KsProduct = Product.KsProduct %}
+{% set rootProductId = Product.id %}
+
+{% block stylesheet %}
+    <style>
+
+        .kokokara_select_cart_btn_area {
+            margin: 14px 0;
+            font-size: 18px;
+        }
+
+        .kokokara_select_product_right {
+            width: 100%;
+        }
+
+        .ks_group_title {
+            padding: 14px 0;
+            border-bottom-width: 1px;
+            border-bottom-style: dotted;
+            border-bottom-color: rgb(204, 204, 204);
+        }
+        .ks_group_description {
+            padding: 7px 0;
+        }
+        .ks_group_message {
+            padding: 7px 0;
+        }
+
+        .ks_select_quantity {
+            margin-top: auto;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .kokokara_select_product_left {
+                width: 30%;
+            }
+            .kokokara_select_product_right {
+                width: 70%;
+            }
+        }
+
+    /*モーダル本体の指定 + モーダル外側の背景の指定*/
+    .modal-container{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      background: rgba(0,0,0,50%);
+      padding: 40px 20px;
+      overflow: auto;
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s;
+        box-sizing: border-box;
+    }
+    /*モーダル本体の擬似要素の指定*/
+    .modal-container:before{
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
+    }
+    /*モーダル本体に「active」クラス付与した時のスタイル*/
+    .modal-container.active{
+      opacity: 1;
+      visibility: visible;
+    }
+    /*モーダル枠の指定*/
+    .modal-body{
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 500px;
+      width: 90%;
+    }
+    /*モーダルを閉じるボタンの指定*/
+    .modal-close{
+      position: absolute;
+      display: flex;
+        align-items: center;
+        justify-content: center;
+      top: -40px;
+      right: -40px;
+      width: 40px;
+      height: 40px;
+      font-size: 40px;
+      color: #fff;
+      cursor: pointer;
+    }
+    /*モーダル内のコンテンツの指定*/
+    .modal-content{
+      background: #fff;
+      text-align: left;
+      padding: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function() {
+            // bfcache無効化
+            $(window).bind('pageshow', function(event) {
+                if (event.originalEvent.persisted) {
+                    location.reload(true);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(function() {
+
+            var maxSelectQuantity = {{ KsProduct.quantity }};
+
+            var selectQuantities = new Array({{ KsProduct.KsSelectItemGroups|length }});
+
+            var checkMode = {% if editId is empty %}0{% else %}1{% endif %};
+
+            // 初期処理
+            checkQuantity(true);
+
+            // 数量変更
+            $('.ks_quantity ').change(function () {
+                checkQuantity(false);
+            });
+
+            // 数量内部データクリア
+            function resetSelectQuantities() {
+                for (var i = 0; i < selectQuantities.length; i++) {
+                    selectQuantities[i] = 0;
+                }
+            }
+
+            // 数量チェック
+            function checkQuantity($first) {
+
+                var selectQuantity = 0;
+                var pattern = /^\d*$/;
+
+                resetSelectQuantities();
+
+                $('.ks_quantity').each(function() {
+
+                    if($(this).val() == "") {
+                        $(this).val(0);
+                    }
+
+                    if (pattern.test($(this).val())) {
+
+                        var quantity = parseInt($(this).val());
+                        var groupIndex = $(this).data('group_index');
+
+                        selectQuantities[groupIndex] += quantity;
+                        selectQuantity += quantity;
+                    }
+                });
+
+                var underQuantity = maxSelectQuantity - selectQuantity;
+                $('.under_quantity').text(underQuantity);
+                $('.select_item_count').text(selectQuantity);
+
+                var $selectValid = true;
+
+                for (var i = 0; i < selectQuantities.length; i++) {
+
+                    var quantity = selectQuantities[i];
+
+                    // 件数制御
+                    var limitQuantity = $('.ks_select_group' + i).data('quantity');
+                    var groupName = $('.ks_select_group' + i).data('group_name');
+
+                    if(groupName == "" && selectQuantities.length > 1) {
+                        groupName = "{{ DefaultGroupName }}" + (i+1);
+                    }
+
+                    if(selectQuantities.length > 1) {
+                        groupName = groupName + 'から';
+                    }
+
+                    if (quantity < limitQuantity) {
+                        // 不足
+                        if (!$first || checkMode == 1) {
+                            var quantityMsg = (limitQuantity - quantity);
+                            $('.ks_select_message_group' + i).text(groupName + 'あと' + quantityMsg + '点選択してください');
+                            $('.kokokara_select_quantity_area_group' + i).addClass('kokokara_select-ec-color-accent');
+                        }
+                        $selectValid = false;
+                    } else if (quantity > limitQuantity) {
+                        // 過剰
+                        if (!$first || checkMode == 1) {
+
+                            var quantityMsg = (quantity - limitQuantity);
+                            $('.ks_select_message_group' + i).text(groupName + quantityMsg + '点減らしてしてください');
+                            $('.kokokara_select_quantity_area_group' + i).addClass('kokokara_select-ec-color-accent');
+                        }
+                        $selectValid = false;
+                    } else {
+                        $('.ks_select_message_group' + i).text('');
+                        $('.kokokara_select_quantity_area_group' + i).removeClass('kokokara_select-ec-color-accent');
+                    }
+
+                    $('.kokokara_select_quantity_group' + i).text(selectQuantities[i]);
+                }
+
+                if($selectValid && selectQuantity == maxSelectQuantity) {
+                    $('.add-cart').prop('disabled', false).removeClass('.disabled');
+                } else {
+                    $('.add-cart').prop('disabled', true).addClass('.disabled');
+                }
+            }
+
+            // カート追加
+            $('.add-cart').on('click', function(e) {
+
+                var $form = $('#form1');
+
+                e.preventDefault();
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: $form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function(xhr, settings) {
+                        // Buttonを無効にする
+                        $('.add-cart').prop('disabled', true);
+                    }
+                }).done(function(data) {
+                    // レスポンス内のメッセージをalertで表示
+                    $.each(data.messages, function() {
+                        $('#ec-modal-header').html(this);
+                    });
+
+                    {% if is_kokokara_select_version405() %}
+                        $('.ec-modal').show()
+                    {% else %}
+                        $('#ec-modal-checkbox').prop('checked', true);
+                    {% endif %}
+
+                    // ボタンの表示変更
+                    if(data.done) {
+                        $('#ks_new_item_btn').show();
+                        $('#ks_edit_item_btn').hide();
+                    } else {
+                        $('#ks_new_item_btn').hide();
+                        $('#ks_edit_item_btn').show();
+                    }
+
+                    // カートブロックを更新する
+                    $.ajax({
+                        url: '{{ url('block_cart') }}',
+                        type: 'GET',
+                        dataType: 'html'
+                    }).done(function(html) {
+                        $('.ec-headerRole__cart').html(html);
+                    });
+                }).fail(function(data) {
+                    alert('{{ 'カートへの追加に失敗しました。'|trans }}');
+                }).always(function(data) {
+                    // Buttonを有効にする
+                    $('.add-cart').prop('disabled', false);
+                });
+
+            });
+        });
+
+        {% if is_kokokara_select_version405() %}
+            $('.ec-modal-overlay, .ec-modal .ec-inlineBtn--cancel').on('click', function() {
+                $('.ec-modal').hide()
+            });
+        {% endif %}
+
+        function addFavorite(url) {
+
+            loadingOverlay();
+
+            form = document.createElement('form');
+            form.action = url;
+            form.method = 'POST';
+
+            document.body.append(form);
+            form.submit();
+
+        }
+    </script>
+    <script>
+    $(function(){
+      // 変数に要素を入れる
+      var open = $('.modal-open'),
+        close = $('.modal-close'),
+        container = $('.modal-container');
+
+      //開くボタンをクリックしたらモーダルを表示する
+      open.on('click',function(){
+        container.addClass('active');
+        return false;
+      });
+
+      //閉じるボタンをクリックしたらモーダルを閉じる
+      close.on('click',function(){
+        container.removeClass('active');
+      });
+
+      //モーダルの外側をクリックしたらモーダルを閉じる
+      $(document).on('click',function(e) {
+        if(!$(e.target).closest('.modal-body').length) {
+          container.removeClass('active');
+        }
+      });
+    });
+    </script>
+    <script>
+        $(function() {
+            var w = window.innerWidth;
+
+            $('.slide-thumb').each(function () {
+              $(this).appendTo('.item_visual_thumb');
+            });
+
+            if (w > 767) {
+
+              $('.item_visual_main').not('.slick-initialized').slick({
+                  dots: false,
+                  arrows: true,
+                  autoplay: true,
+                  infinite: true,
+                  fade: false,
+                  autoplaySpeed: 3600,
+                  speed: 450,
+                  slidesToShow: 1,
+                  variableWidth: true,
+                  centerMode: true,
+                  centerPadding: '50px',
+                  lazyLoad: 'progressive',
+                  asNavFor: ".item_visual_thumb"
+              });
+
+            } else {
+
+              $('.item_visual_main').not('.slick-initialized').slick({
+                  dots: false,
+                  arrows: true,
+                  autoplay: true,
+                  infinite: true,
+                  fade: false,
+                  autoplaySpeed: 3600,
+                  speed: 450,
+                  slidesToShow: 1,
+                  variableWidth: false,
+                  centerMode: true,
+                  centerPadding: '0',
+                  lazyLoad: 'progressive',
+                  asNavFor: ".item_visual_thumb"
+              });
+
+            }
+
+            if (w > 960) {
+
+                $('.item_visual_thumb').not('.slick-initialized').slick({
+                    dots: false,
+                    arrows: false,
+                    autoplay: false,
+                    infinite: true,
+                    slidesToShow: 10,
+                    lazyLoad: 'progressive',
+                    focusOnSelect: true,
+                    asNavFor: ".item_visual_main"
+                });
+
+            } else if (960 >= w > 639) {
+
+                $('.item_visual_thumb').not('.slick-initialized').slick({
+                    dots: false,
+                    arrows: false,
+                    autoplay: false,
+                    infinite: true,
+                    rows: 2,
+                    slidesToShow: 5,
+                    lazyLoad: 'progressive',
+                    focusOnSelect: true,
+                    asNavFor: ".item_visual_main"
+                });
+
+            } else {
+
+              $('.item_visual_thumb').not('.slick-initialized').slick({
+                  dots: false,
+                  arrows: false,
+                  autoplay: false,
+                  infinite: true,
+                  rows: 3,
+                  slidesToShow: 3,
+                  lazyLoad: 'progressive',
+                  focusOnSelect: true,
+                  asNavFor: ".item_visual_main"
+              });
+
+            }
+
+            /*$('.slide-thumb').on('click', function() {
+                var index = $(this).attr('data-index');
+                $('.item_visual_main').slick('slickGoTo', index, false);
+            });*/
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+    {% if KsProduct.KsSelectItemGroups|length > 0 %}
+        <form action="{{ url('product_select_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
+        {% if Product.stock_find %}
+            {{ form_widget(form._token) }}
+            {{ form_widget(form.product_id) }}
+            {{ form_widget(form.ProductClass) }}
+            {{ form_widget(form.quantity, {'type': 'hidden'}) }}
+            {{ form_widget(form.ksCartKey) }}
+        {% endif %}
+
+        {% if IsChainStore() == false %}
+            <div class="breadcrumb-wrapper">
+                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a itemprop="item" href="{{ url('homepage') }}">
+                            <span itemprop="name">HOME</span>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a itemprop="item" href="/shop/products-list/">
+                            <span itemprop="name">ONLINE SHOP</span>
+                        </a>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                    <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <span itemprop="name">{{ Product.name }}</span>
+                        <meta itemprop="position" content="3" />
+                    </li>
+                </ol>
+            </div>
+        {% endif %}
+
+        <div class="ec-productRole">
+            {# 商品名 #}
+            <div class="ec-productRole__title">
+                <h2 class="ec-headingTitle">{{ Product.name }}</h2>
+            </div>
+            <div class="ec-productRole__description">
+                {% set ksProduct = Product.ksProduct %}
+                {{ KsProduct.description|raw|nl2br }}
+            </div>
+            <div class="ec-grid2">
+                <div class="kokokara_select_product_left">
+                    <div class="ec-sliderItemRole">
+                        <div class="item_visual_main">
+                            {% for ProductImage in Product.ProductImage %}
+                                <div class="slide-item"><img src="{{ asset(ProductImage, 'save_image') }}"></div>
+                                <div class="slide-thumb"><img src="{{ asset(ProductImage, 'save_image') }}"></div>
+                            {% else %}
+                                <div class="slide-item"><img src="{{ asset(''|no_image_product, 'save_image') }}"/></div>
+                                <div class="slide-thumb"><img src="{{ asset(''|no_image_product, 'save_image') }}"/></div>
+                            {% endfor %}
+                        </div>
+                        <div class="item_visual_thumb">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kokokara_select_product_right">
+                    <div class="ec-productRole__profile">
+
+                        {# タグ #}
+                        <ul class="ec-productRole__tags">
+                            {% for Tag in Product.Tags %}
+                                {% if TabExActive %}
+                                    {% set tag_ex_category_id = get_ks_tag_ex_category_id(Product) %}
+                                    <a href="{{ url('product_list', {'tag_id': Tag.id}) }}{{ tag_ex_category_id|raw }}" style="text-decoration: none;">
+                                        <li class="ec-productRole__tag tag_{{ Tag.id }}">{{ Tag }}</li>
+                                    </a>
+                                {% else %}
+                                    <li class="ec-productRole__tag tag_{{ Tag.id }}">{{ Tag }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {# 通常価格 #}
+                        {% if Product.getPrice01Max is not null %}
+                            <span class="ec-productRole__priceRegularPrice">{{ '通常価格'|trans }}：{{ Product.getPrice01IncTaxMin|price }}</span>
+                            <span class="ec-productRole__priceRegularTax">{{ '税込'|trans }}</span>
+                        {% endif %}
+                        {# 販売価格 #}
+                        <div class="ec-productRole__price">
+                            <div class="ec-price">
+                                <span class="ec-price__price">{{ Product.getPrice02IncTaxMin|price }}</span>
+                                <span class="ec-price__tax">{{ '税込'|trans }}</span>
+                            </div>
+                        </div>
+                        {# 商品コード #}
+                        {% if Product.code_min is not empty %}
+                            <div class="ec-productRole__code">
+                                {{ '商品コード'|trans }}： <span class="product-code-default">{{ Product.code_min }}{% if Product.code_min != Product.code_max %} ～ {{ Product.code_max }}{% endif %}</span>
+                            </div>
+                        {% endif %}
+                        {# 関連カテゴリ #}
+                        {% if Product.ProductCategories is not empty %}
+                            <div class="ec-productRole__category">
+                                {% for ProductCategory in Product.ProductCategories %}
+                                    <ul class="ec-productRole-category-list">
+                                        <li class="ec-productRole-category-list__item">
+                                            {% for Category in ProductCategory.Category.path %}
+                                                <a class="category-{{ Category.id }}" href="{{ url('product_list') }}?category_id={{ Category.id }}">{{ Category.name }}</a> {%- if loop.last == false %}
+                                                <span>＞</span>{% endif -%}
+                                            {% endfor %}
+                                        </li>
+                                    </ul>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <div class="ec-productRole__description">{{ Product.description_detail|raw|nl2br }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {% if IsChainStore() == false %}
+            <div class="ec-modal-02">
+                <div class="ec-modal-02__banner modal-open">
+                    <img src="{{ asset('assets/img/product/banner_howtoeat.png') }}" alt="">
+                </div>
+                <div class="modal-container">
+                  <div class="modal-body">
+                    <!-- 閉じるボタン -->
+                    <div class="modal-close">×</div>
+                    <!-- モーダル内のコンテンツ -->
+                    <div class="modal-content">
+                      <p>文章が入ります。</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="ec-shelfRole">
+                <div class="kokokara_select_cart_btn_area">
+                    <p class="kokokara_select_cart_btn_area__text-01">お好きな組み合わせをお選びください</p>
+                    <p class="kokokara_select_cart_btn_area__text-02">合計で{{ KsProduct.quantity }}点選択してください</p>
+                    <p class="kokokara_select_cart_btn_area__text-03"><span>現在の選択数量 合計：</span><span class="select_item_count">0</span></p>
+                    <p class="kokokara_select_cart_btn_area__text-sp pc-none"><span>現在の数量 合計：</span><span class="select_item_count">0</span></p>
+                    {% if KsProduct.KsSelectItemGroups|length > 1 %}
+                        {% for KsSelectItemGroup in KsProduct.KsSelectItemGroups %}
+                            <div class="kokokara_select_quantity_area_group{{ loop.index0 }}">
+                                {% if KsSelectItemGroup.groupName is empty %}
+                                    {% set groupName = DefaultGroupName~loop.index %}
+                                {% else %}
+                                    {% set groupName = KsSelectItemGroup.groupName %}
+                                {% endif %}
+                                （{{ groupName }}の選択：<span class="kokokara_select_quantity_group{{ loop.index0 }}">0</span>  / {{ KsSelectItemGroup.quantity }}）
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% set index = 0 %}
+                {% set groupIndex = 0 %}
+                {% for KsSelectItemGroup in KsProduct.KsSelectItemGroups %}
+                {#
+                    {% if KsSelectItemGroup.groupName != "" %}
+                        <h2 class="ks_group_title">{{ KsSelectItemGroup.groupName }}</h2>
+                    {% endif %}
+                #}
+                    {% if KsSelectItemGroup.description %}
+                        <div class="ks_group_description">{{ KsSelectItemGroup.description|raw|nl2br }}</div>
+                    {% endif %}
+                    <div class="ks_group_message kokokara_select-ec-color-accent"><span class="ks_select_message_group{{ groupIndex }}"></span></div>
+                    <p class="ks_group_message_fixed pc-none"><span class="ks_select_message_group{{ groupIndex }}"></span></p>
+                    <ul class="ec-shelfGrid ks_select_group{{ groupIndex }}" data-quantity="{{ KsSelectItemGroup.quantity }}" data-group_name="{{ KsSelectItemGroup.groupName }}">
+                        {% for KsSelectItem in KsSelectItemGroup.KsSelectItems %}
+                            {% set ksSelectItemView = is_kokokara_select_view_item(KsSelectItem) %}
+                            {% set isKokokaraSelectItemStockZero = is_kokokara_select_item_stock_zero(KsSelectItem) %}
+                            {% if isKokokaraSelectItemStockZero and NonStockHidden %}
+                                {#在庫なし非表示#}
+                            {% else %}
+                                {% if ksSelectItemView %}
+                                    {% set SubProductClass = KsSelectItem.ProductClass %}
+                                    {% set SubProduct = SubProductClass.Product %}
+                                    <li class="ec-shelfGrid__item ec-shelfGrid__item--pb0">
+                                        <p class="ec-shelfGrid__item-image">
+                                            <img src="{{ asset(SubProduct.main_list_image|no_image_product, 'save_image') }}">
+                                        </p>
+                                        <p class="ec-shelfGrid__item-name">
+                                            {% set viewProductName = get_kokokara_select_product_name(SubProductClass) %}
+                                            {{ viewProductName }}
+                                        </p>
+                                        {% if SubProduct.description_list %}
+                                            <p>{{ SubProduct.description_list|raw|nl2br }}</p>
+                                        {% endif %}
+                                        <p class="price02-default">
+                                            {% if KsProduct.priceView %}
+                                                {{ SubProductClass.price02IncTax|price }}
+                                            {% endif %}
+                                        </p>
+                                        <div class="ks_select_quantity">
+                                            {% set subForm = form.selectItems[index] %}
+                                            {{ form_widget(subForm.KsSelectItem) }}
+                                            {% if isKokokaraSelectItemStockZero or Product.stock_find == false %}
+                                                <input type="hidden" name="{{ subForm.quantity.vars.full_name }}" value="0">
+                                                {{ 'ただいま品切れ中です。' }}
+                                            {% else %}
+                                                {{ form_widget(subForm.quantity, {'attr': {'data-group_index': groupIndex}}) }}
+                                            {% endif %}
+                                            {{ form_widget(subForm.groupId, {'value': KsSelectItemGroup.id }) }}
+                                            {% set index = index + 1 %}
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% set groupIndex = groupIndex + 1 %}
+                {% endfor %}
+            </div>
+        </div>
+        </form>
+
+        <div class="kokokara_select_cart_btn_area">
+            {% if Product.stock_find %}
+                <div class="ec-productRole__btn ec-productRole__btn--add">
+                    <button type="button" class="ec-blockBtn--action add-cart" disabled="disabled">
+                        {% if editId is empty %}
+                            {{ 'カートに入れる'|trans }}
+                        {% else %}
+                            {{ '選択商品を変更する'|trans }}
+                        {% endif %}
+                    </button>
+                </div>
+            {% else %}
+                <div class="ec-productRole__btn">
+                    <button type="button" class="ec-blockBtn--action" disabled="disabled">
+                        {{ 'ただいま品切れ中です。'|trans }}
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if BaseInfo.option_favorite_product %}
+                    <div class="like_return-btn">
+            <div class="kokokara_select_cart_btn_area">
+                <div class="ec-productRole__btn ec-productRole__btn--favorite">
+                    {% if is_favorite == false %}
+                        <button type="button" id="favorite" class="ec-blockBtn--cancel" onclick="addFavorite('{{ url('product_add_favorite', {id:Product.id}) }}')">
+                            {{ '☆ お気に入りに追加'|trans }}
+                        </button>
+                    {% else %}
+                        <button type="button" id="favorite" class="ec-blockBtn--cancel"
+                                disabled="disabled">{{ '★お気に入りに追加済です。'|trans }}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="kokokara_select_cart_btn_area">
+            <div class="ec-productRole__btn ec-productRole__btn--favorite">
+                <a class="ec-blockBtn--cancel" href="{{ url('product_list') }}">商品一覧に戻る</a>
+            </div>
+        </div>
+</div>
+        <div class="ec-modal">
+            {% if is_kokokara_select_version405() == false %}
+            <input type="checkbox" id="ec-modal-checkbox" class="checkbox">
+            {% endif %}
+            <div class="ec-modal-overlay">
+                <label for="ec-modal-checkbox" class="ec-modal-overlay-close"></label>
+                <div class="ec-modal-wrap">
+                    <label for="ec-modal-checkbox" class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></label>
+                    <div id="ec-modal-header" class="text-center">{{ 'カートに追加しました。'|trans }}</div>
+                    <div class="ec-modal-box">
+                        <div class="ec-role">
+                            <a id="ks_new_item_btn" href="{{ url('kokokara_select_list', {'id': Product.id}) }}" class="ec-inlineBtn--cancel">{{ 'お買い物を続ける'|trans }}</a>
+                            <label id="ks_edit_item_btn" for="ec-modal-checkbox" class="ec-inlineBtn--cancel" style="display: none;">{{ '商品選択を続ける'|trans }}</label>
+                            <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'カートへ進む'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if Product.freearea %}
+        <div class="ec-productRole__description">
+            {{ include(template_from_string(Product.freearea)) }}
+        </div>
+    {% endif %}
+
+    {% if IsChainStore() == false %}
+    {% set NewProducts = CustomizeNewProduct() %}
+    {% if NewProducts|length > 0 %}
+        <div class="ec-products-top-area ec-products-top-area--new-list">
+            <div class="ec-product-category-title">
+              <h2 class="ec-product-category-title__title">こちらもおすすめ</span></h2>
+            </div>
+            <div class="ec-shelfRole">
+                <ul class="ec-shelfGrid">
+                    {% for Product in NewProducts %}
+                        <li class="ec-shelfGrid__item">
+                            <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                <p class="ec-shelfGrid__item-image">
+                                    <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                </p>
+                                <p class="ec-shelfGrid__title">{{ Product.name }}</p>
+                                {% if Product.description_list %}
+                                    <p class="ec-shelfGrid__description">{{ Product.description_list|raw|nl2br }}</p>
+                                {% endif %}
+                                <p class="price02-default">
+                                    {% if Product.hasProductClass %}
+                                        {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                            {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                        {% else %}
+                                            {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
+                                        {% endif %}
+                                    {% else %}
+                                        {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                    {% endif %}
+                                </p>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+    {% endif %}
+{% endblock %}

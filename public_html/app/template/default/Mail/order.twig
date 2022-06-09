@@ -45,7 +45,6 @@ file that was distributed with this source code.
 {% endif %}
 -------------------------------------------------
 小　計：{{ Order.subtotal|price }}
-手数料：{{ Order.charge|price }}
 送　料：{{ Order.delivery_fee_total|price}}
 {% if Order.taxable_discount < 0 %}
 値引き：{{ Order.taxable_discount|price }}
@@ -59,7 +58,7 @@ file that was distributed with this source code.
 -------------------------------------------------
 {{ item.product_name }}：{{ item.total_price|price }}
 {% endfor %}
-============================================
+-------------------------------------------------
 お支払い合計：{{ Order.payment_total|price }}
 {% if IsChainStore() == false %}
 ************************************************

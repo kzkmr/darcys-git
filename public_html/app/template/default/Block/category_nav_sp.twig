@@ -31,6 +31,45 @@ file that was distributed with this source code.
 
 <div class="ec-header-category-area">
   <div class="ec-item-nav">
+    {% if ChainStore %}
+    <ul class="ec-item-nav__nav">
+      <li class="ec-item-nav__nav-item">
+        <a href="{{ url('mypage_menu') }}">
+          トップ
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
+        <a href="{{ url('mypage_news') }}">
+          新着情報
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/store-guide">
+          ご利用案内
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
+        <a href="{{ url('product_list') }}">
+          商品発注
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
+        <a href="{{ url('product_list') }}?category_id=8">
+          販促品発注
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
+        <a href="/shop/products-list/">
+          商品紹介
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
+        <a href="{{ url('mypage') }}">
+          マイページ
+        </a>
+      </li>
+    </ul>
+    {% else %}
     <ul class="ec-item-nav__nav">
       <li class="ec-item-nav__nav-item">
         <a href="/products/list/">
@@ -39,49 +78,33 @@ file that was distributed with this source code.
         </a>
       </li>
       <li class="ec-item-nav__nav-item">
+        <a href="/shop/guide/">
+          GUIDE
+          <span>お買い物ガイド</span>
+        </a>
+      </li>
+      <li class="ec-item-nav__nav-item">
         <a href="/shop/news/">
           NEWS
-          <span>ニュース</span>
+          <span>お知らせ</span>
         </a>
       </li>
       <li class="ec-item-nav__nav-item">
         <a href="/shop/story/">
           STORY
-          <span>ストーリー</span>
+          <span>製品の誕生物語</span>
         </a>
-        {# <ul class="ec-item-nav__child-nav">
-          <li>
-            <a href="">ICE CREAM</a>
-          </li>
-          <li>
-            <a href="">BREAD</a>
-          </li>
-          <li>
-            <a href="">COFFEE</a>
-          </li>
-        </ul> #}
       </li>
       <li class="ec-item-nav__nav-item">
         <a href="/shop/concept/">
           CONCEPT
-          <span>コンセプト</span>
+          <span>製品のこだわり</span>
         </a>
-        {# <ul class="ec-item-nav__child-nav">
-          <li>
-            <a href="">ICE CREAM</a>
-          </li>
-          <li>
-            <a href="">BREAD</a>
-          </li>
-          <li>
-            <a href="">COFFEE</a>
-          </li>
-        </ul> #}
       </li>
       <li class="ec-item-nav__nav-item">
         <a href="/shop/products-list/">
           PRODUCTS
-          <span>プロダクツ</span>
+          <span>製品ラインアップ</span>
         </a>
       </li>
       <li class="ec-item-nav__nav-item">
@@ -92,7 +115,7 @@ file that was distributed with this source code.
       </li>
       <li class="ec-item-nav__nav-item">
         <a href="/shop/stores">
-          STORE
+          STORES
           <span>実店舗のご紹介</span>
         </a>
       </li>
@@ -103,5 +126,6 @@ file that was distributed with this source code.
         </a>
       </li>
     </ul>
+    {% endif %}
   </div>
 </div>

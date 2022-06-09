@@ -20,6 +20,12 @@ file that was distributed with this source code.
             <div class="ec-pageHeader">
                 <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__history_detail'|trans }}</h1>
             </div>
+            {% if ChainStore %}
+                <div class="p-chain-store-heading">
+                    <h2 class="p-chain-store-heading__title">マイページ</h2>
+                    <p class="p-chain-store-heading__lead">ご利用状況をご確認いただけます。</p>
+                </div>
+            {% endif %}
             {% include 'Mypage/navi.twig' %}
         </div>
 

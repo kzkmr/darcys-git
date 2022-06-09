@@ -17,7 +17,12 @@ file that was distributed with this source code.
     .category-tab__item:not(:first-of-type) a {
       background-color: #eee !important;
       color: #231815 !important;
-      pointer-events: none;
+    }
+    /* COFFEE BREAD othersはとりあえず非表示 */
+    .category-tab__item a.category-2,
+    .category-tab__item a.category-5,
+    .category-tab__item a.category-7 {
+      display: none;
     }
   </style>
 {% endblock %}
@@ -128,30 +133,43 @@ file that was distributed with this source code.
       {% endif %}
     {% endif %}
 
-    {% if Category is null %}
-      <div class="breadcrumb-wrapper">
-        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-          <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a itemprop="item" href="{{ url('homepage') }}">
-              <span itemprop="name">HOME</span>
-            </a>
-            <meta itemprop="position" content="1" />
-          </li>
-          <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a itemprop="item" href="/shop/products-list/">
-              <span itemprop="name">ONLINE SHOP</span>
-            </a>
-            <meta itemprop="position" content="2" />
-          </li>
-        </ol>
+    {% if IsChainStore() == false %}
+      {% if Category is null %}
+        <div class="breadcrumb-wrapper">
+          <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="{{ url('homepage') }}">
+                <span itemprop="name">HOME</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </li>
+            <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="/shop/products-list/">
+                {% if IsChainStore() == false %}
+                  <span itemprop="name">ONLINE SHOP</span>
+                {% else %}
+                  <span itemprop="name">トップ</span>
+                {% endif %}
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+          </ol>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if IsChainStore() %}
+      <div class="p-chain-store-heading">
+        <h1 class="p-chain-store-heading__title">商品発注</h1>
+        <p class="p-chain-store-heading__lead">発注する商品を選んでカートに入れてください。アイスは数量「1」で20個セットになります。</p>
       </div>
     {% endif %}
 
     {% if IsChainStore() == false %}
         {% if Category is null %}
           <div class="online-store-information">
-            <p class="online-store-information__text">「オンラインショップはまだですか？」「東京になかなか行けないけれど食べたい！」と、嬉しいお声をたくさんいただき、ダシーズのアイスクリームをご家庭で召し上がっていただける通販セットをダシーズファクトリー公式サイト上でもお買い求めいただけるようになりました。</p>
-            <p class="online-store-information__text">乳製品、白砂糖、小麦粉、トランス脂肪酸を使わない、心とカラダにおいしいダシーズのアイスクリームをぜひお楽しみください！</p>
+            <p class="online-store-information__text">「オンラインショップはまだですか？」「東京になかなか行けないけれど食べたい！」と、嬉しいお声をたくさんいただき、ダシーズのアイスをご家庭で召し上がっていただける通販セットをダシーズファクトリー公式サイト上でもお買い求めいただけるようになりました。</p>
+            <br><p class="online-store-information__text">乳製品、白砂糖、小麦粉、トランス脂肪酸を使わない、心とカラダにおいしいダシーズのアイスをぜひお楽しみください！</p>
           </div>
         {% endif %}
     {% endif %}
@@ -163,9 +181,32 @@ file that was distributed with this source code.
             <h2 class="category-tab__title">CATEGORY<span>カテゴリー</span></h2>
             <ul class="category-tab__list">
                 {% for category_item in Categories %}
-                    <li class="category-tab__item">
-                        <a class="category-{{ category_item.id }}" href="{{ url('product_list') }}?category_id={{ category_item.id }}">{{ category_item.name }}</a>
-                    </li>
+                    {% set continue = false %}
+                    {% if IsChainStore() == false %}
+                        {% if category_item.id == 8 %}
+                            {% set continue = true %}
+                        {% endif %}
+                        {% if not continue %}
+                            <li class="category-tab__item">
+                                <a class="category-{{ category_item.id }}" href="{{ url('product_list') }}?category_id={{ category_item.id }}">{{ category_item.name }}</a>
+                            </li>
+                        {% endif %}
+                        {% if continue %}
+                            {% set continue = false %}
+                        {% endif %}
+                    {% else %}
+                        {% if category_item.id == 7 %}
+                            {% set continue = true %}
+                        {% endif %}
+                        {% if not continue %}
+                            <li class="category-tab__item">
+                                <a class="category-{{ category_item.id }}" href="{{ url('product_list') }}?category_id={{ category_item.id }}">{{ category_item.name }}</a>
+                            </li>
+                        {% endif %}
+                        {% if continue %}
+                            {% set continue = false %}
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
@@ -333,7 +374,7 @@ file that was distributed with this source code.
         {% if IceProducts|length > 0 %}
             <div class="ec-products-top-area">
                 <div class="ec-product-category-title">
-                  <h2 class="ec-product-category-title__title">ICE CREAM<span>アイスクリーム</span></h2>
+                  <h2 class="ec-product-category-title__title">ICE<span style="font-size: 0.8rem; color: #999;">ダシーズアイス</span></h2>
                 </div>
                 <div class="ec-shelfRole">
                     <ul class="ec-shelfGrid">
@@ -434,7 +475,7 @@ file that was distributed with this source code.
         {% if CoffeeProducts|length > 0 %}
             <div class="ec-products-top-area">
                 <div class="ec-product-category-title">
-                  <h2 class="ec-product-category-title__title">COFFEE<span>コーヒー</span></h2>
+                  <h2 class="ec-product-category-title__title">COFFEE<span style="font-size: 0.8rem; color: #999;">コーヒー</span></h2>
                 </div>
                 <div class="ec-shelfRole">
                     <ul class="ec-shelfGrid">
@@ -529,7 +570,7 @@ file that was distributed with this source code.
         {% if BreadProducts|length > 0 %}
             <div class="ec-products-top-area">
                 <div class="ec-product-category-title">
-                  <h2 class="ec-product-category-title__title">BREAD<span>ブレッド</span></h2>
+                  <h2 class="ec-product-category-title__title">BREAD<span style="font-size: 0.8rem; color: #999;">ブレッド</span></h2>
                 </div>
                 <div class="ec-shelfRole">
                     <ul class="ec-shelfGrid">

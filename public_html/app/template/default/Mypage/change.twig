@@ -18,14 +18,14 @@ file that was distributed with this source code.
 
 {% block javascript %}
     <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
-    <script>
-        $(function () {
-            {% if ChainStore %}
+    {% if ChainStore %}
+        <script>
+            $(function () {
                 $("#cform :input").prop("readonly", true);
                 $("#cform select, #cform :radio").prop("disabled", true);
-            {% endif %}
-        });
-    </script>
+            });
+        </script>
+    {% endif %}
 {% endblock javascript %}
 
 {% block main %}
@@ -38,6 +38,12 @@ file that was distributed with this source code.
                     <h1>{{ 'front.mypage.title'|trans }}/{{ 'front.mypage.nav__customer'|trans }}</h1>
                 {% endif %}
             </div>
+            {% if ChainStore %}
+                <div class="p-chain-store-heading">
+                    <h2 class="p-chain-store-heading__title">マイページ</h2>
+                    <p class="p-chain-store-heading__lead">ご利用状況をご確認いただけます。</p>
+                </div>
+            {% endif %}
             {% include 'Mypage/navi.twig' %}
         </div>
         <div class="ec-mypageRole">
