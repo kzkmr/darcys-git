@@ -105,6 +105,15 @@ class OrderRepository extends BaseOrderRepository
                 ->setParameter('company_name', '%'.$searchData['multi'].'%'); // 会社名はスペースを除去せず検索
         }
 
+        // margin_condition
+        if (isset($searchData['margin_condition']) && StringUtil::isNotBlank($searchData['margin_condition'])) {
+            if($searchData['margin_condition'] == "Y"){
+                $qb->andWhere('ccs.marginPrice + ccs.purchasingLimitPrice > 0');
+            }
+            if($searchData['margin_condition'] == "N"){
+                $qb->andWhere('ccs.marginPrice + ccs.purchasingLimitPrice = 0');
+            }
+        }
 
         // storechain_member
         if (!empty($searchData['storechain_member']) && count($searchData['storechain_member']) > 0) {

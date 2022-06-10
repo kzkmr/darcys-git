@@ -32,9 +32,16 @@ file that was distributed with this source code.
             <div class="ec-off2Grid ec-text-ac">
                 <div class="ec-off2Grid__cell">
                     <div class="ec-reportHeading">
-                        <h2>{{ 'front.mypage.customer_complete_message__title'|trans }}</h2>
+                        {% if ChainStore %}
+                            <h2>パスワードの変更が完了いたしました</h2>
+                        {% else %}
+                            <h2>{{ 'front.mypage.customer_complete_message__title'|trans }}</h2>
+                        {% endif %}
                     </div>
-                    <p class="ec-reportDescription">{{ 'front.mypage.customer_complete_message__body'|trans }}</p>
+                    {% if ChainStore %}
+                    {% else %}
+                        <p class="ec-reportDescription">{{ 'front.mypage.customer_complete_message__body'|trans }}</p>
+                    {% endif %}
                     <div class="ec-off4Grid">
                         <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel"
                                                           href="{{ url('homepage') }}">{{ 'common.back'|trans }}</a>

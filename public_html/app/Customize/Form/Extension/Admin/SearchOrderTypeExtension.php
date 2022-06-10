@@ -66,6 +66,9 @@ class SearchOrderTypeExtension extends AbstractTypeExtension
     {
         $contractType = $this->contractTypeRepository->findBy([], ['sort_no' => 'ASC']);
         $saleType = $this->saleTypeRepository->findBy([], ['sort_no' => 'ASC']);
+        //預託金有無検索
+        $margin_name = array("預託金あり", "預託金なし");
+        $margin_val = array("Y", "N");
 
         $builder
             ->add('storechain_member', EntityType::class, [
@@ -74,6 +77,14 @@ class SearchOrderTypeExtension extends AbstractTypeExtension
                 'multiple' => true,
                 'class' => ContractType::class,
                 'choices' => $contractType
+            ])
+            ->add('margin_condition', ChoiceType::class, [
+                'label' => 'admin.chainstore.margin_condition',
+                'placeholder' => '全て',
+                'required' => false,
+                'multiple' => false,
+                'expanded' => false,
+                'choices' => array_combine($margin_name, $margin_val),
             ])
             ->add('class_sale_type', EntityType::class, [
                 'required' => false,

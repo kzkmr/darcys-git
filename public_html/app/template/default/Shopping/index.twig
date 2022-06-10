@@ -187,6 +187,13 @@ file that was distributed with this source code.
                                 {% set isOrderOver = true %}
                             {% endif %}
                         {% endif %}
+                        {% if ChainStore.ContractType.id == 3 and (ChainStore.marginPrice + ChainStore.purchasingLimitPrice) > 0 %}
+                            <p class="ec-order-limit-text">購入可能金額 {{ChainStore.balancePrice | price}}</p>
+
+                            {% if currentBalance < 0 %}
+                                {% set isOrderOver = true %}
+                            {% endif %}
+                        {% endif %}
 
                         {% if ChainStore.ContractType.id != 2 %}
                             {% if isOrderLimit %}
@@ -213,7 +220,7 @@ file that was distributed with this source code.
                                         </div>
                                     </div>
                                 {% else %}
-                                    {% if ChainStore.ContractType.id != 1 %}
+                                    {% if ChainStore.ContractType.id == 1 or (ChainStore.ContractType.id == 3 and (ChainStore.marginPrice + ChainStore.purchasingLimitPrice)) == 0 %}
                                         <script>
                                             $(function() {
                                                 $(".ec-imp-message").hide();

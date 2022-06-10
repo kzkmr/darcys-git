@@ -61,12 +61,10 @@ file that was distributed with this source code.
             <li data-change-title="MYページ/登録情報編集" class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}active{% endif %}">
                 <a href="{{ url('mypage_change') }}">契約者情報<br>②販売店舗</a>
             </li>
-            {% if ChainStore.ContractType.id != 2 %}
-                {% if ChainStore.deliveryRegistrations > 0 %}
-                    <li data-change-title="MYページ/販売店舗一覧" class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
-                        <a href="{{ url('mypage_delivery') }}">{{ '販売店舗一覧'|trans }}</a>
-                    </li>
-                {% endif %}
+            {% if ChainStore.deliveryRegistrations > 0 %}
+                <li data-change-title="MYページ/販売店舗一覧" class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
+                    <a href="{{ url('mypage_delivery') }}">{{ '販売店舗一覧'|trans }}</a>
+                </li>
             {% endif %}
         {% else %}
             <li class="ec-navlistRole__item {% if mypageno|default('') == 'index' %}active{% endif %}">
@@ -99,7 +97,7 @@ file that was distributed with this source code.
         <p>{{ 'front.mypage.welcome__point'|trans({ '%point%': app.user.point|number_format}) }}</p>
     {% endif %}
     {% if ChainStore %}
-        {% if ChainStore.ContractType.id == 1 %}
+        {% if ChainStore.ContractType.id == 1 or (ChainStore.ContractType.id == 3 and (ChainStore.marginPrice + ChainStore.purchasingLimitPrice) > 0) %}
             <p class="ec-order-limit-text1">購入可能金額 {{ChainStore.balancePrice | price}}</p>
         {% endif %}
 

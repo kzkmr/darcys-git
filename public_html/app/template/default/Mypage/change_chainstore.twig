@@ -200,6 +200,8 @@ file that was distributed with this source code.
                 $("#cform :input").prop("readonly", true);
                 $("#cform select, #cform :radio").prop("disabled", true);
                 $(".btn_bank_search").hide();
+                $(".ec-required").hide();
+                $("#cform").show();
             {% endif %}
         });
 
@@ -224,7 +226,7 @@ file that was distributed with this source code.
             <div class="ec-editRole">
                 <div class="ec-off1Grid">
                     <div class="ec-off1Grid__cell">
-                        <form method="post" action="{{ url('mypage_change_chainstore') }}" novalidate class="h-adr" id="cform">
+                        <form method="post" action="{{ url('mypage_change_chainstore') }}" novalidate class="h-adr" id="cform" style="display:none;">
                             <span class="p-country-name" style="display:none;">Japan</span>
                             {{ form_widget(form._token) }}
                             <div class="ec-borderedDefs">
@@ -333,7 +335,7 @@ file that was distributed with this source code.
                                                 </div>
                                             </button>
                                         </div>
-
+                                        
                                         <div class="ec-select{{ has_errors(form.bank_branch) ? ' error' }}">
                                             <select id="bank_branch_code" name="bank_branch_code" class="p-bank-name form-control" placeholder="支店名">
                                             </select>
