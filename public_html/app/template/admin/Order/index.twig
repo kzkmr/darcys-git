@@ -174,6 +174,27 @@ file that was distributed with this source code.
         location.href = '{{ url('admin_order', { 'resume': 1 }) }}';
     });
 
+    $(".cust_shipping1").on("click", function(){
+        $("#action").val("cust_shipping1");
+        $("#selids").val(getAllCheck());
+        $("#formaction").submit();
+    });
+
+    var getAllCheck = function(){
+        var val = "";
+        if($("#toggle_check_all").prop("checked")){
+            return "all";
+        }else{
+            $('input[type="checkbox"][name="ids\\[\\]"]:checked').each(function(i){
+                if(val == ""){
+                    val = $(this).val();
+                }else{
+                    val = val + "," + $(this).val();
+                }
+            });
+            return val;
+        }
+    }
 });
 </script>
 
@@ -503,9 +524,14 @@ file that was distributed with this source code.
                                                 <a class="dropdown-item" href="{{ url('admin_order_export_order') }}" id="orderCsvDownload">
                                                     {{ 'admin.order.order_csv'|trans }}
                                                 </a>
+                                                {#
                                                 <a class="dropdown-item" href="{{ url('admin_order_export_shipping') }}" id="shippingCsvDownload">
                                                     {{ 'admin.order.shipping_csv'|trans }}
                                                 </a>
+                                                #}
+                                                <button type="button" class="dropdown-item cust_shipping1">
+                                                    {{ 'admin.order.cust_shipping1_csv'|trans }}
+                                                </button>
                                             </div>
                                         </div>
 
@@ -518,7 +544,12 @@ file that was distributed with this source code.
                                                 <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : constant('\\Eccube\\Entity\\Master\\CsvType::CSV_TYPE_ORDER') }) }}" id="orderCsvSetting">
                                                     {{ 'admin.order.order_csv'|trans }}
                                                 </a>
+                                                {#
                                                 <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : constant('\\Eccube\\Entity\\Master\\CsvType::CSV_TYPE_SHIPPING') }) }}" id="shippingCsvSetting">
+                                                    {{ 'admin.order.shipping_csv'|trans }}
+                                                </a>
+                                                #}
+                                                <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : 8 }) }}" id="cust_shipping1_csv">
                                                     {{ 'admin.order.shipping_csv'|trans }}
                                                 </a>
                                             </div>
@@ -738,4 +769,9 @@ file that was distributed with this source code.
             </div>
         </div>
     </div>
+
+    <form id="formaction" method="POST" action="{{ url('admin_order_export_submit') }}" style="display:none;">
+        <input type="hidden" id="action" name="action" value="">
+        <input type="hidden" id="selids" name="selids" value="">
+    </form>
 {% endblock %}

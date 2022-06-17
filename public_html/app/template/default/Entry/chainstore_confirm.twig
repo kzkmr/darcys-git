@@ -54,6 +54,62 @@ file that was distributed with this source code.
             });
 
             $("#bank_id").trigger("change");
+
+            {% if ChainstoreTypeMode != 'simple' %}
+                if($("#entry_chain_store_option_webshop").val() != "Y"){
+                    $(".webshop_sale").hide();
+                }else{
+                    $(".webshop_sale").show();
+                }
+
+                if($("#entry_chain_store_option_partner").val() != "Y"){
+                    $(".ispartner").hide();
+                }else{
+                    $(".ispartner").show();
+                }
+
+                if($("#entry_chain_store_applicant_contract_type").val() =="1"){
+                    $(".corporate_number").show();
+                }else{
+                    $(".corporate_number").hide();
+                }
+
+                if($("#entry_chain_store_applicant_contract_type").val() =="3"){
+                    $(".company_name .ec-required, .company_name_kana .ec-required").hide();
+                }else{
+                    $(".company_name .ec-required, .company_name_kana .ec-required").show();
+                }
+
+                if($("#entry_chain_store_chainStoreTradingAccountType").val() =="1"){
+                    //ゆうちょ銀行以外の銀行
+                    $(".isbank").show();
+                    $(".ispost").hide();
+                }else{
+                    //ゆうちょ銀行
+                    $(".isbank").hide();
+                    $(".ispost").show();
+                }
+                if($("#entry_chain_store_chainstore_business_type").val() =="3"){
+                    $("#entry_chain_store_chainstore_business_other_type").show();
+                }else{
+                    $("#entry_chain_store_chainstore_business_other_type").hide();
+                }
+                if($("#entry_chain_store_chain_store_web_shop_opening_type").val() =="3"){
+                    $("#entry_chain_store_chainstore_webshop_opening_other_type").show();
+                }else{
+                    $("#entry_chain_store_chainstore_webshop_opening_other_type").hide();
+                }
+                if($("#entry_chain_store_chain_store_web_shop_phone_type").val() =="3"){
+                    $("#entry_chain_store_chainstore_webshop_phone_other_type").show();
+                }else{
+                    $("#entry_chain_store_chainstore_webshop_phone_other_type").hide();
+                }
+                if($("#entry_chain_store_chain_store_web_shop_email_type").val() =="3"){
+                    $("#entry_chain_store_chainstore_webshop_mail_other_type").show();
+                }else{
+                    $("#entry_chain_store_chainstore_webshop_mail_other_type").hide();
+                }
+            {% endif %}
         });
 
     </script>
@@ -68,77 +124,64 @@ file that was distributed with this source code.
                 </div>
             </div>
         {% else %}    
+            {% set hideMode = (ChainstoreTypeMode =='simple'?'display:none;':'') %}
+            {% set showMode = (ChainstoreTypeMode =='simple'?'':'display:none;') %}
+
             <div class="ec-pageHeader">
                 <h1>販売店契約登録（{{ChainstoreType.name}}）（確認）</h1>
             </div>
             <div class="ec-off1Grid">
                 <div class="ec-off1Grid__cell">
-                    <form method="post" action="{{ url('entry_chainstore', {'chainstore_type': ChainstoreType.url_parameter}) }}" novalidate class="h-adr">
+                    <form method="post" action="{{ url('entry_chainstore', {'chainstore_type': ChainstoreTypeUrl}) }}" novalidate class="h-adr">
                         {{ form_widget(form._token) }}
                         <p>
                             下記の内容で登録してもよろしいでしょうか？<br />
                             よろしければ、一番下の「登録する」ボタンをクリックしてください。
                         </p>
                         <div class="ec-borderedDefs">
-                            <dl style="display:none;">
+                            <!-- 契約区分 -->
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.chain_store.contract_type, 'admin.chainstore.contract_type', { 'label_attr': { 'class': 'ec-label' }}) }}                                </dt>
                                 <dd>
                                     {{ form.chain_store.contract_type.vars.data }}
                                     {{ form_widget(form.chain_store.contract_type, { type : 'hidden' }) }}
                                     {{ form_widget(form.chain_store.pre_chainstore, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.chainstore_address_full, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.full_name, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.mediator_fullname, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <!-- 申込者の契約区分 -->
+                            <dl style="{{hideMode}}">
                                 <dt>
-                                    {{ form_label(form.chain_store.name, 'common.representative.name', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                </dt>
+                                    {{ form_label(form.chain_store.applicant_contract_type, 'admin.chainstore.applicant_contract_type', { 'label_attr': { 'class': 'ec-label' }}) }}                                </dt>
                                 <dd>
-                                    {{ form.chain_store.name.name01.vars.data }}
-                                    {{ form.chain_store.name.name02.vars.data }}
-                                    {{ form_widget(form.chain_store.name.name01, { type : 'hidden' }) }}
-                                    {{ form_widget(form.chain_store.name.name02, { type : 'hidden' }) }}
+                                    {{ form.chain_store.applicant_contract_type.vars.data }}
+                                    {{ form_widget(form.chain_store.applicant_contract_type, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <!-- 法人番号 -->
+                            <dl class="corporate_number" style="{{hideMode}}">
                                 <dt>
-                                    {{ form_label(form.chain_store.kana, 'common.representative.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                </dt>
+                                    {{ form_label(form.chain_store.corporate_number, 'admin.chainstore.corporate_number', { 'label_attr': { 'class': 'ec-label' }}) }}                                </dt>
                                 <dd>
-                                    {{ form.chain_store.kana.kana01.vars.data }}
-                                    {{ form.chain_store.kana.kana02.vars.data }}
-                                    {{ form_widget(form.chain_store.kana.kana01, { type : 'hidden' }) }}
-                                    {{ form_widget(form.chain_store.kana.kana02, { type : 'hidden' }) }}
+                                    {{ form.chain_store.corporate_number.vars.data }}
+                                    {{ form_widget(form.chain_store.corporate_number, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
-                                <dt>
-                                    {{ form_label(form.chain_store.company_name, 'admin.common.chainstore_name', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                </dt>
-                                <dd>
-                                    {{ form.chain_store.company_name.vars.data }}
-                                    {{ form_widget(form.chain_store.company_name, { type : 'hidden' }) }}
-                                </dd>
-                            </dl>
-                            <dl style="display:none;">
-                                <dt>
-                                    {{ form_label(form.chain_store.company_name_kana, 'admin.common.chainstore_name_kana', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                </dt>
-                                <dd>
-                                    {{ form.chain_store.company_name_kana.vars.data }}
-                                    {{ form_widget(form.chain_store.company_name_kana, { type : 'hidden' }) }}
-                                </dd>
-                            </dl>
+                            <!-- 契約番号 -->
                             <dl>
                                 <dt>
-                                    {{ form_label(form.chain_store.stock_number, 'admin.chainstore.stock_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <label class="ec-label required">契約番号</label>
                                 </dt>
                                 <dd>
                                     {{ form.chain_store.stock_number.vars.data }}
                                     {{ form_widget(form.chain_store.stock_number, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <!-- 契約開始年月  -->
+                            <dl style="display:none;" style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.chain_store.contract_begin_ymd, 'admin.chainstore.contract_begin_ymd', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -149,9 +192,212 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.contract_begin_ymd.day, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
+                            <!-- 法人名・屋号 -->
+                            <dl class="company_name" style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.company_name, 'admin.chainstore.chainstore_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.company_name.vars.data }}
+                                    {{ form_widget(form.chain_store.company_name, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 法人名・屋号（フリガナ） -->
+                            <dl class="company_name_kana" style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.company_name_kana, 'admin.chainstore.chainstore_name_ka', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.company_name_kana.vars.data }}
+                                    {{ form_widget(form.chain_store.company_name_kana, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 設立日（開業日） -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.begin_day, 'admin.chainstore.begin_day', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.begin_day.vars.data ? form.chain_store.begin_day.vars.data|date_day() }}
+                                    {{ form_widget(form.chain_store.begin_day.year, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.begin_day.month, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.begin_day.day, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 所在地 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.address, 'admin.chainstore.address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {# 郵便番号 #}
+                                    <span>{{ 'common.postal_symbol'|trans }}</span>{{ form.chain_store.chainstore_postal_code.vars.data }}
+                                    {{ form_widget(form.chain_store.chainstore_postal_code, { type : 'hidden' }) }}
+                                    {# 都道府県・住所 #}
+                                    {{ form.chain_store.chainstore_pref.vars.data }} {{ form.chain_store.chainstore_address01.vars.data }} {{ form.chain_store.chainstore_address02.vars.data }}
+                                    {{ form_widget(form.chain_store.chainstore_pref, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.chainstore_address01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.chainstore_address02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 所在地・住所(フリガナ) -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.addr01_ka, '所在地・住所(フリガナ)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.addr01_ka.vars.data }}
+                                    {{ form_widget(form.chain_store.addr01_ka, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 代表者名・氏名 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.name, 'common.representative.name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.name.name01.vars.data }}
+                                    {{ form.chain_store.name.name02.vars.data }}
+                                    {{ form_widget(form.chain_store.name.name01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.name.name02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 代表者名・氏名（フリガナ） -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.kana, 'common.representative.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.kana.kana01.vars.data }}
+                                    {{ form.chain_store.kana.kana02.vars.data }}
+                                    {{ form_widget(form.chain_store.kana.kana01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.kana.kana02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 携帯電話 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.cellphone_number, 'admin.chainstore.cellphone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.cellphone_number.vars.data }}
+                                    {{ form_widget(form.chain_store.cellphone_number, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 固定電話 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.contact_phone_number, 'admin.chainstore.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.contact_phone_number.vars.data }}
+                                    {{ form_widget(form.chain_store.contact_phone_number, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+
+                            <div class="dzx-header" style="{{hideMode}}">
+                                仲介者情報
+                            </div>
+                            <!-- 仲介者 法人名・屋号 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.mediator_company_name, 'admin.chainstore.mediator.chainstore_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.mediator_company_name.vars.data }}
+                                    {{ form_widget(form.chain_store.mediator_company_name, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 仲介者 法人名・屋号（フリガナ） -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.mediator_company_name_kana, 'admin.chainstore.mediator.chainstore_name_ka', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.mediator_company_name_kana.vars.data }}
+                                    {{ form_widget(form.chain_store.mediator_company_name_kana, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 仲介者 代表者名・氏名 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.mediator_name, 'admin.chainstore.mediator.representative_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.mediator_name.mediator_name01.vars.data }}
+                                    {{ form.chain_store.mediator_name.mediator_name02.vars.data }}
+                                    {{ form_widget(form.chain_store.mediator_name.mediator_name01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.mediator_name.mediator_name02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 仲介者 代表者名・氏名（フリガナ） -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.mediator_kana, 'admin.chainstore.mediator.representative_name_ka', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.mediator_kana.mediator_kana01.vars.data }}
+                                    {{ form.chain_store.mediator_kana.mediator_kana02.vars.data }}
+                                    {{ form_widget(form.chain_store.mediator_kana.mediator_kana01, { type : 'hidden' }) }}
+                                    {{ form_widget(form.chain_store.mediator_kana.mediator_kana02, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 仲介者 ディーラーコード -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.dealer_code, 'admin.chainstore.mediator.dealer_code', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.dealer_code.vars.data }}
+                                    {{ form_widget(form.chain_store.dealer_code, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 仲介者 所在地・住所 -->
                             <dl style="display:none;">
                                 <dt>
+                                    {% if ChainstoreType.id == "3" %}
+                                        {{ form_label(form.chain_store.mediator_address01, 'admin.chainstore.mediator.kouri_address01', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% else %}
+                                        {{ form_label(form.chain_store.mediator_address01, 'admin.chainstore.mediator.address01', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {% endif %}
+                                
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.mediator_address01.vars.data }}
+                                    {{ form_widget(form.chain_store.mediator_address01, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 仲介者 電話番号 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.mediator_phone_number, 'admin.chainstore.mediator.telephone', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.mediator_phone_number.vars.data }}
+                                    {{ form_widget(form.chain_store.mediator_phone_number, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+
+                            <div class="dzx-header" style="{{hideMode}}">
+                                取引口座情報
+                            </div>
+                            <!-- 取引口座選択 -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.chainStoreTradingAccountType, 'admin.chainstore.chainstore_bank_trading_type', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.chainStoreTradingAccountType.vars.data }}
+                                    {{ form_widget(form.chain_store.chainStoreTradingAccountType, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 金融機関名 -->
+                            <dl class="isbank" style="{{hideMode}}">
+                                <dt>
                                     {{ form_label(form.chain_store.bank, 'admin.chainstore.chainstore_bank_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
                                 </dt>
                                 <dd>
                                     <span id="bank_id" style="display:none;">{{ form.chain_store.bank.vars.value }}</span>
@@ -159,9 +405,11 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.bank, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <!-- 支店名 -->
+                            <dl class="isbank" style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.chain_store.bank_branch, '支店名', { 'label_attr': {'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
                                 </dt>
                                 <dd>
                                     <span id="bank_branch_id"></span>
@@ -169,34 +417,417 @@ file that was distributed with this source code.
                                     {{ form_widget(form.chain_store.bank_branch, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <!-- 預金種目 -->
+                            <dl class="isbank" style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.chain_store.bank_account_type, 'admin.chainstore.chainstore_bank_account_type', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
                                 </dt>
                                 <dd>
                                     {{ form.chain_store.bank_account_type.vars.data }}
                                     {{ form_widget(form.chain_store.bank_account_type, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <!-- 通帳記号（下5桁）（ゆうちょ） -->
+                            <dl class="ispost" style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.code_number, 'admin.chainstore.chainstore_code_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.code_number.vars.data }}
+                                    {{ form_widget(form.chain_store.code_number, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 通帳番号（8桁）（ゆうちょ） -->
+                            <dl class="ispost" style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.account_number, 'admin.chainstore.chainstore_account_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.account_number.vars.data }}
+                                    {{ form_widget(form.chain_store.account_number, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 口座番号 -->
+                            <dl class="isbank" style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.chain_store.bank_account, 'admin.chainstore.chainstore_bank_account', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <span class="ec-required">必須</span>
                                 </dt>
                                 <dd>
                                     {{ form.chain_store.bank_account.vars.data }}
                                     {{ form_widget(form.chain_store.bank_account, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <!-- 口座名義 -->
+                            <dl style="{{hideMode}}">
                                 <dt>
-                                    {{ form_label(form.chain_store.bank_holder, 'admin.chainstore.chainstore_bank_holder', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    {{ form_label(form.chain_store.bankHolderName, 'admin.chainstore.chainstore_bank_holder', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.bankHolderName.vars.data }}
+                                    {{ form_widget(form.chain_store.bankHolderName, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <!-- 口座名義（フリガナ） -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.bank_holder, 'admin.chainstore.chainstore_bank_holder_ka', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
                                     {{ form.chain_store.bank_holder.vars.data }}
                                     {{ form_widget(form.chain_store.bank_holder, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+
+                        {% if ChainstoreType.id != "2" %}
+                            <div style="{{hideMode}}">
+                        {% else %}
+                            <div style="display:none;">
+                        {% endif %}
+                                <div class="dzx-header">
+                                    販売店舗情報
+                                </div>
+                                {% if ChainstoreType.id != "3" %}
+                                    <!-- 販売店舗の関連性 -->
+                                    <dl>
+                                        <dt>
+                                            {{ form_label(form.chain_store.related_chainstore_type, 'admin.chainstore.subchainstore.related_chainstore_type', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                            <span class="ec-required">必須</span>
+                                        </dt>
+                                        <dd>
+                                            {{ form.chain_store.related_chainstore_type.vars.data }}
+                                            {{ form_widget(form.chain_store.related_chainstore_type, { type : 'hidden' }) }}
+                                        </dd>
+                                    </dl>
+                                {% endif %}
+                                <!-- 販売店の業務形態 -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.chainstore_business_type, 'admin.chainstore.subchainstore.chainstore_business_type', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chainstore_business_type.vars.data }}
+                                        {{ form.chain_store.chainstore_business_other_type.vars.data }}
+                                        {{ form_widget(form.chain_store.chainstore_business_type, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_business_other_type, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 販売店名 -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.chainstore_name, 'admin.chainstore.subchainstore.chainstore_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chainstore_name.vars.data }}
+                                        {{ form_widget(form.chain_store.chainstore_name, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 販売店名(フリガナ） -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.chainstore_name_kana, 'admin.chainstore.subchainstore.chainstore_name_kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chainstore_name_kana.vars.data }}
+                                        {{ form_widget(form.chain_store.chainstore_name_kana, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                {% if ChainstoreType.id != "3" %}
+                                    <!-- 運営会社・運営者 -->
+                                    <dl>
+                                        <dt>
+                                            {{ form_label(form.chain_store.operating_name, 'admin.chainstore.subchainstore.name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                            <span class="ec-required">必須</span>
+                                        </dt>
+                                        <dd>
+                                            {{ form.chain_store.operating_name.vars.data }}
+                                            {{ form_widget(form.chain_store.operating_name, { type : 'hidden' }) }}
+                                        </dd>
+                                    </dl>
+                                    <!-- 運営会社・運営者（フリガナ） -->
+                                    <dl>
+                                        <dt>
+                                            {{ form_label(form.chain_store.operating_kana, 'admin.chainstore.subchainstore.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                            <span class="ec-required">必須</span>
+                                        </dt>
+                                        <dd>
+                                            {{ form.chain_store.operating_kana.vars.data }}
+                                            {{ form_widget(form.chain_store.operating_kana, { type : 'hidden' }) }}
+                                        </dd>
+                                    </dl>
+                                {% endif %}
+                                <!-- 提供方法 -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.chainstore_provide_type, 'admin.chainstore.subchainstore.chainstore_provide_type', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chainstore_provide_type.vars.data }}
+                                        {{ form_widget(form.chain_store.chainstore_provide_type, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 提供スタイル -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.chainstore_provide_style_type, 'admin.chainstore.subchainstore.chainstore_provide_style_type', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chainstore_provide_style_type.vars.data }}
+                                        {{ form_widget(form.chain_store.chainstore_provide_style_type, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 店舗所在地 -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.postal_code, 'admin.chainstore.subchainstore.address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {# 郵便番号 #}
+                                        <span>{{ 'common.postal_symbol'|trans }}</span>{{ form.chain_store.postal_code.vars.data }}
+                                        {{ form_widget(form.chain_store.postal_code, { type : 'hidden' }) }}
+                                        {# 都道府県・住所 #}
+                                        {{ form.chain_store.addr01.vars.data }} {{ form.chain_store.addr02.vars.data }} {{ form.chain_store.addr03.vars.data }}
+                                        {{ form_widget(form.chain_store.addr01, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.addr02, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.addr03, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 担当者名 -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.main_name, 'admin.chainstore.subchainstore.main_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.main_name.main_name01.vars.data }}
+                                        {{ form.chain_store.main_name.main_name02.vars.data }}
+                                        {{ form_widget(form.chain_store.main_name.main_name01, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.main_name.main_name02, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 担当者名カナ -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.main_name, 'admin.chainstore.subchainstore.main_kana', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.main_kana.main_kana01.vars.data }}
+                                        {{ form.chain_store.main_kana.main_kana02.vars.data }}
+                                        {{ form_widget(form.chain_store.main_kana.main_kana01, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.main_kana.main_kana02, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 店舗連絡先（電話番号） -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.phone_number, 'admin.chainstore.subchainstore.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.phone_number.vars.data }}
+                                        {{ form_widget(form.chain_store.phone_number, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 店舗メールアドレス -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.chainstore_email, 'admin.chainstore.subchainstore.chainstore_email', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chainstore_email.vars.data }}
+                                        {{ form_widget(form.chain_store.chainstore_email.first, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_email.second, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- WEBショップでダシーズの出品予定はありますか -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.option_webshop, 'admin.chainstore.subchainstore.webshop_sale_ice_list', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.option_webshop.vars.data }}
+                                        {{ form_widget(form.chain_store.option_webshop, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- ＷＥＢショップ店舗名 -->
+                                <dl class="webshop_sale">
+                                    <dt>
+                                        {{ form_label(form.chain_store.webshop_name, 'admin.chainstore.subchainstore.webshop_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.webshop_name.vars.data }}
+                                        {{ form_widget(form.chain_store.webshop_name, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 出店WEBショップURL -->
+                                <dl class="webshop_sale">
+                                    <dt>
+                                        {{ form_label(form.chain_store.webshop_url, 'admin.chainstore.subchainstore.webshop_url', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.webshop_url.vars.data }}
+                                        {{ form_widget(form.chain_store.webshop_url, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 出店WEBショップの運営会社 -->
+                                <dl class="webshop_sale">
+                                    <dt>
+                                        {{ form_label(form.chain_store.chain_store_web_shop_opening_type, 'admin.chainstore.subchainstore.webshop_company_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chain_store_web_shop_opening_type.vars.data }}
+                                        {{ form.chain_store.chainstore_webshop_opening_other_type.vars.data }}
+                                        {{ form_widget(form.chain_store.chain_store_web_shop_opening_type, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_webshop_opening_other_type, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- WEBショップ運営担当者 -->
+                                <dl class="webshop_sale">
+                                    <dt>
+                                        {{ form_label(form.chain_store.chain_store_web_shop_owner_type, 'admin.chainstore.subchainstore.webshop_main_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chain_store_web_shop_owner_type.vars.data }}
+                                        {{ form_widget(form.chain_store.chain_store_web_shop_owner_type, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 上記WEBショップ運営担当者名 -->
+                                <dl class="webshop_sale">
+                                    <dt>
+                                        {{ form_label(form.chain_store.webshop_main_operation_name, 'admin.chainstore.subchainstore.webshop_main_operation_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.webshop_main_operation_name.vars.data }}
+                                        {{ form_widget(form.chain_store.webshop_main_operation_name, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 運営担当者電話番号 -->
+                                <dl class="webshop_sale">
+                                    <dt>
+                                        {{ form_label(form.chain_store.chain_store_web_shop_phone_type, 'admin.chainstore.subchainstore.webshop_phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chain_store_web_shop_phone_type.vars.data }}
+                                        {{ form.chain_store.chainstore_webshop_phone_other_type.vars.data }}
+                                        {{ form_widget(form.chain_store.chain_store_web_shop_phone_type, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_webshop_phone_other_type, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- 運営担当者メールアドレス -->
+                                <dl class="webshop_sale">
+                                    <dt>
+                                        {{ form_label(form.chain_store.chain_store_web_shop_email_type, 'admin.chainstore.subchainstore.webshop_email', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.chain_store_web_shop_email_type.vars.data }}
+                                        {{ form.chain_store.chainstore_webshop_mail_other_type.vars.data }}
+                                        {{ form_widget(form.chain_store.chain_store_web_shop_email_type, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_webshop_mail_other_type, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                            </div>
+
+                        {% if ChainstoreType.id != "1" %}
+                            <div style="{{hideMode}}">
+                        {% else %}
+                            <div style="display:none;">
+                        {% endif %}
+                                <div class="dzx-header">
+                                    パートナー情報
+                                </div>
+                                <!-- パートナー指定 -->
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.chain_store.option_partner, 'admin.chainstore.partner.ispartner', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.option_partner.vars.data }}
+                                        {{ form_widget(form.chain_store.option_partner, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- パートナー 法人名・屋号 -->
+                                <dl class="ispartner">
+                                    <dt>
+                                        {{ form_label(form.chain_store.partner_company_name, 'admin.chainstore.partner.chainstore_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.partner_company_name.vars.data }}
+                                        {{ form_widget(form.chain_store.partner_company_name, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- パートナー 法人名・屋号（フリガナ） -->
+                                <dl class="ispartner">
+                                    <dt>
+                                        {{ form_label(form.chain_store.partner_company_name_kana, 'admin.chainstore.partner.chainstore_name_ka', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.partner_company_name_kana.vars.data }}
+                                        {{ form_widget(form.chain_store.partner_company_name_kana, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- パートナー 代表者名・氏名 -->
+                                <dl class="ispartner">
+                                    <dt>
+                                        {{ form_label(form.chain_store.partner_name, 'admin.chainstore.partner.representative_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.partner_name.partner_name01.vars.data }}
+                                        {{ form.chain_store.partner_name.partner_name02.vars.data }}
+                                        {{ form_widget(form.chain_store.partner_name.partner_name01, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.partner_name.partner_name02, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- パートナー 代表者名・氏名（フリガナ） -->
+                                <dl class="ispartner">
+                                    <dt>
+                                        {{ form_label(form.chain_store.partner_kana, 'admin.chainstore.partner.representative_name_ka', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.partner_kana.partner_kana01.vars.data }}
+                                        {{ form.chain_store.partner_kana.partner_kana02.vars.data }}
+                                        {{ form_widget(form.chain_store.partner_kana.partner_kana01, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.partner_kana.partner_kana02, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                                <!-- パートナー 電話番号 -->
+                                <dl class="ispartner">
+                                    <dt>
+                                        {{ form_label(form.chain_store.partner_phone_number, 'admin.chainstore.partner.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                        <span class="ec-required">必須</span>
+                                    </dt>
+                                    <dd>
+                                        {{ form.chain_store.partner_phone_number.vars.data }}
+                                        {{ form_widget(form.chain_store.partner_phone_number, { type : 'hidden' }) }}
+                                    </dd>
+                                </dl>
+                            </div>
+
+                            <div class="dzx-header" style="{{hideMode}}">
+                                会員情報
+                            </div>
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.name, 'common.supervisor.name', { 'label_attr': { 'class': 'ec-label '}}) }}
                                 </dt>
@@ -207,7 +838,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.name.name02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.kana, 'common.supervisor.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -218,7 +849,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label'}}) }}
                                 </dt>
@@ -227,7 +858,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.company_name, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -242,7 +873,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.address.addr02, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -252,7 +883,7 @@ file that was distributed with this source code.
                             </dl>
                             <dl>
                                 <dt>
-                                    {{ form_label(form.email, 'common.mail_address', {'label_attr': {'class': 'ec-label'}}) }}
+                                    <label class="ec-label required">メールアドレス</label>
                                 </dt>
                                 <dd>
                                     {{ form.email.vars.data }}
@@ -262,7 +893,7 @@ file that was distributed with this source code.
                             </dl>
                             <dl>
                                 <dt>
-                                    {{ form_label(form.password, 'common.password', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    <label class="ec-label required">新しいパスワード</label>
                                 </dt>
                                 <dd>
                                     ********
@@ -270,7 +901,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.password.second, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.birth, 'common.birth_day', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
@@ -281,7 +912,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.birth.day, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.sex, 'common.gender', {'label_attr': {'class': 'ec-label'}}) }}
                                 </dt>
@@ -290,7 +921,7 @@ file that was distributed with this source code.
                                     {{ form_widget(form.sex, { type: 'hidden'}) }}
                                 </dd>
                             </dl>
-                            <dl style="display:none;">
+                            <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.job, 'common.job', {'label_attr': {'class': 'ec-label'}}) }}
                                 </dt>
@@ -298,7 +929,16 @@ file that was distributed with this source code.
                                     {{ form_widget(form.job, { type: 'hidden'}) }}
                                 </dd>
                             </dl>
-
+                            <!-- この情報を基に契約書を作成します -->
+                            <dl style="{{hideMode}}">
+                                <dt>
+                                    {{ form_label(form.chain_store.chain_store_make_contract_type, 'admin.chainstore.chainstore.make_contract', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.chain_store.chain_store_make_contract_type.vars.data }}
+                                    {{ form_widget(form.chain_store.chain_store_make_contract_type, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
                             {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
 
                             {# エンティティ拡張の自動出力 #}

@@ -109,7 +109,18 @@ class MailService extends BaseMailService
     {
         log_info('仮販売店会員登録メール送信開始');
 
-        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_entry_confirm_mail_template_id']);
+        $MailTemplate = null;
+        
+        if($ContractType->getId() == "2"){
+            //販売店（応援プログラム）契約会員仮登録メール
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_oen_entry_confirm_mail_template_id']);
+        }else if($ContractType->getId() == "3"){
+            //小売販売契約会員仮登録メール
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_kouri_entry_confirm_mail_template_id']);
+        }else{
+            //販売店契約会員仮登録メール
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_entry_confirm_mail_template_id']);
+        }
 
         $body = $this->twig->render($MailTemplate->getFileName(), [
             'Customer' => $Customer,
@@ -169,11 +180,22 @@ class MailService extends BaseMailService
      *
      * @param $Customer 販売店会員情報
      */
-    public function sendChainStoreCompleteMail(Customer $Customer)
+    public function sendChainStoreCompleteMail(Customer $Customer,  $ChainStore, ContractType $ContractType)
     {
         log_info('販売店会員登録完了メール送信開始');
 
-        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_entry_complete_mail_template_id']);
+        $MailTemplate = null;
+
+        if($ContractType->getId() == "2"){
+            //販売店（応援プログラム）契約会員本登録メール
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_oen_entry_complete_mail_template_id']);
+        }else if($ContractType->getId() == "3"){
+            //小売販売契約会員本登録メール
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_kouri_entry_complete_mail_template_id']);
+        }else{
+            //販売店契約会員本登録メール
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_entry_complete_mail_template_id']);
+        }
 
         $body = $this->twig->render($MailTemplate->getFileName(), [
             'Customer' => $Customer,
@@ -344,4 +366,95 @@ class MailService extends BaseMailService
 
         return $count;
     }
+
+
+    /**
+     * Send 販売店 order mail.
+     *
+     * @param \Eccube\Entity\Order $Order 販売店受注情報
+     *
+     * @return \Swift_Message
+     */
+    public function sendChainStoreOrderMail(Order $Order, ChainStore $ChainStore, ContractType $ContractType)
+    {
+        log_info('販売店受注メール送信開始');
+
+        $MailTemplate = null;
+
+        if($ContractType->getId() == "2"){
+            //販売店注文受付メール（応援プログラム）
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_oen_order_mail_template_id']);
+        }else if($ContractType->getId() == "3"){
+            //販売店注文受付メール（小売販売店）
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_kouri_order_mail_template_id']);
+        }else{
+            //販売店注文受付メール（販売代理店）
+            $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_order_mail_template_id']);
+        }
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'Order' => $Order,
+            'ChainStore' => $ChainStore,
+            'ContractType' => $ContractType,
+        ]);
+
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
+            ->setTo([$Order->getEmail()])
+            ->setBcc($this->BaseInfo->getEmail01())
+            ->setReplyTo($this->BaseInfo->getEmail03())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'Order' => $Order,
+                'ChainStore' => $ChainStore,
+                'ContractType' => $ContractType,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'Order' => $Order,
+                'ChainStore' => $ChainStore,
+                'ContractType' => $ContractType,
+                'MailTemplate' => $MailTemplate,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::MAIL_ORDER, $event);
+
+        $count = $this->mailer->send($message);
+
+        $MailHistory = new MailHistory();
+        $MailHistory->setMailSubject($message->getSubject())
+            ->setMailBody($message->getBody())
+            ->setOrder($Order)
+            ->setSendDate(new \DateTime());
+
+        // HTML用メールの設定
+        $multipart = $message->getChildren();
+        if (count($multipart) > 0) {
+            $MailHistory->setMailHtmlBody($multipart[0]->getBody());
+        }
+
+        $this->mailHistoryRepository->save($MailHistory);
+
+        log_info('販売店受注メール送信完了', ['count' => $count]);
+
+        return $message;
+    }
+    
 }

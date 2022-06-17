@@ -28,6 +28,9 @@ use Eccube\Repository\MemberRepository;
 use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\Master\ContractTypeRepository;
 use Eccube\Repository\Master\CustomerStatusRepository;
+use Customize\Repository\Master\BankRepository;
+use Customize\Repository\Master\BankBranchRepository;
+use Customize\Repository\Master\BankAccountTypeRepository;
 use Customize\Repository\Master\ChainStoreStatusRepository;
 use Customize\Repository\PreChainStoreRepository;
 use Eccube\Repository\PageRepository;
@@ -87,6 +90,21 @@ class CustomEntryController extends BaseEntryController
     protected $chainStoreStatusRepository;
 
     /**
+     * @var BankRepository
+     */
+    protected $bankRepository;
+
+    /**
+     * @var BankBranchRepository
+     */
+    protected $bankBranchRepository;
+
+    /**
+     * @var BankAccountTypeRepository
+     */
+    protected $bankAccountTypeRepository;
+    
+    /**
      * @var EncoderFactoryInterface
      */
     protected $encoderFactory;
@@ -144,6 +162,9 @@ class CustomEntryController extends BaseEntryController
         MemberRepository $memberRepository,
         ChainStoreRepository $chainStoreRepository,
         ChainStoreStatusRepository $chainStoreStatusRepository,
+        BankRepository $bankRepository,
+        BankBranchRepository $bankBranchRepository,
+        BankAccountTypeRepository $bankAccountTypeRepository,
         EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validatorInterface,
         TokenStorageInterface $tokenStorage,
@@ -158,6 +179,9 @@ class CustomEntryController extends BaseEntryController
         $this->memberRepository = $memberRepository;
         $this->chainStoreRepository = $chainStoreRepository;
         $this->chainStoreStatusRepository = $chainStoreStatusRepository;
+        $this->bankRepository = $bankRepository;
+        $this->bankBranchRepository = $bankBranchRepository;
+        $this->bankAccountTypeRepository = $bankAccountTypeRepository;
         $this->encoderFactory = $encoderFactory;
         $this->recursiveValidator = $validatorInterface;
         $this->tokenStorage = $tokenStorage;
@@ -184,11 +208,22 @@ class CustomEntryController extends BaseEntryController
 
         $ChainstoreType = null;
         $ChainStoreTypeErr = false;
+        $ChainstoreTypeMode = "";
+        $ChainstoreTypeUrl = "";
 
         if(isset($this->chainstore_type) && strlen($this->chainstore_type) >= 1){
             $ChainstoreType = $this->contractTypeRepository->findOneBy(["url_parameter" => $this->chainstore_type, 'is_hidden' => 'N']);
             if(!is_object($ChainstoreType)){
-                $ChainStoreTypeErr = true;
+                $ChainstoreType = $this->contractTypeRepository->findOneBy(["reg_url_parameter" => $this->chainstore_type, 'is_hidden' => 'N']);
+                if(!is_object($ChainstoreType)){
+                    $ChainStoreTypeErr = true;
+                }else{
+                    $ChainstoreTypeMode = "full";
+                    $ChainstoreTypeUrl = $ChainstoreType->getRegUrlParameter();
+                }
+            }else{
+                $ChainstoreTypeMode = "simple";
+                $ChainstoreTypeUrl = $ChainstoreType->getUrlParameter();
             }
         }
 
@@ -234,6 +269,8 @@ class CustomEntryController extends BaseEntryController
                             'Page' => $this->pageRepository->getPageByRoute($urlRoute),
                             'ChainStoreTypeErr' => $ChainStoreTypeErr,
                             'ChainstoreType' => $ChainstoreType,
+                            'ChainstoreTypeMode' => $ChainstoreTypeMode,
+                            'ChainstoreTypeUrl' => $ChainstoreTypeUrl
                         ]
                     );
 
@@ -255,6 +292,7 @@ class CustomEntryController extends BaseEntryController
                         $ChainStoreStatus = $this->entityManager->find(ChainStoreStatus::class, ChainStoreStatus::PROVISIONAL);
                         $preChainStore = $this->preChainStoreRepository->findOneBy(["id" => $Customer->getChainStore()->getPreChainStore()]);
 
+                        $ChainStore = $Customer->getChainStore();
                         $Customer->getChainStore()->setStatus($ChainStoreStatus);
                         $Customer->getChainStore()->setMarginPrice(0);
                         $Customer->getChainStore()->setPurchasingLimitPrice(0);
@@ -269,6 +307,52 @@ class CustomEntryController extends BaseEntryController
                         }else{
                             $Customer->getChainStore()->setDeliveryRegistrations(0);
                         }
+
+                        //代表者名・氏名「姓名」
+                        $name01 = $ChainStore->getName01();
+                        $name02 = $ChainStore->getName02();
+                        $Customer->getChainStore()->setFullName($name01."".$name02);
+
+                        //仲介者 代表者氏名「姓名」
+                        $mediatorName01 = $ChainStore->getMediatorName01();
+                        $mediatorName02 = $ChainStore->getMediatorName02();
+                        $Customer->getChainStore()->setMediatorFullname($mediatorName01.$mediatorName02);
+
+                        //取引口座選択(ゆうちょ銀行)
+                        $chainStoreTradingAccountType = $ChainStore->getChainStoreTradingAccountType();
+                        if(is_object($chainStoreTradingAccountType)){
+                            //ゆうちょ銀行
+                            if($chainStoreTradingAccountType->getId() == 2){
+                                if(trim($ChainStore->getBankAccount()) == ""){
+                                    $branchNo = $ChainStore->getCodeNumber();
+                                    $accountNo = $ChainStore->getAccountNumber();
+
+                                    if(!empty($branchNo)){
+                                        //2～3桁目の数字の末尾に「8」を付与したものを支店コードとする
+                                        $branchNo = substr($branchNo, 1, 2)."8";
+                                    }
+                                    //末尾の「1」を除外したものを口座番号とする
+                                    if(!empty($accountNo)){
+                                        $accountNo = substr($accountNo, 0, -1);
+                                    }
+
+                                    $bankInfo = $this->bankBranchRepository->findOneBy(['bank_code' => "9900", "branch_code" => $branchNo]);
+                                    if(is_object($bankInfo)){
+                                        $Bank = $this->bankRepository->findOneBy(['id' => $bankInfo->getBankId()]);
+                                        $bankAccountType = $this->bankAccountTypeRepository->findOneBy(['id' => 1]);  //普通
+
+                                        //==> 金融機関名
+                                        $Customer->getChainStore()->setBank($Bank);
+                                        //==> 支店名
+                                        $Customer->getChainStore()->setBankBranch($bankInfo->getId());
+                                        //==> 預金種目
+                                        $Customer->getChainStore()->setBankAccountType($bankAccountType);
+                                        //==> 口座番号
+                                        $chainStore["bankAccountNo"] = $accountNo;
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     $this->entityManager->persist($Customer);
@@ -282,6 +366,8 @@ class CustomEntryController extends BaseEntryController
                             'Customer' => $Customer,
                             'ChainStoreTypeErr' => $ChainStoreTypeErr,
                             'ChainstoreType' => $ChainstoreType,
+                            'ChainstoreTypeMode' => $ChainstoreTypeMode,
+                            'ChainstoreTypeUrl' => $ChainstoreTypeUrl
                         ],
                         $request
                     );
@@ -310,8 +396,8 @@ class CustomEntryController extends BaseEntryController
                     } else {
                         // 仮会員設定が無効な場合は、会員登録を完了させる.
                         $qtyInCart = $this->entryActivate($request, $Customer->getSecretKey());
-
-                        if($qtyInCart == "not_found"){
+                        
+                        if($qtyInCart === "not_found"){
                             return $this->render('Entry/activate_error.twig', [
                                 'Page' => $this->pageRepository->getPageByRoute("activate_not_found")
                             ]);
@@ -330,6 +416,8 @@ class CustomEntryController extends BaseEntryController
             'form' => $form->createView(),
             'ChainStoreTypeErr' => $ChainStoreTypeErr,
             'ChainstoreType' => $ChainstoreType,
+            'ChainstoreTypeMode' => $ChainstoreTypeMode,
+            'ChainstoreTypeUrl' => $ChainstoreTypeUrl
         ];
     }
 
@@ -385,7 +473,7 @@ class CustomEntryController extends BaseEntryController
             // 会員登録処理を行う
             $qtyInCart = $this->entryActivate($request, $secret_key);
 
-            if($qtyInCart == "not_found"){
+            if($qtyInCart === "not_found"){
                 return $this->render('Entry/activate_error.twig', [
                     'Page' => $this->pageRepository->getPageByRoute("activate_not_found")
                 ]);
@@ -441,7 +529,7 @@ class CustomEntryController extends BaseEntryController
 
         // メール送信
         if(is_object($ChainStore)){
-            $this->mailService->sendChainStoreCompleteMail($Customer);
+            $this->mailService->sendChainStoreCompleteMail($Customer, $ChainStore, $ChainStore->getContractType());
         }else{
             $this->mailService->sendCustomerCompleteMail($Customer);
         }

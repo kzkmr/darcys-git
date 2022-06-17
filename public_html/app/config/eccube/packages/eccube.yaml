@@ -120,8 +120,16 @@ parameters:
   eccube_shipping_notify_mail_template_id: 8 #出荷通知メール
   eccube_chainstore_confirm_admin_mail_template_id: 9 #販売店会員登録メール
   eccube_check_chainstore_admin_mail_template_id: 10 #チェック販売店会員登録メール
-  eccube_chainstore_entry_confirm_mail_template_id: 11 #販売店会員仮登録メール
-  eccube_chainstore_entry_complete_mail_template_id: 12 #販売店会員本登録メール
+  eccube_chainstore_entry_confirm_mail_template_id: 11 #販売店仮登録メール（販売代理店）
+  eccube_chainstore_entry_complete_mail_template_id: 12 #販売店本登録メール（販売代理店）
+  eccube_chainstore_oen_entry_confirm_mail_template_id: 13 #販売店仮登録メール（応援プログラム）
+  eccube_chainstore_oen_entry_complete_mail_template_id: 14 #販売店本登録メール（応援プログラム）
+  eccube_chainstore_kouri_entry_confirm_mail_template_id: 15 #販売店仮登録メール（小売販売店）
+  eccube_chainstore_kouri_entry_complete_mail_template_id: 16 #販売店本登録メール（小売販売店）
+  eccube_chainstore_order_mail_template_id: 17 #販売店注文受付メール（販売代理店）
+  eccube_chainstore_oen_order_mail_template_id: 18 #販売店注文受付メール（応援プログラム）
+  eccube_chainstore_kouri_order_mail_template_id: 19 #販売店注文受付メール（小売販売店）
+
   # メールアドレスをRFC準拠でチェックするか true: チェックする、false: チェックしない
   eccube_rfc_email_check: false
   eccube_package_api_url: "%env(ECCUBE_PACKAGE_API_URL)%"

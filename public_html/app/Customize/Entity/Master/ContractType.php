@@ -37,6 +37,13 @@ class ContractType extends \Eccube\Entity\Master\AbstractMasterEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="reg_url_parameter", type="string", length=20)
+     */
+    protected $reg_url_parameter;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="page_coupon_list", type="string", length=1)
      */
     protected $page_coupon_list;
@@ -101,6 +108,30 @@ class ContractType extends \Eccube\Entity\Master\AbstractMasterEntity
     public function getUrlParameter()
     {
         return $this->url_parameter;
+    }
+
+    /**
+     * Set reg url parameter.
+     *
+     * @param string $reg_url_parameter
+     *
+     * @return ContractType
+     */
+    public function setRegUrlParameter($reg_url_parameter)
+    {
+        $this->reg_url_parameter = $reg_url_parameter;
+
+        return $this;
+    }
+
+    /**
+     * Get reg url parameter.
+     *
+     * @return string
+     */
+    public function getRegUrlParameter()
+    {
+        return $this->reg_url_parameter;
     }
 
     /**

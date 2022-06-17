@@ -115,6 +115,9 @@ class PreChainStoreRepository extends AbstractRepository
             ->andWhere('o.birthday = :birthday')
             ->setParameter('birthday', $birthday);
 
+        // Order By
+        $qb->orderBy('o.update_date', 'DESC');
+
         // 実行
         $result = $qb->getQuery()->getOneOrNullResult();
    

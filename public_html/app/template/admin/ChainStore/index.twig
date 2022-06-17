@@ -194,11 +194,43 @@ file that was distributed with this source code.
                                 </div>
 
                                 <div class="d-inline-block">
-                                    <!--
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-ec-regular" href="{{ url('admin_chainstore_export') }}"><i class="fa fa-cloud-download mr-1 text-secondary"></i><span>{{ 'admin.common.csv_download'|trans }}</span></a>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-ec-regular" data-toggle="dropdown" id="csvDownloadDropDown">
+                                                <i class="fa fa-cloud-download mr-1 text-secondary"></i>
+                                                <span>{{ 'admin.common.csv_download'|trans }}</span>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{ url('admin_chainstore_export1') }}" id="chainstore1CsvDownload">
+                                                    {{ 'admin.chainstore.export1_csv'|trans }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ url('admin_chainstore_export2') }}" id="chainstore2CsvDownload">
+                                                    {{ 'admin.chainstore.export2_csv'|trans }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ url('admin_chainstore_export3') }}" id="chainstore3CsvDownload">
+                                                    {{ 'admin.chainstore.export3_csv'|trans }}
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-ec-regular" data-toggle="dropdown" id="csvSettingDropDown">
+                                                <i class="fa fa-cog mr-1 text-secondary"></i>
+                                                <span>{{ 'admin.setting.shop.csv_setting'|trans }}</span>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : 7 }) }}" id="chainstore_export1_csv">
+                                                    {{ 'admin.chainstore.export1_csv'|trans }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : 9 }) }}" id="chainstore_export2_csv">
+                                                    {{ 'admin.chainstore.export2_csv'|trans }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : 10 }) }}" id="chainstore_export3_csv">
+                                                    {{ 'admin.chainstore.export3_csv'|trans }}
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    -->
                                 </div>
                             </div>
                         </div>

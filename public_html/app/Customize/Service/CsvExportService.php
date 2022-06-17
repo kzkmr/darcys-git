@@ -22,10 +22,12 @@ use Eccube\Entity\Csv;
 use Eccube\Entity\Master\CsvType;
 use Eccube\Form\Type\Admin\SearchCustomerType;
 use Eccube\Form\Type\Admin\SearchOrderType;
+use Customize\Form\Type\Admin\SearchChainStoreType;
 use Eccube\Form\Type\Admin\SearchProductType;
 use Eccube\Repository\CsvRepository;
 use Eccube\Repository\CustomerRepository;
 use Eccube\Repository\Master\CsvTypeRepository;
+use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\OrderRepository;
 use Customize\Repository\ProductRepository;
 use Customize\Repository\ShippingRepository;
@@ -107,6 +109,11 @@ class CsvExportService extends BaseCsvExportService
     protected $productRepository;
 
     /**
+     * @var ChainStoreRepository
+     */
+    protected $chainStoreRepository;
+    
+    /**
      * @var FormFactoryInterface
      */
     protected $formFactory;
@@ -124,6 +131,7 @@ class CsvExportService extends BaseCsvExportService
      * @param ShippingRepository $shippingRepository
      * @param CustomerRepository $customerRepository
      * @param ProductRepository $productRepository
+     * @param ChainStoreRepository $chainStoreRepository
      * @param EccubeConfig $eccubeConfig
      * @param FormFactoryInterface $formFactory
      * @param PaginatorInterface $paginator
@@ -136,6 +144,7 @@ class CsvExportService extends BaseCsvExportService
         ShippingRepository $shippingRepository,
         CustomerRepository $customerRepository,
         ProductRepository $productRepository,
+        ChainStoreRepository $chainStoreRepository,
         EccubeConfig $eccubeConfig,
         FormFactoryInterface $formFactory,
         PaginatorInterface $paginator
@@ -148,6 +157,7 @@ class CsvExportService extends BaseCsvExportService
         $this->customerRepository = $customerRepository;
         $this->eccubeConfig = $eccubeConfig;
         $this->productRepository = $productRepository;
+        $this->chainStoreRepository = $chainStoreRepository;
         $this->formFactory = $formFactory;
         $this->paginator = $paginator;
     }
@@ -176,6 +186,29 @@ class CsvExportService extends BaseCsvExportService
         return $qb;
     }
 
+    /**
+     * 販売店一覧検索用のクエリビルダを返す.
+     *
+     * @param Request $request
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getChainStoreQueryBuilder(Request $request)
+    {
+        $session = $request->getSession();
+        $builder = $this->formFactory
+            ->createBuilder(SearchChainStoreType::class);
+        $searchForm = $builder->getForm();
+
+        $viewData = $session->get('eccube.admin.chainstore.search', []);
+        $searchData = FormUtil::submitAndGetData($searchForm, $viewData);
+
+        // 受注データのクエリビルダを構築.
+        $qb = $this->chainStoreRepository
+            ->getQueryBySearchData($searchData);
+
+        return $qb;
+    }
 
     /**
      * クエリビルダにもとづいてデータ行を出力する.

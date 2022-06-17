@@ -27,7 +27,7 @@ use Eccube\Repository\Master\PageMaxRepository;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
 use Eccube\Service\CsvExportService;
-use Eccube\Service\MailService;
+use Customize\Service\MailService;
 use Eccube\Util\FormUtil;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -182,4 +182,47 @@ class CustomerController extends BaseCustomerController
         ];
     }
 
+    
+    /**
+     * @Route("/%eccube_admin_route%/customer/{id}/resend", requirements={"id" = "\d+"}, name="admin_customer_resend", methods={"GET"})
+     */
+    public function resend(Request $request, $id)
+    {
+        $this->isTokenValid();
+
+        $Customer = $this->customerRepository
+            ->find($id);
+
+        if (is_null($Customer)) {
+            throw new NotFoundHttpException();
+        }
+
+        $activateUrl = $this->generateUrl(
+            'entry_activate',
+            ['secret_key' => $Customer->getSecretKey()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $ChainStore = $Customer->getChainStore();
+        
+        // メール送信
+        if(is_object($ChainStore)){
+            $this->mailService->sendChainStoreConfirmMail($Customer, $activateUrl, $ChainStore->getContractType());
+        }else{
+            $this->mailService->sendAdminCustomerConfirmMail($Customer, $activateUrl);
+        }
+
+        $event = new EventArgs(
+            [
+                'Customer' => $Customer,
+                'activateUrl' => $activateUrl,
+            ],
+            $request
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_RESEND_COMPLETE, $event);
+
+        $this->addSuccess('admin.common.send_complete', 'admin');
+
+        return $this->redirectToRoute('admin_customer');
+    }
 }

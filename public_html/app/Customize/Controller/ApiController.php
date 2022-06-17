@@ -29,6 +29,7 @@ use Customize\Repository\Master\BankBranchRepository;
 use Customize\Repository\Master\BankAccountTypeRepository;
 use Customize\Repository\ChainStoreRepository;
 use Customize\Repository\PreChainStoreRepository;
+use Customize\Repository\ZipcodeInfoRepository;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -65,6 +66,11 @@ class ApiController extends AbstractController
     protected $customerRepository;
 
     /**
+     * @var ZipcodeInfoRepository
+     */
+    protected $zipcodeInfoRepository;
+    
+    /**
      * @var MailService
      */
     protected $mailService;
@@ -84,6 +90,7 @@ class ApiController extends AbstractController
         PreChainStoreRepository $preChainStoreRepository,
         MemberRepository $memberRepository,
         CustomerRepository $customerRepository,
+        ZipcodeInfoRepository $zipcodeInfoRepository,
         MailService $mailService,
         TokenStorageInterface $tokenStorage)
     {
@@ -93,6 +100,7 @@ class ApiController extends AbstractController
         $this->preChainStoreRepository = $preChainStoreRepository;
         $this->memberRepository = $memberRepository;
         $this->customerRepository = $customerRepository;
+        $this->zipcodeInfoRepository = $zipcodeInfoRepository;
         $this->mailService = $mailService;
         $this->tokenStorage = $tokenStorage;
     }
@@ -228,6 +236,52 @@ class ApiController extends AbstractController
         return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
     }
 
+    /**
+     * search city by zipcode.
+     *
+     * @Route("/chainstore/api/zipcode", name="api_zipcode", methods={"POST"})
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function api_zipcode(Request $request)
+    {
+
+        $result = [];
+
+        try {
+            $params = [];
+
+            if ($content = $request->getContent()) {
+                $params = json_decode($content, true);
+            }
+
+            $code = $params['zipcode'];
+
+            // タイムアウトを無効にする.
+            set_time_limit(0);
+            $zipcodeInfo = $this->zipcodeInfoRepository->findOneBy(["zipcode" => $code]);
+            
+            if(is_object($zipcodeInfo)){
+                $zipcode = [];
+                $zipcode["id"] = $zipcodeInfo->getId();
+                $zipcode["zipcode"] = $zipcodeInfo->getZipcode();
+                $zipcode["countyName"] = $zipcodeInfo->getCountyName();
+                $zipcode["cityName"] = $zipcodeInfo->getCityName();
+                $zipcode["townshipName"] = $zipcodeInfo->getTownshipName();
+
+                array_push($result, $zipcode);
+            }
+            
+        } catch (\Exception $e) {
+            log_error('予期しないエラーです', [$e->getMessage()]);
+
+            return $this->json(['status' => $e], 500);
+        }
+
+        return $this->json(array_merge(['status' => 'OK', 'data' => $result], []));
+    }
 
     /**
      * search pre-chainstore.
@@ -274,7 +328,135 @@ class ApiController extends AbstractController
                 $chainStore["id"] = $preChainStore->getId();
 
                 //==> 証券番号
-                $chainStore["stockNumber"] = $preChainStore->getStockNumber();              //03.契約番号(証券番号)
+                $chainStore["stockNumber"] = trim($preChainStore->getStockNumber());                          //03.契約番号(証券番号)
+                //==> 申込者の契約区分
+                $chainStore["applicantContractTypeName"] = trim($preChainStore->getApplicantContractTypeName());        //05.申込者の契約区分
+                //==> 法人番号
+                $chainStore["corporateNumber"] = trim($preChainStore->getCorporateNumber());                    //07.法人番号
+                //==> 設立日（開業日）
+                $chainStore["beginDay"] = $preChainStore->getBeginDay();                                       //13.設立日（開業日）
+                //==> 所在地：郵便番号
+                $chainStore["postalCode"] = trim($preChainStore->getPostalCode());                              //15.所在地：郵便番号
+                //==> 所在地・住所（都道府県）
+                $chainStore["addr01"] = trim($preChainStore->getAddr01());                                      //17.所在地・住所（都道府県）
+                //==> 所在地・住所（市町村名）
+                $chainStore["addr02"] = trim($preChainStore->getAddr02());                                      //19.所在地・住所（市町村名）
+                //==> 所在地・住所（番地・ビル名）
+                $chainStore["addr03"] = trim($preChainStore->getAddr03());                                      //21.所在地・住所（番地・ビル名）
+                //==> 所在地・住所(フリガナ)
+                $chainStore["addr01Ka"] = trim($preChainStore->getAddr01Ka());                                  //23.所在地・住所(フリガナ)
+                //==> 固定電話
+                $chainStore["telephoneNo"] = trim($preChainStore->getTelephoneNo());                            //39.固定電話
+                //==> 携帯電話
+                $chainStore["cellphoneNo"] = trim($preChainStore->getCellphoneNo());                            //41.携帯電話
+                //==> この情報を基に契約書を作成します
+                $chainStore["optionMakeContract"] = trim($preChainStore->getOptionMakeContract());              //この情報を基に契約書を作成します
+
+                //==> 取引口座選択
+                $chainStore["isPostbankList"] = trim($preChainStore->getIsPostbankList());                      //59.取引口座選択(ゆうちょ銀行以外の銀行・ゆうちょ銀行)	
+                //==> 通帳記号（下5桁）（ゆうちょ）
+                $chainStore["postCodeNumber"] = trim($preChainStore->getPostCodeNumber());                      //81.通帳記号（下5桁）（ゆうちょ）
+                //==> 通帳番号（8桁）（ゆうちょ）
+                $chainStore["postPassbookNumber"] = trim($preChainStore->getPostPassbookNumber());              //83.通帳番号（8桁）（ゆうちょ）
+                
+                //==> 法人名・屋号（仲介者）
+                $chainStore["mediatorCompanyName"] = trim($preChainStore->getMediatorCompanyName());            //43.法人名・屋号（仲介者）
+                //==> 仲介者 法人名・屋号（フリガナ）
+                $chainStore["mediatorCompanyNameKana"] = trim($preChainStore->getMediatorCompanyNameKana());    //45.仲介者 法人名・屋号（フリガナ）
+                //==> 代表者氏名「姓」（仲介者）
+                $chainStore["mediatorName01"] = trim($preChainStore->getMediatorName01());                      //47.代表者氏名「姓」（仲介者）
+                //==> 代表者氏名「名」（仲介者）
+                $chainStore["mediatorName02"] = trim($preChainStore->getMediatorName02());                      //49.代表者氏名「名」（仲介者）
+                //==> 代表者氏名「姓」（フリガナ）（仲介者）
+                $chainStore["mediatorKana01"] = trim($preChainStore->getMediatorKana01());                      //51.代表者氏名「姓」（フリガナ）（仲介者）
+                //==> 代表者氏名「名」（フリガナ）（仲介者）
+                $chainStore["mediatorKana02"] = trim($preChainStore->getMediatorKana02());                      //53.代表者氏名「名」（フリガナ）（仲介者）
+                //==> ディーラーコード
+                $chainStore["dealerCode"] = $preChainStore->getDealerCode();                                    //55.ディーラーコード
+                //==> 所在地・住所（仲介者）
+                $chainStore["mediatorAddress01"] = $preChainStore->getMediatorAddress01();                      //57.所在地・住所（仲介者）
+                //==> 電話番号（仲介者）
+                $chainStore["mediatorPhoneNumber"] = trim($preChainStore->getMediatorPhoneNumber());            //57.電話番号（仲介者）
+
+
+                //==> 販売店舗の関連性
+                $chainStore["relatedChainstoreTypeName"] = trim($preChainStore->getRelatedChainstoreTypeName());        //93.販売店舗の関連性
+                //==> 販売店の業務形態
+                $chainStore["chainstoreBusinessTypeName"] = trim($preChainStore->getChainstoreBusinessTypeName());      //95.販売店の業務形態
+                //==> 販売店の業務形態(その他)
+                $chainStore["chainstoreBusinessOtherTypeName"] = trim($preChainStore->getChainstoreBusinessOtherTypeName());    //95.販売店の業務形態(その他)
+                //==> 販売店舗名
+                $chainStore["chainstoreName"] = trim($preChainStore->getChainstoreName());                              //97.販売店舗名
+                //==> 販売店舗名（フリガナ）
+                $chainStore["chainstoreNameKana"] = trim($preChainStore->getChainstoreNameKana());                      //99.販売店舗名（フリガナ）
+                //==> 運営会社・運営者
+                $chainStore["operatingName"] = trim($preChainStore->getOperatingName());                                //101.運営会社・運営者
+                //==> 運営会社・運営者（フリガナ）
+                $chainStore["operatingNameKana"] = trim($preChainStore->getOperatingNameKana());                        //103.運営会社・運営者（フリガナ）
+                //==> アイスの提供方法（予定）
+                $chainStore["chainstoreProvideTypeName"] = trim($preChainStore->getChainstoreProvideTypeName());        //105.アイスの提供方法（予定）
+                //==> アイスの提供スタイル（予定）
+                $chainStore["chainstoreProvideStyleTypeName"] = trim($preChainStore->getChainstoreProvideStyleTypeName());        //107.アイスの提供スタイル（予定）
+                //==> 販売店舗所在地：（郵便番号）
+                $chainStore["chainstoreMainPostalCode"] = trim($preChainStore->getChainstorePostalCode());              //109.販売店舗所在地：（郵便番号）
+                //==> 販売店舗所在地：（都道府県）
+                $chainStore["chainstoreMainAddr01"] = trim($preChainStore->getChainstoreAddr01());                      //111.販売店舗所在地：（都道府県）
+                //==> 販売店舗所在地：（市町村名）
+                $chainStore["chainstoreMainAddr02"] = trim($preChainStore->getChainstoreAddr02());                      //113.販売店舗所在地：（市町村名）
+                //==> 販売店舗所在地：（番地・ビル名）
+                $chainStore["chainstoreMainAddr03"] = trim($preChainStore->getChainstoreAddr03());                      //115.販売店舗所在地：（番地・ビル名）
+                //==> 販売店舗担当者名「姓」
+                $chainStore["chainstoreOwner01"] = trim($preChainStore->getChainstoreOwner01());                        //117.販売店舗担当者名「姓」
+                //==> 販売店舗担当者名「名」
+                $chainStore["chainstoreOwner02"] = trim($preChainStore->getChainstoreOwner02());                        //119.販売店舗担当者名「名」
+                //==> 販売店舗担当者名「姓」（フリガナ）
+                $chainStore["chainstoreOwnerKana01"] = trim($preChainStore->getChainstoreOwnerKana01());                //121.販売店舗担当者名「姓」（フリガナ）
+                //==> 販売店舗担当者名「名」（フリガナ）
+                $chainStore["chainstoreOwnerKana02"] = trim($preChainStore->getChainstoreOwnerKana02());                //123.販売店舗担当者名「名」（フリガナ）
+                //==> 販売店舗連絡先（電話番号）
+                $chainStore["chainstoreTelephoneNo"] = trim($preChainStore->getChainstoreTelephoneNo());                //125.販売店舗連絡先（電話番号）
+                //==> 販売店舗メールアドレス
+                $chainStore["chainstoreEmail"] = trim($preChainStore->getChainstoreEmail());                            //127.販売店舗メールアドレス
+                //==> WEBショップでダシーズの出品予定はありますか
+                $chainStore["webshopSaleIceList"] = $this->changeText(trim($preChainStore->getWebshopSaleIceList()));   //131.WEBショップでダシーズの出品予定はありますか	
+                //==> ＷＥＢショップ店舗名
+                $chainStore["webshopName"] = trim($preChainStore->getWebshopName());                                    //133.ＷＥＢショップ店舗名
+                //==> 出店WEBショップURL
+                $chainStore["webshopUrl"] = trim($preChainStore->getWebshopUrl());                                      //135.出店WEBショップURL
+                //==> 出店WEBショップの運営会社
+                $chainStore["chainstoreWebshopOpeningTypeName"] = trim($preChainStore->getChainStoreWebShopOpeningTypeName());                  //137.出店WEBショップの運営会社
+                //==> 出店WEBショップの運営会社(その他)
+                $chainStore["chainstoreWebshopOpeningOtherTypeName"] = trim($preChainStore->getChainStoreWebShopOpeningOtherTypeName());        //137.出店WEBショップの運営会社(その他)
+                //==> WEBショップ運営担当者
+                $chainStore["chainstoreWebshopOwnerTypeName"] = trim($preChainStore->getChainstoreWebshopOwnerTypeName());                      //139.WEBショップ運営担当者
+                //==> 上記WEBショップ運営担当者名
+                $chainStore["chainstoreWebshopOwnerName"] = trim($preChainStore->getChainstoreWebshopOwnerName());                              //141.上記WEBショップ運営担当者名
+                //==> 運営担当者電話番号
+                $chainStore["chainstoreWebshopPhoneTypeName"] = trim($preChainStore->getChainstoreWebshopPhoneTypeName());                      //143.運営担当者電話番号
+                //==> 運営担当者電話番号(その他)
+                $chainStore["chainstoreWebshopPhoneOtherTypeName"] = trim($preChainStore->getChainstoreWebshopPhoneOtherTypeName());            //143.運営担当者電話番号(その他)
+                //==> 運営担当者メールアドレス
+                $chainStore["chainstoreWebshopEmailTypeName"] = trim($preChainStore->getChainstoreWebshopEmailTypeName());                      //145.運営担当者メールアドレス
+                //==> 運営担当者メールアドレス(その他)
+                $chainStore["chainstoreWebshopEmailOtherTypeName"] = trim($preChainStore->getChainstoreWebshopEmailOtherTypeName());            //145.運営担当者メールアドレス(その他)
+                //==> パートナー指定
+                $chainStore["optionPartner"] = $this->changeText(trim($preChainStore->getOptionPartner()));                         //147.パートナー指定
+                //==> パートナーの法人名・屋号
+                $chainStore["partnerCompanyName"] = trim($preChainStore->getPartnerCompanyName());                                  //149.パートナーの法人名・屋号
+                //==> パートナーの法人名・屋号（フリガナ）
+                $chainStore["partnerCompanyNameKana"] = trim($preChainStore->getPartnerCompanyNameKana());                          //151.パートナーの法人名・屋号（フリガナ）
+                //==> パートナーの代表者名・氏名「姓」
+                $chainStore["partnerName01"] = trim($preChainStore->getPartnerName01());                                            //153.パートナーの代表者名・氏名「姓」
+                //==> パートナーの代表者名・氏名「名」
+                $chainStore["partnerName02"] = trim($preChainStore->getPartnerName02());                                            //155.パートナーの代表者名・氏名「名」
+                //==> パートナーの代表者名・氏名「姓」（フリガナ）
+                $chainStore["partnerKana01"] = trim($preChainStore->getPartnerNameKana01());                                        //157.パートナーの代表者名・氏名「姓」（フリガナ）
+                //==> パートナーの代表者名・氏名「名」（フリガナ）
+                $chainStore["partnerKana02"] = trim($preChainStore->getPartnerNameKana02());                                        //159.パートナーの代表者名・氏名「名」（フリガナ）
+                //==> パートナーの電話番号
+                $chainStore["partnerPhoneNumber"] = trim($preChainStore->getPartnerPhoneNumber());                                  //161.パートナーの電話番号
+
+
 
                 //==> 販売店名
                 //「法人名・屋号」空の場合は代表者姓、名を結合して入れる
@@ -284,7 +466,7 @@ class ApiController extends AbstractController
                     $chainStore["companyName"] = $preChainStore->getName01().$preChainStore->getName02();
                 }else{
                     //09.法人名・屋号
-                    $chainStore["companyName"] = $companyName;
+                    $chainStore["companyName"] = trim($companyName);
                 }
 
                 //==> 販売店名(カナ)
@@ -295,7 +477,7 @@ class ApiController extends AbstractController
                     $chainStore["companyNameKana"] = $preChainStore->getKana01().$preChainStore->getKana02();
                 }else{
                     //11.法人名・屋号（フリガナ）
-                    $chainStore["companyNameKana"] = $companyNameKana;
+                    $chainStore["companyNameKana"] = trim($companyNameKana);
                 }
 
                 //==> お名前（代表者）
@@ -340,9 +522,6 @@ class ApiController extends AbstractController
                     $chainStore["phoneNo"] = $cellphoneNo;
                 }
 
-                //==> ディーラーコード
-                $chainStore["dealerCode"] = $preChainStore->getDealerCode();                //55.ディーラーコード
-
                 //59.取引口座選択(ゆうちょ銀行以外の銀行・)
                 if($preChainStore->getIsPostbankList() == "ゆうちょ銀行"){
                     $branchNo = $preChainStore->getPostCodeNumber();                        //81.通帳記号（下5桁）（ゆうちょ）
@@ -373,6 +552,14 @@ class ApiController extends AbstractController
                         //==> 口座番号
                         $chainStore["bankAccountNo"] = $accountNo;
                         //==> 口座名義
+
+                        $bankHolderName01 = $preChainStore->getPostBankHolder01();                  //85.口座名義「姓」（ゆうちょ）
+                        $bankHolderName02 = $preChainStore->getPostBankHolder02();                  //87.口座名義「名」（ゆうちょ）
+                        if(empty($bankHolderName01) && empty($bankHolderName02)){
+                            $error .= "85.口座名義「姓」（ゆうちょ）と87.口座名義「名」（ゆうちょ）の値はNULLです\r\n";
+                        }else{
+                            $chainStore["bankHolderName"] = $bankHolderName01.$bankHolderName02;
+                        }
 
                         $bankHolderKana01 = $preChainStore->getPostBankHolderKana01();              //89.口座名義「姓」（フリガナ）（ゆうちょ）
                         $bankHolderKana02 = $preChainStore->getPostBankHolderKana02();              //91.口座名義「名」（フリガナ）（ゆうちょ）
@@ -412,6 +599,15 @@ class ApiController extends AbstractController
                             }
 
                             //==> 口座名義
+                            $bankHolderName01 = $preChainStore->getBankHolder01();                  //73.口座名義「姓」
+                            $bankHolderName02 = $preChainStore->getBankHolder02();                  //75.口座名義「名」
+                            if(empty($bankHolderName01) && empty($bankHolderName02)){
+                                $error .= "73.口座名義「姓」と75.口座名義「名」の値はNULLです\r\n";
+                            }else{
+                                $chainStore["bankHolderName"] = $bankHolderName01.$bankHolderName02;
+                            }
+
+                            //==> 口座名義（フリガナ）
                             $bankHolderKana01 = $preChainStore->getBankHolderKana01();              //77.口座名義「姓」（フリガナ）
                             $bankHolderKana02 = $preChainStore->getBankHolderKana02();              //79.口座名義「名」（フリガナ）
                             if(empty($bankHolderKana01) && empty($bankHolderKana02)){
@@ -434,9 +630,9 @@ class ApiController extends AbstractController
                 if(empty($chainStoreOwner01)){
                     //$error .= "117.販売店舗担当者名-姓の値はNULLです\r\n";
                     //25.代表者名・氏名「姓」
-                    $chainStore["chainstoreName01"] = $preChainStore->getName01();
+                    $chainStore["chainstoreName01"] = trim($preChainStore->getName01());
                 }else{
-                    $chainStore["chainstoreName01"] = $chainStoreOwner01;
+                    $chainStore["chainstoreName01"] = trim($chainStoreOwner01);
                 }
 
                 //==> お名前（担当者）名
@@ -444,9 +640,9 @@ class ApiController extends AbstractController
                 if(empty($chainStoreOwner01)){
                     //$error .= "119.販売店舗担当者名-名の値はNULLです\r\n";
                     //27.代表者名・氏名「名」
-                    $chainStore["chainstoreName02"] = $preChainStore->getName02();
+                    $chainStore["chainstoreName02"] = trim($preChainStore->getName02());
                 }else{
-                    $chainStore["chainstoreName02"] = $chainStoreOwner02;
+                    $chainStore["chainstoreName02"] = trim($chainStoreOwner02);
                 }
 
                 //==> お名前（担当者）(カナ) 姓
@@ -651,5 +847,14 @@ class ApiController extends AbstractController
         return null;
     }
 
+    function changeText($val){
+        if($val == "ある"){
+            return "あり";
+        }
+        if($val == "ない"){
+            return "なし";
+        }
+        return $val;
+    }
 }
 

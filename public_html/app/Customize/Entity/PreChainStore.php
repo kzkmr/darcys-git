@@ -244,6 +244,13 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         /**
          * @var string|null 
          *
+         * @ORM\Column(name="mediator_address01", type="string", length=255, nullable=true, options={"comment":"57.所在地・住所（仲介者）"})
+         */
+        private $mediator_address01;
+
+        /**
+         * @var string|null 
+         *
          * @ORM\Column(name="mediator_phone_number", type="string", length=30, nullable=true, options={"comment":"57.電話番号（仲介者）"})
          */
         private $mediator_phone_number;
@@ -381,6 +388,13 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
          * @ORM\Column(name="chainstore_business_type_name", type="string", length=255, nullable=true, options={"comment":"95.販売店の業務形態"})
          */
         private $chainstore_business_type_name;
+
+        /**
+         * @var string|null 
+         *
+         * @ORM\Column(name="chainstore_business_other_type_name", type="string", length=255, nullable=true, options={"comment":"95.販売店の業務形態(その他)"})
+         */
+        private $chainstore_business_other_type_name;
 
         /**
          * @var string|null 
@@ -526,6 +540,13 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         /**
          * @var string|null 
          *
+         * @ORM\Column(name="chainstore_webshop_opening_other_type_name", type="string", length=255, nullable=true, options={"comment":"137.出店WEBショップの運営会社(その他)"})
+         */
+        private $chainstore_webshop_opening_other_type_name;
+
+        /**
+         * @var string|null 
+         *
          * @ORM\Column(name="chainstore_webshop_owner_type_name", type="string", length=255, nullable=true, options={"comment":"139.WEBショップ運営担当者"})
          */
         private $chainstore_webshop_owner_type_name;
@@ -547,9 +568,23 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         /**
          * @var string|null
          *
+         * @ORM\Column(name="chainstore_webshop_phone_other_type_name", type="string", length=255, nullable=true, options={"comment":"143.運営担当者電話番号(その他)"})
+         */
+        private $chainstore_webshop_phone_other_type_name;
+
+        /**
+         * @var string|null
+         *
          * @ORM\Column(name="chainstore_webshop_email_type_name", type="string", length=255, nullable=true, options={"comment":"145.運営担当者メールアドレス"})
          */
         private $chainstore_webshop_email_type_name;
+
+        /**
+         * @var string|null
+         *
+         * @ORM\Column(name="chainstore_webshop_email_other_type_name", type="string", length=255, nullable=true, options={"comment":"145.運営担当者メールアドレス(その他)"})
+         */
+        private $chainstore_webshop_email_other_type_name;
 
         /**
          * @var string  
@@ -603,9 +638,16 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         /**
          * @var string|null
          *
-         * @ORM\Column(name="partner_phone_number", type="string", length=30, nullable=true, options={"comment":"161.パートナーの代表者名・氏名「名」（フリガナ）"})
+         * @ORM\Column(name="partner_phone_number", type="string", length=30, nullable=true, options={"comment":"161.パートナーの電話番号"})
          */
         private $partner_phone_number;
+
+        /**
+         * @var string|null
+         *
+         * @ORM\Column(name="option_make_contract", type="string", length=255, nullable=true, options={"comment":"この情報を基に契約書を作成します"})
+         */
+        private $option_make_contract;
 
         /**
          * @var string|null
@@ -613,6 +655,20 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
          * @ORM\Column(name="note", type="string", length=4000, nullable=true)
          */
         private $note;
+
+        /**
+         * @var \DateTime
+         *
+         * @ORM\Column(name="create_date", type="datetimetz", options={"default": "CURRENT_TIMESTAMP"})
+         */
+        private $create_date;
+
+        /**
+         * @var \DateTime
+         *
+         * @ORM\Column(name="update_date", type="datetimetz", options={"default": "CURRENT_TIMESTAMP"})
+         */
+        private $update_date;
 
         /**
          * @var string|null
@@ -1325,6 +1381,32 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
             return $this->dealer_code;
         }
 
+
+        /**
+         * Set mediator_address01.
+         *
+         * @param string|null $mediator_address01
+         *
+         * @return Customer
+         */
+        public function setMediatorAddress01($mediator_address01 = null)
+        {
+            $this->mediator_address01 = $mediator_address01;
+
+            return $this;
+        }
+
+        /**
+         * Get mediator_address01.
+         *
+         * @return string|null
+         */
+        public function getMediatorAddress01()
+        {
+            return $this->mediator_address01;
+        }
+
+
         /**
          * Set mediatorPhoneNumber
          *
@@ -1808,7 +1890,30 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
             return $this->chainstore_business_type_name;
         }
 
+        /**
+         * Set chainstore_business_other_type_name.
+         *
+         * @param string $chainstore_business_other_type_name
+         *
+         * @return PreChainStore
+         */
+        public function setChainStoreBusinessOtherTypeName($chainstore_business_other_type_name = null)
+        {
+            $this->chainstore_business_other_type_name = $chainstore_business_other_type_name;
 
+            return $this;
+        }
+
+        /**
+         * Get chainstore_business_other_type_name.
+         *
+         * @return string
+         */
+        public function getChainStoreBusinessOtherTypeName()
+        {
+            return $this->chainstore_business_other_type_name;
+        }
+        
         /**
          * Set chainstore_name.
          *
@@ -2294,6 +2399,30 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         }
 
         /**
+         * Set chainstore_webshop_opening_other_type_name.
+         *
+         * @param string $chainstore_webshop_opening_other_type_name
+         *
+         * @return PreChainStore
+         */
+        public function setChainStoreWebShopOpeningOtherTypeName(string $chainstore_webshop_opening_other_type_name = null)
+        {
+            $this->chainstore_webshop_opening_other_type_name = $chainstore_webshop_opening_other_type_name;
+
+            return $this;
+        }
+
+        /**
+         * Get chainstore_webshop_opening_other_type_name.
+         *
+         * @return string
+         */
+        public function getChainStoreWebShopOpeningOtherTypeName()
+        {
+            return $this->chainstore_webshop_opening_other_type_name;
+        }
+        
+        /**
          * Set chainstore_webshop_owner_type_name.
          *
          * @param string $chainStoreWebShopOwnerType
@@ -2366,6 +2495,30 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         }
         
         /**
+         * Set chainstore_webshop_phone_other_type_name.
+         *
+         * @param string $chainstore_webshop_phone_other_type_name
+         *
+         * @return PreChainStore
+         */
+        public function setChainStoreWebShopPhoneOtherTypeName($chainstore_webshop_phone_other_type_name = null)
+        {
+            $this->chainstore_webshop_phone_other_type_name = $chainstore_webshop_phone_other_type_name;
+
+            return $this;
+        }
+
+        /**
+         * Get chainstore_webshop_phone_other_type_name.
+         *
+         * @return string
+         */
+        public function getChainStoreWebShopPhoneOtherTypeName()
+        {
+            return $this->chainstore_webshop_phone_other_type_name;
+        }
+
+        /**
          * Set chainstore_webshop_email_type_name.
          *
          * @param string $chainStoreWebShopEmailType
@@ -2388,6 +2541,31 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         {
             return $this->chainstore_webshop_email_type_name;
         }
+
+        /**
+         * Set chainstore_webshop_email_other_type_name.
+         *
+         * @param string $chainStoreWebShopEmailType
+         *
+         * @return PreChainStore
+         */
+        public function setChainStoreWebShopEmailOtherTypeName($chainstore_webshop_email_other_type_name = null)
+        {
+            $this->chainstore_webshop_email_other_type_name = $chainstore_webshop_email_other_type_name;
+
+            return $this;
+        }
+
+        /**
+         * Get chainstore_webshop_email_other_type_name.
+         *
+         * @return string
+         */
+        public function getChainStoreWebShopEmailOtherTypeName()
+        {
+            return $this->chainstore_webshop_email_other_type_name;
+        }
+        
         
         /**
          * Set option_partner.
@@ -2583,6 +2761,30 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         
         
         /**
+         * Set option_make_contract.
+         *
+         * @param string|null $option_make_contract
+         *
+         * @return PreChainStore
+         */
+        public function setOptionMakeContract($option_make_contract = null)
+        {
+            $this->option_make_contract = $option_make_contract;
+
+            return $this;
+        }
+
+        /**
+         * Get option_make_contract.
+         *
+         * @return string|null
+         */
+        public function getOptionMakeContract()
+        {
+            return $this->option_make_contract;
+        }
+
+        /**
          * Set note.
          *
          * @param string|null $note
@@ -2604,6 +2806,55 @@ if (!class_exists('\Customize\Entity\PreChainStore')) {
         public function getNote()
         {
             return $this->note;
+        }
+
+
+        /**
+         * Set createDate.
+         *
+         * @param \DateTime $createDate
+         *
+         * @return ChainStore
+         */
+        public function setCreateDate($createDate)
+        {
+            $this->create_date = $createDate;
+
+            return $this;
+        }
+
+        /**
+         * Get createDate.
+         *
+         * @return \DateTime
+         */
+        public function getCreateDate()
+        {
+            return $this->create_date;
+        }
+
+        /**
+         * Set updateDate.
+         *
+         * @param \DateTime $updateDate
+         *
+         * @return ChainStore
+         */
+        public function setUpdateDate($updateDate)
+        {
+            $this->update_date = $updateDate;
+
+            return $this;
+        }
+
+        /**
+         * Get updateDate.
+         *
+         * @return \DateTime
+         */
+        public function getUpdateDate()
+        {
+            return $this->update_date;
         }
 
 

@@ -20,7 +20,7 @@ use Eccube\Entity\ExportCsvRow;
 use Eccube\Entity\Master\CsvType;
 use Eccube\Entity\Master\OrderStatus;
 use Eccube\Entity\OrderPdf;
-use Eccube\Entity\Shipping;
+use Customize\Entity\Shipping;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
 use Eccube\Form\Type\Admin\OrderPdfType;
@@ -50,6 +50,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use \DateTime;
 
 class OrderController extends BaseOrderController
 {
@@ -357,6 +358,44 @@ class OrderController extends BaseOrderController
     }
 
     /**
+     * Submit Type CSV
+     *
+     * @Route("/%eccube_admin_route%/order/export/submit", name="admin_order_export_submit", methods={"POST"})
+     *
+     * @param Request $request
+     *
+     * @return StreamedResponse
+     */
+    public function exportSubmit(Request $request)
+    {
+        $action = $request->request->get("action");
+        $response = null;
+        if($action == "cust_shipping1"){
+            $response = $this->exportCustShipping1($request);
+        }
+
+        return $response;
+    }
+
+    /**
+     * 出荷チェックデータ-1CSV
+     *
+     * @Route("/%eccube_admin_route%/order/export/cust_shipping1", name="admin_order_export_cust_shipping1", methods={"GET"})
+     *
+     * @param Request $request
+     *
+     * @return StreamedResponse
+     */
+    public function exportCustShipping1(Request $request)
+    {
+        $filename = 'cust_shipping1_'.(new \DateTime())->format('YmdHis').'.csv';
+        $response = $this->exportCustCsv($request, 8, $filename, true, true);
+        log_info('出荷チェックデータ-1CSV出力ファイル名', [$filename]);
+
+        return $response;
+    }
+
+    /**
      * @param Request $request
      * @param $csvTypeId
      * @param string $fileName
@@ -453,4 +492,153 @@ class OrderController extends BaseOrderController
         return $response;
     }
 
+
+    /**
+     * @param Request $request
+     * @param $csvTypeId
+     * @param string $fileName
+     *
+     * @return StreamedResponse
+     */
+    protected function exportCustCsv(Request $request, $csvTypeId, $fileName, $chkCode, $changeStatus)
+    {
+        $ids = [];
+        if($request->request->get("selids")){
+            $tid = $request->request->get("selids");
+            if($tid=="all"){
+                $ids = ["all"];
+            }else{
+                $ids = explode(",", $tid);
+            }
+        }else{
+            $ids = ["all"];
+        }
+
+        // タイムアウトを無効にする.
+        set_time_limit(0);
+
+        // sql loggerを無効にする.
+        $em = $this->entityManager;
+        $em->getConfiguration()->setSQLLogger(null);
+
+        $response = new StreamedResponse();
+        $response->setCallback(function () use ($request, $csvTypeId, $ids, $chkCode, $changeStatus) {
+            // CSV種別を元に初期化.
+            $this->csvExportService->initCsvType($csvTypeId);
+
+            // ヘッダ行の出力.
+            $this->csvExportService->exportHeader();
+
+            // 受注データ検索用のクエリビルダを取得.
+            $qb = $this->csvExportService
+                ->getOrderQueryBuilder($request);
+
+            // データ行の出力.
+            $this->csvExportService->setExportQueryBuilder($qb);
+
+            $orderStatus = null;
+            if($changeStatus){
+                $orderStatus = $this->orderStatusRepository->findOneBy(["id" => 10]);
+            }
+            
+            //$isChangedId = [];
+
+            $this->csvExportService->exportData(function ($entity, $csvService) use ($request, $ids, $chkCode, $orderStatus) {
+                $Csvs = $csvService->getCsvs();
+
+                $Order = $entity;
+                $Customer = $Order->getCustomer();
+                $OrderItems = $Order->getOrderItems();
+                $ChainStore = null;
+                if(is_object($Customer)){
+                    $ChainStore = $Customer->getChainStore();
+                }
+        
+                foreach ($OrderItems as $OrderItem) {
+                    foreach ($ids as $id) {
+                        $Shipping = $OrderItem->getShipping();
+                        if(!is_object($Shipping)){
+                            continue;
+                        }
+                        
+                        if($Shipping->getId() == $id || $id == "all"){
+                            if(!$OrderItem->getProductCode() && $chkCode){
+                                continue;
+                            }
+                            
+                            if(is_object($orderStatus)){
+                                if($Order->getOrderStatus()->getId() == "1"){
+                                    //if(!in_array($Shipping->getId(),$isChangedId)){
+                                        $Order->setOrderStatus($orderStatus);
+                                        $this->entityManager->persist($Order);
+                                        $this->entityManager->flush();
+                                        //$isChangedId[] = $Shipping->getId();
+                                    //}
+                                }
+                            }
+                            
+                            if(!empty($Shipping->getShippingDeliveryDate())){
+                                $date = $Shipping->getShippingDeliveryDate();
+                                $Shipping->setShippingDeliveryStringDate($date->format('Y/m/d'));
+                            }
+                            //if(!empty($Order->getTotal())){
+                            //    $Order->setTotal( intval($Order->getTotal()) );
+                            //}
+                            if(!empty($Order->getPaymentTotal())){
+                                $Order->setPaymentTotal( intval($Order->getPaymentTotal()) );
+                            }
+                            if(!empty($Order->getDeliveryFeeTotal())){
+                                $Order->setDeliveryFeeTotal( intval($Order->getDeliveryFeeTotal()) );
+                            }
+                            if(!empty($Order->getDiscount())){
+                                $Order->setDiscount( intval($Order->getDiscount()) );
+                            }
+                            if(!empty($OrderItem->getPrice())){
+                                $OrderItem->setPrice( intval($OrderItem->getPrice()) );
+                            }
+
+                            $ExportCsvRow = new ExportCsvRow();
+
+                            // CSV出力項目と合致するデータを取得.
+                            foreach ($Csvs as $Csv) {
+                                // 受注データを検索.
+                                $ExportCsvRow->setData($csvService->getData($Csv, $Order));
+
+                                if ($ExportCsvRow->isDataNull()) {
+                                    // 受注データにない場合は, 受注明細を検索.
+                                    $ExportCsvRow->setData($csvService->getData($Csv, $OrderItem));
+                                }
+                                if ($ExportCsvRow->isDataNull() && $Shipping = $OrderItem->getShipping()) {
+                                    // 受注明細データにない場合は, 出荷を検索.
+                                    $ExportCsvRow->setData($csvService->getData($Csv, $Shipping));
+                                }
+                                if ($ExportCsvRow->isDataNull()) {
+                                    if(is_object($Customer)){
+                                        $ExportCsvRow->setData($csvService->getData($Csv, $Customer));
+                                    }
+                                }
+                                if ($ExportCsvRow->isDataNull()) {
+                                    if(is_object($ChainStore)){
+                                        $ExportCsvRow->setData($csvService->getData($Csv, $ChainStore));
+                                    }
+                                }
+
+                                $ExportCsvRow->pushData();
+                            }
+
+                            //$row[] = number_format(memory_get_usage(true));
+                            // 出力.
+                            $csvService->fputcsv($ExportCsvRow->getRow());
+                        }
+                    }
+                }
+            });
+        });
+
+        $response->headers->set('Content-Type', 'application/octet-stream');
+        $response->headers->set('Content-Disposition', 'attachment; filename='.$fileName);
+        $response->send();
+
+        return $response;
+    }
 }

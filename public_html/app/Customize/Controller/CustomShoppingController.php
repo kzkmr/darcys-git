@@ -29,7 +29,7 @@ use Eccube\Form\Type\Shopping\OrderType;
 use Eccube\Repository\OrderRepository;
 use Customize\Repository\Master\ContractTypeRepository;
 use Eccube\Service\CartService;
-use Eccube\Service\MailService;
+use Customize\Service\MailService;
 use Eccube\Service\OrderHelper;
 use Eccube\Service\Payment\PaymentDispatcher;
 use Eccube\Service\Payment\PaymentMethodInterface;
@@ -442,7 +442,24 @@ class CustomShoppingController extends BaseShoppingController
 
             // メール送信
             log_info('[注文処理] 注文メールの送信を行います.', [$Order->getId()]);
-            $this->mailService->sendOrderMail($Order);
+
+            $Customer = $this->getUser() ? $this->getUser() : $this->orderHelper->getNonMember();
+            $ChainStore = null;
+            $ContractType = null;
+
+            if(is_object($Customer)){
+                $ChainStore = $Customer->getChainStore();
+                if(is_object($ChainStore)){
+                    $ContractType = $ChainStore->getContractType();
+                }
+            }
+
+            if(is_object($ContractType)){
+                $this->mailService->sendChainStoreOrderMail($Order, $ChainStore, $ContractType);
+            }else{
+                $this->mailService->sendOrderMail($Order);
+            }
+            
             $this->entityManager->flush();
 
             log_info('[注文処理] 注文処理が完了しました. 購入完了画面へ遷移します.', [$Order->getId()]);

@@ -17,7 +17,7 @@ use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\QueryBuilder;
 use Eccube\Common\Constant;
 use Eccube\Controller\AbstractController;
-use Eccube\Entity\Master\CsvType;
+use Customize\Entity\Master\CsvType;
 use Eccube\Event\EccubeEvents;
 use Eccube\Event\EventArgs;
 use Customize\Form\Type\Admin\SearchChainStoreType;
@@ -26,7 +26,7 @@ use Customize\Repository\ChainStoreRepository;
 use Eccube\Repository\Master\PageMaxRepository;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
-use Eccube\Service\CsvExportService;
+use Customize\Service\CsvExportService;
 use Eccube\Service\MailService;
 use Eccube\Util\FormUtil;
 use Knp\Component\Pager\PaginatorInterface;
@@ -246,15 +246,67 @@ class ChainStoreController extends AbstractController
     }
 
     /**
-     * 販売店CSVの出力.
+     * 販売店一覧1CSV
      *
-     * @Route("/%eccube_admin_route%/chainstore/export", name="admin_chainstore_export", methods={"GET"})
+     * @Route("/%eccube_admin_route%/chainstore/export1", name="admin_chainstore_export1", methods={"GET"})
      *
      * @param Request $request
      *
      * @return StreamedResponse
      */
-    public function export(Request $request)
+    public function export1(Request $request)
+    {
+        $filename = 'chainstore_export1_'.(new \DateTime())->format('YmdHis').'.csv';
+        $response = $this->export($request, 7, $filename);
+        log_info('販売店一覧1CSV出力ファイル名', [$filename]);
+
+        return $response;
+    }
+
+    /**
+     * 販売店一覧2CSV
+     *
+     * @Route("/%eccube_admin_route%/chainstore/export2", name="admin_chainstore_export2", methods={"GET"})
+     *
+     * @param Request $request
+     *
+     * @return StreamedResponse
+     */
+    public function export2(Request $request)
+    {
+        $filename = 'chainstore_export2_'.(new \DateTime())->format('YmdHis').'.csv';
+        $response = $this->export($request, 9, $filename);
+        log_info('販売店一覧2CSV出力ファイル名', [$filename]);
+
+        return $response;
+    }
+    
+    /**
+     * 販売店一覧3CSV
+     *
+     * @Route("/%eccube_admin_route%/chainstore/export3", name="admin_chainstore_export3", methods={"GET"})
+     *
+     * @param Request $request
+     *
+     * @return StreamedResponse
+     */
+    public function export3(Request $request)
+    {
+        $filename = 'chainstore_export3_'.(new \DateTime())->format('YmdHis').'.csv';
+        $response = $this->export($request, 10, $filename);
+        log_info('販売店一覧3CSV出力ファイル名', [$filename]);
+
+        return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @param $csvTypeId
+     * @param string $fileName
+     *
+     * @return StreamedResponse
+     */
+    protected function export(Request $request, $csvTypeId, $fileName)
     {
         // タイムアウトを無効にする.
         set_time_limit(0);
@@ -264,9 +316,9 @@ class ChainStoreController extends AbstractController
         $em->getConfiguration()->setSQLLogger(null);
 
         $response = new StreamedResponse();
-        $response->setCallback(function () use ($request) {
+        $response->setCallback(function () use ($request,$csvTypeId) {
             // CSV種別を元に初期化.
-            $this->csvExportService->initCsvType(CsvType::CSV_TYPE_CUSTOMER);
+            $this->csvExportService->initCsvType($csvTypeId);
 
             // ヘッダ行の出力.
             $this->csvExportService->exportHeader();
@@ -282,13 +334,22 @@ class ChainStoreController extends AbstractController
 
                 /** @var $ChainStore \Eccube\Entity\ChainStore */
                 $ChainStore = $entity;
+                $Customer = $this->customerRepository->findOneBy(["ChainStore" => $ChainStore->getId()]);
+                $ChainStore->setRelatedCustomer($Customer);
 
                 $ExportCsvRow = new \Eccube\Entity\ExportCsvRow();
 
                 // CSV出力項目と合致するデータを取得.
                 foreach ($Csvs as $Csv) {
-                    // 販売店データを検索.
+                    // 会員データを検索.
                     $ExportCsvRow->setData($csvService->getData($Csv, $ChainStore));
+
+                    if ($ExportCsvRow->isDataNull()) {
+                        if(is_object($Customer)){
+                            // 会員データにない場合は, 販売店明細を検索.
+                            $ExportCsvRow->setData($csvService->getData($Csv, $Customer));
+                        }
+                    }
 
                     $ExportCsvRow->pushData();
                 }
@@ -299,14 +360,14 @@ class ChainStoreController extends AbstractController
             });
         });
 
-        $now = new \DateTime();
-        $filename = 'chain_store_'.$now->format('YmdHis').'.csv';
+        //$now = new \DateTime();
+        //$filename = 'chain_store_'.$now->format('YmdHis').'.csv';
         $response->headers->set('Content-Type', 'application/octet-stream');
-        $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+        $response->headers->set('Content-Disposition', 'attachment; filename='.$fileName);
 
         $response->send();
 
-        log_info('販売店CSVファイル名', [$filename]);
+        log_info('販売店CSVファイル名', [$fileName]);
 
         return $response;
     }
