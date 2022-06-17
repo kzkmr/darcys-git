@@ -67,3 +67,9 @@ Styleguide 2.1.2
 .ec-blockBtn--cancel{
   @include blockBtn-cancel
 }
+
+.ec-blockBtn--confirm {
+  @include blockBtn-cancel;
+  background-color: #cb2934;
+  border-color: #cb2934;
+}

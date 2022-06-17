@@ -101,6 +101,20 @@ Styleguide 15.1
   .ec-blockBtn--action {
     margin-bottom: 10px;
   }
+
+  &__notice {
+    max-width: 680px;
+    margin-top: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.2rem;
+    border: 1px solid #ed5634;
+  }
+
+  &__notice-text {
+    @include font(14px,500,1.6,0);
+    color: #ed5634;
+  }
 }
 
 
