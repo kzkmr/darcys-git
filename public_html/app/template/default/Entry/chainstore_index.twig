@@ -282,7 +282,7 @@ file that was distributed with this source code.
             {% if not ChainStoreTypeErr %}
                 $("#entry_chain_store_contract_type").val("{{ChainstoreType.id}}");
             {% endif %}
-            
+
             $("#entry_chain_store_contract_begin_ymd_year").val(year);
 
             $("#btnsubmit").on("click", function(){
@@ -451,7 +451,7 @@ file that was distributed with this source code.
                     <div class="alert alert-danger" role="alert">無効な販売店URLです</div>
                 </div>
             </div>
-        {% else %}    
+        {% else %}
             <div class="ec-pageHeader">
                 <h1>販売店契約登録（{{ChainstoreType.name}}）</h1>
             </div>
@@ -477,7 +477,7 @@ file that was distributed with this source code.
                             <div class="ec-registerRole__actions">
                                 <div class="ec-off4Grid">
                                     <div class="ec-off4Grid__cell">
-                                        <a class="ec-blockBtn--action ec-blockBtn--search" type="button" value="">
+                                        <a class="ec-blockBtn--action ec-blockBtn--search ec-blockBtn--confirm" type="button" value="">
                                         契約登録データを確認します<br />
                                         このボタンをクリックしてください
                                         </a>
@@ -533,8 +533,11 @@ file that was distributed with this source code.
                                 </dd>
                             </dl>
                             <dl>
-                                <dt>
+                                {# <dt>
                                     {{ form_label(form.chain_store.stock_number, 'admin.chainstore.stock_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt> #}
+                                <dt>
+                                    <label class="ec-label required" for="entry_chain_store_stock_number">契約番号</label>
                                 </dt>
                                 <dd>
                                     <div class="ec-halfInput{{ has_errors(form.chain_store.stock_number) ? ' error' }}">
@@ -580,7 +583,7 @@ file that was distributed with this source code.
                                             </div>
                                         </button>
                                     </div>
-                                    
+
                                     <div class="ec-select{{ has_errors(form.chain_store.bank_branch) ? ' error' }}">
                                         <select id="bank_branch_code" name="bank_branch_code" class="p-bank-name form-control" placeholder="支店名">
                                         </select>
@@ -703,8 +706,11 @@ file that was distributed with this source code.
                                 </dd>
                             </dl>
                             <dl>
-                                <dt>
+                                {# <dt>
                                     {{ form_label(form.email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt> #}
+                                <dt>
+                                    <label class="ec-label required">メールアドレス</label>
                                 </dt>
                                 <dd>
                                     <div class="ec-input{{ has_errors(form.email.first) ? ' error' }}">
@@ -718,8 +724,11 @@ file that was distributed with this source code.
                                 </dd>
                             </dl>
                             <dl>
-                                <dt>
+                                {# <dt>
                                     {{ form_label(form.password, 'common.password', { 'label_attr': {'class': 'ec-label' }}) }}
+                                </dt> #}
+                                <dt>
+                                    <label class="ec-label required">新しいパスワード</label>
                                 </dt>
                                 <dd>
                                     <div class="ec-input{{ has_errors(form.password.first) ? ' error' }}">

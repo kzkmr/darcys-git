@@ -67,7 +67,7 @@ file that was distributed with this source code.
       opacity: 0;
       visibility: hidden;
       transition: .3s;
-        box-sizing: border-box;
+      z-index: 100;
     }
     /*モーダル本体の擬似要素の指定*/
     .modal-container:before{
@@ -432,7 +432,7 @@ file that was distributed with this source code.
             {{ form_widget(form.ksCartKey) }}
         {% endif %}
 
-        {% if IsChainStore() == false %}
+        {% if ChainStore == false %}
             <div class="breadcrumb-wrapper">
                 <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
                     <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
@@ -442,7 +442,7 @@ file that was distributed with this source code.
                         <meta itemprop="position" content="1" />
                     </li>
                     <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a itemprop="item" href="/shop/products-list/">
+                        <a itemprop="item" href="{{ url('product_list') }}">
                             <span itemprop="name">ONLINE SHOP</span>
                         </a>
                         <meta itemprop="position" content="2" />
@@ -535,24 +535,6 @@ file that was distributed with this source code.
                     </div>
                 </div>
             </div>
-
-            {% if IsChainStore() == false %}
-            <div class="ec-modal-02">
-                <div class="ec-modal-02__banner modal-open">
-                    <img src="{{ asset('assets/img/product/banner_howtoeat.png') }}" alt="">
-                </div>
-                <div class="modal-container">
-                  <div class="modal-body">
-                    <!-- 閉じるボタン -->
-                    <div class="modal-close">×</div>
-                    <!-- モーダル内のコンテンツ -->
-                    <div class="modal-content">
-                      <p>文章が入ります。</p>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            {% endif %}
 
             <div class="ec-shelfRole">
                 <div class="kokokara_select_cart_btn_area">
@@ -655,29 +637,48 @@ file that was distributed with this source code.
             {% endif %}
         </div>
 
-        {% if BaseInfo.option_favorite_product %}
-                    <div class="like_return-btn">
+        <div class="like_return-btn">
+            {% if BaseInfo.option_favorite_product %}
+                <div class="kokokara_select_cart_btn_area">
+                    <div class="ec-productRole__btn ec-productRole__btn--favorite">
+                        {% if is_favorite == false %}
+                            <button type="button" id="favorite" class="ec-blockBtn--cancel" onclick="addFavorite('{{ url('product_add_favorite', {id:Product.id}) }}')">
+                                {{ '☆ お気に入りに追加'|trans }}
+                            </button>
+                        {% else %}
+                            <button type="button" id="favorite" class="ec-blockBtn--cancel"
+                                    disabled="disabled">{{ '★お気に入りに追加済です。'|trans }}
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="kokokara_select_cart_btn_area">
                 <div class="ec-productRole__btn ec-productRole__btn--favorite">
-                    {% if is_favorite == false %}
-                        <button type="button" id="favorite" class="ec-blockBtn--cancel" onclick="addFavorite('{{ url('product_add_favorite', {id:Product.id}) }}')">
-                            {{ '☆ お気に入りに追加'|trans }}
-                        </button>
-                    {% else %}
-                        <button type="button" id="favorite" class="ec-blockBtn--cancel"
-                                disabled="disabled">{{ '★お気に入りに追加済です。'|trans }}
-                        </button>
-                    {% endif %}
+                    <a class="ec-blockBtn--cancel" href="{{ url('product_list') }}">商品一覧に戻る</a>
+                </div>
+            </div>
+        </div>
+
+        {% if ChainStore == false %}
+            <div class="ec-modal-02">
+                <div class="ec-modal-02__banner modal-open">
+                    <img src="{{ asset('assets/img/product/banner_howtoeat.png') }}" alt="">
+                </div>
+                <div class="modal-container">
+                  <div class="modal-body">
+                    <!-- 閉じるボタン -->
+                    <div class="modal-close">×</div>
+                    <!-- モーダル内のコンテンツ -->
+                    <div class="modal-content">
+                      <p>文章が入ります。</p>
+                    </div>
+                  </div>
                 </div>
             </div>
         {% endif %}
 
-        <div class="kokokara_select_cart_btn_area">
-            <div class="ec-productRole__btn ec-productRole__btn--favorite">
-                <a class="ec-blockBtn--cancel" href="{{ url('product_list') }}">商品一覧に戻る</a>
-            </div>
-        </div>
-</div>
         <div class="ec-modal">
             {% if is_kokokara_select_version405() == false %}
             <input type="checkbox" id="ec-modal-checkbox" class="checkbox">
@@ -705,42 +706,42 @@ file that was distributed with this source code.
         </div>
     {% endif %}
 
-    {% if IsChainStore() == false %}
-    {% set NewProducts = CustomizeNewProduct() %}
-    {% if NewProducts|length > 0 %}
-        <div class="ec-products-top-area ec-products-top-area--new-list">
-            <div class="ec-product-category-title">
-              <h2 class="ec-product-category-title__title">こちらもおすすめ</span></h2>
-            </div>
-            <div class="ec-shelfRole">
-                <ul class="ec-shelfGrid">
-                    {% for Product in NewProducts %}
-                        <li class="ec-shelfGrid__item">
-                            <a href="{{ url('product_detail', {'id': Product.id}) }}">
-                                <p class="ec-shelfGrid__item-image">
-                                    <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
-                                </p>
-                                <p class="ec-shelfGrid__title">{{ Product.name }}</p>
-                                {% if Product.description_list %}
-                                    <p class="ec-shelfGrid__description">{{ Product.description_list|raw|nl2br }}</p>
-                                {% endif %}
-                                <p class="price02-default">
-                                    {% if Product.hasProductClass %}
-                                        {% if Product.getPrice02Min == Product.getPrice02Max %}
-                                            {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
-                                        {% else %}
-                                            {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
-                                        {% endif %}
-                                    {% else %}
-                                        {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+    {% if ChainStore == false %}
+        {% set NewProducts = CustomizeNewProduct() %}
+        {% if NewProducts|length > 0 %}
+            <div class="ec-products-top-area ec-products-top-area--new-list">
+                <div class="ec-product-category-title">
+                  <h2 class="ec-product-category-title__title">こちらもおすすめ</span></h2>
+                </div>
+                <div class="ec-shelfRole">
+                    <ul class="ec-shelfGrid">
+                        {% for Product in NewProducts %}
+                            <li class="ec-shelfGrid__item">
+                                <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                    <p class="ec-shelfGrid__item-image">
+                                        <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy">
+                                    </p>
+                                    <p class="ec-shelfGrid__title">{{ Product.name }}</p>
+                                    {% if Product.description_list %}
+                                        <p class="ec-shelfGrid__description">{{ Product.description_list|raw|nl2br }}</p>
                                     {% endif %}
-                                </p>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                                    <p class="price02-default">
+                                        {% if Product.hasProductClass %}
+                                            {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                                {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                            {% else %}
+                                                {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}<span>（税込）</span>
+                                            {% endif %}
+                                        {% else %}
+                                            {{ Product.getPrice02IncTaxMin|price }}<span>（税込）</span>
+                                        {% endif %}
+                                    </p>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
     {% endif %}
 {% endblock %}

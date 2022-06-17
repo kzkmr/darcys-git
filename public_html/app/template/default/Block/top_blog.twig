@@ -9,7 +9,7 @@
         <div class="row">
             {% for blogData in blogDatas %}
                 <div class="col-3">
-                    <a href="{{ blogData.link }}" target="_blank" rel="noopener">
+                    <a href="{{ blogData.link }}" rel="noopener">
                         {% if blogData.attachment is defined %}
                             <figure class="thumbnail">
                                 <img src="{{ blogData.attachment.source_url }}" alt="{{ blogData.title.rendered }}">

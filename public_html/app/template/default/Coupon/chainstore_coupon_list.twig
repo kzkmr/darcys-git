@@ -201,96 +201,94 @@ file that was distributed with this source code.
 
 {% block main %}
 
-    <div class="ec-layoutRole__main">
-        <div class="ec-mypageRole">
-            <div class="ec-pageHeader">
-                <h1>{{ 'マイページ'|trans }}/{{ '販売店クーポン一覧'|trans }}</h1>
-            </div>
-            {% if IsChainStore() %}
-                <div class="p-chain-store-heading">
-                    <h1 class="p-chain-store-heading__title">マイページ</h1>
-                    <p class="p-chain-store-heading__lead">ご利用状況をご確認いただけます。</p>
-                </div>
-            {% endif %}
-            {% include 'Mypage/navi.twig' %}
+    <div class="ec-mypageRole">
+        <div class="ec-pageHeader">
+            <h1>{{ 'マイページ'|trans }}/{{ '販売店クーポン一覧'|trans }}</h1>
         </div>
-        <div class="ec-mypageRole">
-            <p class="ec-para-normal">クーポンは一般販売開始までご利用できません</p>
+        {% if IsChainStore() %}
+            <div class="p-chain-store-heading">
+                <h1 class="p-chain-store-heading__title">マイページ</h1>
+                <p class="p-chain-store-heading__lead">ご利用状況をご確認いただけます。</p>
+            </div>
+        {% endif %}
+        {% include 'Mypage/navi.twig' %}
+    </div>
+    <div class="ec-mypageRole">
+        <p class="ec-para-normal">クーポンは一般販売開始までご利用できません</p>
 
-            {#
+        {#
+        {% if isActive %}
             {% if isActive %}
-                {% if isActive %}
-                    {% if pagination.totalItemCount > 0 %}
-                        <p class="ec-para-normal">{{ '%count%件のクーポンがあります'|trans({'%count%':pagination.totalItemCount}) }}</p>
-                        {% for Coupon in pagination %}
-                            <div class="ec-historyRole">
-                                <div class="ec-historyRole__contents">
-                                    <div class="ec-historyRole__detail coupon">
-                                        <p class="c-static-intro-coupon-title">{{ Coupon.coupon_name }}</p>
-                                        <p class="c-static-intro-coupon">
-                                            <span class="title">クーポンの対象商品</span><br>
-                                                {% if Coupon.coupon_type == 1 %}
-                                                    一部の製品
-                                                {% elseif Coupon.coupon_type == 2 %}
-                                                    カテゴリ
-                                                {% else %}
-                                                    全商品
-                                                {% endif %}<br>
-                                            <span class="title">クーポン対象期間</span><br>
-                                            {% if Coupon.available_to_date >= date('9999/12/31') %}
-                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ～<br>
+                {% if pagination.totalItemCount > 0 %}
+                    <p class="ec-para-normal">{{ '%count%件のクーポンがあります'|trans({'%count%':pagination.totalItemCount}) }}</p>
+                    {% for Coupon in pagination %}
+                        <div class="ec-historyRole">
+                            <div class="ec-historyRole__contents">
+                                <div class="ec-historyRole__detail coupon">
+                                    <p class="c-static-intro-coupon-title">{{ Coupon.coupon_name }}</p>
+                                    <p class="c-static-intro-coupon">
+                                        <span class="title">クーポンの対象商品</span><br>
+                                            {% if Coupon.coupon_type == 1 %}
+                                                一部の製品
+                                            {% elseif Coupon.coupon_type == 2 %}
+                                                カテゴリ
                                             {% else %}
-                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}<br>
-                                            {% endif %}
-                                            <span class="title">値引き</span><br>
-                                            {% if Coupon.discount_type == 1 %}
-                                                {{ Coupon.discount_price | price }}
-                                            {% else %}
-                                                {{ Coupon.discount_rate }}% OFF
-                                            {% endif %}
-                                        </p>
-                                    </div>
-                                    <div class="ec-historyRole__detail qrblock">
-                                        <p class="c-static-intro-coupon qrcode" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
+                                                全商品
+                                            {% endif %}<br>
+                                        <span class="title">クーポン対象期間</span><br>
+                                        {% if Coupon.available_to_date >= date('9999/12/31') %}
+                                            {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ～<br>
+                                        {% else %}
+                                            {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}<br>
+                                        {% endif %}
+                                        <span class="title">値引き</span><br>
+                                        {% if Coupon.discount_type == 1 %}
+                                            {{ Coupon.discount_price | price }}
+                                        {% else %}
+                                            {{ Coupon.discount_rate }}% OFF
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="ec-historyRole__detail qrblock">
+                                    <p class="c-static-intro-coupon qrcode" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
 
-                                        </p>
-                                        <button type="submit" class="ec-blockBtn--cancel qrdownload">QRダウンロード</button>
+                                    </p>
+                                    <button type="submit" class="ec-blockBtn--cancel qrdownload">QRダウンロード</button>
+                                </div>
+                                <div class="ec-historyRole__detail share">
+                                    <p class="ec-modal-title">Twitter,LINE,Facebookよりシェア</p>
+                                    <div class="share-link" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
+                                        <a href="#" class="sns-twitter" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/twitter.svg') }}" alt=""/></span></a>
+                                        <a href="#" class="sns-line" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/line.svg') }}" alt=""/></span></a>
+                                        <a href="#" class="sns-facebook" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/facebook.svg') }}" alt=""/></span></a>
                                     </div>
-                                    <div class="ec-historyRole__detail share">
-                                        <p class="ec-modal-title">Twitter,LINE,Facebookよりシェア</p>
-                                        <div class="share-link" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
-                                            <a href="#" class="sns-twitter" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/twitter.svg') }}" alt=""/></span></a>
-                                            <a href="#" class="sns-line" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/line.svg') }}" alt=""/></span></a>
-                                            <a href="#" class="sns-facebook" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/facebook.svg') }}" alt=""/></span></a>
-                                        </div>
-                                        <br />
-                                        <p class="ec-modal-title">クーポンURLをコピー</p>
-                                        <div class="share-link" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
-                                            <input type="text" id="sns-hidden" class="sns-hidden" value="" style="display:none;">
-                                            <a href="#" class="sns-link" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/link.svg') }}" alt=""/></span></a>
-                                            <div class="alert alert-danger copy-finished" style="display:none;" role="alert">
-                                                販売店クーポンのURLをコピーしました
-                                            </div>
+                                    <br />
+                                    <p class="ec-modal-title">クーポンURLをコピー</p>
+                                    <div class="share-link" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
+                                        <input type="text" id="sns-hidden" class="sns-hidden" value="" style="display:none;">
+                                        <a href="#" class="sns-link" target="_blank"><span class="ec-icon"><img src="{{ asset('assets/icon/share/link.svg') }}" alt=""/></span></a>
+                                        <div class="alert alert-danger copy-finished" style="display:none;" role="alert">
+                                            販売店クーポンのURLをコピーしました
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
-
-                        <div class="ec-pagerRole">
-                            {% include "pager.twig" with {'pages': pagination.paginationData} %}
                         </div>
-                    {% else %}
-                        <p class="ec-para-normal">{{ 'クーポンはありません。'|trans }}</p>
-                    {% endif %}
+                    {% endfor %}
+
+                    <div class="ec-pagerRole">
+                        {% include "pager.twig" with {'pages': pagination.paginationData} %}
+                    </div>
                 {% else %}
-                    <p class="ec-para-normal">{{ '販売店が見つかりませんでした。'|trans }}</p>
+                    <p class="ec-para-normal">{{ 'クーポンはありません。'|trans }}</p>
                 {% endif %}
             {% else %}
-                <h1 class="c-static-page-header__title">クーポンが無効です</h1>
+                <p class="ec-para-normal">{{ '販売店が見つかりませんでした。'|trans }}</p>
             {% endif %}
-            #}
-        </div>
+        {% else %}
+            <h1 class="c-static-page-header__title">クーポンが無効です</h1>
+        {% endif %}
+        #}
     </div>
 
 {% endblock %}

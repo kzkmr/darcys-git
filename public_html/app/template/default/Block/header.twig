@@ -11,9 +11,15 @@ file that was distributed with this source code.
 {% set totalQuantity = get_carts_total_quantity() %}
 <div class="ec-header-navi-sp pc-none">
   <div class="ec-header-navi-sp__logo">
-    <a href="{{ url('homepage') }}">
-      <img src="{{ asset('assets/img/common/logo_sp.png') }}" width="80">
-    </a>
+    {% if ChainStore == false %}
+      <a href="{{ url('homepage') }}">
+        <img src="{{ asset('assets/img/common/logo_sp.png') }}" width="80">
+      </a>
+    {% else %}
+      <a href="{{ url('mypage_menu') }}">
+        <img src="{{ asset('assets/img/common/logo_sp.png') }}" width="80">
+      </a>
+    {% endif %}
   </div>
   <div class="ec-header-navi-sp__login">
     {% if is_granted('ROLE_USER') %}
