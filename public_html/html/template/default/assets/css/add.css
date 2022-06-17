@@ -24,8 +24,10 @@ ul.p-global-navi {
   margin: unset;
 }
 /*WPのTOP画像にてグローバルメニューとの幅調整*/
-.p-entry-content>:first-child, .textwidget>:first-child {
-    margin-top: -1.6rem;
+
+/*6/14グローバルメニューが再度幅調整*/
+.c-entry__content{
+    padding:0!important;
 }
 
 /*MENU一覧のhover日本語調整*/
@@ -87,8 +89,8 @@ width: 165px;
   .ec-layoutRole__contents {
     border: none;
     padding-top: 0;
-    margin-top: 2rem/*ヘッダー部分の幅も動く*/;
-      border-top: 1px solid #f6f6f6;
+    margin-top: 1.8rem/*ヘッダー部分の幅も動く*/;
+    border-top: 1px solid #f6f6f6;
   }
 }
 
@@ -284,6 +286,9 @@ ol.breadcrumb {
 span.ec-secHeading__en {
   border-bottom: 6px dotted #ddd;
 }
+.ec-secHeading{
+    width:50%;
+}
 
 /*一覧をみる*/
 .ec-top-blog__btn a {
@@ -296,7 +301,7 @@ font-weight: 100;
   top: 12px;
 }
 p.title{
-    margin-top: 1rem;
+    margin-top: 0.3rem;
 }
 time{
     font-size: 0.8rem;
@@ -306,8 +311,7 @@ time{
 }
 /*otherボタンの背景色*/
 p.category{
-/*    background-color: #898989;
-*/    }
+}
 
 /*画像バナーメニューボタン*/
 section.ec-top-links {
@@ -315,22 +319,28 @@ section.ec-top-links {
 }
 
 .ec-top-links .ec-top-links-item__title {
-  box-shadow: 0.2rem 0.2rem 0.1rem #ede4e1;
-  color: #231815;
+/*  box-shadow: 0.2rem 0.2rem 0.1rem #ede4e1;
+*/  color: #fff;
     border: 3px double #ddd;
+    background-color: #000;
+    opacity: .8;
 
 }
 .ec-top-links .ec-top-links-item{
     border: 1px solid #ede4e1;
 }
+.ec-top-links-item__inner{
+    box-shadow: 1px 1px 4px #999;
+}
 
 /*オンラインバナー*/
 .ec-top-blog .row {
   margin-bottom: 6rem;
+justify-content: space-between;
 }
 
 .ec-top-banner img {
-  box-shadow: 0.3rem 0.3rem 0.3rem #999;
+  box-shadow: 0.2rem 0.2rem 0.3rem #999;
 }
 
 /*インスタ上*/
@@ -359,7 +369,8 @@ section.ec-top-instagram {
 
 /*//////////// NEWS /////////////*/
 /*幅揃える*/
-.c-container,
+/* 6/10 影響範囲が大きいためコメントアウト */
+/* .c-container, */
 .recommend-list {
   width: auto;
     /*パンくず幅いっぱい表示*/
@@ -450,6 +461,29 @@ section.c-entry-summary.c-entry-summary--products.c-entry-summary--type-products
 .online-store-information {
   max-width: none;
 }
+/*商品タイトル*/
+p.ec-shelfGrid__title{
+    margin: 2rem 0 1.5rem 0;
+}
+.ec-shelfGrid__item .price02-default{
+    margin-bottom: 3rem;
+}
+/*おいしい食べ方のバナー*/
+.ec-modal-02{
+    padding:0 0 3rem 0;
+    border-bottom: 1px dotted #ccc;
+}
+
+/*現在の選択数量合計*/
+p.kokokara_select_cart_btn_area__text-03{
+    padding: 1rem;
+    width: 50%;
+    margin: 0 auto;
+    background-color: #f6f6f6;
+    margin-top: 1rem;
+
+}
+
 
 /*カテゴリー部分の背景*/
 .category-tab {
@@ -472,13 +506,14 @@ section.c-entry-summary.c-entry-summary--products.c-entry-summary--type-products
 .ec-shelfGrid__btn a{
     background-color: #d15204;
         border:1px solid #d15204;
+/*    width: 77%;
+*/    margin: 0 auto;
 }
 .ec-shelfGrid__btn a:hover{
     color: #d15204;
     opacity: 1;
     background-color: #FEF5F0;
 }
-
 
 /*カートに入れる*/
  .ec-shelfGrid__btn button{
@@ -514,8 +549,8 @@ section.c-entry-summary.c-entry-summary--products.c-entry-summary--type-products
 span.sme-text-color {
     font-size: 1rem;
     font-weight: 100;
-    color: #535151;
 }
+
 span.sme-font-size.has-sm-small-font-size{
         font-size: 1rem;
     font-weight: 100;
@@ -593,10 +628,14 @@ span.ec-price__price {
 .product-gallery .main-img {
   background-color: #fff !important;
 }
-
 .product-gallery .sub-img li {
   background-color: #fff !important;
 }
+/*ONLINE バナー*/
+.shop-banner img{
+    box-shadow: 0.2rem 0.2rem 0.3rem #999;
+}
+
 
 /*メイン画像のサイズ*/
 /*.pageheader img{
@@ -649,6 +688,7 @@ span.ec-price__price {
     opacity: 1;
     background-color: #202C23;
     border:#202C23;
+/*    width:77%;*/
 }
 .ec-blockBtn--cancel:hover{
     color:#202C23;
@@ -656,11 +696,26 @@ span.ec-price__price {
     border:1px solid #202C23;
     opacity: 1;
 }
-/*.ec-blockBtn--cancel::before{
-    content: "☆"
+/*商品コードの文字と余白*/
+.ec-productRole__code{
+    font-family: sans-serif;
+    padding: 14px;
+    border:none;
+}
+.ec-productRole__description{
+    margin:14px;
+}
+.ec-numberInput {
+    margin: 0 1.1rem;
+}
+/*.ec-productRole__actions{
+    border-top: 1px dotted #ccc;
 }*/
+.ec-productRole__category{
+    border-top: 1px dotted #ccc;
+}
 
-/*お気に入りと商品一覧ボタンの横並び*/
+/*お気に入りと商品一覧ボタンの横並び（自由に選べる）*/
 .like_return-btn {
     display: flex;
     justify-content: center;
@@ -668,20 +723,118 @@ span.ec-price__price {
 .kokokara_select_cart_btn_area {
    margin: 1rem!important;
 }
+
+
 /*//////////// CARTショッピングカートの詳細画面 /////////////*/
 /*レジに進むボタン*/
+.ec-cartRole{
+    padding-top: 4rem;
+}
 .ec-cartRole .ec-blockBtn--action{
     background-color: #D15204;
     border: #D15204;
-}
+/*    width:77%;
+*/}
 .ec-cartRole .ec-blockBtn--action:hover{
     background-color: #FDF9F5;
     border: 1px solid #D15204;
     color: #D15204;
     opacity: 1;
 }
+li.ec-cartRow__subtotalColumn{
+    padding-right: 1rem;
+}
+.ec-totalBox{
+    border: 3px double #999;
+    margin-top: 1.2rem;
+}
+
+.ec-rectHeading h2{
+        border-bottom: 2px solid #333;
+    background: none;
+    margin-bottom: 1rem;
 
 
+}
+
+/*//////////// お買い物情報入力画面/shopping/nonmember /////////////*/
+/*次へボタン&カートに入れるボタン*/
+button.ec-blockBtn--action{
+    background-color: #824e2e;
+        border:1px solid #824e2e;
+/*    width:77%;*/
+}
+button.ec-blockBtn--action:hover{
+     color:#824e2e;
+     opacity: 1;
+     background-color: #F2EDEA;
+}
+
+/*ご注文手続き*/
+.ec-orderRole{
+    font-family: sans-serif;
+}
+.ec-layoutRole__main{
+/*    font-family: sans-serif;ここを変更するとTOPも変わる*/
+}
+/*内容登録の余白*/
+.ec-orderAccount__account,.non-customer-display {
+    margin-left: 1rem;
+    margin-top: 2rem;
+}
+.ec-orderDelivery__title {
+    margin-left: 1rem;
+    padding-bottom: 0;
+    font-weight: 100;
+    font-size: 16px;
+}
+.ec-orderDelivery__address {
+    margin: 0.5rem 0rem 2rem 1rem;
+}
+.ec-selects{
+    border-top: 1px dotted #ddd;
+    padding: 1rem;
+    margin-bottom: 3rem;
+}
+#zeus_payment_input{
+   padding: 2rem;
+}
+.ec-radio {
+    margin-top: 2rem;
+}
+input#shopping_order_Payment_5 {
+    margin-bottom: 1rem;
+}
+select#shopping_order_ZeusCreditPaymentMethod {
+    margin-bottom: 1rem;
+}
+.ec-halfInput input[type=text]{
+    margin-left: 0;
+}
+.ec-required{
+    margin-left: 0;
+}
+div#zeus_contact_info {
+    margin-left: 0.5rem;
+}
+.coupon_message {
+    padding-left: 1rem;
+}
+div#zeus_payment_input{
+    margin-bottom: 3rem;
+}
+div#coupon{
+    margin-bottom: 3rem;
+}
+
+/*//////////ご注文内容確認///////////*/
+.ec-blockRadio{
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+div#customer_detail_box{
+        margin-left: 1rem;
+}
 
 
 /*//////////// STORY 製品の誕生秘話TOP /////////////*/
@@ -856,7 +1009,7 @@ span.smb-btn__label>img{
   padding-left: 0.5rem !important;
 /*  margin-top: 5rem !important;*/
   padding-top: 0.2rem !important;
-  padding-bottom: 0.2rem !important;
+  padding-bottom: 0.5rem !important;
     border-bottom: 1px solid #ddd;
 }
 .section-static .smb-section__body h2{
@@ -911,12 +1064,11 @@ h2.smb-section__title a {
 
 /*行の開き調整*/
 .ec-borderedDefs dd p{
-    line-height: 3;
+    line-height: 2;
 }
 .ec-borderedDefs dd{
-        line-height: 3;
+    line-height: 2;
 }
-
 .ec-borderedDefs dd .ec-borderedDefs-text-bold{
     margin-bottom: 0;
 }
@@ -925,6 +1077,7 @@ h2.smb-section__title a {
 }
 .ec-borderedDefs dt{
     margin-left: 1rem;
+    padding-top: 5px;
 }
 iframe {
     margin-top: 1rem;
@@ -1039,8 +1192,28 @@ background-color: #fff;
     padding: 0.3rem 0;
     width: 230px;
     font-size: 0.8rem;
-        font-weight: bold;
+    font-weight: bold;
 }
+/*屋号と直営店（販売店）ボタン*/
+.shop-c-btn{
+    border:1px solid #000;
+    width:10%;
+    padding:0.1rem;
+    text-align: center;
+    margin-left: 1.1rem;
+    background-color: #333;
+    color:#fff;
+    font-size: 0.8rem;
+}
+
+.wp-block-group>h3{
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    letter-spacing: 0.5rem;
+    padding-bottom: 0;
+font-weight: 100;
+}
+
 
 /*//////////// Products/select/list/オンラインショップ各製品購入P /////////////*/
 .ec-headingTitle{
@@ -1056,6 +1229,23 @@ font-family: sans-serif;
     font-weight: 100;
     font-size: 20px;
 }
+
+
+/*//////////// お問い合わせフォーム/shop/contact/ /////////////*/
+/*タイトル下のピンクライン*/
+.contact-section .contact-title::after{
+    display: none;
+}
+header.l-header.l-header--2row.l-header--sticky-sm{
+    border-bottom: 1px solid #f6f6f6;
+}
+
+/*//////////// 販売店会員ログイン後_販促品発注 /////////////*/
+.ec-productRole__category .ec-productRole-category-list__item a{
+background-color: #202C23;
+    font-family: sans-serif;
+}
+
 
 
 /*//////////// メディアクエリ /////////////*/
@@ -1092,6 +1282,13 @@ ul.ec-header-bottom__store-link {
     margin-top: 15px;
 }
 }
+@media (min-width: 640px){
+.ec-top-blog .row .col-3 {
+    padding: 0 1px;
+        flex: 0 0 32.333%;
+}
+
+}
 
 @media only screen and (max-width: 1079px) {
 
@@ -1100,9 +1297,9 @@ ul.ec-header-bottom__store-link {
     top: 3.5rem;
     right: 0;
   }
-    /*携帯時の横の余白STORY*/
+    /*携帯時の横の余白STORYや製品のこだわり*/
     .smb-section__inner{
-        padding: 1rem;
+/*        padding: 1rem;*/
     }
 }
 
@@ -1112,7 +1309,11 @@ ul.ec-header-bottom__store-link {
   section.ec-top-links {
     margin-top: 5rem;
   }
-
+/*TOP：画像バナーのタイトル位置*/    
+.ec-top-links .ec-top-links-item__title{
+        left:38%;
+    }
+    
   /*TOP:インスタ上*/
   .ec-top-instagram {
     margin-top: 5rem;
@@ -1157,18 +1358,52 @@ ul.ec-header-bottom__store-link {
 .wp-container-16.wp-block-column{
     margin-left: 0em;
 }
+/*問い合わせフォームのテキスト*/
+    .contact-section .contact-txt{
+        text-align: left;
+    }
+    
 }
 
 /* 6/7 追加 */
 @media (max-width: 768px) {
   .smb-section__inner {
-/*    margin-bottom: 0;効かないコードなのでコメントオフ*/
     margin: 0;
   }
 /*お気に入りと商品一覧ボタンの横並び*/
 .like_return-btn {
     display: block;
 }
+    .kokokara_select_cart_btn_area{
+        padding:0;
+    }
+    .ec-productRole__btn--favorite{
+        width: 100%;
+    }
+/*カートに入れるボタン*/
+button.ec-blockBtn--action{
+    width:100%;
+}
+/*お気に入りと商品一覧ボタン*/
+.ec-blockBtn--cancel{
+    width:100%;
+}
+/*レジに進むボタン*/
+.ec-cartRole .ec-blockBtn--action{
+    width:100%;
+}
+/*商品を選択するボタン*/
+.ec-shelfGrid__btn a{
+    width: 100%;
+}
+/*直営店（販売店）ボタン*/
+.shop-c-btn{
+    width:20%;
+    margin-left:0;
+}
+    .wp-block-group>h3{
+    margin-left:0;
+    }
 }
 
 @media only screen and (min-width: 768px) and (min-width: 768px){
@@ -1187,6 +1422,13 @@ ul.ec-header-bottom__store-link {
     width: 70%;
     }
 }
+@media only screen and (max-width: 620px) {
+/*現在の選択数量合計*/
+p.kokokara_select_cart_btn_area__text-03{
+    width: 100%;
+    padding-top: 1rem;
+}
+}
 @media only screen and (max-width: 468px) {
     .sme-font-size{
             text-align: left;
@@ -1199,7 +1441,12 @@ ul.ec-header-bottom__store-link {
         padding:0;
         font-weight: bold;
             font-size: 0.6rem;
-
+    }
+/*TOP：画像バナーのタイトル位置*/    
+.ec-top-links .ec-top-links-item__title{
+    left: 31%;
+    width: 125px;
+    height: 119px;
     }
         }
 

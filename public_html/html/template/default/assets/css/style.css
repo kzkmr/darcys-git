@@ -2229,6 +2229,92 @@ Styleguide 2.1.2
   width: 1em;
   vertical-align: text-bottom;
 }
+.ec-blockBtn--confirm {
+  display: inline-block;
+  margin: 0 auto;
+  margin-bottom: 0;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  border-radius: 5px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #525263;
+  border-color: #525263;
+  display: block;
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: #cb2934;
+  border-color: #cb2934;
+}
+.ec-blockBtn--confirm:focus, .ec-blockBtn--confirm.focus, .ec-blockBtn--confirm:active:focus, .ec-blockBtn--confirm:active.focus, .ec-blockBtn--confirm.active:focus, .ec-blockBtn--confirm.active.focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.ec-blockBtn--confirm:hover, .ec-blockBtn--confirm:focus, .ec-blockBtn--confirm.focus {
+  color: #525263;
+  text-decoration: none;
+}
+.ec-blockBtn--confirm:active, .ec-blockBtn--confirm.active {
+  outline: 0;
+  background-image: none;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.ec-blockBtn--confirm.disabled, .ec-blockBtn--confirm[disabled], fieldset[disabled] .ec-blockBtn--confirm {
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  opacity: 0.65;
+  box-shadow: none;
+}
+.ec-blockBtn--confirm:focus, .ec-blockBtn--confirm.focus {
+  color: #fff;
+  background-color: #3b3b47;
+  border-color: #18181d;
+}
+.ec-blockBtn--confirm:hover {
+  color: #fff;
+  background-color: #3b3b47;
+  border-color: #363642;
+}
+.ec-blockBtn--confirm:active, .ec-blockBtn--confirm.active, .open > .ec-blockBtn--confirm.dropdown-toggle {
+  color: #fff;
+  background-color: #3b3b47;
+  background-image: none;
+  border-color: #363642;
+}
+.ec-blockBtn--confirm:active:hover, .ec-blockBtn--confirm:active:focus, .ec-blockBtn--confirm:active.focus, .ec-blockBtn--confirm.active:hover, .ec-blockBtn--confirm.active:focus, .ec-blockBtn--confirm.active.focus, .open > .ec-blockBtn--confirm.dropdown-toggle:hover, .open > .ec-blockBtn--confirm.dropdown-toggle:focus, .open > .ec-blockBtn--confirm.dropdown-toggle.focus {
+  color: #fff;
+  background-color: #2b2b34;
+  border-color: #18181d;
+}
+.ec-blockBtn--confirm.disabled:hover, .ec-blockBtn--confirm.disabled:focus, .ec-blockBtn--confirm.disabled.focus, .ec-blockBtn--confirm[disabled]:hover, .ec-blockBtn--confirm[disabled]:focus, .ec-blockBtn--confirm[disabled].focus, fieldset[disabled] .ec-blockBtn--confirm:hover, fieldset[disabled] .ec-blockBtn--confirm:focus, fieldset[disabled] .ec-blockBtn--confirm.focus {
+  background-color: #525263;
+  border-color: #525263;
+}
+.ec-blockBtn--confirm .badge {
+  color: #525263;
+  background-color: #fff;
+}
+.ec-blockBtn--confirm .ec-icon img {
+  width: 1em;
+  vertical-align: text-bottom;
+}
 /*
 アイコンボタン
 
@@ -5036,6 +5122,7 @@ Styleguide 9.1.1
   font-weight: 500;
   line-height: 1.6;
   letter-spacing: 0;
+  text-align: center;
   background-color: #fff;
   color: #354e57;
 }
@@ -6025,6 +6112,9 @@ Styleguide 11.2
   width: 80px;
   height: 72px;
   margin-left: 1px;
+}
+.layout-store .ec-header-navi-sp {
+  background-color: #f8f7f0;
 }
 .ec-header-sp-btn {
   display: flex;
@@ -8914,6 +9004,21 @@ Styleguide 15.1
 .ec-cartRole .ec-blockBtn--action {
   margin-bottom: 10px;
 }
+.ec-cartRole__notice {
+  max-width: 680px;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.2rem;
+  border: 1px solid #ed5634;
+}
+.ec-cartRole__notice-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0;
+  color: #ed5634;
+}
 /*
 カート商品表示枠（テーブルヘッダ）
 
@@ -10773,6 +10878,9 @@ Styleguide 23
   margin-right: auto;
 }
 .p-chain-store-heading ~ .ec-navlistRole {
+  margin-top: 35px;
+}
+.p-chain-store-heading + .ec-shelfRole {
   margin-top: 35px;
 }
 /*
