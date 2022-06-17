@@ -1,3 +1,24 @@
+---
+#------------------------------------------------------------------------------------
+# 会員登録
+#------------------------------------------------------------------------------------
+
+front.entry.complete_message__title: 登録ありがとうございます
+front.entry.complete_message__temporary: |
+  現在、仮登録の状態です。ただいま、ご入力いただいたメールアドレス宛に、ご本人様確認用のメールをお送りいたしました。
+  メール本文内のURLをクリックすると、本登録が完了となります。
+
+#------------------------------------------------------------------------------------
+# 商品詳細
+#------------------------------------------------------------------------------------
+
+front.product.add_favorite: ☆ お気に入りに追加
+
+#------------------------------------------------------------------------------------
+# ショッピング
+#------------------------------------------------------------------------------------
+
+front.shopping.delivery_info: お届け先情報
 
 #------------------------------------------------------------------------------------
 # 追加
@@ -100,7 +121,7 @@ admin.chainstore.purchase_history__not_found: 注文履歴がありません
 admin.chainstore.chain_store_address: お届け先住所
 admin.chainstore.chain_store_address__not_found: お届け先住所がありません
 admin.chainstore.chain_store_address__add: お届け先住所を追加
-admin.chainstore.chain_store_address_count_is_over: 'お届け先登録の上限の%eccube_deliv_addr_max%件に達しています。お届け先を入力したい場合は、削除か変更を行ってください。'
+admin.chainstore.chain_store_address_count_is_over: "お届け先登録の上限の%eccube_deliv_addr_max%件に達しています。お届け先を入力したい場合は、削除か変更を行ってください。"
 admin.chainstore.chain_store_address_id: お届け先ID
 admin.chainstore.chain_store_address_info: お届け先情報
 admin.chainstore.multi_search_label: 販売店ID・会社名・お名前・ディーラーコード・証券番号
