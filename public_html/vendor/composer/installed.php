@@ -451,6 +451,15 @@
             'reference' => NULL,
             'dev_requirement' => false,
         ),
+        'ec-cube/eccube4lineloginintegration' => array(
+            'pretty_version' => '1.3.1',
+            'version' => '1.3.1.0',
+            'type' => 'eccube-plugin',
+            'install_path' => __DIR__ . '/../../app/Plugin/ECCUBE4LineLoginIntegration',
+            'aliases' => array(),
+            'reference' => NULL,
+            'dev_requirement' => false,
+        ),
         'ec-cube/kokokaraselect' => array(
             'pretty_version' => '2.1.0',
             'version' => '2.1.0.0',
@@ -494,6 +503,15 @@
             'install_path' => __DIR__ . '/../ec-cube/plugin-installer',
             'aliases' => array(),
             'reference' => '2cb574d0fda477af98b6199ddcb99e1a2c7e228a',
+            'dev_requirement' => false,
+        ),
+        'ec-cube/productdisplayrank4' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'type' => 'eccube-plugin',
+            'install_path' => __DIR__ . '/../../app/Plugin/ProductDisplayRank4',
+            'aliases' => array(),
+            'reference' => NULL,
             'dev_requirement' => false,
         ),
         'ec-cube/seolistdetail' => array(
@@ -546,15 +564,6 @@
             'replaced' => array(
                 0 => '*',
             ),
-        ),
-        'firebase/php-jwt' => array(
-            'pretty_version' => 'v6.2.0',
-            'version' => '6.2.0.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../firebase/php-jwt',
-            'aliases' => array(),
-            'reference' => 'd28e6df83830252650da4623c78aaaf98fb385f3',
-            'dev_requirement' => false,
         ),
         'flow/jsonpath' => array(
             'dev_requirement' => true,
@@ -1260,15 +1269,6 @@
             'install_path' => __DIR__ . '/../suncat/mobile-detect-bundle/SunCat/MobileDetectBundle',
             'aliases' => array(),
             'reference' => '06007fec624587fd90e8963b796fc84fff64d4d8',
-            'dev_requirement' => false,
-        ),
-        'sunra/php-simple-html-dom-parser' => array(
-            'pretty_version' => 'v1.5.2',
-            'version' => '1.5.2.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../sunra/php-simple-html-dom-parser',
-            'aliases' => array(),
-            'reference' => '75b9b1cb64502d8f8c04dc11b5906b969af247c6',
             'dev_requirement' => false,
         ),
         'swiftmailer/swiftmailer' => array(

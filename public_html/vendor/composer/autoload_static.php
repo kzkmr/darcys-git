@@ -193,7 +193,6 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         'F' => 
         array (
             'Flow\\JSONPath\\' => 14,
-            'Firebase\\JWT\\' => 13,
             'Faker\\' => 6,
             'Facebook\\WebDriver\\' => 19,
         ),
@@ -675,10 +674,6 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         array (
             0 => __DIR__ . '/..' . '/softcreatr/jsonpath/src',
         ),
-        'Firebase\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
-        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -881,10 +876,6 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         ),
         'S' => 
         array (
-            'Sunra\\PhpSimple\\HtmlDomParser' => 
-            array (
-                0 => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src',
-            ),
             'SunCat\\MobileDetectBundle' => 
             array (
                 0 => __DIR__ . '/..' . '/suncat/mobile-detect-bundle',
@@ -1505,6 +1496,7 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         'Customize\\Controller\\MaterialsPageController' => __DIR__ . '/../..' . '/app/Customize/Controller/MaterialsPageController.php',
         'Customize\\Controller\\Mypage\\ChangeChainstoreController' => __DIR__ . '/../..' . '/app/Customize/Controller/Mypage/ChangeChainstoreController.php',
         'Customize\\Controller\\Mypage\\CustomDeliveryController' => __DIR__ . '/../..' . '/app/Customize/Controller/Mypage/CustomDeliveryController.php',
+        'Customize\\Controller\\Mypage\\CustomMypageController' => __DIR__ . '/../..' . '/app/Customize/Controller/Mypage/CustomMypageController.php',
         'Customize\\Controller\\ShippingMultipleController' => __DIR__ . '/../..' . '/app/Customize/Controller/ShippingMultipleController.php',
         'Customize\\Doctrine\\ORM\\Query\\DateFormat' => __DIR__ . '/../..' . '/app/Customize/Doctrine/ORM/Query/DateFormat.php',
         'Customize\\Doctrine\\ORM\\Query\\Replace' => __DIR__ . '/../..' . '/app/Customize/Doctrine/ORM/Query/Replace.php',
@@ -3866,13 +3858,6 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         'Faker\\Provider\\zh_TW\\Text' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/zh_TW/Text.php',
         'Faker\\UniqueGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/UniqueGenerator.php',
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
-        'Firebase\\JWT\\BeforeValidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/BeforeValidException.php',
-        'Firebase\\JWT\\CachedKeySet' => __DIR__ . '/..' . '/firebase/php-jwt/src/CachedKeySet.php',
-        'Firebase\\JWT\\ExpiredException' => __DIR__ . '/..' . '/firebase/php-jwt/src/ExpiredException.php',
-        'Firebase\\JWT\\JWK' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWK.php',
-        'Firebase\\JWT\\JWT' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWT.php',
-        'Firebase\\JWT\\Key' => __DIR__ . '/..' . '/firebase/php-jwt/src/Key.php',
-        'Firebase\\JWT\\SignatureInvalidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/SignatureInvalidException.php',
         'Flow\\JSONPath\\AccessHelper' => __DIR__ . '/..' . '/softcreatr/jsonpath/src/AccessHelper.php',
         'Flow\\JSONPath\\Filters\\AbstractFilter' => __DIR__ . '/..' . '/softcreatr/jsonpath/src/Filters/AbstractFilter.php',
         'Flow\\JSONPath\\Filters\\IndexFilter' => __DIR__ . '/..' . '/softcreatr/jsonpath/src/Filters/IndexFilter.php',
@@ -6231,6 +6216,19 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         'Plugin\\DeliveryPlus4\\Repository\\ConfigRepository' => __DIR__ . '/../..' . '/app/Plugin/DeliveryPlus4/Repository/ConfigRepository.php',
         'Plugin\\DeliveryPlus4\\Service\\DeliveryPlusService' => __DIR__ . '/../..' . '/app/Plugin/DeliveryPlus4/Service/DeliveryPlusService.php',
         'Plugin\\DeliveryPlus4\\Service\\PurchaseFlow\\Processor\\DeliveryChangeValidator' => __DIR__ . '/../..' . '/app/Plugin/DeliveryPlus4/Service/PurchaseFlow/Processor/DeliveryChangeValidator.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Consts\\ApiUrl' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Consts/ApiUrl.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Controller\\Admin\\LineLoginIntegrationAdminController' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Controller/Admin/LineLoginIntegrationAdminController.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Controller\\LineLoginIntegrationController' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Controller/LineLoginIntegrationController.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Entity\\LineLoginIntegration' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Entity/LineLoginIntegration.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Entity\\LineLoginIntegrationSetting' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Entity/LineLoginIntegrationSetting.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Form\\Extension\\MypageChangeLineLoginExtension' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Form/Extension/MypageChangeLineLoginExtension.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Form\\Type\\LineLoginSettingType' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Form/Type/LineLoginSettingType.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\LineLoginIntegrationEvent' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/LineLoginIntegrationEvent.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\LineLoginIntegrationNav' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/LineLoginIntegrationNav.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\PluginManager' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/PluginManager.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Repository\\LineLoginIntegrationRepository' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Repository/LineLoginIntegrationRepository.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Repository\\LineLoginIntegrationSettingRepository' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Repository/LineLoginIntegrationSettingRepository.php',
+        'Plugin\\ECCUBE4LineLoginIntegration\\Util\\Version' => __DIR__ . '/../..' . '/app/Plugin/ECCUBE4LineLoginIntegration/Util/Version.php',
         'Plugin\\EntityExtension\\Entity\\CustomerSortNoTrait' => __DIR__ . '/../..' . '/app/Plugin/EntityExtension/Entity/CustomerSortNoTrait.php',
         'Plugin\\EntityForm\\Entity\\ProductUrlTrait' => __DIR__ . '/../..' . '/app/Plugin/EntityForm/Entity/ProductUrlTrait.php',
         'Plugin\\FormExtension\\Form\\Extension\\EntryTypeExtension' => __DIR__ . '/../..' . '/app/Plugin/FormExtension/Form/Extension/EntryTypeExtension.php',
@@ -6412,6 +6410,23 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         'Plugin\\Noshi\\Repository\\NoshiRepository' => __DIR__ . '/../..' . '/app/Plugin/Noshi/Repository/NoshiRepository.php',
         'Plugin\\OrderBulkDelete4\\Controller\\Admin\\OrderController' => __DIR__ . '/../..' . '/app/Plugin/OrderBulkDelete4/Controller/Admin/OrderController.php',
         'Plugin\\OrderBulkDelete4\\Event' => __DIR__ . '/../..' . '/app/Plugin/OrderBulkDelete4/Event.php',
+        'Plugin\\ProductDisplayRank4\\Controller\\Admin\\ConfigController' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Controller/Admin/ConfigController.php',
+        'Plugin\\ProductDisplayRank4\\Controller\\Admin\\CsvImportController' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Controller/Admin/CsvImportController.php',
+        'Plugin\\ProductDisplayRank4\\Controller\\Admin\\ProductController' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Controller/Admin/ProductController.php',
+        'Plugin\\ProductDisplayRank4\\Controller\\BlockController' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Controller/BlockController.php',
+        'Plugin\\ProductDisplayRank4\\Entity\\Config' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Entity/Config.php',
+        'Plugin\\ProductDisplayRank4\\Entity\\ProductTrait' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Entity/ProductTrait.php',
+        'Plugin\\ProductDisplayRank4\\Event' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Event.php',
+        'Plugin\\ProductDisplayRank4\\EventSubscriber\\ProductEventSubscriber' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/EventSubscriber/ProductEventSubscriber.php',
+        'Plugin\\ProductDisplayRank4\\Form\\Extension\\ProductTypeExtension' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Form/Extension/ProductTypeExtension.php',
+        'Plugin\\ProductDisplayRank4\\Form\\Extension\\SearchProductTypeExtension' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Form/Extension/SearchProductTypeExtension.php',
+        'Plugin\\ProductDisplayRank4\\Form\\Type\\Admin\\ConfigType' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Form/Type/Admin/ConfigType.php',
+        'Plugin\\ProductDisplayRank4\\Nav' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Nav.php',
+        'Plugin\\ProductDisplayRank4\\PluginManager' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/PluginManager.php',
+        'Plugin\\ProductDisplayRank4\\Repository\\AdminProductDisplayCustomizer' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Repository/AdminProductDisplayCustomizer.php',
+        'Plugin\\ProductDisplayRank4\\Repository\\ConfigRepository' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Repository/ConfigRepository.php',
+        'Plugin\\ProductDisplayRank4\\Repository\\ProductDisplayCustomizer' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/Repository/ProductDisplayCustomizer.php',
+        'Plugin\\ProductDisplayRank4\\TwigBlock' => __DIR__ . '/../..' . '/app/Plugin/ProductDisplayRank4/TwigBlock.php',
         'Plugin\\PurchaseProcessors\\Service\\PurchaseFlow\\Processor\\SaleLimitOneValidator' => __DIR__ . '/../..' . '/app/Plugin/PurchaseProcessors/Service/PurchaseFlow/Processor/SaleLimitOneValidator.php',
         'Plugin\\QueryCustomize\\Repository\\AdminCustomerCustomizer' => __DIR__ . '/../..' . '/app/Plugin/QueryCustomize/Repository/AdminCustomerCustomizer.php',
         'Plugin\\QueryCustomize\\ServiceProvider\\QueryCustomizeServiceProvider' => __DIR__ . '/../..' . '/app/Plugin/QueryCustomize/ServiceProvider/QueryCustomizeServiceProvider.php',
@@ -6909,7 +6924,6 @@ class ComposerStaticInit0c0589395aebc9fe62d1c00a3104b131
         'SunCat\\MobileDetectBundle\\Helper\\RedirectResponseWithCookie' => __DIR__ . '/..' . '/suncat/mobile-detect-bundle/SunCat/MobileDetectBundle/Helper/RedirectResponseWithCookie.php',
         'SunCat\\MobileDetectBundle\\MobileDetectBundle' => __DIR__ . '/..' . '/suncat/mobile-detect-bundle/SunCat/MobileDetectBundle/MobileDetectBundle.php',
         'SunCat\\MobileDetectBundle\\Twig\\Extension\\MobileDetectExtension' => __DIR__ . '/..' . '/suncat/mobile-detect-bundle/SunCat/MobileDetectBundle/Twig/Extension/MobileDetectExtension.php',
-        'Sunra\\PhpSimple\\HtmlDomParser' => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src/Sunra/PhpSimple/HtmlDomParser.php',
         'Symfony\\Bridge\\Doctrine\\CacheWarmer\\ProxyCacheWarmer' => __DIR__ . '/..' . '/symfony/doctrine-bridge/CacheWarmer/ProxyCacheWarmer.php',
         'Symfony\\Bridge\\Doctrine\\ContainerAwareEventManager' => __DIR__ . '/..' . '/symfony/doctrine-bridge/ContainerAwareEventManager.php',
         'Symfony\\Bridge\\Doctrine\\DataCollector\\DoctrineDataCollector' => __DIR__ . '/..' . '/symfony/doctrine-bridge/DataCollector/DoctrineDataCollector.php',

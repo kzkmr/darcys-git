@@ -12,7 +12,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.1.3",
+        "php": "7.4.*",
         "ext-intl": "*",
         "ext-mbstring": "*",
         "composer/ca-bundle": "^1.1",
@@ -33,21 +33,32 @@
         "doctrine/migrations": "^1.8",
         "doctrine/orm": "^2.6",
         "easycorp/easy-log-handler": "^1.0",
-        "ec-cube/coupon4": "^4.1",
-        "ec-cube/customerclassprice4": "^2.0",
-        "ec-cube/customergroup": "^2.0",
-        "ec-cube/customergroupentry": "^2.0",
-        "ec-cube/kokokaraselect": "^2.1",
+        "ec-cube/api": "2.1.3",
+        "ec-cube/coupon4": "4.1.1",
+        "ec-cube/csvdownloadfilter": "1.0.2",
+        "ec-cube/customerclassprice4": "2.0.0",
+        "ec-cube/customergroup": "2.0.0",
+        "ec-cube/customergroupentry": "2.0.0",
+        "ec-cube/deliveryplus4": "1.1.5",
+        "ec-cube/eccube4lineloginintegration": "^1.3",
+        "ec-cube/kokokaraselect": "2.1.0",
+        "ec-cube/mypagereceipt": "4.1.2",
+        "ec-cube/noshi": "4.1.1",
+        "ec-cube/orderbulkdelete4": "1.1.0",
         "ec-cube/plugin-installer": "^2.0",
-        "ec-cube/zeuspayment4": "^1.1",
+        "ec-cube/productdisplayrank4": "^1.1",
+        "ec-cube/seolistdetail": "4.1.2",
+        "ec-cube/zeuspayment4": "1.1.1",
         "egulias/email-validator": "^2.1",
         "exercise/htmlpurifier-bundle": "^3.1",
         "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/guzzle": "^6.3",
         "knplabs/knp-paginator-bundle": "^2.7",
+        "lcobucci/jwt": "3.4.*",
         "mobiledetect/mobiledetectlib": "^2.8",
         "monolog/monolog": "^1.23",
         "nesbot/carbon": "^1.22",
+        "nyholm/psr7": "^1.2",
         "pimple/pimple": "^1.1",
         "psr/cache": "^1.0",
         "psr/container": "^1.0",
@@ -109,9 +120,11 @@
         "symfony/workflow": "^4.4",
         "symfony/yaml": "^4.4",
         "tecnickcom/tcpdf": "^6.2",
+        "trikoder/oauth2-bundle": "^2.1",
         "twig/extensions": "^1.5",
         "twig/twig": "^2.4",
-        "vlucas/phpdotenv": "v2.4.0"
+        "vlucas/phpdotenv": "v2.4.0",
+        "webonyx/graphql-php": "^14.0"
     },
     "require-dev": {
         "bheller/images-generator": "^1.0",
@@ -196,7 +209,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4.25"
+            "php": "7.4.28"
         },
         "preferred-install": {
             "*": "dist"
