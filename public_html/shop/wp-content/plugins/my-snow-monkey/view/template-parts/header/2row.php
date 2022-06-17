@@ -26,8 +26,13 @@ $hamburger_btn_position = get_theme_mod('hamburger-btn-position');
 
   <!-- スマホ/タブレット 用 -->
   <div class="c-row ec-header-navi-sp pc-none">
-    <div class="ec-header-navi-sp__logo">
+    <div class="ec-header-navi-sp__logo not_store hide">
       <a href="<?php echo ec_url(); ?>">
+        <img src="<?php echo ec_asset_url(); ?>/img/common/logo_sp.png" width="80">
+      </a>
+    </div>
+    <div class="ec-header-navi-sp__logo is_store hide">
+      <a href="<?php echo ec_url(); ?>/mypage/menu">
         <img src="<?php echo ec_asset_url(); ?>/img/common/logo_sp.png" width="80">
       </a>
     </div>

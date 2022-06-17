@@ -204,6 +204,23 @@
       </li>
     </ol>
   </div>
+<?php elseif ( is_page('guide') ): ?>
+  <div class="breadcrumb-wrapper">
+    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+          <span itemprop="name">HOME</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/guide/')); ?>">
+          <span itemprop="name">GUIDE</span>
+        </a>
+        <meta itemprop="position" content="2" />
+      </li>
+    </ol>
+  </div>
 <?php elseif ( is_page('contact') ): ?>
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
@@ -216,6 +233,52 @@
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
         <a itemprop="item" href="<?php echo esc_url(home_url('/contact/')); ?>">
           <span itemprop="name">CONTACT</span>
+        </a>
+        <meta itemprop="position" content="2" />
+      </li>
+    </ol>
+  </div>
+<?php elseif ( is_page('contact-general') ): ?>
+  <div class="breadcrumb-wrapper">
+    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+          <span itemprop="name">HOME</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/contact/')); ?>">
+          <span itemprop="name">CONTACT</span>
+        </a>
+        <meta itemprop="position" content="2" />
+      </li>
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/contact-general/')); ?>">
+          <span itemprop="name">ダシーズに関するお問い合わせ</span>
+        </a>
+        <meta itemprop="position" content="2" />
+      </li>
+    </ol>
+  </div>
+<?php elseif ( is_page('contact-m') ): ?>
+  <div class="breadcrumb-wrapper">
+    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+          <span itemprop="name">HOME</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/contact/')); ?>">
+          <span itemprop="name">CONTACT</span>
+        </a>
+        <meta itemprop="position" content="2" />
+      </li>
+      <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/contact-m/')); ?>">
+          <span itemprop="name">松本薫に関するお問い合わせ</span>
         </a>
         <meta itemprop="position" content="2" />
       </li>

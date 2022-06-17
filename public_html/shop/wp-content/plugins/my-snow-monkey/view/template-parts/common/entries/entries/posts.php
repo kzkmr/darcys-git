@@ -47,13 +47,15 @@ $force_sm_1col   = $args['_force_sm_1col'] ? 'true' : 'false';
 		$post_ID = get_the_ID();
 		$taxonomy_name = 'is_store';
 		$category_term = wp_get_post_terms($post_ID, $taxonomy_name, array('orderby' => 'slug'));
-		if ($category_term[0]) {
+		if ($category_term) {
 			if ( 'not_store' === $category_term[0]->slug ) {
 				$class_is_store = ' not_store hide';
 			} else {
 				$class_is_store = '';
 			}
-		}
+		} else {
+			$class_is_store = '';
+    }
 		?>
 
 		<li class="c-entries__item<?php echo $class_is_store;?>">

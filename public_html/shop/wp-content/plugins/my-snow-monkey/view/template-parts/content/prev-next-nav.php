@@ -4,7 +4,7 @@
  * @package snow-monkey
  * @author inc2734
  * @license GPL-2.0+
- * @version 11.7.0
+ * @version 17.0.0
  *
  * renamed: template-parts/prev-next-nav.php
  */
@@ -26,12 +26,12 @@ $args = wp_parse_args(
 ?>
 
 <div class="c-prev-next-nav">
-  <?php foreach (['next', 'prev'] as $key) : ?>
+  <?php foreach (['prev', 'next'] as $key) : ?>
     <div class="c-prev-next-nav__item c-prev-next-nav__item--<?php echo esc_attr($key); ?>">
       <?php
-      if ('next' === $key) {
+      if ('prev' === $key) {
         $_post = get_previous_post($args['_in_same_term'], $args['_excluded_terms'], $args['_taxonomy']);
-      } elseif ('prev' === $key) {
+      } elseif ('next' === $key) {
         $_post = get_next_post($args['_in_same_term'], $args['_excluded_terms'], $args['_taxonomy']);
       }
       ?>
@@ -47,14 +47,14 @@ $args = wp_parse_args(
         </div>
         <div class="c-prev-next-nav__item-text">
           <div class="c-prev-next-nav__item-label">
-            <?php if ('next' === $key) : ?>
+            <?php if ('prev' === $key) : ?>
               <i class="fas fa-angle-left" aria-hidden="true"></i>
 
-              次の記事
+              前の記事
 
             <?php else : ?>
 
-              前の記事
+              次の記事
 
               <i class="fas fa-angle-right" aria-hidden="true"></i>
             <?php endif; ?>
@@ -84,7 +84,7 @@ $args = wp_parse_args(
         }
         add_filter('the_title', 'snow_monkey_prev_next_nav_title');
 
-        if ('next' === $key) {
+        if ('prev' === $key) {
           previous_post_link(
             '%link',
             $format,
@@ -92,7 +92,7 @@ $args = wp_parse_args(
             $args['_excluded_terms'],
             $args['_taxonomy']
           );
-        } elseif ('prev' === $key) {
+        } elseif ('next' === $key) {
           next_post_link(
             '%link',
             $format,

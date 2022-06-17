@@ -14,12 +14,12 @@ use Framework\Helper;
 
 <div class="c-entry__content p-entry-content">
 
-  <?php if (is_singular('post') || is_single('store_news')) : ?>
+  <?php if (is_singular('post') || is_singular('store-news')) : ?>
     <h2 class="c-entry__content__title">
       <?php the_title(); ?>
     </h2>
     <p class="c-entry__content__date time-format">
-      <?php the_time(get_option('date_format')); ?>
+      <?php the_time('Y/m/d'); ?>
     </p>
   <?php endif; ?>
 

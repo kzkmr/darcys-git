@@ -7,4 +7,4 @@
 use Framework\Controller\Controller;
 
 Controller::layout( 'one-column' );
-Controller::render( 'content', 'store-news' );
+Controller::render( 'content', 'post' );
