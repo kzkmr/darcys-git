@@ -1,0 +1,39 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'index' %}
+
+{% set body_class = 'mypage' %}
+
+{% block main %}
+
+    {% if storeBlogDatas|length > 0 %}
+        <div class="ec-mypageRole">
+            <section class="ec-mypage-blog">
+                <h2 class="ec-mypage-blog__heading">新着情報</h2>
+                <div class="ec-mypage-blog__body ec-mypage-blog__body--all">
+                    {% for storeBlogDatas in storeBlogDatas %}
+                        <div class="ec-mypage-blog__item">
+                            <a href="{{ storeBlogDatas.link }}" rel="noopener">
+                                <time>{{ storeBlogDatas.date|slice(0, 10)|replace({'-': '/'}) }}</time>
+                                <p class="title">{{ storeBlogDatas.title.rendered }}</p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    {% else %}
+      <p>記事はありません</p>
+    {% endif %}
+
+{% endblock %}

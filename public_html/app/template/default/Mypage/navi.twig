@@ -1,0 +1,111 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+<style>
+    .ec-welcomeMsg p.ec-order-limit-text {
+        color: #DE5D50;
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>
+<script>
+    $(function() {
+        {% if ChainStore %}
+            var changeTitle = $("ul.ec-navlistRole__navlist li.active").data("change-title");
+            if(changeTitle){
+                var shopName = document.title.substr(0, document.title.indexOf('/'));
+                document.title = shopName + " / " + changeTitle;
+            }
+        {% endif %}
+    });
+</script>
+<div class="ec-navlistRole">
+    <ul class="ec-navlistRole__navlist">
+        {% if ChainStore %}
+            {# {% if ChainStore.ContractType.id != 2 %}
+                <li class="ec-navlistRole__item">
+                    <a href="{{ url('product_list') }}?category_id=1">{{ '商品発注'|trans }}</a>
+                </li>
+            {% endif %}
+            <li class="ec-navlistRole__item">
+                <a href="{{ url('product_list') }}?category_id=8">{{ '販促品発注'|trans }}</a>
+            </li> #}
+            {% if ChainStore.ContractType.page_coupon_list == 'Y' %}
+                <li class="ec-navlistRole__item {% if mypageno|default('') == 'chainstore_coupon_jisseki' %}active{% endif %}">
+                    <a href="{{ url('mypage_chainstore_coupon_jisseki') }}">クーポン<br>売上履歴</a>
+                </li>
+            {% endif %}
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'index' %}active{% endif %}">
+                <a href="{{ url('mypage') }}">注文履歴</a>
+            </li>
+            {% if ChainStore.ContractType.page_coupon_list == 'Y' %}
+                <li class="ec-navlistRole__item {% if mypageno|default('') == 'chainstore_coupon_list' %}active{% endif %}">
+                    <a href="{{ url('mypage_chainstore_coupon_list') }}">{{ '販売店クーポン'|trans }}</a>
+                </li>
+            {% endif %}
+            {% if BaseInfo.option_favorite_product %}
+                <li class="ec-navlistRole__item {% if mypageno|default('') == 'favorite' %}active{% endif %}">
+                    <a href="{{ url('mypage_favorite') }}">{{ 'front.mypage.nav__favorite'|trans }}</a>
+                </li>
+            {% endif %}
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'change_chainstore' %}active{% endif %}">
+                <a href="{{ url('mypage_change_chainstore') }}">契約者<br>基本情報</a>
+            </li>
+            <li data-change-title="MYページ/登録情報編集" class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}active{% endif %}">
+                <a href="{{ url('mypage_change') }}">契約者<br>販売店舗</a>
+            </li>
+            {% if ChainStore.deliveryRegistrations > 0 %}
+                <li data-change-title="MYページ/販売店舗一覧" class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
+                    <a href="{{ url('mypage_delivery') }}">その他<br>販売店舗</a>
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'index' %}active{% endif %}">
+                <a href="{{ url('mypage') }}">{{ 'front.mypage.nav__history'|trans }}</a>
+            </li>
+            {% if BaseInfo.option_favorite_product %}
+                <li class="ec-navlistRole__item {% if mypageno|default('') == 'favorite' %}active{% endif %}">
+                    <a href="{{ url('mypage_favorite') }}">{{ 'front.mypage.nav__favorite'|trans }}</a>
+                </li>
+            {% endif %}
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}active{% endif %}">
+                <a href="{{ url('mypage_change') }}">{{ 'front.mypage.nav__customer'|trans }}</a>
+            </li>
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'coupon_list' %}active{% endif %}">
+                <a href="{{ url('mypage_coupon_list') }}">{{ 'クーポン一覧'|trans }}</a>
+            </li>
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
+                <a href="{{ url('mypage_delivery') }}">{{ 'front.mypage.nav__customer_address'|trans }}</a>
+            </li>
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
+                <a href="{{ url('mypage_withdraw') }}">{{ 'front.mypage.nav__withdrow'|trans }}</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+
+<div class="ec-welcomeMsg">
+    <p>{{ 'front.mypage.welcome'|trans({ '%last_name%': app.user.name01, '%first_name%': app.user.name02 }) }}</p>
+    {% if BaseInfo.option_point and not ChainStore %}
+        <p>{{ 'front.mypage.welcome__point'|trans({ '%point%': app.user.point|number_format}) }}</p>
+    {% endif %}
+    {% if ChainStore %}
+        {% if ChainStore.ContractType.id == 1 or (ChainStore.ContractType.id == 3 and (ChainStore.marginPrice + ChainStore.purchasingLimitPrice) > 0) %}
+            <p class="ec-order-limit-text1">購入可能金額 {{ChainStore.balancePrice | price}}</p>
+        {% endif %}
+
+        {% if ChainStore.ContractType.id != 2 %}
+            {% if ChainStore.orderLimitText is not null and ChainStore.orderLimitText is not empty %}
+                <p class="ec-order-limit-text">{{ChainStore.orderLimitText | nl2br}}</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div>
+
