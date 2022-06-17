@@ -311,11 +311,17 @@ class CustomEntryController extends BaseEntryController
                         // 仮会員設定が無効な場合は、会員登録を完了させる.
                         $qtyInCart = $this->entryActivate($request, $Customer->getSecretKey());
 
-                        // URLを変更するため完了画面にリダイレクト
-                        return $this->redirectToRoute('entry_activate', [
-                            'secret_key' => $Customer->getSecretKey(),
-                            'qtyInCart' => $qtyInCart,
-                        ]);
+                        if($qtyInCart == "not_found"){
+                            return $this->render('Entry/activate_error.twig', [
+                                'Page' => $this->pageRepository->getPageByRoute("activate_not_found")
+                            ]);
+                        }else{
+                            // URLを変更するため完了画面にリダイレクト
+                            return $this->redirectToRoute('entry_activate', [
+                                'secret_key' => $Customer->getSecretKey(),
+                                'qtyInCart' => $qtyInCart,
+                            ]);
+                        }
                     }
             }
         }
@@ -379,9 +385,15 @@ class CustomEntryController extends BaseEntryController
             // 会員登録処理を行う
             $qtyInCart = $this->entryActivate($request, $secret_key);
 
-            return [
-                'qtyInCart' => $qtyInCart,
-            ];
+            if($qtyInCart == "not_found"){
+                return $this->render('Entry/activate_error.twig', [
+                    'Page' => $this->pageRepository->getPageByRoute("activate_not_found")
+                ]);
+            }else{
+                return [
+                    'qtyInCart' => $qtyInCart,
+                ];
+            }
         }
 
         throw new HttpException\NotFoundHttpException();
@@ -400,7 +412,8 @@ class CustomEntryController extends BaseEntryController
         log_info('本会員登録開始');
         $Customer = $this->customerRepository->getProvisionalCustomerBySecretKey($secret_key);
         if (is_null($Customer)) {
-            throw new HttpException\NotFoundHttpException();
+            return "not_found";
+            //throw new HttpException\NotFoundHttpException();
         }
 
         $CustomerStatus = $this->customerStatusRepository->find(CustomerStatus::REGULAR);

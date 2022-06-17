@@ -229,6 +229,17 @@ file that was distributed with this source code.
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group col-12">
+                                <div class="form-row">
+                                    <div class="col-6">
+                                        <p class="col-form-label">{{ 'admin.chainstore.margin_condition'|trans }}</p>
+                                        {{ form_widget(searchForm.margin_condition, { 'label_attr': { 'class': 'checkbox-inline'}}) }}
+                                        {{ form_errors(searchForm.margin_condition) }}
+                                    </div>
+                                    <div class="col-6">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="d-inline-block mb-3 collapsed" data-toggle="collapse" href="#searchDetail" aria-expanded="false" aria-controls="searchDetail">
                             <a>

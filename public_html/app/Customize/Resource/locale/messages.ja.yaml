@@ -62,6 +62,7 @@ admin.chainstore.chainstore_bank_holder: 口座名義
 admin.chainstore.chainstore_bank_holder_ka: 口座名義（フリガナ）
 admin.chainstore.post_bank.code_number: 通帳記号(下5桁)
 admin.chainstore.post_bank.account_number: 通帳番号8桁
+admin.chainstore.margin_condition: 預託金有無
 
 admin.chainstore.contract_begin_ymd: 契約開始年月
 admin.chainstore.dealer_code: ディーラーコード
@@ -113,6 +114,7 @@ admin.chainstore.no_customer_address: この販売店のお届け先がありま
 admin.chainstore.no_purchase_history: この販売店の購入履歴がありません
 admin.chainstore.notfound: この販売店が見つかりません
 admin.chainstore.has_registered: この販売店識別番号として既に登録されていて使用できない
+admin.chainstore.option_margin_not_included: マージン対象外
 
 tooltip.chain_store.multi_search_label: 情報を入力して一覧の絞り込み検索ができます。より詳細な条件を指定するには［詳細検索］を開いてください。
 tooltip.chain_store.chain_store_id: 自動的に採番される販売店のIDです。
