@@ -191,7 +191,7 @@
         <meta itemprop="position" content="1" />
       </li>
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/products/')); ?>">
+        <a itemprop="item" href="<?php echo esc_url(home_url('/products-list/')); ?>">
           <span itemprop="name">PRODUCTS</span>
         </a>
         <meta itemprop="position" content="2" />
