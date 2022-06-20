@@ -255,10 +255,15 @@ file that was distributed with this source code.
                         {% set ChainStore = OrderCustomer.ChainStore %}
 
                         <div class="ec-orderAccount__account non-customer-display">
-                            <p class="ec-input"><span class="customer-edit customer-company_name">{{ ChainStore.company_name }}</span></p>
-                            <p class="ec-halfInput">{{ 'common.name.prefix'|trans }}<span class="customer-edit customer-name01">{{ ChainStore.name01 }}</span> <span class="customer-edit customer-name02">{{ ChainStore.name02 }}</span>{{ 'common.name.suffix'|trans }}</p>
-                            <p class="ec-halfInput"><span class="customer-edit customer-kana01">{{ ChainStore.kana01 }}</span> <span class="customer-edit customer-kana02">{{ ChainStore.kana01 }}</span></p>
-                            
+                            {% if ChainStore.company_name == '' %}
+                                <p class="ec-input"><span class="customer-edit customer-company_name">　　　　　　</span> 御中</p>
+                            {% else %}
+                                <p class="ec-input"><span class="customer-edit customer-company_name">{{ ChainStore.company_name }}</span> 御中</p>
+                            {% endif %}
+                            {% if ChainStore.name01 != '' %}
+                                <p class="ec-halfInput">{{ 'common.name.prefix'|trans }}<span class="customer-edit customer-name01">{{ ChainStore.name01 }}</span> <span class="customer-edit customer-name02">{{ ChainStore.name02 }}</span>{{ 'common.name.suffix'|trans }}</p>
+                            {% endif %}
+
                         </div>
                     {% else %}
                         <div class="ec-orderAccount__account non-customer-display">
@@ -386,9 +391,7 @@ file that was distributed with this source code.
                         {% set idx = loop.index0 %}
                         {% set isShowReducedTaxMess = false %}
                         <div class="ec-orderDelivery__title">
-                            {% if ChainStore %}
-                                販売店舗
-                            {% else %}
+                            {% if ChainStore == false %}
                                 {{ 'front.shopping.delivery_to'|trans }}
                             {% endif %}
                             {% if Order.multiple %}({{ loop.index }}){% endif %}
@@ -400,15 +403,16 @@ file that was distributed with this source code.
                                         {% endif %}
                                     {% else %}
                                         <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
-                                    {% endif %}    
+                                    {% endif %}
                                 {% else %}
                                     <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping_edit', {'id': shipping.id}) }}">{{ 'common.change'|trans }}</button>
                                 {% endif %}
                             </div>
                         </div>
                         <div class="ec-orderDelivery__address">
+                            <p class="ec-input"><span class="customer-edit customer-company_name">{{ ChainStore.company_name }}</span></p>
                             <p>{{ 'common.name.prefix'|trans }}{{ shipping.name01 }} {{ shipping.name02 }} ({{ shipping.kana01 }} {{ shipping.kana02 }}){{ 'common.name.suffix'|trans }}</p>
-                            <p>{{ 'common.postal_symbol'|trans }}{{ shipping.postal_code }} {{ shipping.pref }}{{ shipping.addr01 }}{{ shipping.addr02 }}</p>
+                            <p>{{ 'common.postal_symbol'|trans }}{{ zipCode(shipping.postal_code) }} {{ shipping.pref }}{{ shipping.addr01 }}{{ shipping.addr02 }}</p>
                             <p>{{ shipping.phone_number }}</p>
                         </div>
                         <div class="ec-orderDelivery__item">
@@ -432,11 +436,6 @@ file that was distributed with this source code.
                                 {% endfor %}
                             </ul>
                             <p>{{ isShowReducedTaxMess ? 'common.reduced_tax_rate_messeage'|trans }}</p>
-                        </div>
-                        <div class="ec-orderDelivery__address">
-                            <p>{{ 'common.name.prefix'|trans }}{{ shipping.name01 }} {{ shipping.name02 }} ({{ shipping.kana01 }} {{ shipping.kana02 }}){{ 'common.name.suffix'|trans }}</p>
-                            <p>{{ 'common.postal_symbol'|trans }}{{ shipping.postal_code }} {{ shipping.pref }}{{ shipping.addr01 }}{{ shipping.addr02 }}</p>
-                            <p>{{ shipping.phone_number }}</p>
                         </div>
                         <div class="ec-orderDelivery__actions">
                             <div class="ec-selects">

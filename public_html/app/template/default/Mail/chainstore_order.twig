@@ -13,18 +13,13 @@ file that was distributed with this source code.
 {% set OrderContract = OrderChainStore.ContractType %}
 
 {% autoescape 'safe_textmail' %}
-{{ Order.name01 }} {{ Order.name02 }} 様
+{{OrderChainStore.company_name}}
+{{ OrderChainStore.name01 }} {{ OrderChainStore.name02 }} 様
 
-法人名・屋号: {{OrderChainStore.company_name}}
-法人名・屋号（フリガナ）: {{OrderChainStore.company_name_kana}}
-代表者名・氏名: {{OrderChainStore.name01}} {{OrderChainStore.name02}}
-代表者名・氏名（フリガナ）: {{OrderChainStore.kana01}} {{OrderChainStore.kana02}}
-契約区分:  {{OrderContract.name}}
-
-この度はご注文いただき誠にありがとうございます。下記ご注文内容にお間違えがないかご確認下さい。
+この度はご注文いただき誠にありがとうございます。下記ご注文内容にお間違いがないかご確認下さい。
 
 ************************************************
-　ご請求金額
+　ご請求金額　（月末締めで合算した請求書を送付いたします）
 ************************************************
 
 ご注文日時：{{ Order.order_date|date_sec }}
@@ -76,24 +71,18 @@ file that was distributed with this source code.
 ************************************************
 {% else %}
 ************************************************
-　販売店情報
+　契約者情報
 ************************************************
 {% endif %}
-
-お名前：{{ Order.name01 }} {{ Order.name02 }} 様
-お名前(カナ)：{{ Order.kana01 }} {{ Order.kana02 }} 様
-{% if Order.company_name %}
-会社名：{{ Order.company_name }}
+お名前：{{OrderChainStore.name01}} {{OrderChainStore.name02}} 様
+お名前(カナ){{OrderChainStore.kana01}} {{OrderChainStore.kana02}} 様
+{% if OrderChainStore.company_name %}
+会社名：{{OrderChainStore.company_name}}
+会社名(カナ)：{{OrderChainStore.company_name_kana}}
 {% endif %}
-郵便番号：〒{{ Order.postal_code }}
-住所：{{ Order.Pref.name }}{{ Order.addr01 }}{{ Order.addr02 }}
-電話番号：{{ Order.phone_number }}
-メールアドレス：{{ Order.email }}
-
 ************************************************
-　配送情報
+　配送先情報
 ************************************************
-
 {%  for Shipping in Order.Shippings %}
 {% if ChainStore %}
 ◎販売店舗
@@ -127,9 +116,14 @@ file that was distributed with this source code.
 {{ Order.complete_mail_message }}
 {% endif %}
 
-============================================
-
-このメッセージはお客様へのお知らせ専用ですので、
-このメッセージへの返信としてご質問をお送りいただいても回答できません。
-ご了承ください。
+本メールは、ダシーズファクトリー販売店様にお送りしています。
+もしお心当たりが無い場合は、その旨 infor@darcys-factory.co.jp までご連絡いただければ幸いです。
+今後ともダシーズファクトリーを宜しくお願い申し上げます。
+========================================================
+Darcy's Factory
+株式会社ダシーズファクトリー
+〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F
+Mail: infor@darcys-factory.co.jp (24時間365日受付)
+公式HP　https://darcys-factory.co.jp/
+========================================================
 {% endautoescape %}

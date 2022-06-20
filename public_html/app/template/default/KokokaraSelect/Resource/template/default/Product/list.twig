@@ -538,7 +538,7 @@ file that was distributed with this source code.
 
             <div class="ec-shelfRole">
                 <div class="kokokara_select_cart_btn_area">
-                    <p class="kokokara_select_cart_btn_area__text-01">お好きな組み合わせをお選びください</p>
+                    <p class="kokokara_select_cart_btn_area__text-01">お好きな組み合わせをお選びくださいok</p>
                     <p class="kokokara_select_cart_btn_area__text-02">合計で{{ KsProduct.quantity }}点選択してください</p>
                     <p class="kokokara_select_cart_btn_area__text-03"><span>現在の選択数量 合計：</span><span class="select_item_count">0</span></p>
                     <p class="kokokara_select_cart_btn_area__text-sp pc-none"><span>現在の数量 合計：</span><span class="select_item_count">0</span></p>
@@ -566,8 +566,6 @@ file that was distributed with this source code.
                     {% if KsSelectItemGroup.description %}
                         <div class="ks_group_description">{{ KsSelectItemGroup.description|raw|nl2br }}</div>
                     {% endif %}
-                    <div class="ks_group_message kokokara_select-ec-color-accent"><span class="ks_select_message_group{{ groupIndex }}"></span></div>
-                    <p class="ks_group_message_fixed pc-none"><span class="ks_select_message_group{{ groupIndex }}"></span></p>
                     <ul class="ec-shelfGrid ks_select_group{{ groupIndex }}" data-quantity="{{ KsSelectItemGroup.quantity }}" data-group_name="{{ KsSelectItemGroup.groupName }}">
                         {% for KsSelectItem in KsSelectItemGroup.KsSelectItems %}
                             {% set ksSelectItemView = is_kokokara_select_view_item(KsSelectItem) %}
@@ -611,6 +609,8 @@ file that was distributed with this source code.
                             {% endif %}
                         {% endfor %}
                     </ul>
+                    <div class="ks_group_message kokokara_select-ec-color-accent"><span class="ks_select_message_group{{ groupIndex }}"></span></div>
+                    <p class="ks_group_message_fixed pc-none"><span class="ks_select_message_group{{ groupIndex }}"></span></p>
                     {% set groupIndex = groupIndex + 1 %}
                 {% endfor %}
             </div>

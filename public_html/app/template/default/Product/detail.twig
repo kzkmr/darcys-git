@@ -614,24 +614,26 @@ file that was distributed with this source code.
                         </div>
                     </div>
 
-                    {% if BaseInfo.option_favorite_product %}
-                        <form action="{{ url('product_add_favorite', {id:Product.id}) }}" method="post">
-                            <div class="ec-productRole__btn ec-productRole__btn--favorite">
-                                {% if is_favorite == false %}
-                                    <button type="submit" id="favorite" class="ec-blockBtn--cancel">
-                                        {{ 'front.product.add_favorite'|trans }}
-                                    </button>
-                                {% else %}
-                                    <button type="submit" id="favorite" class="ec-blockBtn--cancel"
-                                            disabled="disabled">{{ 'front.product.add_favorite_alrady'|trans }}
-                                    </button>
-                                {% endif %}
-                            </div>
-                        </form>
-                    {% endif %}
+                    <div class="like_return-btn">
+                        {% if BaseInfo.option_favorite_product %}
+                            <form action="{{ url('product_add_favorite', {id:Product.id}) }}" method="post">
+                                <div class="ec-productRole__btn ec-productRole__btn--favorite">
+                                    {% if is_favorite == false %}
+                                        <button type="submit" id="favorite" class="ec-blockBtn--cancel">
+                                            {{ 'front.product.add_favorite'|trans }}
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" id="favorite" class="ec-blockBtn--cancel"
+                                                disabled="disabled">{{ 'front.product.add_favorite_alrady'|trans }}
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        {% endif %}
 
-                    <div class="ec-productRole__btn ec-productRole__btn--favorite">
-                        <a class="ec-blockBtn--cancel" href="{{ url('product_list') }}">商品一覧に戻る</a>
+                        <div class="ec-productRole__btn ec-productRole__btn--favorite">
+                            <a class="ec-blockBtn--cancel" href="{{ url('product_list') }}">商品一覧に戻る</a>
+                        </div>
                     </div>
 
                     {% if IsChainStore() == false %}
