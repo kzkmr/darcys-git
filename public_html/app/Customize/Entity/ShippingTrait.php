@@ -22,6 +22,7 @@ use Eccube\Annotation\EntityExtension;
 trait  ShippingTrait
 {
     private $shippingDeliveryStringDate;
+    private $time_sort_id;
 
     /**
      * Set shippingDeliveryStringDate
@@ -47,4 +48,27 @@ trait  ShippingTrait
         return $this->shippingDeliveryStringDate;
     }
 
+    /**
+     * Set time_sort_id
+     *
+     * @param string|null $time_sort_id
+     *
+     * @return Shipping
+     */
+    public function setTimeSortId($time_sort_id = null)
+    {
+        $this->time_sort_id = $time_sort_id;
+
+        return $this;
+    }
+
+    /**
+     * Get time_sort_id
+     *
+     * @return string|null
+     */
+    public function getTimeSortId()
+    {
+        return $this->time_sort_id;
+    }
 }

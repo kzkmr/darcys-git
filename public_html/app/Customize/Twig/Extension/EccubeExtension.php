@@ -9,11 +9,20 @@ class EccubeExtension extends AbstractExtension
     {
         return [
             new TwigFunction('instagram', [$this, 'getFeed']),
+            new TwigFunction('zipCode', [$this, 'zipCode']),
         ];
     }
 
     public function getFeed() {
         echo do_shortcode( '[instagram-feed feed=1]' );
+    }
+
+    public function zipCode($num) {
+        if (preg_match("/\A\d{3}[-]\d{4}\z/", $num)) {
+            return;
+        } else {
+            return substr($num, 0, 3).'-'.substr($num, 3);
+        }
     }
 
     public function chainStore()

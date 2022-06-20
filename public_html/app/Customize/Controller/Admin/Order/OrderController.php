@@ -26,6 +26,8 @@ use Eccube\Event\EventArgs;
 use Eccube\Form\Type\Admin\OrderPdfType;
 use Eccube\Form\Type\Admin\SearchOrderType;
 use Eccube\Repository\CustomerRepository;
+use Eccube\Entity\DeliveryTime;
+use Eccube\Repository\DeliveryTimeRepository;
 use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Repository\Master\PageMaxRepository;
 use Eccube\Repository\Master\ProductStatusRepository;
@@ -95,6 +97,11 @@ class OrderController extends BaseOrderController
     protected $productStatusRepository;
 
     /**
+     * @var DeliveryTimeRepository
+     */
+    protected $deliveryTimeRepository;
+
+    /**
      * @var OrderRepository
      */
     protected $orderRepository;
@@ -152,6 +159,7 @@ class OrderController extends BaseOrderController
         PageMaxRepository $pageMaxRepository,
         ProductStatusRepository $productStatusRepository,
         ProductStockRepository $productStockRepository,
+        DeliveryTimeRepository $deliveryTimeRepository,
         OrderRepository $orderRepository,
         OrderPdfRepository $orderPdfRepository,
         ValidatorInterface $validator,
@@ -167,6 +175,7 @@ class OrderController extends BaseOrderController
         $this->pageMaxRepository = $pageMaxRepository;
         $this->productStatusRepository = $productStatusRepository;
         $this->productStockRepository = $productStockRepository;
+        $this->deliveryTimeRepository = $deliveryTimeRepository;
         $this->orderRepository = $orderRepository;
         $this->orderPdfRepository = $orderPdfRepository;
         $this->validator = $validator;
@@ -567,7 +576,8 @@ class OrderController extends BaseOrderController
                             }
                             
                             if(is_object($orderStatus)){
-                                if($Order->getOrderStatus()->getId() == "1"){
+                                if($Order->getOrderStatus()->getId() == "1" || 
+                                        $Order->getOrderStatus()->getId() == "6"){
                                     //if(!in_array($Shipping->getId(),$isChangedId)){
                                         $Order->setOrderStatus($orderStatus);
                                         $this->entityManager->persist($Order);
@@ -576,7 +586,15 @@ class OrderController extends BaseOrderController
                                     //}
                                 }
                             }
-                            
+                            if(!empty($Shipping->getTimeId())){
+                                $timeId = $Shipping->getTimeId();
+                                $deliveryTime = $this->deliveryTimeRepository->findOneBy(['id' => $timeId]);
+                                if(is_object($deliveryTime)){
+                                    $Shipping->setTimeSortId($deliveryTime->getSortNo());
+                                }else{
+                                    $Shipping->setTimeSortId($timeId);
+                                }
+                            }
                             if(!empty($Shipping->getShippingDeliveryDate())){
                                 $date = $Shipping->getShippingDeliveryDate();
                                 $Shipping->setShippingDeliveryStringDate($date->format('Y/m/d'));

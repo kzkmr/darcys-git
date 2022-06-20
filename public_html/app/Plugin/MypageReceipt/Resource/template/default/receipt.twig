@@ -8,10 +8,10 @@
 
 {% block main %}
 {% if config.mypage_receipt_enable == 1 and Order.OrderStatus == config.OrderStatus %}
-    <div class="receipt_title">
-		{{ 'ご注文番号'|trans }}<span>{{ Order.order_no }}</span> {{ '領収書'|trans }}
+	<div class="receipt_title">
+		{{ '領収書'|trans }}
 	</div>
-	
+
 	<div id="print">
 		<a class="btn btn-primary" href="javascript:void(0)" onclick="window.print();return false;">{{ 'このページを印刷'|trans }}</a>
 	</div>
@@ -24,22 +24,22 @@
 			<div id="detail_area">
 				<div id="create_date">{{ 'ご注文日時'|trans }}：{{ Order.create_date|date("Y年m月d日") }}</div>
 				<div id="order_id">{{ 'ご注文番号'|trans }}：{{ Order.id }}</div>
-				{% if BaseInfo.option_mypage_order_status_display %}
+				{# {% if BaseInfo.option_mypage_order_status_display %}
 					<div id="order_status">{{ 'ご注文状況'|trans }}：{{ Order.CustomerOrderStatus }}</div>
-				{% endif %}
+				{% endif %} #}
 			</div>
 		</div>
 		<div class="right">
 			<div id="info_area">
 				<div class="info_title">{{ '【発行元】 発行日'|trans }}：{{ "now"|date("Y年m月d日") }}</div>
-				<div class="address">
-					〒{{ BaseInfo.postal_code }} {{ BaseInfo.pref }}{{ BaseInfo.addr01 }}{{ BaseInfo.addr02 }}
+				<div class="address" style="width: 18em;margin-left: auto;text-align:left;">
+					〒{{ BaseInfo.postal_code }}<br>{{ BaseInfo.pref }}{{ BaseInfo.addr01 }}<br>{{ BaseInfo.addr02 }}
 				</div>
 				<div class="shop_name">
-					{{ BaseInfo.shop_name }}
+					株式会社ダシーズファクトリー
 				</div>
 				<div class="tel_fax">
-					TEL {{ BaseInfo.phone_number }}
+					TEL 03-5466-1517
 				</div>
 			</div>
 		</div>
@@ -125,7 +125,7 @@
 			</div>
 		{% endfor %}
 	</div>
-	
+
 	<div class="box">
 		<div class="title_bar">{{ 'お支払情報'|trans }}</div>
 		<div id="payment_method">{{ 'お支払方法'|trans }}：{{ Order.PaymentMethod }}</div>

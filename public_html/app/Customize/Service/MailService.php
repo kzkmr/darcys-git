@@ -110,7 +110,7 @@ class MailService extends BaseMailService
         log_info('仮販売店会員登録メール送信開始');
 
         $MailTemplate = null;
-        
+
         if($ContractType->getId() == "2"){
             //販売店（応援プログラム）契約会員仮登録メール
             $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_chainstore_oen_entry_confirm_mail_template_id']);
@@ -130,7 +130,8 @@ class MailService extends BaseMailService
         ]);
 
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            //->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setSubject('[（株）ダシーズファクトリー] '.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])
             ->setBcc($this->BaseInfo->getEmail01())
@@ -203,7 +204,8 @@ class MailService extends BaseMailService
         ]);
 
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            //->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setSubject('[（株）ダシーズファクトリー] '.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])
             ->setBcc($this->BaseInfo->getEmail01())
@@ -399,7 +401,8 @@ class MailService extends BaseMailService
         ]);
 
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            //->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setSubject('[（株）ダシーズファクトリー] '.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Order->getEmail()])
             ->setBcc($this->BaseInfo->getEmail01())
@@ -456,5 +459,5 @@ class MailService extends BaseMailService
 
         return $message;
     }
-    
+
 }
