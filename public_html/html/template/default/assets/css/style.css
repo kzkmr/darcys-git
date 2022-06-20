@@ -8690,7 +8690,7 @@ Styleguide 14.1
 @media only screen and (min-width: 768px) {
   .ec-productRole__btn {
     width: 60%;
-    margin: 16px auto 0;
+    margin: 0 auto;
     min-width: 350px;
   }
 }
@@ -8704,7 +8704,8 @@ Styleguide 14.1
 }
 @media only screen and (min-width: 768px) {
   .ec-productRole__btn--favorite {
-    width: 46%;
+    width: auto;
+    margin: 1rem;
   }
 }
 .ec-productRole__description {

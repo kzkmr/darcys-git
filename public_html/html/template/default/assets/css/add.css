@@ -19,6 +19,11 @@ ul.p-global-navi {
   top: 0.5rem;
 }
 
+/*レスポンシブ時のONLINESHOPのフォントWPとECを同じに*/
+.ec-header-navi-sp__store a p .large{
+    font-size: 14px;
+}
+
 /*グローバルメニューとカートの横並び*/
 .ec-header-bottom__center {
   margin: unset;
@@ -315,7 +320,7 @@ p.category{
 
 /*画像バナーメニューボタン*/
 section.ec-top-links {
-  margin-top: 10rem;
+  margin-top: 6rem;
 }
 
 .ec-top-links .ec-top-links-item__title {
@@ -367,7 +372,7 @@ section.ec-top-instagram {
   margin-bottom: 6rem;
 }
 
-/*//////////// NEWS /////////////*/
+/*//////////// NEWS & INFORMATION /////////////*/
 /*幅揃える*/
 /* 6/10 影響範囲が大きいためコメントアウト */
 /* .c-container, */
@@ -398,6 +403,18 @@ section.ec-top-instagram {
 .category-panel .c-entry-summary__header .c-entry-summary__meta .c-meta__item--published {
   font-size: 0.8rem;
 }
+/*こちらもおすすめ*/
+.recommend-list__title{
+    font-size: 0.9rem;
+}
+.snow-monkey-posts.snow-monkey-recent-posts {
+    margin-bottom: 4rem;
+}
+.snow-monkey-posts.snow-monkey-recent-posts::after {
+    border:1px solid #f6f6f6;
+}
+
+
 
 /*//////////// パンくず /////////////*/
 .breadcrumb-wrapper {
@@ -499,7 +516,7 @@ p.kokokara_select_cart_btn_area__text-03{
   text-align: center;
 }
 .category-tab__item{
-    margin: 0 3px 10px
+    margin: 0 0 10px
 }
 /*購入ボタンの色*/
 /*商品を選択する*/
@@ -508,6 +525,9 @@ p.kokokara_select_cart_btn_area__text-03{
         border:1px solid #d15204;
 /*    width: 77%;
 */    margin: 0 auto;
+/*ボタン上のpadding-bottom:90pxを調整*/
+    position: relative;
+    top:-4rem;
 }
 .ec-shelfGrid__btn a:hover{
     color: #d15204;
@@ -1082,6 +1102,11 @@ h2.smb-section__title a {
 iframe {
     margin-top: 1rem;
 }
+/*TOP画像の屋号見切れを調整*/
+.page-header img{
+    object-position: left;
+}
+
 
 /*//////////// STORES_実店舗のご紹介 /////////////*/
 /*直営店・販売店の余白*/
