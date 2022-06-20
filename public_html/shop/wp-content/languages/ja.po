@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.0.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-06-09 00:39:57+0000\n"
+"PO-Revision-Date: 2022-06-19 01:08:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14970,7 +14970,7 @@ msgstr "設定ファイルを作成"
 #. translators: %s: wp-config.php
 #: wp-load.php:101
 msgid "You can create a %s file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file."
-msgstr "ウェブインタフェース経由で %s を作成できますが、サーバーによっては動作しないかもしれません。最も安全な方法は、手動でファイルを作成することです。"
+msgstr "Web インターフェース経由で %s を作成できますが、サーバーによっては動作しないこともあります。最も安全な方法は、手動でファイルを作成することです。"
 
 #: wp-includes/class-wp-customize-manager.php:5676
 msgid "https://codex.wordpress.org/CSS"
