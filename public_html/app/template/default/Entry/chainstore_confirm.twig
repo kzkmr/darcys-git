@@ -123,12 +123,21 @@ file that was distributed with this source code.
                     <div class="alert alert-danger" role="alert">無効な販売店URLです</div>
                 </div>
             </div>
-        {% else %}    
+        {% else %}
             {% set hideMode = (ChainstoreTypeMode =='simple'?'display:none;':'') %}
             {% set showMode = (ChainstoreTypeMode =='simple'?'':'display:none;') %}
 
-            <div class="ec-pageHeader">
-                <h1>販売店契約登録（{{ChainstoreType.name}}）（確認）</h1>
+            <div class="ec-chainstore-pageHeader">
+                {% if ChainstoreType.id == 1 %}
+                    <h1>販売店契約</h1>
+                {% endif %}
+                {% if ChainstoreType.id == 2 %}
+                    <h1>販売店（応援プログラム）契約</h1>
+                {% endif %}
+                {% if ChainstoreType.id == 3 %}
+                    <h1>小売販売店契約</h1>
+                {% endif %}
+                <p>確認ページ</p>
             </div>
             <div class="ec-off1Grid">
                 <div class="ec-off1Grid__cell">
@@ -171,7 +180,7 @@ file that was distributed with this source code.
                                 </dd>
                             </dl>
                             <!-- 契約番号 -->
-                            <dl style="display:none;">
+                            <dl>
                                 <dt>
                                     <label class="ec-label required">契約番号</label>
                                 </dt>
@@ -362,7 +371,7 @@ file that was distributed with this source code.
                                     {% else %}
                                         {{ form_label(form.chain_store.mediator_address01, 'admin.chainstore.mediator.address01', { 'label_attr': { 'class': 'ec-label' }}) }}
                                     {% endif %}
-                                
+
                                 </dt>
                                 <dd>
                                     {{ form.chain_store.mediator_address01.vars.data }}
@@ -646,7 +655,8 @@ file that was distributed with this source code.
                                     </dt>
                                     <dd>
                                         {{ form.chain_store.chainstore_email.vars.data }}
-                                        {{ form_widget(form.chain_store.chainstore_email, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_email.first, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_email.second, { type : 'hidden' }) }}
                                     </dd>
                                 </dl>
                                 <!-- WEBショップでダシーズの出品予定はありますか -->
