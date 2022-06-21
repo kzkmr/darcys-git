@@ -54,11 +54,11 @@ file that was distributed with this source code.
                 <div class="ec-addressRole">
                     <div class="ec-addressRole__actions">
                         {% if ChainStore %}
-                            {% if Customer.CustomerAddresses|length < ChainStore.delivery_registrations %}
+                            {# {% if Customer.CustomerAddresses|length < ChainStore.delivery_registrations %}
                                 <a class="ec-inlineBtn" href="{{ url('mypage_delivery_new') }}">新規販売店舗を追加する</a>
                             {% else %}
                                 <span class="ec-errorMessage">販売店舗登録の上限の{{ChainStore.delivery_registrations}}件に達しています。販売店舗を入力したい場合は、削除か変更を行ってください。</span>
-                            {% endif %}
+                            {% endif %} #}
                         {% else %}
                             {% if Customer.CustomerAddresses|length < eccube_config.eccube_deliv_addr_max %}
                                 <a class="ec-inlineBtn" href="{{ url('mypage_delivery_new') }}">{{ 'front.mypage.add_customer_address'|trans }}</a>

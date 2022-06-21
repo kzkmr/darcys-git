@@ -255,11 +255,7 @@ file that was distributed with this source code.
                         {% set ChainStore = OrderCustomer.ChainStore %}
 
                         <div class="ec-orderAccount__account non-customer-display">
-                            {% if ChainStore.company_name == '' %}
-                                <p class="ec-input"><span class="customer-edit customer-company_name">　　　　　　</span> 御中</p>
-                            {% else %}
-                                <p class="ec-input"><span class="customer-edit customer-company_name">{{ ChainStore.company_name }}</span> 御中</p>
-                            {% endif %}
+                            <p class="ec-input"><span class="customer-edit customer-company_name">{{ ChainStore.company_name }}</span></p>
                             {% if ChainStore.name01 != '' %}
                                 <p class="ec-halfInput">{{ 'common.name.prefix'|trans }}<span class="customer-edit customer-name01">{{ ChainStore.name01 }}</span> <span class="customer-edit customer-name02">{{ ChainStore.name02 }}</span>{{ 'common.name.suffix'|trans }}</p>
                             {% endif %}
@@ -410,7 +406,9 @@ file that was distributed with this source code.
                             </div>
                         </div>
                         <div class="ec-orderDelivery__address">
-                            <p class="ec-input"><span class="customer-edit customer-company_name">{{ ChainStore.company_name }}</span></p>
+                            {% if ChainStore %}
+                                <p>{{ ChainStore.chainstore_name }}</p>
+                            {% endif %}
                             <p>{{ 'common.name.prefix'|trans }}{{ shipping.name01 }} {{ shipping.name02 }} ({{ shipping.kana01 }} {{ shipping.kana02 }}){{ 'common.name.suffix'|trans }}</p>
                             <p>{{ 'common.postal_symbol'|trans }}{{ zipCode(shipping.postal_code) }} {{ shipping.pref }}{{ shipping.addr01 }}{{ shipping.addr02 }}</p>
                             <p>{{ shipping.phone_number }}</p>
