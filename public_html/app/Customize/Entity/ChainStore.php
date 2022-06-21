@@ -99,21 +99,21 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var string|null 
          *
-         * @ORM\Column(name="company_name", type="string", length=255, options={"comment":"法人名・屋号"}) 
+         * @ORM\Column(name="company_name", type="string", length=255, nullable=true, options={"comment":"法人名・屋号"}) 
          */
         private $company_name;
 
         /**
          * @var string|null 法人名・屋号（フリガナ）
          *
-         * @ORM\Column(name="company_name_kana", type="string", length=255, options={"comment":"法人名・屋号（フリガナ）"}) 
+         * @ORM\Column(name="company_name_kana", type="string", length=255, nullable=true, options={"comment":"法人名・屋号（フリガナ）"}) 
          */
         private $company_name_kana;
 
         /**
          * @var \DateTime 設立日（開業日）
          *
-         * @ORM\Column(name="begin_day", type="date", nullable=false, options={"comment":"設立日（開業日）"}) 
+         * @ORM\Column(name="begin_day", type="date", nullable=true, options={"comment":"設立日（開業日）"}) 
          */
         private $begin_day;
 
@@ -129,7 +129,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
          *
          * @ORM\ManyToOne(targetEntity="Eccube\Entity\Master\Pref")
          * @ORM\JoinColumns({
-         *   @ORM\JoinColumn(name="pref_id", referencedColumnName="id")
+         *   @ORM\JoinColumn(name="pref_id", referencedColumnName="id", nullable=true)
          * })
          */
         private $chainstore_pref;
@@ -296,7 +296,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
          *
          * @ORM\ManyToOne(targetEntity="Customize\Entity\Master\Bank")
          * @ORM\JoinColumns({
-         *   @ORM\JoinColumn(name="bank_id", referencedColumnName="id")
+         *   @ORM\JoinColumn(name="bank_id", referencedColumnName="id", nullable=true)
          * })
          */
         private $Bank;
@@ -304,7 +304,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var string|null 支店
          *
-         * @ORM\Column(name="bank_branch_id", type="integer", options={"unsigned":true})
+         * @ORM\Column(name="bank_branch_id", type="integer", nullable=true, options={"unsigned":true})
          */
         private $BankBranch;
         
@@ -436,9 +436,12 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         private $postal_code;
 
         /**
-         * @var string|null 販売店舗所在地：（都道府県）
+         * @var \Eccube\Entity\Master\Pref 販売店舗所在地：（都道府県）
          *
-         * @ORM\Column(name="addr01", type="string", length=255, nullable=true, options={"comment":"販売店舗所在地：（都道府県）"}) 
+         * @ORM\ManyToOne(targetEntity="Eccube\Entity\Master\Pref")
+         * @ORM\JoinColumns({
+         *   @ORM\JoinColumn(name="addr01_id", referencedColumnName="id", nullable=true)
+         * })
          */
         private $addr01;
 
@@ -459,42 +462,42 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var string  担当者名
          *
-         * @ORM\Column(name="main_name01", type="string", length=255, nullable=true, options={"comment":"担当者名-姓"}) 
+         * @ORM\Column(name="main_name01", type="string", length=255, nullable=true, options={"comment":"販売店舗担当者名-姓"}) 
          */
         private $main_name01;
 
         /**
          * @var string
          *
-         * @ORM\Column(name="main_name02", type="string", length=255, nullable=true, options={"comment":"担当者名-名"}) 
+         * @ORM\Column(name="main_name02", type="string", length=255, nullable=true, options={"comment":"販売店舗担当者名-名"}) 
          */
         private $main_name02;
 
         /**
-         * @var string  担当者名 カナ
+         * @var string  販売店舗担当者名 カナ
          *
-         * @ORM\Column(name="main_kana01", type="string", length=255, nullable=true, options={"comment":"担当者名-姓"}) 
+         * @ORM\Column(name="main_kana01", type="string", length=255, nullable=true, options={"comment":"販売店舗担当者名（フリガナ）-姓"}) 
          */
         private $main_kana01;
 
         /**
          * @var string
          *
-         * @ORM\Column(name="main_kana02", type="string", length=255, nullable=true, options={"comment":"担当者名-名"}) 
+         * @ORM\Column(name="main_kana02", type="string", length=255, nullable=true, options={"comment":"販売店舗担当者名（フリガナ）-名"}) 
          */
         private $main_kana02;
 
         /**
-         * @var string|null 店舗連絡先（電話番号）
+         * @var string|null 販売店舗連絡先（電話番号）
          *
-         * @ORM\Column(name="phone_number", type="string", length=14, nullable=true, options={"comment":"店舗連絡先（電話番号）"}) 
+         * @ORM\Column(name="phone_number", type="string", length=14, nullable=true, options={"comment":"販売店舗連絡先（電話番号）"}) 
          */
         private $phone_number;
 
         /**
-         * @var string|null 店舗メールアドレス
+         * @var string|null 販売店舗メールアドレス
          *
-         * @ORM\Column(name="chainstore_email", type="string", length=255, nullable=true, options={"comment":"店舗メールアドレス"}) 
+         * @ORM\Column(name="chainstore_email", type="string", length=255, nullable=true, options={"comment":"販売店舗メールアドレス"}) 
          */
         private $chainstore_email;
 
@@ -709,6 +712,13 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var string|null
          *
+         * @ORM\Column(name="margin_not_included", type="boolean", options={"default":false})
+         */
+        private $marginNotIncluded;
+
+        /**
+         * @var string|null
+         *
          * @ORM\Column(name="purchasing_limit_price", type="integer", options={"unsigned":true, "default":0})
          */
         private $purchasingLimitPrice;
@@ -723,7 +733,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var string|null
          *
-         * @ORM\Column(name="sort_no", type="integer", options={"unsigned":true})
+         * @ORM\Column(name="sort_no", type="integer", nullable=true, options={"unsigned":true})
          */
         private $sort_no;
 
@@ -2975,6 +2985,32 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
             return $this->marginPrice;
         }
 
+
+        /**
+         * Set marginNotIncluded.
+         *
+         * @param string $marginNotIncluded
+         *
+         * @return ChainStore
+         */
+        public function setMarginNotIncluded($marginNotIncluded)
+        {
+            $this->marginNotIncluded = $marginNotIncluded;
+
+            return $this;
+        }
+
+        /**
+         * Get marginNotIncluded.
+         *
+         * @return string
+         */
+        public function getMarginNotIncluded()
+        {
+            return $this->marginNotIncluded;
+        }
+        
+        
         /**
          * Set purchasingLimitPrice.
          *

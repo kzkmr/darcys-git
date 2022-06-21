@@ -23,6 +23,14 @@ trait  ShippingTrait
 {
     private $shippingDeliveryStringDate;
     private $time_sort_id;
+    //CSV-お名前(姓)(名)
+    private $merge_name;
+    //CSV-お名前(セイ)(メイ)
+    private $merge_name_kana;
+    //CSV-配送先_お名前(姓)(名)
+    private $merge_shipping_name;
+    //CSV-配送先_お名前(セイ)(メイ)
+    private $merge_shipping_name_kana;
 
     /**
      * Set shippingDeliveryStringDate
@@ -70,5 +78,104 @@ trait  ShippingTrait
     public function getTimeSortId()
     {
         return $this->time_sort_id;
+    }
+
+    /**
+     * Set merge_name
+     *
+     * @param string|null $merge_name
+     *
+     * @return Shipping
+     */
+    public function setMergeName($merge_name = null)
+    {
+        $this->merge_name = $merge_name;
+
+        return $this;
+    }
+
+    /**
+     * Get merge_name
+     *
+     * @return string|null
+     */
+    public function getMergeName()
+    {
+        return $this->merge_name;
+    }
+
+
+    /**
+     * Set merge_name_kana
+     *
+     * @param string|null $merge_name_kana
+     *
+     * @return Shipping
+     */
+    public function setMergeNameKana($merge_name_kana = null)
+    {
+        $this->merge_name_kana = $merge_name_kana;
+
+        return $this;
+    }
+
+    /**
+     * Get merge_name_kana
+     *
+     * @return string|null
+     */
+    public function getMergeNameKana()
+    {
+        return $this->merge_name_kana;
+    }
+
+
+    /**
+     * Set merge_shipping_name
+     *
+     * @param string|null $merge_shipping_name
+     *
+     * @return Shipping
+     */
+    public function setMergeShippingName($merge_shipping_name = null)
+    {
+        $this->merge_shipping_name = $merge_shipping_name;
+
+        return $this;
+    }
+
+    /**
+     * Get merge_shipping_name
+     *
+     * @return string|null
+     */
+    public function getMergeShippingName()
+    {
+        return $this->merge_shipping_name;
+    }
+
+
+    /**
+     * Set merge_shipping_name_kana
+     *
+     * @param string|null $merge_shipping_name_kana
+     *
+     * @return Shipping
+     */
+    public function setMergeShippingNameKana($merge_shipping_name_kana = null)
+    {
+        $this->merge_shipping_name_kana = $merge_shipping_name_kana;
+
+        return $this;
+    }
+
+    /**
+     * Get merge_shipping_name_kana
+     *
+     * @return string|null
+     */
+    public function getMergeShippingNameKana()
+    {
+        return $this->merge_shipping_name_kana;
     }
 }

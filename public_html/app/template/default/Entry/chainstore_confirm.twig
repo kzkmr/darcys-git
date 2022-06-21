@@ -171,7 +171,7 @@ file that was distributed with this source code.
                                 </dd>
                             </dl>
                             <!-- 契約番号 -->
-                            <dl>
+                            <dl style="display:none;">
                                 <dt>
                                     <label class="ec-label required">契約番号</label>
                                 </dt>
@@ -646,8 +646,7 @@ file that was distributed with this source code.
                                     </dt>
                                     <dd>
                                         {{ form.chain_store.chainstore_email.vars.data }}
-                                        {{ form_widget(form.chain_store.chainstore_email.first, { type : 'hidden' }) }}
-                                        {{ form_widget(form.chain_store.chainstore_email.second, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.chainstore_email, { type : 'hidden' }) }}
                                     </dd>
                                 </dl>
                                 <!-- WEBショップでダシーズの出品予定はありますか -->

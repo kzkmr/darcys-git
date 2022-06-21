@@ -295,6 +295,7 @@ class CustomEntryController extends BaseEntryController
                         $ChainStore = $Customer->getChainStore();
                         $Customer->getChainStore()->setStatus($ChainStoreStatus);
                         $Customer->getChainStore()->setMarginPrice(0);
+                        $Customer->getChainStore()->setMarginNotIncluded(false);
                         $Customer->getChainStore()->setPurchasingLimitPrice(0);
                         $Customer->getChainStore()->setPreChainStore($preChainStore);
                         

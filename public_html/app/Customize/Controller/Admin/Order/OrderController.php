@@ -614,6 +614,26 @@ class OrderController extends BaseOrderController
                             if(!empty($OrderItem->getPrice())){
                                 $OrderItem->setPrice( intval($OrderItem->getPrice()) );
                             }
+                            //お名前(姓)(名)
+                            if(!empty($Order->getName01()) || !empty($Order->getName02())){
+                                $mergeName = $Order->getName01().$Order->getName02();
+                                $Shipping->setMergeName($mergeName);
+                            }
+                            //お名前(セイ)(メイ)
+                            if(!empty($Order->getKana01()) || !empty($Order->getKana02())){
+                                $mergeNameKana = $Order->getKana01().$Order->getKana02();
+                                $Shipping->setMergeNameKana($mergeNameKana);
+                            }
+                            //配送先_お名前(姓)(名)
+                            if(!empty($Shipping->getName01()) || !empty($Shipping->getName02())){
+                                $mergeName = $Shipping->getName01().$Shipping->getName02();
+                                $Shipping->setMergeShippingName($mergeName);
+                            }
+                            //配送先_お名前(セイ)(メイ)
+                            if(!empty($Shipping->getKana01()) || !empty($Shipping->getKana02())){
+                                $mergeNameKana = $Shipping->getKana01().$Shipping->getKana02();
+                                $Shipping->setMergeShippingNameKana($mergeNameKana);
+                            }
 
                             $ExportCsvRow = new ExportCsvRow();
 

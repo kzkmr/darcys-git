@@ -51,11 +51,13 @@ use Eccube\Form\Type\Master\SexType;
 use Eccube\Form\Type\NameType;
 use Eccube\Form\Type\PhoneNumberType;
 use Eccube\Form\Type\PostalType;
+use Eccube\Form\Validator\Email;
 use Eccube\Form\Type\RepeatedEmailType;
 use Eccube\Form\Type\RepeatedPasswordType;
 use Customize\Form\Type\NorequiredRepeatedEmailType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -208,10 +210,9 @@ class ChainStoreType extends AbstractType
             ])
             //契約開始年月
             ->add('contract_begin_ymd', BirthdayType::class, [
-                'required' => true,
+                'required' => false,
                 'years' => range((date("Y")+1), 2021 ),
                 'constraints' => [
-                    new Assert\NotBlank(),
                 ],
             ])
             //申込者の契約区分
@@ -233,20 +234,22 @@ class ChainStoreType extends AbstractType
                     ]),
                 ],
             ])
-            //タイムスタンプ
-            ->add('timestamp', DateTimeType::class, [
+            //契約番号
+            ->add('stock_number', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                ],
-            ])
-            //証券番号
-            ->add('stock_number', TextType::class, [
-                'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(),
                     new Assert\Length([
                         'max' => 10,
                     ]),
+                ],
+            ])
+            //タイムスタンプ
+            ->add('timestamp', DateTimeType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'input' => 'datetime',
+                'constraints' => [
                 ],
             ])
             //法人名・屋号
@@ -403,7 +406,7 @@ class ChainStoreType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length([
-                        'max' => 50,
+                        'max' => 100,
                     ]),
                 ],
             ])
@@ -413,7 +416,7 @@ class ChainStoreType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length([
-                        'max' => 50,
+                        'max' => 100,
                     ]),
                 ],
             ])
@@ -447,11 +450,12 @@ class ChainStoreType extends AbstractType
             ])
             //取引口座選択
             ->add('chainStoreTradingAccountType', EntityType::class, [
-                'required' => false,
+                'required' => true,
                 'class' => ChainStoreTradingAccountType::class,
                 'placeholder' => 'common.select__chainstore_bank_trading_type',
                 'choices' => $chainStoreTradingAccountType,
                 'constraints' => [
+                    new Assert\NotBlank(),
                 ],
             ])
             //金融機関名
@@ -664,8 +668,14 @@ class ChainStoreType extends AbstractType
                 ],
             ])
             //店舗メールアドレス
-            ->add('chainstore_email', NorequiredRepeatedEmailType::class,[
-                'required' => false
+            ->add('chainstore_email', EmailType::class,[
+                'required' => false,
+                'constraints' => [
+                    new Email(['strict' => $this->eccubeConfig['eccube_rfc_email_check']]),
+                ],
+                'attr' => [
+                    'placeholder' => 'common.mail_address_sample',
+                ],
             ])
             //WEBショップでダシーズの出品予定はありますか
             ->add('option_webshop', ChoiceType::class, [
@@ -820,6 +830,21 @@ class ChainStoreType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $ChainStore = $event->getData();
+        }
+        );
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+            /** @var ChainStore $ChainStore */
+            $ChainStore = $event->getData();
+            
+            if(!is_null($ChainStore->getBankHolder())){
+                //「全角カタカナ」かチェックする
+                if (!preg_match("/^[a-zA-Z0-9ァ-ヶーｱ-ﾝﾞﾟｧ-ｫｬ-ｮｰ　 ﾞﾟ\\\\｢｣\(\)\/\.\-]+$/u", $ChainStore->getBankHolder())) {
+                    $form['bank_holder']->addError(new FormError("全角カタカナか半角カタカナか英数字かスペース ﾞ ﾟ \ ｢ ｣ ( ) / . - を入力してください。"));
+                }
+            }
+            
             if ($ChainStore instanceof ChainStore) {
                 $form = $event->getForm();
                 //
@@ -842,6 +867,33 @@ class ChainStoreType extends AbstractType
                     }
                 }
 
+                if(is_object($ChainStore->getChainStoreTradingAccountType())){
+                    //ゆうちょ銀行以外の銀行
+                    if($ChainStore->getChainStoreTradingAccountType()->getId() == "1") {
+                        if (!is_object($ChainStore->getBank())) {
+                            $form['bank']->addError(new FormError("入力されていません。"));
+                        }
+                        if (trim($ChainStore->getBankBranch()) == "") {
+                            $form['bank_branch']->addError(new FormError("入力されていません。"));
+                        }
+                        if (!is_object($ChainStore->getBankAccountType())) {
+                            $form['bank_account_type']->addError(new FormError("入力されていません。"));
+                        }
+                        if (trim($ChainStore->getBankAccount()) == "") {
+                            $form['bank_account']->addError(new FormError("入力されていません。"));
+                        }
+                    }
+                    //ゆうちょ銀行
+                    if($ChainStore->getChainStoreTradingAccountType()->getId() == "2") {
+                        if (trim($ChainStore->getCodeNumber()) == "") {
+                            $form['code_number']->addError(new FormError("入力されていません。"));
+                        }
+                        if (trim($ChainStore->getAccountNumber()) == "") {
+                            $form['account_number']->addError(new FormError("入力されていません。"));
+                        }
+                    }
+                }
+
                 if ($ContractType->getId() != "1") {
                     if (trim($ChainStore->getOptionPartner()) == "") {
                         $form['option_partner']->addError(new FormError("入力されていません。"));
@@ -849,16 +901,16 @@ class ChainStoreType extends AbstractType
 
                     if (trim($ChainStore->getOptionPartner()) == "Y") {
                         if (trim($ChainStore->getPartnerName01()) == "") {
-                            $form['partner_name01']->addError(new FormError("入力されていません。"));
+                            $form['partner_name.partner_name01']->addError(new FormError("入力されていません。"));
                         }
                         if (trim($ChainStore->getPartnerName02()) == "") {
-                            $form['partner_name02']->addError(new FormError("入力されていません。"));
+                            $form['partner_name.partner_name02']->addError(new FormError("入力されていません。"));
                         }
                         if (trim($ChainStore->getPartnerKana01()) == "") {
-                            $form['partner_kana01']->addError(new FormError("入力されていません。"));
+                            $form['partner_name.partner_kana01']->addError(new FormError("入力されていません。"));
                         }
                         if (trim($ChainStore->getPartnerKana02()) == "") {
-                            $form['partner_kana02']->addError(new FormError("入力されていません。"));
+                            $form['partner_name.partner_kana02']->addError(new FormError("入力されていません。"));
                         }
                         if (trim($ChainStore->getPartnerPhoneNumber()) == "") {
                             $form['partner_phone_number']->addError(new FormError("入力されていません。"));
@@ -875,7 +927,7 @@ class ChainStoreType extends AbstractType
                     if (trim($ChainStore->getChainStoreBusinessType()) == "") {
                         $form['chainstore_business_type']->addError(new FormError("入力されていません。"));
                     }else{
-                        if ($ChainStore->getChainStoreBusinessType() == "3") {
+                        if ($ChainStore->getChainStoreBusinessType()->getId() == "3") {
                             if (trim($ChainStore->getChainstoreBusinessOtherType()) == "") {
                                 $form['chainstore_business_other_type']->addError(new FormError("入力されていません。"));
                             }
@@ -913,10 +965,16 @@ class ChainStoreType extends AbstractType
                     if (trim($ChainStore->getAddr03()) == "") {
                         $form['addr03']->addError(new FormError("入力されていません。"));
                     }
-                    if (trim($ChainStore->getMainName01()) == "" || trim($ChainStore->getMainName02()) == "") {
+                    if (trim($ChainStore->getMainName01()) == "") {
                         $form['main_name']->addError(new FormError("入力されていません。"));
                     }
-                    if (trim($ChainStore->getMainKana01()) == "" || trim($ChainStore->getMainKana02()) == "") {
+                    if (trim($ChainStore->getMainName02()) == "") {
+                        $form['main_name']->addError(new FormError("入力されていません。"));
+                    }
+                    if (trim($ChainStore->getMainKana01()) == "") {
+                        $form['main_kana']->addError(new FormError("入力されていません。"));
+                    }
+                    if (trim($ChainStore->getMainKana02()) == "") {
                         $form['main_kana']->addError(new FormError("入力されていません。"));
                     }
                     if (trim($ChainStore->getPhoneNumber()) == "") {
@@ -939,7 +997,7 @@ class ChainStoreType extends AbstractType
                         if (trim($ChainStore->getChainStoreWebShopOpeningType()) == "") {
                             $form['chain_store_web_shop_opening_type']->addError(new FormError("入力されていません。"));
                         }else{
-                            if ($ChainStore->getChainStoreWebShopOpeningType() == "3") {
+                            if ($ChainStore->getChainStoreWebShopOpeningType()->getId() == "3") {
                                 if (trim($ChainStore->getChainstoreWebshopOpeningOtherType()) == "") {
                                     $form['chainstore_webshop_opening_other_type']->addError(new FormError("入力されていません。"));
                                 }
@@ -954,7 +1012,7 @@ class ChainStoreType extends AbstractType
                         if (trim($ChainStore->getChainStoreWebShopPhoneType()) == "") {
                             $form['chain_store_web_shop_phone_type']->addError(new FormError("入力されていません。"));
                         }else{
-                            if ($ChainStore->getChainStoreWebShopPhoneType() == "3") {
+                            if ($ChainStore->getChainStoreWebShopPhoneType()->getId() == "3") {
                                 if (trim($ChainStore->getChainstoreWebshopPhoneOtherType()) == "") {
                                     $form['chainstore_webshop_phone_other_type']->addError(new FormError("入力されていません。"));
                                 }
@@ -963,27 +1021,13 @@ class ChainStoreType extends AbstractType
                         if (trim($ChainStore->getChainStoreWebShopEmailType()) == "") {
                             $form['chain_store_web_shop_email_type']->addError(new FormError("入力されていません。"));
                         }else{
-                            if ($ChainStore->getChainStoreWebShopEmailType() == "3") {
+                            if ($ChainStore->getChainStoreWebShopEmailType()->getId() == "3") {
                                 if (trim($ChainStore->getChainstoreWebshopMailOtherType()) == "") {
                                     $form['chainstore_webshop_mail_other_type']->addError(new FormError("入力されていません。"));
                                 }
                             }
                         }
                     }
-                }
-            }
-        }
-        );
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            $form = $event->getForm();
-            /** @var ChainStore $ChainStore */
-            $ChainStore = $event->getData();
-            
-            if(!is_null($ChainStore->getBankHolder())){
-                //「全角カタカナ」かチェックする
-                if (!preg_match("/^[a-zA-Z0-9ァ-ヶーｱ-ﾝﾞﾟｧ-ｫｬ-ｮｰ　 ﾞﾟ\\\\｢｣\(\)\/\.\-]+$/u", $ChainStore->getBankHolder())) {
-                    $form['bank_holder']->addError(new FormError("全角カタカナか半角カタカナか英数字かスペース ﾞ ﾟ \ ｢ ｣ ( ) / . - を入力してください。"));
                 }
             }
         });

@@ -127,6 +127,17 @@ file that was distributed with this source code.
             font-size: 12px;
             color: #555;
         }
+        .ec-select .ec-errorMessage {
+            margin-bottom: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #de5d50;
+        }
+        .error.ec-select select{
+            margin-bottom: 5px;
+            border-color: #cf3f34;
+            background: #fdf1f0;
+        }
         @keyframes lds-facebook {
             0% {
                 top: 8px;
@@ -291,15 +302,22 @@ file that was distributed with this source code.
             var day = today.getDate();
 
             {% if not ChainStoreTypeErr %}
+                //Default
                 $("#entry_chain_store_contract_type").val("{{ChainstoreType.id}}");
+                //契約開始年月
+                $("#entry_chain_store_contract_begin_ymd_year").val(year);
+                $("#entry_chain_store_contract_begin_ymd_month").val(month);
+                $("#entry_chain_store_contract_begin_ymd_day").val(day);
+                //利用規約に同意してお進みください
+                $("#entry_user_policy_check").prop("checked", true);
             {% endif %}
 
             $("#entry_chain_store_contract_begin_ymd_year").val(year);
 
             $("#btnsubmit").on("click", function(){
                 var isValid = true;
-
-                if( $("#entry_chain_store_pre_chainstore").val() == ""){
+                var isSimple = '{{ChainstoreTypeMode}}';
+                if( $("#entry_chain_store_pre_chainstore").val() == "" && isSimple == 'simple'){
                     $(".showerror").html("最初に契約登録データの確認を実行してください").show();
                     isValid = false;
                 }
@@ -522,8 +540,8 @@ file that was distributed with this source code.
                         //店舗連絡先（電話番号）
                         $("#entry_chain_store_phone_number").val(dt.chainstoreTelephoneNo);
                         //店舗メールアドレス
-                        $("#entry_chain_store_chainstore_email_first").val(dt.chainstoreEmail);
-                        $("#entry_chain_store_chainstore_email_second").val(dt.chainstoreEmail);
+                        $("#entry_chain_store_chainstore_email").val(dt.chainstoreEmail);
+                        //$("#entry_chain_store_chainstore_email_second").val(dt.chainstoreEmail);
 
                         //WEBショップでダシーズの出品予定はありますか
                         $("#entry_chain_store_option_webshop option").filter(function(index){
@@ -665,6 +683,17 @@ file that was distributed with this source code.
                         }).prop('selected', true);
 
                         $("#entry_chain_store_addr02").val(dt.cityName + dt.townshipName);
+                    });
+                }
+            });
+            $("#entry_postal_code").on("blur change", function(){
+                if($(this).val().length >= 7){
+                    getChainstoreZipcode($(this).val(), function(dt){
+                        $("#entry_address_pref option").filter(function(index){
+                            return $(this).text() === dt.countyName;
+                        }).prop('selected', true);
+
+                        $("#entry_address_addr01").val(dt.cityName + dt.townshipName);
                     });
                 }
             });
@@ -821,7 +850,13 @@ file that was distributed with this source code.
                                         {{ form_widget(form.chain_store.pre_chainstore, { type : 'hidden' }) }}
                                         {{ form_widget(form.chain_store.chainstore_address_full, { type : 'hidden' }) }}
                                         {{ form_widget(form.chain_store.full_name, { type : 'hidden' }) }}
+                                        {{ form_widget(form.chain_store.timestamp, { type : 'hidden' }) }}
                                         {{ form_widget(form.chain_store.mediator_fullname, { type : 'hidden' }) }}
+                                        {{ form_errors(form.chain_store.pre_chainstore, { 'attr' : {'style':'display:none;'} }) }}
+                                        {{ form_errors(form.chain_store.chainstore_address_full, { 'attr' : {'style':'display:none;'} }) }}
+                                        {{ form_errors(form.chain_store.full_name, { 'attr' : {'style':'display:none;'} }) }}
+                                        {{ form_errors(form.chain_store.timestamp, { 'attr' : {'style':'display:none;'} }) }}
+                                        {{ form_errors(form.chain_store.mediator_fullname, { 'attr' : {'style':'display:none;'} }) }}
                                     </div>
                                 </dd>
                             </dl>
@@ -853,7 +888,7 @@ file that was distributed with this source code.
                             </dl>
                             {% if ChainstoreTypeMode != 'simple' %}
                                 <!-- 契約番号 -->
-                                <dl>
+                                <dl style="display:none;">
                                     <dt>
                                         {{ form_label(form.chain_store.stock_number, '契約番号', { 'label_attr': { 'class': 'ec-label' }}) }}
                                     </dt>
@@ -921,6 +956,7 @@ file that was distributed with this source code.
                                     </div>
                                 </dd>
                             </dl>
+
                             <!-- 所在地 -->
                             <dl>
                                 <dt>
@@ -1415,8 +1451,7 @@ file that was distributed with this source code.
                                         <div class="ec-halfInput{{ has_errors(form.chain_store.main_name.main_name01, form.chain_store.main_name.main_name02) ? ' error' }}">
                                             {{ form_widget(form.chain_store.main_name.main_name01, { 'attr': { 'placeholder': 'common.last_name' }}) }}
                                             {{ form_widget(form.chain_store.main_name.main_name02, { 'attr': { 'placeholder': 'common.first_name' }}) }}
-                                            {{ form_errors(form.chain_store.main_name.main_name01) }}
-                                            {{ form_errors(form.chain_store.main_name.main_name02) }}
+                                            {{ form_errors(form.chain_store.main_name) }}
                                         </div>
                                     </dd>
                                 </dl>
@@ -1430,8 +1465,7 @@ file that was distributed with this source code.
                                         <div class="ec-halfInput{{ has_errors(form.chain_store.main_kana.main_kana01, form.chain_store.main_kana.main_kana02) ? ' error' }}">
                                             {{ form_widget(form.chain_store.main_kana.main_kana01, { 'attr': { 'placeholder': 'common.last_name' }}) }}
                                             {{ form_widget(form.chain_store.main_kana.main_kana02, { 'attr': { 'placeholder': 'common.first_name' }}) }}
-                                            {{ form_errors(form.chain_store.main_kana.main_kana01) }}
-                                            {{ form_errors(form.chain_store.main_kana.main_kana02) }}
+                                            {{ form_errors(form.chain_store.main_kana) }}
                                         </div>
                                     </dd>
                                 </dl>
@@ -1455,13 +1489,9 @@ file that was distributed with this source code.
                                         <span class="ec-required">必須</span>
                                     </dt>
                                     <dd>
-                                        <div class="ec-input{{ has_errors(form.chain_store.chainstore_email.first) ? ' error' }}">
-                                            {{ form_widget(form.chain_store.chainstore_email.first, { 'attr': { 'placeholder': 'common.mail_address_sample' }}) }}
-                                            {{ form_errors(form.chain_store.chainstore_email.first) }}
-                                        </div>
-                                        <div class="ec-input{{ has_errors(form.chain_store.chainstore_email.second) ? ' error' }}">
-                                            {{ form_widget(form.chain_store.chainstore_email.second, { 'attr': { 'placeholder': 'common.repeated_confirm' }}) }}
-                                            {{ form_errors(form.chain_store.chainstore_email.second) }}
+                                        <div class="ec-input{{ has_errors(form.chain_store.chainstore_email) ? ' error' }}">
+                                            {{ form_widget(form.chain_store.chainstore_email, { 'attr': { 'placeholder': 'common.mail_address_sample' }}) }}
+                                            {{ form_errors(form.chain_store.chainstore_email) }}
                                         </div>
                                     </dd>
                                 </dl>
@@ -1486,7 +1516,7 @@ file that was distributed with this source code.
                                     </dt>
                                     <dd>
                                         <div class="ec-input{{ has_errors(form.chain_store.webshop_name) ? ' error' }}">
-                                            {{ form_widget(form.chain_store.webshop_name, { 'attr': { 'maxlength':'20', 'placeholder': 'admin.chainstore.subchainstore.webshop_name' }}) }}
+                                            {{ form_widget(form.chain_store.webshop_name, { 'attr': { 'maxlength':'200', 'placeholder': 'admin.chainstore.subchainstore.webshop_name' }}) }}
                                             {{ form_errors(form.chain_store.webshop_name) }}
                                         </div>
                                     </dd>
@@ -1499,7 +1529,7 @@ file that was distributed with this source code.
                                     </dt>
                                     <dd>
                                         <div class="ec-input{{ has_errors(form.chain_store.webshop_url) ? ' error' }}">
-                                            {{ form_widget(form.chain_store.webshop_url, { 'attr': { 'maxlength':'20', 'placeholder': 'admin.chainstore.subchainstore.webshop_url' }}) }}
+                                            {{ form_widget(form.chain_store.webshop_url, { 'attr': { 'maxlength':'200', 'placeholder': 'admin.chainstore.subchainstore.webshop_url' }}) }}
                                             {{ form_errors(form.chain_store.webshop_url) }}
                                         </div>
                                     </dd>
@@ -1512,8 +1542,8 @@ file that was distributed with this source code.
                                     </dt>
                                     <dd>
                                         <div class="ec-select{{ has_errors(form.chain_store.chain_store_web_shop_opening_type) ? ' error' }}">
-                                            {{ form_widget(form.chain_store.chain_store_web_shop_opening_type, { 'attr': { 'maxlength':'20', 'placeholder': 'admin.chainstore.subchainstore.webshop_company_name' }}) }}
-                                            {{ form_widget(form.chain_store.chainstore_webshop_opening_other_type, { 'attr': { 'maxlength':'20', 'placeholder': 'admin.common.other' }}) }}
+                                            {{ form_widget(form.chain_store.chain_store_web_shop_opening_type, { 'attr': {  'placeholder': 'admin.chainstore.subchainstore.webshop_company_name' }}) }}
+                                            {{ form_widget(form.chain_store.chainstore_webshop_opening_other_type, { 'attr': { 'maxlength':'200', 'placeholder': 'admin.common.other' }}) }}
                                             {{ form_errors(form.chain_store.chain_store_web_shop_opening_type) }}
                                             {{ form_errors(form.chain_store.chainstore_webshop_opening_other_type) }}
                                         </div>
@@ -1873,7 +1903,6 @@ file that was distributed with this source code.
                             <dl style="{{hideMode}}">
                                 <dt>
                                     {{ form_label(form.chain_store.chain_store_make_contract_type, 'admin.chainstore.chainstore.make_contract', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                    <span class="ec-required">必須</span>
                                 </dt>
                                 <dd>
                                     <div class="ec-select{{ has_errors(form.chain_store.chain_store_make_contract_type) ? ' error' }}">
