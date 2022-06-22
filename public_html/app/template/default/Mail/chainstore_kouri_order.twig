@@ -13,8 +13,7 @@ file that was distributed with this source code.
 {% set OrderContract = OrderChainStore.ContractType %}
 
 {% autoescape 'safe_textmail' %}
-{{OrderChainStore.company_name}}
-{{ OrderChainStore.name01 }} {{ OrderChainStore.name02 }} 様
+{{OrderChainStore.company_name}} 様
 
 この度はご注文いただき誠にありがとうございます。下記ご注文内容にお間違いがないかご確認下さい。
 
@@ -118,6 +117,10 @@ file that was distributed with this source code.
 {% if Order.complete_mail_message is not empty %}
 {{ Order.complete_mail_message }}
 {% endif %}
+
+このメッセージはお客様へのお知らせ専用ですので、
+このメッセージへの返信としてご質問をお送りいただいても回答できません。
+ご了承ください。
 
 本メールは、ダシーズファクトリー販売店様にお送りしています。
 もしお心当たりが無い場合は、その旨 infor@darcys-factory.co.jp までご連絡いただければ幸いです。
