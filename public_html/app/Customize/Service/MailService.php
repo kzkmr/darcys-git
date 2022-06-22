@@ -131,7 +131,7 @@ class MailService extends BaseMailService
 
         $message = (new \Swift_Message())
             //->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setSubject('【（株）ダシーズファクトリー]】'.$MailTemplate->getMailSubject())
+            ->setSubject('【ダシーズファクトリー]】'.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])
             ->setBcc($this->BaseInfo->getEmail01())
@@ -205,7 +205,7 @@ class MailService extends BaseMailService
 
         $message = (new \Swift_Message())
             //->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setSubject('【（株）ダシーズファクトリー]】'.$MailTemplate->getMailSubject())
+            ->setSubject('【ダシーズファクトリー]】'.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])
             ->setBcc($this->BaseInfo->getEmail01())
@@ -402,7 +402,7 @@ class MailService extends BaseMailService
 
         $message = (new \Swift_Message())
             //->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setSubject('【（株）ダシーズファクトリー]】'.$MailTemplate->getMailSubject())
+            ->setSubject('【ダシーズファクトリー]】'.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Order->getEmail()])
             ->setBcc($this->BaseInfo->getEmail01())
