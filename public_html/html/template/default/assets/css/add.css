@@ -480,10 +480,13 @@ section.c-entry-summary.c-entry-summary--products.c-entry-summary--type-products
 }
 /*商品タイトル*/
 p.ec-shelfGrid__title{
-    margin: 2rem 0 1.5rem 0;
+    margin: 2rem 0 1rem 0;
+    font-family: sans-serif;
+    border-bottom: 0.01rem solid #ddd;
+    padding-bottom: 0.5rem;
 }
 .ec-shelfGrid__item .price02-default{
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 /*おいしい食べ方のバナー*/
 .ec-modal-02{
@@ -498,10 +501,7 @@ p.kokokara_select_cart_btn_area__text-03{
     margin: 0 auto;
     background-color: #f6f6f6;
     margin-top: 1rem;
-
 }
-
-
 /*カテゴリー部分の背景*/
 .category-tab {
   background-color: #f6eff0;
@@ -545,7 +545,11 @@ p.kokokara_select_cart_btn_area__text-03{
      opacity: 1;
      background-color: #F2EDEA;
 }
-
+/*数量選択form位置調整*/
+.ec-shelfGrid__form {
+    bottom: 56px;
+    right: 0rem;
+}
 
 /*画像を正方形に*/
 /*.c-entry-summary__figure{
@@ -603,7 +607,7 @@ span.ec-price__price {
 
 /*素材のこだわり*/
 .smb-box__background {
-  background-color: #fff !important;
+  background-color: transparent!important;
 }
 .wp-block-snow-monkey-blocks-box.smb-box.product-box-02{
     max-width:100%;
@@ -726,7 +730,7 @@ span.ec-price__price {
     margin:14px;
 }
 .ec-numberInput {
-    margin: 0 1.1rem;
+   text-align: right;
 }
 /*.ec-productRole__actions{
     border-top: 1px dotted #ccc;
@@ -773,8 +777,6 @@ li.ec-cartRow__subtotalColumn{
         border-bottom: 2px solid #333;
     background: none;
     margin-bottom: 1rem;
-
-
 }
 
 /*//////////// お買い物情報入力画面/shopping/nonmember /////////////*/
@@ -801,6 +803,7 @@ button.ec-blockBtn--action:hover{
 .ec-orderAccount__account,.non-customer-display {
     margin-left: 1rem;
     margin-top: 2rem;
+    
 }
 .ec-orderDelivery__title {
     margin-left: 1rem;
@@ -1022,7 +1025,7 @@ span.smb-btn__label>img{
 
 /*//////////// GUIDE お買い物ガイド /////////////*/
 .smb-section__body h2 {
-  background-color: #fff !important;/*こだわりSTORYと共通*/
+  background-color: transparent!important;/*こだわりSTORYと共通*/
   border-left: none !important;
   color: #333 !important;
   font-size: 1.2rem;
@@ -1270,8 +1273,28 @@ header.l-header.l-header--2row.l-header--sticky-sm{
 background-color: #202C23;
     font-family: sans-serif;
 }
-
-
+/*//////////// /shop/store-news/ /////////////*/
+.c-entry__body {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+.c-prev-next-nav__item a .c-prev-next-nav__item-title{
+    font-weight: 100;
+    font-size: 1rem;
+}
+.c-prev-next-nav{
+    border-top: 1px solid #ddd;
+    padding-top: 2rem;
+}
+/*//////////// /mypage/menu /////////////*/
+.ec-header-bottom__center .ec-header-bottom-title h1{
+    font-size: 1.3rem;
+    margin-top: 3rem;
+}
+h2.p-related-posts__title.c-entry-aside__title{
+    font-size: 1.1rem;
+    font-weight: unset;
+}
 
 /*//////////// メディアクエリ /////////////*/
 @media (min-width: 1401px) {
@@ -1280,6 +1303,10 @@ background-color: #202C23;
   .pageheader {
     width: inherit !important;
   }
+/*TOPページの製品のこだわりなどへのカテゴリーバナーの表示範囲*/
+.ec-top-links {
+    margin: 50px -500px 0;
+}
 }
 @media (max-width: 1378px) {
 ul.ec-header-bottom__store-link {
@@ -1387,7 +1414,11 @@ ul.ec-header-bottom__store-link {
     .contact-section .contact-txt{
         text-align: left;
     }
-    
+/*オンラインショップ一覧/products/list*/
+.ec-shelfGrid__item .price02-default {
+    margin-bottom: 1.5rem;
+}
+
 }
 
 /* 6/7 追加 */

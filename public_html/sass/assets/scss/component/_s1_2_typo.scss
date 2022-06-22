@@ -239,10 +239,6 @@ Styleguide 1.2.9
   margin-bottom: 40px;
   text-align: left;
   @include font(16px,500,1.5,0);
-
-  @include media_desktop {
-    text-align: center;
-  }
 }
 
 .ec-reportNumber {

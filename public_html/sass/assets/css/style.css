@@ -1299,11 +1299,6 @@ Styleguide 1.2.9
   line-height: 1.5;
   letter-spacing: 0;
 }
-@media only screen and (min-width: 768px) {
-  .ec-reportDescription {
-    text-align: center;
-  }
-}
 .ec-reportNumber {
   font-size: 17px;
   font-weight: 700;
