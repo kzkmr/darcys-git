@@ -163,12 +163,12 @@ file that was distributed with this source code.
                     });
 
                     branchList = data.data;
-                    
+
                     if(!isSelected){
                         $("#admin_chain_store_bank_branch").val("");
                         $("#bank_branch_id").val("");
                     }
-                    
+
                     return true;
                 });
             });
@@ -201,7 +201,7 @@ file that was distributed with this source code.
                 }
             });
             $("#admin_chain_store_bank").trigger("change");
-            
+
             $("#customer_form").on("submit", function(){
                 $(this).find("input, textarea, select").removeAttr("disabled");
                 return true;
@@ -375,7 +375,7 @@ file that was distributed with this source code.
                 {% if ChainStore.id %}
                     return false;
                 {% endif %}
-                
+
                 if(!delivery_registrations.data("isLock")){
                     if( $("#admin_chain_store_contract_type").val() == "1" ){
                         delivery_registrations.val("9");
@@ -386,9 +386,19 @@ file that was distributed with this source code.
             };
             delivery_registrations_chk();
 
+            var margin_not_included_chk = function(){
+                if( $("#admin_chain_store_contract_type").val() == "2" ){
+                    $(".margin_not_included").show();
+                }else{
+                    $(".margin_not_included").hide();
+                }
+            };
+            margin_not_included_chk();
+
             $("#admin_chain_store_contract_type").on("change", function(){
                 purchasingLimitPrice();
                 delivery_registrations_chk();
+                margin_not_included_chk();
                 isChainStoreInfo();
                 isRelatedChainstoreType();
             });
@@ -413,7 +423,7 @@ file that was distributed with this source code.
             $("#admin_chain_store_option_partner").on("change", function(){
                 isPartnerBlock();
             });
-            
+
             $("#admin_chain_store_chain_store_web_shop_opening_type").on("change", function(){
                 showOpeningOtherType();
             });
@@ -790,6 +800,16 @@ file that was distributed with this source code.
                                         {{ form_errors(form.contact_phone_number) }}
                                     </div>
                                 </div>
+
+                                <div class="row margin_not_included">
+                                    <div class="col-3">
+                                        <div class="d-inline-block"><span>{{ 'admin.chainstore.option_margin_not_included'|trans }}</span></div>
+                                    </div>
+                                    <div class="col mb-2">
+                                        {{ form_widget(form.margin_not_included) }}
+                                        {{ form_errors(form.margin_not_included) }}
+                                    </div>
+                                </div>
                                 <!-- 注文制限 -->
                                 <div class="row">
                                     <div class="col-3">
@@ -881,7 +901,7 @@ file that was distributed with this source code.
                                 </div>
                             </div>
                         </div>
-                    
+
                         <div class="collapse show ec-cardCollapse" id="bankInfo">
                             <div class="card-body">
                                 <!-- 仲介者 法人名・屋号 -->
@@ -1014,12 +1034,12 @@ file that was distributed with this source code.
                                     </div>
                                 </div>
 
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
-                    
+
 
 
                     <div class="card rounded border-0 mb-4">
@@ -1035,7 +1055,7 @@ file that was distributed with this source code.
                                 </div>
                             </div>
                         </div>
-                    
+
                         <div class="collapse show ec-cardCollapse" id="bankInfo">
                             <div class="card-body">
                                 <!-- 取引口座選択 -->
@@ -1169,7 +1189,7 @@ file that was distributed with this source code.
                                 </div>
                             </div>
                         </div>
-                    
+
                         <div class="collapse show ec-cardCollapse">
                             <div class="card-body">
                                 <!-- 販売店舗の関連性 -->
@@ -1468,7 +1488,7 @@ file that was distributed with this source code.
 
                             </div>
                         </div>
-                    </div>   
+                    </div>
 
                     <div class="card rounded border-0 mb-4 partner_info">
                         <div class="card-header">
@@ -1483,7 +1503,7 @@ file that was distributed with this source code.
                                 </div>
                             </div>
                         </div>
-                    
+
                         <div class="collapse show ec-cardCollapse">
                             <div class="card-body">
                                 <!-- パートナー指定 -->
@@ -1582,7 +1602,7 @@ file that was distributed with this source code.
 
                             </div>
                         </div>
-                    </div>   
+                    </div>
 
                     <div class="card rounded border-0 mb-4">
                         <div class="card-header">
