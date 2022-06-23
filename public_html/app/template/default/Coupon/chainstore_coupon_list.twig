@@ -214,10 +214,13 @@ file that was distributed with this source code.
         {% include 'Mypage/navi.twig' %}
     </div>
     <div class="ec-mypageRole">
-    {#
-        <p class="ec-para-normal">クーポンは一般販売開始までご利用できません</p>
-    #}
-        
+    
+        <p class="ec-para-normal">
+            <strong>クーポン準備中</strong><br />
+            7月上旬（予定）オフィシャルショッピングサイトオープンに合わせて発行いたします
+        </p>
+    
+        {#
         {% if isActive %}
             {% if isActive %}
                 {% if pagination.totalItemCount > 0 %}
@@ -289,6 +292,7 @@ file that was distributed with this source code.
         {% else %}
             <h1 class="c-static-page-header__title">クーポンが無効です</h1>
         {% endif %}
+        #}
       
     </div>
 

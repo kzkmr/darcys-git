@@ -32,6 +32,8 @@ file that was distributed with this source code.
                 $(".btnsubmit").on("click", function(){
                     $("#cform select, #cform :radio").prop("disabled", false);
                 });
+            {% else %}
+                $("#cform").show();
             {% endif %}
         });
     </script>

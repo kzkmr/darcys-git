@@ -94,8 +94,7 @@ class ChangeChainstoreController extends AbstractController
 
         return [
             'form' => $form->createView(),
-            'EntryChainStore' => $ChainStore,
-            'ChainstoreType' => $ChainStore->getContractType()
+            'EntryChainStore' => $ChainStore
         ];
     }
 

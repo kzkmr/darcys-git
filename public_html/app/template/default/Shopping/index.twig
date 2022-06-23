@@ -177,7 +177,7 @@ file that was distributed with this source code.
                 {% set isOrderLimit = true %}
             {% endif %}
 
-            {% if ChainStore.ContractType.id != 2 %}
+            {#{% if ChainStore.ContractType.id != 2 %}#}
                 <div class="ec-orderRole ec-imp-message">
                     <div class="ec-orderRole__imp">
                         {% if ChainStore.ContractType.id == 1 %}
@@ -195,7 +195,7 @@ file that was distributed with this source code.
                             {% endif %}
                         {% endif %}
 
-                        {% if ChainStore.ContractType.id != 2 %}
+                        {#{% if ChainStore.ContractType.id != 2 %}#}
                             {% if isOrderLimit %}
                                 <div class="ec-order-limit">
                                     <div class="alert alert-danger" role="alert">
@@ -229,10 +229,10 @@ file that was distributed with this source code.
                                     {% endif %}
                                 {% endif %}
                             {% endif %}
-                        {% endif %}
+                        {#{% endif %}#}
                     </div>
                 </div>
-            {% endif %}
+            {#{% endif %}#}
         {% endif %}
 
         <div class="ec-orderRole">

@@ -1,38 +1,24 @@
-{#
-This file is part of EC-CUBE
-
-Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
-
-http://www.ec-cube.co.jp/
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-#}
 {% autoescape 'safe_textmail' %}
-※本メールは自動配信メールです。
+この度は登録依頼をいただきまして、有り難うございます。
 
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-　※本メールは、
-　{{ BaseInfo.shop_name }}より会員登録を希望された方に
-　お送りしています。
-　もしお心当たりが無い場合はこのままこのメールを破棄していただ
-　ければ会員登録はなされません。
-　またその旨 {{ BaseInfo.email02 }} まで
-　ご連絡いただければ幸いです。
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-
-{{ Customer.name01 }} {{ Customer.name02 }} 様
+ {{ Customer.name01 }} {{ Customer.name02 }} 様
 
 ダシーズファクトリー販売店管理システムでございます。
 
-この度は会員登録依頼をいただきまして、有り難うございます。
-
 現在は仮登録の状態です。
 　　　~~~~~~
-本会員登録を完了するには下記URLにアクセスしてください。
+本登録を完了するには下記URLにアクセスしてください。
 
 {{ activateUrl }}
 
-上記URLにて本会員登録が完了いたしましたら改めてご登録内容ご確認
-メールをお送り致します。
+上記URLにて本登録が完了いたしましたら改めて
+ご登録内容ご確認メールをお送り致します。
+
+========================================================
+Darcy's Factory
+株式会社ダシーズファクトリー
+〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F
+Mail: infor@darcys-factory.co.jp (24時間365日受付)
+公式HP　https://darcys-factory.co.jp/
+========================================================
 {% endautoescape %}

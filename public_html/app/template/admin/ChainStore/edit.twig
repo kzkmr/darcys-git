@@ -163,12 +163,12 @@ file that was distributed with this source code.
                     });
 
                     branchList = data.data;
-
+                    
                     if(!isSelected){
                         $("#admin_chain_store_bank_branch").val("");
                         $("#bank_branch_id").val("");
                     }
-
+                    
                     return true;
                 });
             });
@@ -201,7 +201,7 @@ file that was distributed with this source code.
                 }
             });
             $("#admin_chain_store_bank").trigger("change");
-
+            
             $("#customer_form").on("submit", function(){
                 $(this).find("input, textarea, select").removeAttr("disabled");
                 return true;
@@ -375,7 +375,7 @@ file that was distributed with this source code.
                 {% if ChainStore.id %}
                     return false;
                 {% endif %}
-
+                
                 if(!delivery_registrations.data("isLock")){
                     if( $("#admin_chain_store_contract_type").val() == "1" ){
                         delivery_registrations.val("9");
@@ -389,8 +389,28 @@ file that was distributed with this source code.
             var margin_not_included_chk = function(){
                 if( $("#admin_chain_store_contract_type").val() == "2" ){
                     $(".margin_not_included").show();
+                    {% if ChainStore.id %}
+                        return;
+                    {% else %}
+                        if(!$("#admin_chain_store_margin_not_included").prop("checked")){
+                            $("#admin_chain_store_margin_not_included").trigger("click");
+                        }
+                        if($("#admin_chain_store_order_limit_text").val() == ""){
+                            $("#admin_chain_store_order_limit_text").val("プログラム適用待ち");
+                        }
+                    {% endif %}
                 }else{
                     $(".margin_not_included").hide();
+                    {% if ChainStore.id %}
+                        return;
+                    {% else %}
+                        if($("#admin_chain_store_order_limit_text").val() == "プログラム適用待ち"){
+                            $("#admin_chain_store_order_limit_text").val("");
+                        }
+                        if($("#admin_chain_store_margin_not_included").prop("checked")){
+                            $("#admin_chain_store_margin_not_included").trigger("click");
+                        }
+                    {% endif %}
                 }
             };
             margin_not_included_chk();
@@ -399,145 +419,13 @@ file that was distributed with this source code.
                 purchasingLimitPrice();
                 delivery_registrations_chk();
                 margin_not_included_chk();
-                isChainStoreInfo();
-                isRelatedChainstoreType();
             });
 
             if($("#admin_chain_store_margin_price").val()==""){
                 $("#admin_chain_store_margin_price").val("0");
             }
-
-            $("#admin_chain_store_applicant_contract_type").on("change", function(){
-                isCorporateNumber();
-                isPersonApply();
-            });
-            $("#admin_chain_store_chainStoreTradingAccountType").on("change", function(){
-                isBankOrPost();
-            });
-            $("#admin_chain_store_chainstore_business_type").on("change", function(){
-                showBusinessOtherType();
-            });
-            $("#admin_chain_store_option_webshop").on("change", function(){
-                isWebshopBlock();
-            });
-            $("#admin_chain_store_option_partner").on("change", function(){
-                isPartnerBlock();
-            });
-
-            $("#admin_chain_store_chain_store_web_shop_opening_type").on("change", function(){
-                showOpeningOtherType();
-            });
-            $("#admin_chain_store_chain_store_web_shop_phone_type").on("change", function(){
-                showPhoneOtherType();
-            });
-            $("#admin_chain_store_chain_store_web_shop_email_type").on("change", function(){
-                showEmailOtherType();
-            });
-
-            isCorporateNumber();
-            isPersonApply();
-            isBankOrPost();
-            isChainStoreInfo();
-            isPartnerInfo();
-            isPartnerBlock();
-            isRelatedChainstoreType();
-            showBusinessOtherType();
-            isWebshopBlock();
-            showOpeningOtherType();
-            showPhoneOtherType();
-            showEmailOtherType();
         });
 
-        function isCorporateNumber(){
-            if($("#admin_chain_store_applicant_contract_type").val() =="1"){
-                $(".corporate_number").show();
-            }else{
-                $(".corporate_number").hide();
-            }
-        }
-        function isPersonApply(){
-            if($("#admin_chain_store_applicant_contract_type").val() =="3"){
-                $(".company_name .badge, .company_name_kana .badge").hide();
-            }else{
-                $(".company_name .badge, .company_name_kana .badge").show();
-            }
-        }
-        function isBankOrPost(){
-            if($("#admin_chain_store_chainStoreTradingAccountType").val() =="1"){
-                //ゆうちょ銀行以外の銀行
-                $(".isbank").show();
-                $(".ispost").hide();
-            }else{
-                //ゆうちょ銀行
-                $(".isbank").hide();
-                $(".ispost").show();
-            }
-        }
-        function isChainStoreInfo(){
-            if($("#admin_chain_store_contract_type").val() !="2"){
-                $(".chainstore_info").show();
-            }else{
-                $(".chainstore_info").hide();
-            }
-        }
-        function isPartnerInfo(){
-            if($("#admin_chain_store_contract_type").val() !="2"){
-                $(".partner_info").show();
-            }else{
-                $(".partner_info").hide();
-            }
-        }
-        function isPartnerBlock(){
-            if($("#admin_chain_store_option_partner").val() =="Y"){
-                $(".ispartner").show();
-            }else{
-                $(".ispartner").hide();
-            }
-        }
-        function isRelatedChainstoreType(){
-            if($("#admin_chain_store_contract_type").val() !="3"){
-                $(".related_chainstore_type").show();
-                $(".operating_company").show();
-            }else{
-                $(".related_chainstore_type").hide();
-                $(".operating_company").hide();
-            }
-        }
-        function isWebshopBlock(){
-            if($("#admin_chain_store_option_webshop").val() =="Y"){
-                $(".webshop_sale").show();
-            }else{
-                $(".webshop_sale").hide();
-            }
-        }
-        function showBusinessOtherType(){
-            if($("#admin_chain_store_chainstore_business_type").val() =="3"){
-                $("#admin_chain_store_chainstore_business_other_type").show();
-            }else{
-                $("#admin_chain_store_chainstore_business_other_type").hide();
-            }
-        }
-        function showOpeningOtherType(){
-            if($("#admin_chain_store_chain_store_web_shop_opening_type").val() =="3"){
-                $("#admin_chain_store_chainstore_webshop_opening_other_type").show();
-            }else{
-                $("#admin_chain_store_chainstore_webshop_opening_other_type").hide();
-            }
-        }
-        function showPhoneOtherType(){
-            if($("#admin_chain_store_chain_store_web_shop_phone_type").val() =="3"){
-                $("#admin_chain_store_chainstore_webshop_phone_other_type").show();
-            }else{
-                $("#admin_chain_store_chainstore_webshop_phone_other_type").hide();
-            }
-        }
-        function showEmailOtherType(){
-            if($("#admin_chain_store_chain_store_web_shop_email_type").val() =="3"){
-                $("#admin_chain_store_chainstore_webshop_mail_other_type").show();
-            }else{
-                $("#admin_chain_store_chainstore_webshop_mail_other_type").hide();
-            }
-        }
     </script>
 {% endblock javascript %}
 
@@ -576,165 +464,33 @@ file that was distributed with this source code.
                                         </div>
                                         <div class="col">
                                             <p>{{ ChainStore.id }}</p>
-                                            {{ form_widget(form.pre_chainstore, { type : 'hidden' }) }}
                                         </div>
                                     </div>
                                 {% endif %}
-                                <!-- 契約区分 -->
+
                                 <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.chainstore.contract_type'|trans }}</span>
+                                        <span>{{ 'admin.common.chainstore_name'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.contract_type) }}
-                                        {{ form_errors(form.contract_type) }}
-                                    </div>
-                                </div>
-                                <!-- 申込者の契約区分 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.applicant_contract_type'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.applicant_contract_type) }}
-                                        {{ form_errors(form.applicant_contract_type) }}
-                                    </div>
-                                </div>
-                                <!-- 法人番号 -->
-                                <div class="row mb-2 corporate_number">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.corporate_number'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.corporate_number, { attr : { placeholder : 'admin.chainstore.corporate_number' }}) }}
-                                        {{ form_errors(form.corporate_number) }}
-                                    </div>
-                                </div>
-                                <!-- 契約番号 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.stock_number'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.stock_number, { attr : { 'maxlength':'10', placeholder : 'admin.chainstore.stock_number' }}) }}
-                                        {{ form_errors(form.stock_number) }}
-                                    </div>
-                                </div>
-                                <!-- 契約開始年月  -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.contract_begin_ymd'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.contract_begin_ymd) }}
-                                        {{ form_errors(form.contract_begin_ymd) }}
-                                    </div>
-                                </div>
-                                <!-- 法人名・屋号 -->
-                                <div class="row mb-2 company_name">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.chainstore_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.company_name, { attr : { placeholder : 'admin.chainstore.chainstore_name' }}) }}
+                                        {{ form_widget(form.company_name, { attr : { placeholder : 'admin.common.chainstore_name' }}) }}
                                         {{ form_errors(form.company_name) }}
-                                        <span class="form_memo">※個人の場合は空欄で構いません</span>
                                     </div>
                                 </div>
-                                <!-- 法人名・屋号（フリガナ） -->
-                                <div class="row mb-2 company_name_kana">
+                                <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.chainstore.chainstore_name_ka'|trans }}</span>
+                                        <span>{{ 'admin.common.chainstore_name_kana'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.company_name_kana, { attr : { placeholder : 'admin.chainstore.chainstore_name_ka' }}) }}
+                                        {{ form_widget(form.company_name_kana, { attr : { placeholder : 'admin.common.chainstore_name_kana' }}) }}
                                         {{ form_errors(form.company_name_kana) }}
-                                        <span class="form_memo">※個人の場合は空欄で構いません</span>
                                     </div>
                                 </div>
-                                <!-- 設立日（開業日） -->
                                 <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.chainstore.begin_day'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.begin_day) }}
-                                        {{ form_errors(form.begin_day) }}
-                                    </div>
-                                </div>
-                                <!-- 所在地(Full) -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.address'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainstore_address_full, { attr : { 'maxlength':'255', placeholder : 'admin.chainstore.address' }}) }}
-                                        {{ form_errors(form.chainstore_address_full) }}
-                                    </div>
-                                </div>
-                                <!-- 所在地 -->
-                                <div class="row mb-2">
-                                    <div class="col-3"><span>{{ 'admin.chainstore.address'|trans }}</span>
-                                    <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <div class="row justify-content-start">
-                                                <div class="col-auto pr-0 align-self-center"><span>{{ 'admin.common.postal_symbol'|trans }}</span></div>
-                                                <div class="col-2">
-                                                    {{ form_widget(form.chainstore_postal_code) }}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    {{ form_errors(form.chainstore_postal_code) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="row justify-content-start">
-                                                <div class="col-auto">
-                                                    {{ form_widget(form.chainstore_pref) }}
-                                                    {{ form_errors(form.chainstore_pref) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            {{ form_widget(form.chainstore_address01, { attr : { placeholder : 'admin.common.address_sample_01' }} ) }}
-                                            {{ form_errors(form.chainstore_address01) }}
-                                        </div>
-                                        <div class="mb-3">
-                                            {{ form_widget(form.chainstore_address02, { attr : { placeholder : 'admin.common.address_sample_02' }}) }}
-                                            {{ form_errors(form.chainstore_address01) }}
-                                        </div>
-                                        <div class="mb-3">
-                                            <!-- 所在地・住所(フリガナ) -->
-                                            {{ form_widget(form.addr01_ka, { attr : { placeholder : 'common.address_sample_01_ka' }}) }}
-                                            {{ form_errors(form.addr01_ka) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 代表者名・氏名(Full) -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.representative_name'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.full_name, { attr : { 'maxlength':'255', placeholder : 'admin.chainstore.representative_name' }}) }}
-                                        {{ form_errors(form.full_name) }}
-                                    </div>
-                                </div>
-                                <!-- 代表者名・氏名 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.representative_name'|trans }}</span>
+                                        <span>{{ 'admin.common.representative.name'|trans }}</span>
                                     </div>
                                     <div class="col">
                                         <div class="row">
@@ -755,10 +511,9 @@ file that was distributed with this source code.
                                         </div>
                                     </div>
                                 </div>
-                                <!-- 代表者名・氏名（フリガナ） -->
                                 <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.chainstore.representative_name_ka'|trans }}</span>
+                                        <span>{{ 'admin.common.representative.kana'|trans }}</span>
                                     </div>
                                     <div class="col">
                                         <div class="row">
@@ -779,28 +534,63 @@ file that was distributed with this source code.
                                         </div>
                                     </div>
                                 </div>
-                                <!-- 携帯電話 -->
                                 <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.chainstore.cellphone_number'|trans }}</span>
+                                        <span>{{ 'admin.chainstore.stock_number'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.cellphone_number, { attr : { placeholder : 'admin.chainstore.cellphone_number' }}) }}
-                                        {{ form_errors(form.cellphone_number) }}
+                                        {{ form_widget(form.stock_number, { attr : { 'maxlength':'10', placeholder : 'admin.chainstore.stock_number' }}) }}
+                                        {{ form_errors(form.stock_number) }}
                                     </div>
                                 </div>
-                                <!-- 固定電話 -->
                                 <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.chainstore.phone_number'|trans }}</span>
+                                        <span>{{ 'admin.chainstore.contract_type'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.contact_phone_number, { attr : { placeholder : 'admin.chainstore.phone_number' }}) }}
-                                        {{ form_errors(form.contact_phone_number) }}
+                                        {{ form_widget(form.contract_type) }}
+                                        {{ form_errors(form.contract_type) }}
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.contract_begin_ymd'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.contract_begin_ymd) }}
+                                        {{ form_errors(form.contract_begin_ymd) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.chainstore.dealer_code'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                                    <div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input type="radio" id="use_dealer_code" name="use_dealer_code" class="form-check-input" value="1" />
+                                                            <label class="form-check-label" for="use_dealer_code">ディーラーコード利用</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input type="radio" id="nouse_dealer_code" name="use_dealer_code" class="form-check-input" value="2" />
+                                                            <label class="form-check-label" for="nouse_dealer_code">ディーラーコードなし</label>
+                                                        </div>
+                                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2" id="field_dealer_code">
 
+                                    <div class="col-3">
+                                        <span></span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.dealer_code, { attr : { placeholder : 'admin.common.dealer_code_ex' }}) }}
+                                        {{ form_errors(form.dealer_code) }}
+                                    </div>
+                                </div>
                                 <div class="row margin_not_included">
                                     <div class="col-3">
                                         <div class="d-inline-block"><span>{{ 'admin.chainstore.option_margin_not_included'|trans }}</span></div>
@@ -810,7 +600,6 @@ file that was distributed with this source code.
                                         {{ form_errors(form.margin_not_included) }}
                                     </div>
                                 </div>
-                                <!-- 注文制限 -->
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="d-inline-block"><span>{{ 'admin.chainstore.option_order_limit'|trans }}</span></div>
@@ -820,7 +609,6 @@ file that was distributed with this source code.
                                         {{ form_errors(form.option_order_limit) }}
                                     </div>
                                 </div>
-                                <!-- 注文制限のメッセージ -->
                                 <div class="row mb-2" id="field_order_limit">
 
                                     <div class="col-3">
@@ -862,27 +650,6 @@ file that was distributed with this source code.
                                         {{ form_errors(form.delivery_registrations) }}
                                     </div>
                                 </div>
-                                <!-- この情報を基に契約書を作成します -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.chainstore.make_contract'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col mb-2">
-                                        {{ form_widget(form.chain_store_make_contract_type) }}
-                                        {{ form_errors(form.chain_store_make_contract_type) }}
-                                    </div>
-                                </div>
-                                <!-- タイムスタンプ -->
-                                <div class="row">
-                                    <div class="col-3">
-                                        <span>タイムスタンプ</span>
-                                    </div>
-                                    <div class="col mb-2">
-                                        {{ form_widget(form.timestamp) }}
-                                        {{ form_errors(form.timestamp) }}
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -891,7 +658,7 @@ file that was distributed with this source code.
                     <div class="card rounded border-0 mb-4">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-8"><span class="card-title">仲介者情報</span>
+                                <div class="col-8"><span class="card-title">{{ 'admin.chainstore.chainstore_bank_info'|trans }}</span>
                                 </div>
                                 <div class="col-4 text-right">
                                     <a data-toggle="collapse" href="#bankInfo"
@@ -901,176 +668,10 @@ file that was distributed with this source code.
                                 </div>
                             </div>
                         </div>
-
+                    
                         <div class="collapse show ec-cardCollapse" id="bankInfo">
                             <div class="card-body">
-                                <!-- 仲介者 法人名・屋号 -->
                                 <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.mediator.chainstore_name'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.mediator_company_name, { attr : { placeholder : 'admin.chainstore.mediator.chainstore_name' }}) }}
-                                        {{ form_errors(form.mediator_company_name) }}
-                                    </div>
-                                </div>
-                                <!-- 仲介者 法人名・屋号（フリガナ） -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.mediator.chainstore_name_ka'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.mediator_company_name_kana, { attr : { placeholder : 'admin.chainstore.mediator.chainstore_name_ka' }}) }}
-                                        {{ form_errors(form.mediator_company_name_kana) }}
-                                    </div>
-                                </div>
-                                <!-- 仲介者 代表者名・氏名(Full) -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.mediator.representative_name'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.mediator_fullname, { attr : { 'maxlength':'255', placeholder : 'admin.chainstore.mediator.representative_name' }}) }}
-                                        {{ form_errors(form.mediator_fullname) }}
-                                    </div>
-                                </div>
-                                <!-- 仲介者 代表者名・氏名 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.mediator.representative_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_widget(form.mediator_name.mediator_name01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_widget(form.mediator_name.mediator_name02) }}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_errors(form.mediator_name.mediator_name01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_errors(form.mediator_name.mediator_name02) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 仲介者 代表者名・氏名（フリガナ） -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.mediator.representative_name_ka'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_widget(form.mediator_kana.mediator_kana01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_widget(form.mediator_kana.mediator_kana02) }}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_errors(form.mediator_kana.mediator_kana01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_errors(form.mediator_kana.mediator_kana02) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 仲介者 ディーラーコード -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.dealer_code'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                                    <div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input type="radio" id="use_dealer_code" name="use_dealer_code" class="form-check-input" value="1" />
-                                                            <label class="form-check-label" for="use_dealer_code">ディーラーコード利用</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input type="radio" id="nouse_dealer_code" name="use_dealer_code" class="form-check-input" value="2" />
-                                                            <label class="form-check-label" for="nouse_dealer_code">ディーラーコードなし</label>
-                                                        </div>
-                                                    </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-2" id="field_dealer_code">
-
-                                    <div class="col-3">
-                                        <span></span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.dealer_code, { attr : { placeholder : 'admin.common.dealer_code_ex' }}) }}
-                                        {{ form_errors(form.dealer_code) }}
-                                    </div>
-                                </div>
-                                <!-- 仲介者 所在地・住所 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.mediator.address01'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.mediator_address01, { attr : { placeholder : 'admin.chainstore.mediator.address01' }}) }}
-                                        {{ form_errors(form.mediator_address01) }}
-                                    </div>
-                                </div>
-                                <!-- 仲介者 電話番号 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.mediator.telephone'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.mediator_phone_number, { attr : { placeholder : 'admin.chainstore.mediator.telephone' }}) }}
-                                        {{ form_errors(form.mediator_phone_number) }}
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="card rounded border-0 mb-4">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-8"><span class="card-title">取引口座情報</span>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <a data-toggle="collapse" href="#bankInfo"
-                                    aria-expanded="false" aria-controls="bankInfo">
-                                        <i class="fa fa-angle-up fa-lg"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="collapse show ec-cardCollapse" id="bankInfo">
-                            <div class="card-body">
-                                <!-- 取引口座選択 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.chainstore_bank_trading_type'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainStoreTradingAccountType) }}
-                                        {{ form_errors(form.chainStoreTradingAccountType) }}
-                                    </div>
-                                </div>
-                                <!-- 金融機関名 -->
-                                <div class="row mb-2 isbank">
                                     <div class="col-3">
                                         <span>{{ 'admin.chainstore.chainstore_bank_name'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
@@ -1080,8 +681,8 @@ file that was distributed with this source code.
                                         {{ form_errors(form.bank) }}
                                     </div>
                                 </div>
-                                <!-- 支店名 -->
-                                <div class="row mb-2 isbank">
+
+                                <div class="row mb-2">
                                     <div class="col-3">
                                         <span>{{ 'admin.chainstore.chainstore_bank_branch_name'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
@@ -1105,8 +706,8 @@ file that was distributed with this source code.
                                         </div>
                                     </div>
                                 </div>
-                                <!-- 預金種目 -->
-                                <div class="row mb-2 isbank">
+
+                                <div class="row mb-2">
                                     <div class="col-3">
                                         <span>{{ 'admin.chainstore.chainstore_bank_account_type'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
@@ -1116,29 +717,7 @@ file that was distributed with this source code.
                                         {{ form_errors(form.bank_account_type) }}
                                     </div>
                                 </div>
-                                <!-- 通帳記号（下5桁）（ゆうちょ） -->
-                                <div class="row mb-2 ispost">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.chainstore_code_number'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.code_number, { attr : { placeholder : 'admin.chainstore.chainstore_code_number' }}) }}
-                                        {{ form_errors(form.code_number) }}
-                                    </div>
-                                </div>
-                                <!-- 通帳番号（8桁）（ゆうちょ） -->
-                                <div class="row mb-2 ispost">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.chainstore_account_number'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.account_number, { attr : { placeholder : 'admin.chainstore.chainstore_account_number' }}) }}
-                                        {{ form_errors(form.account_number) }}
-                                    </div>
-                                </div>
-                                <!-- 口座番号 -->
+
                                 <div class="row mb-2">
                                     <div class="col-3">
                                         <span>{{ 'admin.chainstore.chainstore_bank_account'|trans }}</span>
@@ -1149,456 +728,17 @@ file that was distributed with this source code.
                                         {{ form_errors(form.bank_account) }}
                                     </div>
                                 </div>
-                                <!-- 口座名義 -->
+
                                 <div class="row mb-2">
                                     <div class="col-3">
                                         <span>{{ 'admin.chainstore.chainstore_bank_holder'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.bankHolderName, { attr : { placeholder : 'admin.chainstore.chainstore_bank_holder' }}) }}
-                                        {{ form_errors(form.bankHolderName) }}
-                                    </div>
-                                </div>
-                                <!-- 口座名義（フリガナ） -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.chainstore_bank_holder_ka'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.bank_holder, { attr : { placeholder : 'admin.chainstore.chainstore_bank_holder_ka' }}) }}
+                                        {{ form_widget(form.bank_holder, { attr : { placeholder : 'admin.common.bank_holder' }}) }}
                                         {{ form_errors(form.bank_holder) }}
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card rounded border-0 mb-4 chainstore_info">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-8"><span class="card-title">販売店舗情報</span>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <a data-toggle="collapse" href="#bankInfo"
-                                    aria-expanded="false" aria-controls="bankInfo">
-                                        <i class="fa fa-angle-up fa-lg"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="collapse show ec-cardCollapse">
-                            <div class="card-body">
-                                <!-- 販売店舗の関連性 -->
-                                <div class="row mb-2 related_chainstore_type">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.related_chainstore_type'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.related_chainstore_type, { attr : { placeholder : 'admin.common.select__related_chainstore_type' }}) }}
-                                        {{ form_errors(form.related_chainstore_type) }}
-                                    </div>
-                                </div>
-                                <!-- 販売店の業務形態 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.chainstore_business_type'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainstore_business_type, { attr : { placeholder : 'admin.common.select__chainstore_business_type' }}) }}
-                                        {{ form_widget(form.chainstore_business_other_type, { attr : { placeholder : 'admin.common.other' }}) }}
-                                        {{ form_errors(form.chainstore_business_type) }}
-                                        {{ form_errors(form.chainstore_business_other_type) }}
-                                    </div>
-                                </div>
-                                <!-- 販売店名 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.chainstore_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainstore_name, { attr : { placeholder : 'admin.chainstore.subchainstore.chainstore_name' }}) }}
-                                        {{ form_errors(form.chainstore_name) }}
-                                    </div>
-                                </div>
-                                <!-- 販売店名(フリガナ） -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.chainstore_name_kana'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainstore_name_kana, { attr : { placeholder : 'admin.chainstore.subchainstore.chainstore_name_kana' }}) }}
-                                        {{ form_errors(form.chainstore_name_kana) }}
-                                    </div>
-                                </div>
-                                <!-- 運営会社・運営者 -->
-                                <div class="row mb-2 operating_company">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.operating_name, { attr : { placeholder : 'admin.chainstore.subchainstore.name' }}) }}
-                                        {{ form_errors(form.operating_name) }}
-                                    </div>
-                                </div>
-                                <!-- 運営会社・運営者（フリガナ） -->
-                                <div class="row mb-2 operating_company">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.kana'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.operating_kana, { attr : { placeholder : 'admin.chainstore.subchainstore.kana' }}) }}
-                                        {{ form_errors(form.operating_kana) }}
-                                    </div>
-                                </div>
-                                <!-- 提供方法 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.chainstore_provide_type'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainstore_provide_type, { attr : { placeholder : 'admin.chainstore.subchainstore.chainstore_provide_type' }}) }}
-                                        {{ form_errors(form.chainstore_provide_type) }}
-                                    </div>
-                                </div>
-                                <!-- 提供スタイル -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.chainstore_provide_style_type'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainstore_provide_style_type, { attr : { placeholder : 'admin.chainstore.subchainstore.chainstore_provide_style_type' }}) }}
-                                        {{ form_errors(form.chainstore_provide_style_type) }}
-                                    </div>
-                                </div>
-                                <!-- 店舗所在地 -->
-                                <div class="row mb-2">
-                                    <div class="col-3"><span>{{ 'admin.chainstore.subchainstore.address'|trans }}</span>
-                                    <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <div class="row justify-content-start">
-                                                <div class="col-auto pr-0 align-self-center"><span>{{ 'admin.common.postal_symbol'|trans }}</span></div>
-                                                <div class="col-2">
-                                                    {{ form_widget(form.postal_code) }}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    {{ form_errors(form.postal_code) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="row justify-content-start">
-                                                <div class="col-auto">
-                                                    {{ form_widget(form.addr01) }}
-                                                    {{ form_errors(form.addr01) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            {{ form_widget(form.addr02, { attr : { placeholder : 'admin.common.address_sample_01' }} ) }}
-                                            {{ form_errors(form.addr02) }}
-                                        </div>
-                                        <div class="mb-3">
-                                            {{ form_widget(form.addr03, { attr : { placeholder : 'admin.common.address_sample_02' }}) }}
-                                            {{ form_errors(form.addr03) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 担当者名 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.main_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_widget(form.main_name.main_name01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_widget(form.main_name.main_name02) }}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_errors(form.main_name.main_name01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_errors(form.main_name.main_name02) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 担当者名カナ -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.main_kana'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_widget(form.main_kana.main_kana01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_widget(form.main_kana.main_kana02) }}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_errors(form.main_kana.main_kana01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_errors(form.main_kana.main_kana02) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 店舗連絡先（電話番号） -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.phone_number'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.phone_number, { attr : { placeholder : 'admin.chainstore.subchainstore.phone_number' }}) }}
-                                        {{ form_errors(form.phone_number) }}
-                                    </div>
-                                </div>
-                                <!-- 店舗メールアドレス -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.chainstore_email'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chainstore_email, { attr : { placeholder : 'admin.chainstore.subchainstore.chainstore_email' }}) }}
-                                        {{ form_errors(form.chainstore_email) }}
-                                    </div>
-                                </div>
-                                <!-- WEBショップでダシーズの出品予定はありますか -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_sale_ice_list'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.option_webshop, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_sale_ice_list' }}) }}
-                                        {{ form_errors(form.option_webshop) }}
-                                    </div>
-                                </div>
-                                <!-- ＷＥＢショップ店舗名 -->
-                                <div class="row mb-2 webshop_sale">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.webshop_name, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_name' }}) }}
-                                        {{ form_errors(form.webshop_name) }}
-                                    </div>
-                                </div>
-                                <!-- 出店WEBショップURL -->
-                                <div class="row mb-2 webshop_sale">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_url'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.webshop_url, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_url' }}) }}
-                                        {{ form_errors(form.webshop_url) }}
-                                    </div>
-                                </div>
-                                <!-- 出店WEBショップの運営会社 -->
-                                <div class="row mb-2 webshop_sale">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_company_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chain_store_web_shop_opening_type, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_company_name' }}) }}
-                                        {{ form_widget(form.chainstore_webshop_opening_other_type, { 'attr': { 'maxlength':'200', 'placeholder': 'admin.common.other' }}) }}
-                                        {{ form_errors(form.chain_store_web_shop_opening_type) }}
-                                        {{ form_errors(form.chainstore_webshop_opening_other_type) }}
-                                    </div>
-                                </div>
-                                <!-- WEBショップ運営担当者 -->
-                                <div class="row mb-2 webshop_sale">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_main_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chain_store_web_shop_owner_type, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_main_name' }}) }}
-                                        {{ form_errors(form.chain_store_web_shop_owner_type) }}
-                                    </div>
-                                </div>
-                                <!-- 上記WEBショップ運営担当者名 -->
-                                <div class="row mb-2 webshop_sale">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_main_operation_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.webshop_main_operation_name, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_main_operation_name' }}) }}
-                                        {{ form_errors(form.webshop_main_operation_name) }}
-                                    </div>
-                                </div>
-                                <!-- 運営担当者電話番号 -->
-                                <div class="row mb-2 webshop_sale">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_phone_number'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chain_store_web_shop_phone_type, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_phone_number' }}) }}
-                                        {{ form_widget(form.chainstore_webshop_phone_other_type, { 'attr': { 'maxlength':'200', 'placeholder': 'admin.common.other' }}) }}
-                                        {{ form_errors(form.chain_store_web_shop_phone_type) }}
-                                        {{ form_errors(form.chainstore_webshop_phone_other_type) }}
-                                    </div>
-                                </div>
-                                <!-- 運営担当者メールアドレス -->
-                                <div class="row mb-2 webshop_sale">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.subchainstore.webshop_email'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.chain_store_web_shop_email_type, { attr : { placeholder : 'admin.chainstore.subchainstore.webshop_email' }}) }}
-                                        {{ form_widget(form.chainstore_webshop_mail_other_type, { 'attr': { 'maxlength':'200', 'placeholder': 'admin.common.other' }}) }}
-                                        {{ form_errors(form.chain_store_web_shop_email_type) }}
-                                        {{ form_errors(form.chainstore_webshop_mail_other_type) }}
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card rounded border-0 mb-4 partner_info">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-8"><span class="card-title">パートナー情報</span>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <a data-toggle="collapse" href="#bankInfo"
-                                    aria-expanded="false" aria-controls="bankInfo">
-                                        <i class="fa fa-angle-up fa-lg"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="collapse show ec-cardCollapse">
-                            <div class="card-body">
-                                <!-- パートナー指定 -->
-                                <div class="row mb-2">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.partner.ispartner'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.option_partner, { attr : { placeholder : 'admin.chainstore.partner.ispartner' }}) }}
-                                        {{ form_errors(form.option_partner) }}
-                                    </div>
-                                </div>
-                                <!-- パートナー 法人名・屋号 -->
-                                <div class="row mb-2 ispartner">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.partner.chainstore_name'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.partner_company_name, { attr : { placeholder : 'admin.chainstore.partner.chainstore_name' }}) }}
-                                        {{ form_errors(form.partner_company_name) }}
-                                    </div>
-                                </div>
-                                <!-- パートナー 法人名・屋号（フリガナ） -->
-                                <div class="row mb-2 ispartner">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.partner.chainstore_name_ka'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.partner_company_name_kana, { attr : { placeholder : 'admin.chainstore.partner.chainstore_name_ka' }}) }}
-                                        {{ form_errors(form.partner_company_name_kana) }}
-                                    </div>
-                                </div>
-                                <!-- パートナー 代表者名・氏名 -->
-                                <div class="row mb-2 ispartner">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.partner.representative_name'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_widget(form.partner_name.partner_name01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_widget(form.partner_name.partner_name02) }}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_errors(form.partner_name.partner_name01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_errors(form.partner_name.partner_name02) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- パートナー 代表者名・氏名（フリガナ） -->
-                                <div class="row mb-2 ispartner">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.partner.representative_name_ka'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_widget(form.partner_kana.partner_kana01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_widget(form.partner_kana.partner_kana02) }}
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                {{ form_errors(form.partner_kana.partner_kana01) }}
-                                            </div>
-                                            <div class="col">
-                                                {{ form_errors(form.partner_kana.partner_kana02) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- パートナー 電話番号 -->
-                                <div class="row mb-2 ispartner">
-                                    <div class="col-3">
-                                        <span>{{ 'admin.chainstore.partner.phone_number'|trans }}</span>
-                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.partner_phone_number, { attr : { placeholder : 'admin.chainstore.partner.phone_number' }}) }}
-                                        {{ form_errors(form.partner_phone_number) }}
-                                    </div>
-                                </div>
-
 
                             </div>
                         </div>

@@ -295,7 +295,7 @@ class CustomEntryController extends BaseEntryController
                         $ChainStore = $Customer->getChainStore();
                         $Customer->getChainStore()->setStatus($ChainStoreStatus);
                         $Customer->getChainStore()->setMarginPrice(0);
-                        $Customer->getChainStore()->setMarginNotIncluded(false);
+                        $Customer->getChainStore()->setMarginNotIncluded(1);
                         $Customer->getChainStore()->setPurchasingLimitPrice(0);
                         $Customer->getChainStore()->setPreChainStore($preChainStore);
                         
@@ -307,6 +307,10 @@ class CustomEntryController extends BaseEntryController
                             $Customer->getChainStore()->setDeliveryRegistrations(9);
                         }else{
                             $Customer->getChainStore()->setDeliveryRegistrations(0);
+                        }
+                        
+                        if($ChainstoreType->getId()=="2"){
+                            $Customer->getChainStore()->setOrderLimitText("プログラム適用待ち");
                         }
 
                         //代表者名・氏名「姓名」

@@ -545,14 +545,15 @@ class OrderController extends BaseOrderController
             // データ行の出力.
             $this->csvExportService->setExportQueryBuilder($qb);
 
+            /*
             $orderStatus = null;
             if($changeStatus){
                 $orderStatus = $this->orderStatusRepository->findOneBy(["id" => 10]);
             }
-            
+            */
             //$isChangedId = [];
 
-            $this->csvExportService->exportData(function ($entity, $csvService) use ($request, $ids, $chkCode, $orderStatus) {
+            $this->csvExportService->exportData(function ($entity, $csvService) use ($request, $ids, $chkCode, $changeStatus) {
                 $Csvs = $csvService->getCsvs();
 
                 $Order = $entity;

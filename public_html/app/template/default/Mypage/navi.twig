@@ -105,11 +105,11 @@ file that was distributed with this source code.
             <p class="ec-order-limit-text1">購入可能金額 {{ChainStore.balancePrice | price}}</p>
         {% endif %}
 
-        {% if ChainStore.ContractType.id != 2 %}
+        {#{% if ChainStore.ContractType.id != 2 %}#}
             {% if ChainStore.orderLimitText is not null and ChainStore.orderLimitText is not empty %}
                 <p class="ec-order-limit-text">{{ChainStore.orderLimitText | nl2br}}</p>
             {% endif %}
-        {% endif %}
+        {#{% endif %}#}
     {% endif %}
 </div>
 

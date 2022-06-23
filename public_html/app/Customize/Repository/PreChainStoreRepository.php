@@ -119,8 +119,17 @@ class PreChainStoreRepository extends AbstractRepository
         $qb->orderBy('o.update_date', 'DESC');
 
         // 実行
-        $result = $qb->getQuery()->getOneOrNullResult();
+        $result = $qb->getQuery()->getResult();
    
+        if(is_object($result)){
+            return $result;
+        }
+        if(is_array($result)){
+            if(count($result) > 0){
+                return $result[0];  //First
+            }
+        }
+
         return $result;
     }
 }
