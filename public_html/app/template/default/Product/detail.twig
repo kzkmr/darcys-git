@@ -248,6 +248,11 @@ file that was distributed with this source code.
               $(this).appendTo('.item_visual_thumb');
             });
 
+            if( $('.item_visual_main .slide-item').length < 2 ){
+              $('.item_visual_thumb').hide();
+              return;
+            }
+
             if (w > 767) {
 
               $('.item_visual_main').not('.slick-initialized').slick({
@@ -328,11 +333,6 @@ file that was distributed with this source code.
               });
 
             }
-
-            /*$('.slide-thumb').on('click', function() {
-                var index = $(this).attr('data-index');
-                $('.item_visual_main').slick('slickGoTo', index, false);
-            });*/
         });
     </script>
 {% endblock %}
