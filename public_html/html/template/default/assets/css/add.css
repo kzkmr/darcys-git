@@ -34,6 +34,10 @@ ul.p-global-navi {
 .c-entry__content{
     padding:0!important;
 }
+/*wp制作分のメイン画像とヘッダー位置の調整*/
+.p-entry-content>:first-child, .textwidget>:first-child {
+    margin-top: -4rem;
+}
 
 /*MENU一覧のhover日本語調整*/
 a.p-global-navi__jp{
@@ -418,7 +422,7 @@ section.ec-top-instagram {
 
 /*//////////// パンくず /////////////*/
 .breadcrumb-wrapper {
-  margin-bottom: 4rem;
+  margin-bottom: 7rem;
     margin-left: 1rem;
 margin-left: calc(50% - 50vw);
     padding-left: 1rem;
@@ -730,11 +734,11 @@ span.ec-price__price {
     margin:14px;
 }
 .ec-numberInput {
-   text-align: right;
+   text-align: left;
 }
-/*.ec-productRole__actions{
-    border-top: 1px dotted #ccc;
-}*/
+.ec-productRole__actions{
+    padding: 14px 22px;
+}
 .ec-productRole__category{
     border-top: 1px dotted #ccc;
 }
@@ -1274,6 +1278,7 @@ background-color: #202C23;
     font-family: sans-serif;
 }
 /*//////////// /shop/store-news/ /////////////*/
+/*TOPヘッダー部分と連動*/
 .c-entry__body {
     margin-top: 4rem;
     margin-bottom: 4rem;
@@ -1286,6 +1291,10 @@ background-color: #202C23;
     border-top: 1px solid #ddd;
     padding-top: 2rem;
 }
+.ec-header-bottom-list.is_store {
+    margin-bottom: 4rem;
+}
+
 /*//////////// /mypage/menu /////////////*/
 .ec-header-bottom__center .ec-header-bottom-title h1{
     font-size: 1.3rem;
@@ -1303,10 +1312,7 @@ h2.p-related-posts__title.c-entry-aside__title{
   .pageheader {
     width: inherit !important;
   }
-/*TOPページの製品のこだわりなどへのカテゴリーバナーの表示範囲*/
-.ec-top-links {
-    margin: 50px -500px 0;
-}
+
 }
 @media (max-width: 1378px) {
 ul.ec-header-bottom__store-link {
@@ -1333,6 +1339,7 @@ ul.ec-header-bottom__store-link {
 .ec-productRole .ec-grid2__column {
     margin-top: 15px;
 }
+
 }
 @media (min-width: 640px){
 .ec-top-blog .row .col-3 {
@@ -1418,7 +1425,10 @@ ul.ec-header-bottom__store-link {
 .ec-shelfGrid__item .price02-default {
     margin-bottom: 1.5rem;
 }
-
+/* newspageパンくず下 */
+.breadcrumb-wrapper {
+  margin-bottom: 0rem;
+    }
 }
 
 /* 6/7 追加 */
