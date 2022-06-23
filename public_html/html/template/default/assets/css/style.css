@@ -5325,6 +5325,7 @@ Styleguide 9.1.4
 }
 .ec-mypage-blog__item a {
   display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
   font-size: 16px;
@@ -5332,6 +5333,11 @@ Styleguide 9.1.4
   line-height: 1.6;
   letter-spacing: 0;
   color: #354e57;
+}
+@media only screen and (min-width: 768px) {
+  .ec-mypage-blog__item a {
+    flex-direction: row;
+  }
 }
 .ec-mypage-blog__item a time {
   display: inline-block;

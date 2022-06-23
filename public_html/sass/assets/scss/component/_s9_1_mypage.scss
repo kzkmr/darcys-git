@@ -225,10 +225,15 @@ Styleguide 9.1.4
 
     a {
       display: flex;
+      flex-direction: column;
       align-items: center;
       width: 100%;
       @include font(16px,500,1.6,0);
       color: #354e57;
+
+      @include media_desktop() {
+        flex-direction: row;
+      }
 
       time {
         display: inline-block;
