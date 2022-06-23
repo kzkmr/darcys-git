@@ -15,81 +15,6 @@ file that was distributed with this source code.
 {% block stylesheet %}
     <style>
 
-        /* .slick-slider {
-            margin-bottom: 30px;
-        }
-
-        .slick-dots {
-            position: absolute;
-            bottom: -45px;
-            display: block;
-            width: 100%;
-            padding: 0;
-            list-style: none;
-            text-align: center;
-        }
-
-        .slick-dots li {
-            position: relative;
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin: 0 5px;
-            padding: 0;
-
-            cursor: pointer;
-        }
-
-        .slick-dots li button {
-            font-size: 0;
-            line-height: 0;
-            display: block;
-            width: 20px;
-            height: 20px;
-            padding: 5px;
-            cursor: pointer;
-            color: transparent;
-            border: 0;
-            outline: none;
-            background: transparent;
-        }
-
-        .slick-dots li button:hover,
-        .slick-dots li button:focus {
-            outline: none;
-        }
-
-        .slick-dots li button:hover:before,
-        .slick-dots li button:focus:before {
-            opacity: 1;
-        }
-
-        .slick-dots li button:before {
-            content: " ";
-            line-height: 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 12px;
-            height: 12px;
-            text-align: center;
-            opacity: .25;
-            background-color: black;
-            border-radius: 50%;
-
-        }
-
-        .slick-dots li.slick-active button:before {
-            opacity: .75;
-            background-color: black;
-        }
-
-        .slick-dots li button.thumbnail img {
-            width: 0;
-            height: 0;
-        } */
-
-
         /*モーダル本体の指定 + モーダル外側の背景の指定*/
         .modal-container{
           position: fixed;
@@ -179,22 +104,6 @@ file that was distributed with this source code.
                     location.reload(true);
                 }
             });
-
-            /* $('.item_visual').slick({
-                dots: false,
-                arrows: false,
-                responsive: [{
-                    breakpoint: 768,
-                    settings: {
-                        dots: true
-                    }
-                }]
-            });
-
-            $('.slideThumb').on('click', function() {
-                var index = $(this).attr('data-index');
-                $('.item_visual').slick('slickGoTo', index, false);
-            }) */
         });
     </script>
     <script>
@@ -638,21 +547,21 @@ file that was distributed with this source code.
 
                     {% if IsChainStore() == false %}
                     {% if hasCategory == 1 %}
-                        <div class="ec-modal-02">
-                            <div class="ec-modal-02__banner modal-open">
-                                <img src="{{ asset('assets/img/product/banner_howtoeat.png') }}" alt="おいしいお召し上がり方">
-                            </div>
-                            <div class="modal-container">
-                                <div class="modal-body">
-                                    <!-- 閉じるボタン -->
-                                    <div class="modal-close">×</div>
-                                    <!-- モーダル内のコンテンツ -->
-                                    <div class="modal-content">
-                                        <p><img src="{{ asset('assets/img/product/goodtoeat.jpg') }}" width="500" height="600" alt="ダシーズのおいしい食べ方"></p>
-                                    </div>
+                    <div class="ec-modal-02">
+                        <div class="ec-modal-02__banner modal-open">
+                            <img src="{{ asset('assets/img/product/banner_howtoeat.png') }}" alt="おいしいお召し上がり方">
+                        </div>
+                        <div class="modal-container">
+                            <div class="modal-body">
+                                <!-- 閉じるボタン -->
+                                <div class="modal-close">×</div>
+                                <!-- モーダル内のコンテンツ -->
+                                <div class="modal-content">
+                                    <p><img src="{{ asset('assets/img/product/goodtoeat.jpg') }}" width="500" height="600" alt="ダシーズのおいしい食べ方"></p>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     {% endif %}
                     {% endif %}
 

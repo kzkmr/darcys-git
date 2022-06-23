@@ -5326,7 +5326,7 @@ Styleguide 9.1.4
 .ec-mypage-blog__item a {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   font-size: 16px;
   font-weight: 500;
@@ -5337,6 +5337,7 @@ Styleguide 9.1.4
 @media only screen and (min-width: 768px) {
   .ec-mypage-blog__item a {
     flex-direction: row;
+    align-items: center;
   }
 }
 .ec-mypage-blog__item a time {
@@ -5348,7 +5349,12 @@ Styleguide 9.1.4
   letter-spacing: 0;
 }
 .ec-mypage-blog__item a p {
-  margin: 0 !important;
+  margin: 5px 0 0 !important;
+}
+@media only screen and (min-width: 768px) {
+  .ec-mypage-blog__item a p {
+    margin: 0 !important;
+  }
 }
 .ec-mypage-blog__btn {
   margin-top: 8px;
