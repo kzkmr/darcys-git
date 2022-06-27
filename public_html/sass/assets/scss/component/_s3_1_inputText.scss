@@ -130,7 +130,7 @@ Styleguide 3.1.3
 .ec-numberInput{
   @extend .ec-input;
 
-  //position: relative;
+  position: relative;
 
   // &:before {
   //   position: absolute;
@@ -156,21 +156,22 @@ Styleguide 3.1.3
     display: inline-block;
     width: auto;
     max-width: 100px;
+    padding-right: 2rem;
     text-align: right;
 
-    // &::-webkit-inner-spin-button {
-    //   position: absolute;
-    //   top: 0; bottom: 0;
-    //   right: 8px;
-    //   margin: auto;
-    //   transform: scale(1.2);
-    //   transform-origin: right center;
-    //   opacity: 1;
-    // }
+    &::-webkit-inner-spin-button {
+      position: absolute;
+      top: 0; bottom: 0;
+      right: 8px;
+      margin: auto;
+      transform: scale(1.2);
+      transform-origin: right center;
+      opacity: 1;
+    }
 
-    // &::-webkit-contacts-auto-fill-button {
-    //   opacity: 1;
-    // }
+    &::-webkit-contacts-auto-fill-button {
+      opacity: 1;
+    }
   }
 }
 
