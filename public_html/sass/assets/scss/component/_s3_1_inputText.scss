@@ -129,13 +129,51 @@ Styleguide 3.1.3
 */
 .ec-numberInput{
   @extend .ec-input;
+
+  //position: relative;
+
+  // &:before {
+  //   position: absolute;
+  //   top: 6px;
+  //   left: 8px;
+  //   color: #333;
+  //   font-size: 13px;
+  //   content: "▲";
+  //   pointer-events: none; // 当たり判定をなくす
+  // }
+
+  // &:after {
+  //   position: absolute;
+  //   bottom: 6px;
+  //   left: 8px;
+  //   color: #333;
+  //   font-size: 13px;
+  //   content: "▼";
+  //   pointer-events: none; // 当たり判定をなくす
+  // }
+
   input[type='number']{
     display: inline-block;
     width: auto;
     max-width: 100px;
     text-align: right;
+
+    // &::-webkit-inner-spin-button {
+    //   position: absolute;
+    //   top: 0; bottom: 0;
+    //   right: 8px;
+    //   margin: auto;
+    //   transform: scale(1.2);
+    //   transform-origin: right center;
+    //   opacity: 1;
+    // }
+
+    // &::-webkit-contacts-auto-fill-button {
+    //   opacity: 1;
+    // }
   }
 }
+
 /*
 郵便番号フォーム
 
