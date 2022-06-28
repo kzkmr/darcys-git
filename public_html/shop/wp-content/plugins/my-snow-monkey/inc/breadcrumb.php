@@ -12,7 +12,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -29,7 +29,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -46,7 +46,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -69,7 +69,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -86,7 +86,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -107,7 +107,7 @@
   <div class="breadcrumb-wrapper not_store hide">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -124,7 +124,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -141,7 +141,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -162,7 +162,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -185,7 +185,7 @@
   <div class="breadcrumb-wrapper not_store hide">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -208,7 +208,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -225,7 +225,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -242,7 +242,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />
@@ -265,7 +265,7 @@
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
       <li class="breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="<?php echo esc_url(home_url('/')); ?>">
+        <a itemprop="item" href="<?php echo ec_url(); ?>">
           <span itemprop="name">HOME</span>
         </a>
         <meta itemprop="position" content="1" />

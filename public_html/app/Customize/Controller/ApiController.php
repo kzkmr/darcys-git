@@ -17,6 +17,8 @@ use Eccube\Controller\AbstractController;
 use Eccube\Repository\MemberRepository;
 use Eccube\Repository\CustomerRepository;
 
+use Eccube\Service\CartService;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,10 +68,15 @@ class ApiController extends AbstractController
     protected $customerRepository;
 
     /**
+     * @var CartService
+     */
+    protected $cartService;
+
+    /**
      * @var ZipcodeInfoRepository
      */
     protected $zipcodeInfoRepository;
-    
+
     /**
      * @var MailService
      */
@@ -92,7 +99,8 @@ class ApiController extends AbstractController
         CustomerRepository $customerRepository,
         ZipcodeInfoRepository $zipcodeInfoRepository,
         MailService $mailService,
-        TokenStorageInterface $tokenStorage)
+        TokenStorageInterface $tokenStorage,
+        CartService $cartService)
     {
         $this->bankBranchRepository = $bankBranchRepository;
         $this->bankAccountTypeRepository = $bankAccountTypeRepository;
@@ -103,6 +111,7 @@ class ApiController extends AbstractController
         $this->zipcodeInfoRepository = $zipcodeInfoRepository;
         $this->mailService = $mailService;
         $this->tokenStorage = $tokenStorage;
+        $this->cartService = $cartService;
     }
 
     /**
@@ -262,7 +271,7 @@ class ApiController extends AbstractController
             // タイムアウトを無効にする.
             set_time_limit(0);
             $zipcodeInfo = $this->zipcodeInfoRepository->findOneBy(["zipcode" => $code]);
-            
+
             if(is_object($zipcodeInfo)){
                 $zipcode = [];
                 $zipcode["id"] = $zipcodeInfo->getId();
@@ -273,7 +282,7 @@ class ApiController extends AbstractController
 
                 array_push($result, $zipcode);
             }
-            
+
         } catch (\Exception $e) {
             log_error('予期しないエラーです', [$e->getMessage()]);
 
@@ -353,12 +362,12 @@ class ApiController extends AbstractController
                 $chainStore["optionMakeContract"] = trim($preChainStore->getOptionMakeContract());              //この情報を基に契約書を作成します
 
                 //==> 取引口座選択
-                $chainStore["isPostbankList"] = trim($preChainStore->getIsPostbankList());                      //59.取引口座選択(ゆうちょ銀行以外の銀行・ゆうちょ銀行)	
+                $chainStore["isPostbankList"] = trim($preChainStore->getIsPostbankList());                      //59.取引口座選択(ゆうちょ銀行以外の銀行・ゆうちょ銀行)
                 //==> 通帳記号（下5桁）（ゆうちょ）
                 $chainStore["postCodeNumber"] = trim($preChainStore->getPostCodeNumber());                      //81.通帳記号（下5桁）（ゆうちょ）
                 //==> 通帳番号（8桁）（ゆうちょ）
                 $chainStore["postPassbookNumber"] = trim($preChainStore->getPostPassbookNumber());              //83.通帳番号（8桁）（ゆうちょ）
-                
+
                 //==> 法人名・屋号（仲介者）
                 $chainStore["mediatorCompanyName"] = trim($preChainStore->getMediatorCompanyName());            //43.法人名・屋号（仲介者）
                 //==> 仲介者 法人名・屋号（フリガナ）
@@ -418,7 +427,7 @@ class ApiController extends AbstractController
                 //==> 販売店舗メールアドレス
                 $chainStore["chainstoreEmail"] = trim($preChainStore->getChainstoreEmail());                            //127.販売店舗メールアドレス
                 //==> WEBショップでダシーズの出品予定はありますか
-                $chainStore["webshopSaleIceList"] = $this->changeText(trim($preChainStore->getWebshopSaleIceList()));   //131.WEBショップでダシーズの出品予定はありますか	
+                $chainStore["webshopSaleIceList"] = $this->changeText(trim($preChainStore->getWebshopSaleIceList()));   //131.WEBショップでダシーズの出品予定はありますか
                 //==> ＷＥＢショップ店舗名
                 $chainStore["webshopName"] = trim($preChainStore->getWebshopName());                                    //133.ＷＥＢショップ店舗名
                 //==> 出店WEBショップURL
@@ -755,20 +764,29 @@ class ApiController extends AbstractController
 
         log_info('ログインチェック処理開始',[]);
 
+        $num = 0;
         // ログインチェック
         if ($this->isGranted('ROLE_USER')) {
+            $Carts = $this->cartService->getCarts();
+            $totalQuantity = array_reduce($Carts, function ($total, $Cart) {
+                /* @var Cart $Cart */
+                $total += $Cart->getTotalQuantity();
+                return $total;
+            }, 0);
             $done = true;
+            $num = $totalQuantity;
         }else{
             $done = false;
+            $num = 0;
         }
 
         log_info('ログインチェック処理完了',[]);
 
-        return $this->json(['done' => $done ]);
+        return $this->json(['done' => $done, 'num' => $num]);
     }
 
     /**
-     * 外部からのログインチェック.
+     * 外部からの販売店チェック.
      *
      * @Route("/mypage/api_isstore", name="api_isstore", methods={"POST"})
      */

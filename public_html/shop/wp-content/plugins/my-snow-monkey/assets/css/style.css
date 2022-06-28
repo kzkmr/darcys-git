@@ -662,6 +662,20 @@ h3 {
 .ec-header-navi-sp__login {
   margin: 0 auto;
 }
+.ec-header-navi-sp__login a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ec-header-navi-sp__login a span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.5625rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #231815;
+}
 .ec-header-navi-sp__cart {
   margin: 0 auto;
 }
@@ -1165,6 +1179,33 @@ Styleguide 11.2.7
   display: none;
 }
 
+.ec-cartNavi__badge {
+  display: inline-block;
+  border-radius: 99999px;
+  box-sizing: border-box;
+  padding: 5px;
+  height: 17px;
+  font-size: 10px;
+  line-height: 0.7;
+  vertical-align: top;
+  color: #fff;
+  text-align: left;
+  white-space: nowrap;
+  background-color: #DE5D50;
+  position: absolute;
+  left: 60%;
+  top: -10px;
+}
+@media only screen and (min-width: 768px) {
+  .ec-cartNavi__badge {
+    display: inline-block;
+    min-width: 17px;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+}
+
 /*
 フッター
 
@@ -1649,7 +1690,7 @@ Styleguide 11.3.2
 .category-nav__list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 .category-nav__item {
@@ -1662,6 +1703,9 @@ Styleguide 11.3.2
     flex: 0 0 15%;
     margin-bottom: 0;
   }
+}
+.category-nav__item + .category-nav__item {
+  margin-left: 2%;
 }
 .category-nav__item span {
   display: flex;
@@ -1743,6 +1787,7 @@ Styleguide 11.3.2
 }
 .category-panel .c-entry-summary__header .c-entry-summary__term {
   order: 2;
+  background-color: #898989;
 }
 .category-panel .c-entry-summary__header .c-entry-summary__term--category-1 {
   background-color: #6a3906 !important;
@@ -1943,10 +1988,10 @@ Styleguide 11.3.2
   line-height: 1;
   letter-spacing: 0;
   color: #fff;
-  background-color: #e7a48f;
+  background-color: #898989;
 }
 .recommend-list .recommend-item__cat.color-info {
-  background-color: #e7a48f;
+  background-color: #898989;
 }
 .recommend-list .recommend-item__cat.color-ice {
   background-color: #ef857e;

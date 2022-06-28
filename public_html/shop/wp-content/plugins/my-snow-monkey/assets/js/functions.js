@@ -99,7 +99,7 @@ $(function() {
 $(function() {
   var url = location.pathname;
   var item = $('.ec-header-bottom-list__item');
-  console.log(url);
+  //console.log(url);
   switch(url) {
     case '/shop/store-guide/':
     item.eq(2).addClass('active');
@@ -110,46 +110,48 @@ $(function() {
   }
 });
 
+$(function() {
+    // Chainstore api読み込み
+    var path = '../../../../../../'; // ECCUBE設置パス
+    $.ajax({
+        url: path+"mypage/api_isstore", // apiパス
+        type: 'post',
+        dataType: 'json',
+    }).done(function(data) {
+        if (data.done) {
+            // 販売店時の処理を記載
+            $('.is_store').removeClass('hide');  // is_storeを表示
+            $('body').addClass('layout-store');
+            //console.log('store');
+        }else{
+            // 販売店以外の処理を記載
+            $('.not_store').removeClass('hide');  // not_storeを表示
+            //console.log('not store');
+        }
+    }).fail(function(data) {
+            // エラー発生：販売店以外の処理を記載
+            $('.not_store').removeClass('hide');  // not_storeを表示
+            //console.log('error');
+    });
 
-// Chainstore api読み込み
-var path = '../../../../../../'; // ECCUBE設置パス
-$.ajax({
-    url: path+"mypage/api_isstore", // apiパス
-    type: 'post',
-    dataType: 'json',
-}).done(function(data) {
-    if (data.done) {
-        // 販売店時の処理を記載
-        $('.is_store').removeClass('hide');  // is_storeを表示
-        $('body').addClass('layout-store');
-        //console.log('store');
-    }else{
-        // 販売店以外の処理を記載
-        $('.not_store').removeClass('hide');  // not_storeを表示
-        //console.log('not store');
-    }
-}).fail(function(data) {
-        // エラー発生：販売店以外の処理を記載
-        $('.not_store').removeClass('hide');  // not_storeを表示
-        //console.log('error');
-});
-
-$.ajax({
-    url: path+"mypage/api_login", // apiパス
-    type: 'post',
-    dataType: 'json',
-}).done(function(data) {
-    if (data.done) {
-        // ログイン時の処理を記載
-        $('.nologin_block').removeClass('hide');  // login_blockを表示
-        console.log('logged in!');
-    }else{
-        // 未ログイン時の処理を記載
-        $('.login_block').removeClass('hide');  // nologin_blockを表示
-        console.log('logged out!');
-    }
-}).fail(function(data) {
-        // エラー発生：未ログイン時の処理を記載
-        $('.login_block').removeClass('hide');  // nologin_blockを表示
-        console.log('log error!');
+    $.ajax({
+        url: path+"mypage/api_login", // apiパス
+        type: 'post',
+        dataType: 'json',
+    }).done(function(data) {
+        if (data.done) {
+            // ログイン時の処理を記載
+            $('.nologin_block').removeClass('hide');  // login_blockを表示
+            var num = data.num;
+            if( $('.cart-num-indicator').length ) {
+              $('.cart-num-indicator').text(num);
+            }
+        }else{
+            // 未ログイン時の処理を記載
+            $('.login_block').removeClass('hide');  // nologin_blockを表示
+        }
+    }).fail(function(data) {
+            // エラー発生：未ログイン時の処理を記載
+            $('.login_block').removeClass('hide');  // nologin_blockを表示
+    });
 });

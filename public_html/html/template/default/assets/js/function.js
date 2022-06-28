@@ -273,3 +273,11 @@ $(function() {
     // break;
   }
 });
+
+// 販売店ヘッダーナビ
+$(function () {
+  var input = $('input[type="number"]');
+  input.on('focus', function() {
+    this.select();
+  });
+});

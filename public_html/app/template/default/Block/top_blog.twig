@@ -26,6 +26,10 @@
                                             <p class="category category_coffee">{{ category.name }}</p>
                                         {% elseif category.name == "Bread" %}
                                             <p class="category category_bread">{{ category.name }}</p>
+                                        {% elseif category.name == "Information" %}
+                                            <p class="category category_information">{{ category.name }}</p>
+                                        {% elseif category.name == "other" %}
+                                            <p class="category category_other">{{ category.name }}</p>
                                         {% else %}
                                             <p class="category">{{ category.name }}</p>
                                         {% endif %}
