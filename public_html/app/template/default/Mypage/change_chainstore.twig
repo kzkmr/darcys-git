@@ -234,7 +234,7 @@ file that was distributed with this source code.
                                     {{ form_label(form.company_name, '法人名・屋号', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
+                                    <div class="ec-input{{ has_errors(form.company_name) ? ' error' }}">
                                         {{ form_widget(form.company_name) }}
                                         {{ form_errors(form.company_name) }}
                                     </div>
@@ -245,7 +245,7 @@ file that was distributed with this source code.
                                     {{ form_label(form.company_name_kana, '法人名・屋号（フリガナ）', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-halfInput{{ has_errors(form.company_name_kana) ? ' error' }}">
+                                    <div class="ec-input{{ has_errors(form.company_name_kana) ? ' error' }}">
                                         {{ form_widget(form.company_name_kana) }}
                                         {{ form_errors(form.company_name_kana) }}
                                     </div>
@@ -326,7 +326,7 @@ file that was distributed with this source code.
                                     {{ form_label(form.bank_branch, '支店名', { 'label_attr': {'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-halfInput">
+                                    <div class="ec-input">
                                         <input type="text" id="bank_branch_id" maxlength=3 class="form-control" placeholder="支店番号">
                                         <button class="ec-headerSearch__keywordBtn btn_bank_search" type="submit" style="width:36px;height:36px;">
                                             <div class="ec-icon">
@@ -371,7 +371,7 @@ file that was distributed with this source code.
                                     {{ form_label(form.bank_holder, 'admin.chainstore.chainstore_bank_holder', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-halfInput{{ has_errors(form.bank_holder) ? ' error' }}">
+                                    <div class="ec-input{{ has_errors(form.bank_holder) ? ' error' }}">
                                         {{ form_widget(form.bank_holder, { 'attr': { 'placeholder': 'admin.common.bank_holder' }}) }}
                                         {{ form_errors(form.bank_holder) }}
                                     </div>

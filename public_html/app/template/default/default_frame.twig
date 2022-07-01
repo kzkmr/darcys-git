@@ -30,7 +30,16 @@ file that was distributed with this source code.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="eccube-csrf-token" content="{{ csrf_token(constant('Eccube\\Common\\Constant::TOKEN_NAME')) }}">
-{% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_title is not empty %}
+
+{% if app.request.attributes.get('_route') == 'homepage' %}
+<title>TOP｜ダシーズファクトリー公式</title>
+{% elseif app.request.attributes.get('_route') == 'company' %}
+<title>会社概要｜ダシーズファクトリー公式</title>
+{% elseif app.request.attributes.get('_route') == 'help_privacy' %}
+<title>プライバシーポリシー｜ダシーズファクトリー公式</title>
+{% elseif app.request.attributes.get('_route') == 'help_tradelaw' %}
+<title>特商法に基づく表記｜ダシーズファクトリー公式</title>
+{% elseif app.request.get('_route') == 'product_detail' and Product.itoben_seo_title is not empty %}
 <title>{{ Product.itoben_seo_title }}</title>
 {% elseif app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}
 <title>全商品 / {{ BaseInfo.shop_name }}</title>
@@ -39,6 +48,7 @@ file that was distributed with this source code.
 {% else %}
 <title>{% if app.request.get('_route') == 'product_detail' or app.request.get('_route') == 'product_list' %}{{ subtitle }} / {{ BaseInfo.shop_name }}{% else %}{{ BaseInfo.shop_name }}{% if subtitle is defined and subtitle is not empty %} / {{ subtitle }}{% elseif title is defined and title is not empty %} / {{ title }}{% endif %}{% endif %}</title>
 {% endif %}
+
 {% if app.request.get('_route') == 'product_detail' and Product.itoben_seo_author is not empty %}
 <meta name="author" content="{{ Product.itoben_seo_author }}">
 {% elseif app.request.get('_route') == 'product_list' and app.request.query.get('category_id') is empty %}

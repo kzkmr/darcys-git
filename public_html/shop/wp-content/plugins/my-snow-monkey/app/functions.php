@@ -5,12 +5,144 @@
 */
 function ec_url()
 {
-  return "//darcys-factory.co.jp";
+  return "//test-darcys-factory.xyz";
 }
 function ec_asset_url()
 {
-  return "//darcys-factory.co.jp/html/template/default/assets";
+  return "//test-darcys-factory.xyz/html/template/default/assets";
 }
+
+/**
+ * 親ページを持つ子ページを判別
+ */
+function is_parent_slug() {
+    global $post;
+    if ($post->post_parent) {
+        $post_data = get_post($post->post_parent);
+        return $post_data->post_name;
+    }
+}
+
+/*
+	タイトルタグ
+*/
+add_theme_support( 'title-tag' );
+
+add_filter( 'pre_get_document_title', 'change_document_title' );
+function change_document_title( $title )
+{
+	if ( is_page('news') ) {
+		$title = '新着情報｜ダシーズファクトリー公式';
+	} elseif ( is_page('story') || is_parent_slug() === 'story' ) {
+		$title = 'ダシーズアイスの誕生物語｜ダシーズファクトリー公式';
+	} elseif ( is_page('concept') || is_parent_slug() === 'concept' ) {
+		$title = '製品のこだわり｜ダシーズファクトリー公式';
+	} elseif ( is_page('products-list') || get_post_type() === 'products' ) {
+		$title = '商品ラインアップ｜ダシーズファクトリー公式';
+	} elseif ( is_post_type_archive('stores') || get_post_type() === 'stores' ) {
+		$title = '店舗紹介｜ダシーズファクトリー公式○';
+	} elseif ( is_page( array('contact', 'contact-m', 'contact-general') ) ) {
+		$title = 'お問い合わせ｜ダシーズファクトリー公式';
+	} elseif ( is_page( 'guide' ) ) {
+		$title = 'ご利用の手引き｜ダシーズファクトリー公式';
+	}
+
+	return $title;
+}
+
+/*
+	OGPタグ設定を出力
+*/
+function my_meta_ogp() {
+	if( is_front_page() || is_home() || is_singular() ) {
+		global $post;
+		$ogp_title = '';
+		$ogp_descr = '';
+		$ogp_url = '';
+		$ogp_img = '';
+		$ogp_site_name = '';
+		$insert = '';
+
+		if ( is_page('news') ) {
+			$ogp_title = '新着情報｜ダシーズファクトリー公式';
+			$ogp_descr = 'こちらではダシーズアイスのことや企業としての情報をご案内しています。';
+			$ogp_url = home_url('/news/');
+			$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/news.png';
+			$ogp_site_name = 'Darcy\'s - ダシーズファクトリー公式';
+		} elseif ( is_page('story') || is_parent_slug() === 'story' ) {
+			setup_postdata($post);
+				$ogp_title = 'ダシーズアイスの誕生物語｜ダシーズファクトリー公式';
+				$ogp_descr = 'ダシーズファクトリーのアイスの誕生物語。当初ダシーズギルトフリーアイスクリームラボ（研究所）としてスタート。オリンピック金メダリストの松本薫の長年の夢から生まれました。みんなが安心して食べられる食材を厳選して、身体に素材の喜びを感じることが出来たなら。そんな想いは「ギルトフリー（罪悪感がない）」という考え方に繋がりました。';
+				$ogp_url = get_permalink();
+				$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/story.png';
+				$ogp_site_name = 'Darcy\'s - ダシーズファクトリー公式';
+			wp_reset_postdata();
+		} elseif ( is_page('concept') || is_parent_slug() === 'concept' ) {
+			setup_postdata($post);
+				$ogp_title = '製品のこだわり｜ダシーズファクトリー公式';
+				$ogp_descr = 'ダシーズファクトリーの製品に対するこだわりをご紹介しています。ダシーズのアイスは、「誰でも安心して食べられる」ことがコンセプト。そして、食べることで健康になれるように、使う材料は細部にまでこだわりが詰まっています。みんな笑顔になれるアイスのヒミツ、ぜひ知ってください。';
+				$ogp_url = get_permalink();
+				$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/concept.png';
+				$ogp_site_name = 'Darcy\'s - ダシーズファクトリー公式';
+			wp_reset_postdata();
+		} elseif ( is_page('products-list') || get_post_type() === 'products' ) {
+			setup_postdata($post);
+				$ogp_title = '商品ラインアップ｜ダシーズファクトリー公式';
+				$ogp_descr = 'ダシーズアイスの商品ラインアップをご案内するページです。プレミアムココナッツミルクチョコクッキー、豆乳焦がしキャラメル、ル・ショコラ、一番抹茶、チョコミントココナッツミルク、パクチーキウイを中心に季節限定商品などもこちらでご紹介します。';
+				$ogp_url = get_permalink();
+				$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/products.png';
+				$ogp_site_name = 'Darcy\'s - ダシーズファクトリー公式';
+			wp_reset_postdata();
+		} elseif ( is_post_type_archive('stores') || get_post_type() === 'stores' ) {
+			setup_postdata($post);
+				$ogp_title = '店舗紹介｜ダシーズファクトリー公式';
+				$ogp_descr = 'ダシーズファクトリーの販売店舗をご紹介しています。店舗は東京富士大学構内に直営店を出店しています。';
+				$ogp_url = get_permalink();
+				$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/stores.png';
+				$ogp_site_name = 'Darcy\'s - ダシーズファクトリー公式';
+			wp_reset_postdata();
+		} elseif ( is_page( array('contact', 'contact-m', 'contact-general') ) ) {
+			setup_postdata($post);
+				$ogp_title = 'お問い合わせ｜ダシーズファクトリー公式';
+				$ogp_descr = 'ダシーズファクトリーに対するお問い合わせや松本薫への各種オファーなどを申請頂けるフォームを設置しています。';
+				$ogp_url = get_permalink();
+				$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/top.png';
+				$ogp_site_name = 'Darcy\'s - ダシーズファクトリー公式';
+			wp_reset_postdata();
+		} elseif ( is_page( 'guide' ) ) {
+			$ogp_title = 'ご利用の手引き｜ダシーズファクトリー公式';
+			$ogp_descr = 'ダシーズファクトリー公式サイトでのショッピングにおけるご利用案内のページとなります。';
+			$ogp_url = home_url('/guide/');
+			$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/top.png';
+			$ogp_site_name = 'Darcy\'s - ダシーズファクトリー公式';
+		} else {
+			setup_postdata($post);
+				$ogp_title = get_bloginfo('name');
+				$ogp_descr = mb_substr(get_the_excerpt(), 0, 100);
+				$ogp_url = get_permalink();
+				$ogp_img = 'https:' . ec_url() . '/html/template/default/assets/img/ogp/top.png';
+				$ogp_site_name = 'ダシーズファクトリー公式';
+			wp_reset_postdata();
+		}
+
+		//og:type
+		$ogp_type = 'article';
+
+		//出力するOGPタグをまとめる
+		$insert .= '<meta property="og:title" content="'.esc_attr($ogp_title).'" />' . "\n";
+		$insert .= '<meta property="og:description" content="'.esc_attr($ogp_descr).'" />' . "\n";
+		$insert .= '<meta property="og:type" content="'.$ogp_type.'" />' . "\n";
+		$insert .= '<meta property="og:url" content="'.esc_url($ogp_url).'" />' . "\n";
+		$insert .= '<meta property="og:image" content="'.esc_url($ogp_img).'" />' . "\n";
+		$insert .= '<meta property="og:site_name" content="'.esc_attr($ogp_site_name).'" />' . "\n";
+		$insert .= '<meta name="twitter:card" content="summary_large_image" />' . "\n";
+		$insert .= '<meta name="twitter:site" content="Darcy\'s - ダシーズファクトリー公式" />' . "\n";
+		$insert .= '<meta property="og:locale" content="ja_JP" />' . "\n";
+
+		echo $insert;
+	}
+}
+add_action('wp_head','my_meta_ogp');
 
 
 /**
@@ -283,18 +415,4 @@ add_action(
     }
   }
 );
-
-
-/**
- * 親ページを持つ子ページを判別
- */
-
-function is_parent_slug()
-{
-  global $post;
-  if ($post->post_parent) {
-    $post_data = get_post($post->post_parent);
-    return $post_data->post_name;
-  }
-}
 

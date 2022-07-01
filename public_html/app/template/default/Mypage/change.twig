@@ -119,7 +119,7 @@ file that was distributed with this source code.
                                         {% endif %}
                                     </dt>
                                     <dd>
-                                        <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
+                                        <div class="ec-input{{ has_errors(form.company_name) ? ' error' }}">
                                             {{ form_widget(form.company_name) }}
                                             {{ form_errors(form.company_name) }}
                                         </div>
