@@ -42,6 +42,8 @@ ul.p-global-navi {
 /*wp制作分のメイン画像とヘッダー位置の調整*/
 .p-entry-content>:first-child, .textwidget>:first-child {
     margin-top: -4rem;
+        border: none;/*NEWSのh2装飾*/
+    /*border-bottom: 1px solid #ddd;*//*NEWSのh2装飾*/
 }
 
 /*MENU一覧のhover日本語調整*/
@@ -422,6 +424,7 @@ section.ec-top-instagram {
 .snow-monkey-posts.snow-monkey-recent-posts::after {
     border:1px solid #f6f6f6;
 }
+
 
 
 
@@ -1299,6 +1302,41 @@ background-color: #202C23;
 .ec-header-bottom-list.is_store {
     margin-bottom: 4rem;
 }
+/*//////////// 販売店会員ログイン後_マイページ_その他販売店舗登録フォーム /////////////*/
+
+.form-box2 {
+    margin-top: 1rem;
+}
+dl.form-item.photo-send {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+.form-box2-s {
+    margin-top: 1rem;
+}
+.form-item-wrap {
+    margin-bottom: 2rem;
+}
+
+dl.form-item {
+    border-bottom: 1px dotted #ddd;
+    padding-bottom: 1.5rem;
+}
+
+.notes {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+input[type="file"] {
+    margin: 1rem;
+}
+.contact-btn{
+    margin-bottom: 2rem;
+}
+.section-contact .form-item-wrap input[type=text], .section-contact .form-item-wrap textarea{
+    background-color: #fff;
+}
+
 
 /*//////////// /mypage/menu /////////////*/
 .ec-header-bottom__center .ec-header-bottom-title h1{
@@ -1344,14 +1382,19 @@ ul.ec-header-bottom__store-link {
 .ec-productRole .ec-grid2__column {
     margin-top: 15px;
 }
-
+    /*ログイン後/その他販売店舗登録フォーム*/
+.section-contact .form-item-wrap .form-item__label {
+    flex: 0 0 30%;
+}
+.section-contact .form-item-wrap .form-item__body {
+    flex: 0 0 70%;
+}
 }
 @media (min-width: 640px){
 .ec-top-blog .row .col-3 {
     padding: 0 1px;
         flex: 0 0 32.333%;
 }
-
 }
 
 @media only screen and (max-width: 1079px) {
@@ -1434,6 +1477,10 @@ ul.ec-header-bottom__store-link {
 .breadcrumb-wrapper {
   margin-bottom: 0rem;
     }
+/*販売店会員ログイン後_マイページ_その他販売店舗登録フォーム*/
+.form-contena {
+    margin: 0.8rem;
+}
 }
 
 /* 6/7 追加 */
@@ -1520,6 +1567,3 @@ p.kokokara_select_cart_btn_area__text-03{
     height: 119px;
     }
         }
-
-
-
