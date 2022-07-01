@@ -17,8 +17,8 @@
             <table id="html-mail-table1" border="0" width="600px" cellpadding="10" cellspacing="0" class="container" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
                 <tr>
                     <td class="container-padding content" align="left" style="border-collapse:collapse;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff;">
-                        <br>
-                         {{ OrderChainStore.company_name}} 様<br/><br/>
+                        <br>{{ OrderChainStore.company_name}}<br/>
+                         {{ OrderChainStore.name01 }} {{ OrderChainStore.name02 }} 様<br/><br/>
                         <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550;">この度はご注文いただき誠にありがとうございます。</div>
                         <br>
                         <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333;">
@@ -62,7 +62,7 @@
                                 {{ item.product_name }}：{{ item.total_price|price }}<br/>
                             {% endfor %}
                             <hr style="border-top: 1px dotted #8c8b8b;">
-                            お支払い合計：{{ Order.payment_total|price }}
+                            お支払い合計：{{ Order.payment_total|price }}<br/>
                             <br/>
                             {% if IsChainStore() == false %}
                             <hr style="border-top: 3px double #8c8b8b;">
@@ -128,14 +128,17 @@
                 <tr>
                     <td class="container-padding content footer-text" align="left" style="border-collapse:collapse;font-family:Helvetica, Arial, sans-serif;font-size:12px;line-height:16px;color:#aaaaaa;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff;">
                         本メールは、ダシーズファクトリー販売店様にお送りしています。<br/>
-                        もしお心当たりが無い場合は、その旨 infor@darcys-factory.co.jp までご連絡いただければ幸いです。<br/>
+                        お心当たりが無い場合は、その旨 infor-b@darcys-factory.co.jp までご連絡いただければ幸いです。<br/>
                         <br/>
-                        今後ともダシーズファクトリーを宜しくお願い申し上げます。<br/>
+                        今後ともダシーズファクトリーを宜しくお願い申し上げます。<br/><br/>
                         <hr style="border-top: 3px double #8c8b8b;">
                         Darcy's Factory<br/>
                         株式会社ダシーズファクトリー<br/>
+                        ■ダシーズ東京本社<br/>
+                        〒150-002東京都渋谷区広尾3-12-36ワイマッツ広尾<br/>
+                        ■ダシーズ大阪支社<br/>
                         〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F<br/>
-                        Mail: infor@darcys-factory.co.jp (24時間365日受付)<br/>
+                        Mail: infor-b@darcys-factory.co.jp (24時間365日受付)<br/>
                         公式HP　https://darcys-factory.co.jp/<br/>
                         <hr style="border-top: 3px double #8c8b8b;">
 

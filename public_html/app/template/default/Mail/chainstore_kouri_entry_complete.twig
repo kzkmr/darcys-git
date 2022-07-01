@@ -1,19 +1,38 @@
-{% autoescape 'safe_textmail' %}
+{#
+This file is part of EC-CUBE
 
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+【ダシーズファクトリー】販売店様向け発注システムへの登録が完了いたしました。
 
 {{ Customer.name01 }} {{ Customer.name02 }} 様
 
-株式会社ダシーズファクトリーでございます。<br/>
-この度は販売店様向け発注システム（マイページ）にご登録いただき、<br/>
-まことに有り難うございます。<br/>
-今後は同システムのマイページ内に、販売店様への各種情報を発信して参りますので<br/>
-ご確認頂ければと存じます。<
+株式会社ダシーズファクトリーでございます。
+この度は販売店様向け発注システムにご登録いただき、
+まことに有り難うございます。
+今後は同システムのマイページ内に、販売店様への各種情報を発信して参りますのでご確認頂ければと存じます。
 
-========================================================
+ダシーズファクトリー販売店様向け発注システムへのログインはこちら
+https://darcys-factory.co.jp/mypage/login
+
+本メールは、ダシーズファクトリー販売店様にお送りしています。
+お心当たりが無い場合は、その旨 infor-b@darcys-factory.co.jp までご連絡いただければ幸いです。
+今後ともダシーズファクトリーを宜しくお願い申し上げます。
+
+==========================
 Darcy's Factory
 株式会社ダシーズファクトリー
+■ダシーズ東京本社
+〒150-002東京都渋谷区広尾3-12-36ワイマッツ広尾
+■ダシーズ大阪支社
 〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F
-Mail: infor@darcys-factory.co.jp (24時間365日受付)
+Mail: infor-b@darcys-factory.co.jp (24時間365日受付)
 公式HP　https://darcys-factory.co.jp/
-========================================================
+==========================
 {% endautoescape %}

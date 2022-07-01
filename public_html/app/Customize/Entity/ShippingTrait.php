@@ -31,6 +31,10 @@ trait  ShippingTrait
     private $merge_shipping_name;
     //CSV-配送先_お名前(セイ)(メイ)
     private $merge_shipping_name_kana;
+    //CSV-お名前（代表者）(姓)(名)
+    private $merge_chainstore_name;
+    //CSV-お名前（代表者）(カナ)(姓)(名)
+    private $merge_chainstore_kana;
 
     /**
      * Set shippingDeliveryStringDate
@@ -178,4 +182,53 @@ trait  ShippingTrait
     {
         return $this->merge_shipping_name_kana;
     }
+
+    /**
+     * Set merge_chainstore_name
+     *
+     * @param string|null $merge_chainstore_name
+     *
+     * @return Shipping
+     */
+    public function setMergeChainStoreName($merge_chainstore_name = null)
+    {
+        $this->merge_chainstore_name = $merge_chainstore_name;
+
+        return $this;
+    }
+
+    /**
+     * Get merge_chainstore_name
+     *
+     * @return string|null
+     */
+    public function getMergeChainStoreName()
+    {
+        return $this->merge_chainstore_name;
+    }
+
+    /**
+     * Set merge_chainstore_kana
+     *
+     * @param string|null $merge_chainstore_kana
+     *
+     * @return Shipping
+     */
+    public function setMergeChainStoreKana($merge_chainstore_kana = null)
+    {
+        $this->merge_chainstore_kana = $merge_chainstore_kana;
+
+        return $this;
+    }
+
+    /**
+     * Get merge_chainstore_kana
+     *
+     * @return string|null
+     */
+    public function getMergeChainStoreKana()
+    {
+        return $this->merge_chainstore_kana;
+    }
+    
 }

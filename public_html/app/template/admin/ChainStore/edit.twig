@@ -366,26 +366,6 @@ file that was distributed with this source code.
 
             purchasingLimitPrice();
 
-            var delivery_registrations = $("#admin_chain_store_delivery_registrations");
-            delivery_registrations.on("keydown", function(){
-                    $(this).data("isLock", true);
-            });
-
-            var delivery_registrations_chk = function(){
-                {% if ChainStore.id %}
-                    return false;
-                {% endif %}
-                
-                if(!delivery_registrations.data("isLock")){
-                    if( $("#admin_chain_store_contract_type").val() == "1" ){
-                        delivery_registrations.val("9");
-                    }else{
-                        delivery_registrations.val("0");
-                    }
-                }
-            };
-            delivery_registrations_chk();
-
             var margin_not_included_chk = function(){
                 if( $("#admin_chain_store_contract_type").val() == "2" ){
                     $(".margin_not_included").show();
@@ -414,6 +394,26 @@ file that was distributed with this source code.
                 }
             };
             margin_not_included_chk();
+
+            var delivery_registrations = $("#admin_chain_store_delivery_registrations");
+            delivery_registrations.on("keydown", function(){
+                    $(this).data("isLock", true);
+            });
+
+            var delivery_registrations_chk = function(){
+                {% if ChainStore.id %}
+                    return false;
+                {% endif %}
+                
+                if(!delivery_registrations.data("isLock")){
+                    if( $("#admin_chain_store_contract_type").val() == "1" ){
+                        delivery_registrations.val("9");
+                    }else{
+                        delivery_registrations.val("0");
+                    }
+                }
+            };
+            delivery_registrations_chk();
 
             $("#admin_chain_store_contract_type").on("change", function(){
                 purchasingLimitPrice();

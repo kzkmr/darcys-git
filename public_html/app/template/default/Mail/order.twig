@@ -13,9 +13,9 @@ file that was distributed with this source code.
 
 この度はご注文いただき誠にありがとうございます。下記ご注文内容にお間違えがないかご確認下さい。
 
-************************************************
+**************************
 　ご請求金額
-************************************************
+**************************
 
 ご注文日時：{{ Order.order_date|date_sec }}
 ご注文番号：{{ Order.order_no }}
@@ -28,9 +28,9 @@ file that was distributed with this source code.
 お問い合わせ：{{ Order.message }}
 
 
-************************************************
+**************************
 　ご注文商品明細
-************************************************
+**************************
 
 {% set isShowReducedTaxMess = false %}
 {% for OrderItem in Order.MergedProductOrderItems %}
@@ -43,31 +43,32 @@ file that was distributed with this source code.
 {% endfor %}
 {% if isShowReducedTaxMess %}※は軽減税率対象商品です。
 {% endif %}
--------------------------------------------------
+--------------------------
 小　計：{{ Order.subtotal|price }}
 送　料：{{ Order.delivery_fee_total|price}}
 {% if Order.taxable_discount < 0 %}
 値引き：{{ Order.taxable_discount|price }}
 {% endif %}
--------------------------------------------------
+--------------------------
 合　計：{{ Order.taxable_total|price }}
     {% for rate, total in Order.taxable_total_by_tax_rate %}
     ({{ rate }} %対象：{{ total|price }})
     {% endfor %}
 {% for item in Order.tax_free_discount_items %}
--------------------------------------------------
+--------------------------
 {{ item.product_name }}：{{ item.total_price|price }}
 {% endfor %}
--------------------------------------------------
+--------------------------
 お支払い合計：{{ Order.payment_total|price }}
 {% if IsChainStore() == false %}
-************************************************
+
+**************************
 　ご注文者情報
-************************************************
+**************************
 {% else %}
-************************************************
+**************************
 　販売店情報
-************************************************
+**************************
 {% endif %}
 
 お名前：{{ Order.name01 }} {{ Order.name02 }} 様
@@ -80,9 +81,9 @@ file that was distributed with this source code.
 電話番号：{{ Order.phone_number }}
 メールアドレス：{{ Order.email }}
 
-************************************************
+**************************
 　配送情報
-************************************************
+**************************
 
 {%  for Shipping in Order.Shippings %}
 {% if ChainStore %}
@@ -117,9 +118,19 @@ file that was distributed with this source code.
 {{ Order.complete_mail_message }}
 {% endif %}
 
-============================================
 
 このメッセージはお客様へのお知らせ専用ですので、
 このメッセージへの返信としてご質問をお送りいただいても回答できません。
 ご了承ください。
+
+==========================
+Darcy's Factory
+株式会社ダシーズファクトリー
+■ダシーズ東京本社
+〒150-002東京都渋谷区広尾3-12-36ワイマッツ広尾
+■ダシーズ大阪支社
+〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F
+Mail: infor@darcys-factory.co.jp (24時間365日受付)
+公式HP　https://darcys-factory.co.jp/
+==========================
 {% endautoescape %}

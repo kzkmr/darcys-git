@@ -14,7 +14,7 @@ file that was distributed with this source code.
 <body bgcolor="#F0F0F0" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;">
 <br>
 <br>
-<div align="center"><a href="{{ url('homepage') }}" style="font-family:Helvetica, Arial, sans-serif;font-size:30px;color:#333333;text-decoration:none;">{{ BaseInfo.shop_name }}</a></div>
+<div align="center"><a href="{{ url('homepage') }}" style="font-family:Helvetica, Arial, sans-serif;font-size:30px;color:#333333;text-decoration:none;">株式会社ダシーズファクトリー</a></div>
 <!-- 100% background wrapper (grey background) -->
 <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
     <tr>
@@ -30,8 +30,8 @@ file that was distributed with this source code.
                         <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333;">
                             {{ Customer.name01 }} {{ Customer.name02 }} 様<br>
                             <br>
-                            {{ BaseInfo.shop_name }}でございます。<br/>
-                            現在は仮登録の状態です。<br/><br/>
+                            株式会社ダシーズファクトリーでございます。<br/>
+                            現在は【仮登録】の状態です。<br/><br/>
                             本会員登録を完了するには下記URLにアクセスしてください。<br><br/>
                             <a href="{{ activateUrl }}">{{ activateUrl }}</a>
                             <br/>
@@ -49,12 +49,21 @@ file that was distributed with this source code.
             <table id="html-mail-table2" border="0" width="600px" cellpadding="10" cellspacing="0" class="container" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
                 <tr>
                     <td class="container-padding content footer-text" align="left" style="border-collapse:collapse;font-family:Helvetica, Arial, sans-serif;font-size:12px;line-height:16px;color:#aaaaaa;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff;">
-                        本メールは、{{ BaseInfo.shop_name }}より会員登録を希望された方にお送りしています。<br/>
-                        もしお心当たりが無い場合は、その旨 <a href="mailto:{{ BaseInfo.email02 }}" style="text-decoration:none;">{{ BaseInfo.email02 }}</a> までご連絡いただければ幸いです。<br/>
+                        本メールは、株式会社ダシーズファクトリーより会員登録を希望された方にお送りしています。<br/>
+                        お心当たりが無い場合は、その旨 infor@darcys-factory.co.jp までご連絡いただければ幸いです。<br/>
                         <br/>
-                        <div class="title" style="font-size:14px;font-family:Helvetica, Arial, sans-serif;font-weight:600;color:#374550;"><a href="{{ url('homepage') }}" style="color:#aaaaaa;text-decoration:none;">{{ BaseInfo.shop_name }}</a></div>
-                        <div>copyright &copy; {{ BaseInfo.shop_name }} all rights reserved.</div>
-                    </td>
+                        <hr style="border-top: 3px double #8c8b8b;">
+                        Darcy's Factory<br/>
+                        株式会社ダシーズファクトリー<br/>
+                        ■ダシーズ東京本社<br/>
+                        〒150-002東京都渋谷区広尾3-12-36ワイマッツ広尾<br/>
+                        ■ダシーズ大阪支社<br/>
+                        〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F<br/>
+                        Mail: infor@darcys-factory.co.jp (24時間365日受付)<br/>
+                        公式HP　https://darcys-factory.co.jp/<br/>
+                        <hr style="border-top: 3px double #8c8b8b;">
+                        <br/>
+                  </td>
                 </tr>
             </table>
         </td>

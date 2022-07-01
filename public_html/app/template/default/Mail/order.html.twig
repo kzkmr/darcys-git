@@ -14,7 +14,7 @@ file that was distributed with this source code.
 <body bgcolor="#F0F0F0" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;">
 <br>
 <br>
-<div align="center"><a href="{{ url('homepage') }}" style="font-family:Helvetica, Arial, sans-serif;font-size:30px;color:#333333;text-decoration:none;">{{ BaseInfo.shop_name }}</a></div>
+<div align="center"><a href="{{ url('homepage') }}" style="font-family:Helvetica, Arial, sans-serif;font-size:30px;color:#333333;text-decoration:none;">株式会社ダシーズファクトリー</a></div>
 <!-- 100% background wrapper (grey background) -->
 <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
     <tr>
@@ -73,7 +73,7 @@ file that was distributed with this source code.
                                 {{ item.product_name }}：{{ item.total_price|price }}<br/>
                             {% endfor %}
                             <hr style="border-top: 1px dotted #8c8b8b;">
-                            お支払い合計：{{ Order.payment_total|price }}
+                            お支払い合計：{{ Order.payment_total|price }}<br/>
                             <br/>
                             {% if IsChainStore() == false %}
                             <hr style="border-top: 3px double #8c8b8b;">
@@ -145,6 +145,9 @@ file that was distributed with this source code.
                        <hr style="border-top: 3px double #8c8b8b;">
                         Darcy's Factory<br/>
                         株式会社ダシーズファクトリー<br/>
+                        ■ダシーズ東京本社<br/>
+                        〒150-002東京都渋谷区広尾3-12-36ワイマッツ広尾<br/>
+                        ■ダシーズ大阪支社<br/>
                         〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F<br/>
                         Mail: infor@darcys-factory.co.jp (24時間365日受付)<br/>
                         公式HP　https://darcys-factory.co.jp/<br/>

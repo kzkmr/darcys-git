@@ -576,10 +576,11 @@ class OrderController extends BaseOrderController
                                 continue;
                             }
                             
-                            if(is_object($orderStatus)){
+                            if($changeStatus){
                                 if($Order->getOrderStatus()->getId() == "1" || 
                                         $Order->getOrderStatus()->getId() == "6"){
                                     //if(!in_array($Shipping->getId(),$isChangedId)){
+                                        $orderStatus = $this->orderStatusRepository->findOneBy(["id" => 10]);
                                         $Order->setOrderStatus($orderStatus);
                                         $this->entityManager->persist($Order);
                                         $this->entityManager->flush();
@@ -634,6 +635,18 @@ class OrderController extends BaseOrderController
                             if(!empty($Shipping->getKana01()) || !empty($Shipping->getKana02())){
                                 $mergeNameKana = $Shipping->getKana01().$Shipping->getKana02();
                                 $Shipping->setMergeShippingNameKana($mergeNameKana);
+                            }
+                            if(is_object($ChainStore)){
+                                //お名前（代表者）(姓)(名)
+                                if(!empty($ChainStore->getName01()) || !empty($ChainStore->getName02())){
+                                    $mergeName = $ChainStore->getName01().$ChainStore->getName02();
+                                    $Shipping->setMergeChainStoreName($mergeName);
+                                }
+                                //お名前（代表者）(カナ)(姓)(名)
+                                if(!empty($ChainStore->getKana01()) || !empty($ChainStore->getKana02())){
+                                    $mergeNameKana = $ChainStore->getKana01().$ChainStore->getKana02();
+                                    $Shipping->setMergeChainStoreKana($mergeNameKana);
+                                }
                             }
 
                             $ExportCsvRow = new ExportCsvRow();
