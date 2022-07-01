@@ -1690,8 +1690,13 @@ Styleguide 11.3.2
 .category-nav__list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+}
+@media only screen and (min-width: 768px) {
+  .category-nav__list {
+    justify-content: center;
+  }
 }
 .category-nav__item {
   flex: 0 0 31.5%;
@@ -1704,8 +1709,18 @@ Styleguide 11.3.2
     margin-bottom: 0;
   }
 }
-.category-nav__item + .category-nav__item {
-  margin-left: 2%;
+.category-nav__item:not(:nth-child(3n+1)) {
+  margin-left: 2.75%;
+}
+@media only screen and (min-width: 768px) {
+  .category-nav__item:not(:nth-child(3n+1)) {
+    margin-left: 0;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .category-nav__item + .category-nav__item {
+    margin-left: 2%;
+  }
 }
 .category-nav__item span {
   display: flex;

@@ -5,11 +5,11 @@
 */
 function ec_url()
 {
-  return "//test-darcys-factory.xyz";
+  return "//darcys-factory.co.jp";
 }
 function ec_asset_url()
 {
-  return "//test-darcys-factory.xyz/html/template/default/assets";
+  return "//darcys-factory.co.jp/html/template/default/assets";
 }
 
 /**
