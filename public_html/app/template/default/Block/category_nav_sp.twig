@@ -32,43 +32,55 @@ file that was distributed with this source code.
 <div class="ec-header-category-area">
   <div class="ec-item-nav">
     {% if ChainStore %}
-    <ul class="ec-item-nav__nav">
-      <li class="ec-item-nav__nav-item">
-        <a href="{{ url('mypage_menu') }}">
-          トップ
-        </a>
-      </li>
-      <li class="ec-item-nav__nav-item">
-        <a href="{{ url('mypage_news') }}">
-          新着情報
-        </a>
-      </li>
-      <li class="ec-item-nav__nav-item">
-        <a href="/shop/store-guide">
-          ご利用案内
-        </a>
-      </li>
-      <li class="ec-item-nav__nav-item">
-        <a href="{{ url('product_list') }}">
-          商品発注
-        </a>
-      </li>
-      <li class="ec-item-nav__nav-item">
-        <a href="{{ url('product_list') }}?category_id=8">
-          販促品発注
-        </a>
-      </li>
-      <li class="ec-item-nav__nav-item">
-        <a href="/shop/products-list/">
-          商品紹介
-        </a>
-      </li>
-      <li class="ec-item-nav__nav-item">
-        <a href="{{ url('mypage') }}">
-          マイページ
-        </a>
-      </li>
-    </ul>
+        <ul class="ec-item-nav__nav">
+            <li class="ec-item-nav__nav-item">
+                <a href="{{ url('mypage_menu') }}">
+                    トップ
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="{{ url('mypage_news') }}">
+                    新着情報
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="/shop/store-guide">
+                    ご利用案内
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="{{ url('product_list') }}">
+                    商品発注
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="{{ url('product_list') }}?category_id=8">
+                    販促品発注
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="/shop/products-list/">
+                    商品紹介
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="{{ url('mypage') }}">
+                    マイページ
+                </a>
+            </li>
+            {% if BaseInfo.option_favorite_product %}
+                <li class="ec-item-nav__nav-item">
+                    <a href="{{ url('mypage_favorite') }}">
+                        {{ 'front.block.login.favorite'|trans }}
+                    </a>
+                </li>
+            {% endif %}
+            <li class="ec-item-nav__nav-item">
+                <a href="{{ url('logout') }}">
+                    {{ 'front.block.login.logout'|trans }}
+                </a>
+            </li>
+        </ul>
     {% else %}
     <ul class="ec-item-nav__nav">
       <li class="ec-item-nav__nav-item">

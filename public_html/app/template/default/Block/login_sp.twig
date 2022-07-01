@@ -17,33 +17,35 @@ file that was distributed with this source code.
             </div>
             <span>{{ 'front.block.login.to_cart'|trans }}</span>
         </a> #}
-        {% if is_granted('ROLE_USER') %}
-            <a class="ec-header-link__item" href="{{ url('mypage') }}">
-              <span>{{ 'front.block.login.mypage'|trans }}</span>
-            </a>
-            {% if BaseInfo.option_favorite_product %}
-              <a class="ec-header-link__item" href="{{ url('mypage_favorite') }}">
-                <span>{{ 'front.block.login.favorite'|trans }}</span>
-              </a>
+        {% if ChainStore == false %}
+            {% if is_granted('ROLE_USER') %}
+                <a class="ec-header-link__item" href="{{ url('mypage') }}">
+                    <span>{{ 'front.block.login.mypage'|trans }}</span>
+                </a>
+                {% if BaseInfo.option_favorite_product %}
+                <a class="ec-header-link__item" href="{{ url('mypage_favorite') }}">
+                    <span>{{ 'front.block.login.favorite'|trans }}</span>
+                </a>
+                {% endif %}
+                <a class="ec-header-link__item" href="{{ url('logout') }}">
+                    <span>{{ 'front.block.login.logout'|trans }}</span>
+                </a>
+            {% else %}
+                <a class="ec-header-link__item" href="{{ url('entry') }}">
+                    <span>{{ 'front.block.login.customer_registration'|trans }}</span>
+                </a>
+                {% if BaseInfo.option_favorite_product %}
+                <a class="ec-header-link__item" href="{{ url('mypage_favorite') }}">
+                    <span>{{ 'front.block.login.favorite'|trans }}</span>
+                </a>
+                {% endif %}
+                <a class="ec-header-link__item" href="{{ url('mypage_login') }}">
+                    <span>{{ 'front.block.login.login'|trans }}</span>
+                </a>
             {% endif %}
-            <a class="ec-header-link__item" href="{{ url('logout') }}">
-              <span>{{ 'front.block.login.logout'|trans }}</span>
-            </a>
-        {% else %}
-            <a class="ec-header-link__item" href="{{ url('entry') }}">
-              <span>{{ 'front.block.login.customer_registration'|trans }}</span>
-            </a>
-            {% if BaseInfo.option_favorite_product %}
-              <a class="ec-header-link__item" href="{{ url('mypage_favorite') }}">
-                <span>{{ 'front.block.login.favorite'|trans }}</span>
-              </a>
-            {% endif %}
-            <a class="ec-header-link__item" href="{{ url('mypage_login') }}">
-              <span>{{ 'front.block.login.login'|trans }}</span>
-            </a>
         {% endif %}
         {# <a class="ec-header-link__item" href="{{ url('homepage') }}">
-          <span>{{ 'front.block.login.to_home'|trans }}</span>
+            <span>{{ 'front.block.login.to_home'|trans }}</span>
         </a> #}
     </div>
 </div>
