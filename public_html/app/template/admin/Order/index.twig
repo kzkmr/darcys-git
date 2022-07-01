@@ -179,6 +179,11 @@ file that was distributed with this source code.
         $("#selids").val(getAllCheck());
         $("#formaction").submit();
     });
+    $(".cust_shipping2").on("click", function(){
+        $("#action").val("cust_shipping2");
+        $("#selids").val(getAllCheck());
+        $("#formaction").submit();
+    });
 
     var getAllCheck = function(){
         var val = "";
@@ -532,6 +537,9 @@ file that was distributed with this source code.
                                                 <button type="button" class="dropdown-item cust_shipping1">
                                                     {{ 'admin.order.cust_shipping1_csv'|trans }}
                                                 </button>
+                                                <button type="button" class="dropdown-item cust_shipping2">
+                                                    {{ 'admin.order.cust_shipping2_csv'|trans }}
+                                                </button>
                                             </div>
                                         </div>
 
@@ -550,7 +558,10 @@ file that was distributed with this source code.
                                                 </a>
                                                 #}
                                                 <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : 8 }) }}" id="cust_shipping1_csv">
-                                                    {{ 'admin.order.shipping_csv'|trans }}
+                                                    {{ 'admin.order.cust_shipping1_csv'|trans }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ url('admin_setting_shop_csv', { id : 12 }) }}" id="cust_shipping2_csv">
+                                                    {{ 'admin.order.cust_shipping2_csv'|trans }}
                                                 </a>
                                             </div>
                                         </div>

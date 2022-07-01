@@ -35,6 +35,8 @@ trait  ShippingTrait
     private $merge_chainstore_name;
     //CSV-お名前（代表者）(カナ)(姓)(名)
     private $merge_chainstore_kana;
+    //CSV-E-ASPROのギフトモード
+    private $e_aspro;
 
     /**
      * Set shippingDeliveryStringDate
@@ -229,6 +231,30 @@ trait  ShippingTrait
     public function getMergeChainStoreKana()
     {
         return $this->merge_chainstore_kana;
+    }
+
+    /**
+     * Set e_aspro
+     *
+     * @param string|null $e_aspro
+     *
+     * @return Shipping
+     */
+    public function setEAspro($e_aspro = null)
+    {
+        $this->e_aspro = $e_aspro;
+
+        return $this;
+    }
+
+    /**
+     * Get e_aspro
+     *
+     * @return string|null
+     */
+    public function getEAspro()
+    {
+        return $this->e_aspro;
     }
     
 }

@@ -382,6 +382,9 @@ class OrderController extends BaseOrderController
         if($action == "cust_shipping1"){
             $response = $this->exportCustShipping1($request);
         }
+        if($action == "cust_shipping2"){
+            $response = $this->exportCustShipping2($request);
+        }
 
         return $response;
     }
@@ -400,6 +403,24 @@ class OrderController extends BaseOrderController
         $filename = 'cust_shipping1_'.(new \DateTime())->format('YmdHis').'.csv';
         $response = $this->exportCustCsv($request, 8, $filename, true, true);
         log_info('出荷チェックデータ-1CSV出力ファイル名', [$filename]);
+
+        return $response;
+    }
+
+    /**
+     * 出荷チェックデータ-2CSV
+     *
+     * @Route("/%eccube_admin_route%/order/export/cust_shipping2", name="admin_order_export_cust_shipping2", methods={"GET"})
+     *
+     * @param Request $request
+     *
+     * @return StreamedResponse
+     */
+    public function exportCustShipping2(Request $request)
+    {
+        $filename = 'cust_shipping2_'.(new \DateTime())->format('YmdHis').'.csv';
+        $response = $this->exportCustCsv($request, 12, $filename, true, true);
+        log_info('出荷チェックデータ-2CSV出力ファイル名', [$filename]);
 
         return $response;
     }
@@ -648,6 +669,8 @@ class OrderController extends BaseOrderController
                                     $Shipping->setMergeChainStoreKana($mergeNameKana);
                                 }
                             }
+                            //E-ASPROのギフトモード
+                            $Shipping->setEAspro(1);
 
                             $ExportCsvRow = new ExportCsvRow();
 
