@@ -250,8 +250,8 @@ class CustomMypageController extends AbstractController
         );
 
 
-        if (wp_remote_get($request->getSchemeAndHttpHost() . $request->getBasePath() . '/shop/wp-json/wp/v2/store-news?per_page=6&_embed', false)) {
-            $response = wp_remote_get($request->getSchemeAndHttpHost() . $request->getBasePath() . '/shop/wp-json/wp/v2/store-news?per_page=6&_embed', false);
+        if (wp_remote_get($request->getSchemeAndHttpHost() . $request->getBasePath() . '/shop/wp-json/wp/v2/store-news?per_page=100&_embed', false)) {
+            $response = wp_remote_get($request->getSchemeAndHttpHost() . $request->getBasePath() . '/shop/wp-json/wp/v2/store-news?per_page=100&_embed', false);
             $posts = json_decode($response["body"]);
         } else {
             $posts = false;
