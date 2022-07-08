@@ -25,7 +25,7 @@ const btnLayoutsSP = [
 /**
  * ItemPreview
  */
-export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
+export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl, isShopLinkType }) => {
 	// ポチップ設定データ
 	const pchppVars = window.pchppVars || {};
 
@@ -52,13 +52,15 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 
 	return (
 		<>
-			<TextControl
-				label='検索キーワード'
-				value={parsedMeta.keywords}
-				onChange={(val) => {
-					updateMetadata('keywords', val);
-				}}
-			/>
+			{isShopLinkType && (
+				<TextControl
+					label='検索キーワード'
+					value={parsedMeta.keywords}
+					onChange={(val) => {
+						updateMetadata({ keywords: val });
+					}}
+				/>
+			)}
 			<TextControl
 				label='商品タイトル'
 				value={postTitle}
@@ -71,7 +73,7 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 				label='タイトル下に表示するテキスト'
 				value={parsedMeta.info}
 				onChange={(val) => {
-					updateMetadata('info', val);
+					updateMetadata({ info: val });
 				}}
 			/>
 			<BaseControl>
@@ -82,7 +84,7 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 						type='text'
 						value={parsedMeta.custom_btn_text}
 						onChange={(e) => {
-							updateMetadata('custom_btn_text', e.target.value);
+							updateMetadata({ custom_btn_text: e.target.value });
 						}}
 					/>
 				</div>
@@ -92,7 +94,7 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 						type='text'
 						value={parsedMeta.custom_btn_url}
 						onChange={(e) => {
-							updateMetadata('custom_btn_url', e.target.value);
+							updateMetadata({ custom_btn_url: e.target.value });
 						}}
 					/>
 				</div>
@@ -105,7 +107,7 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 						type='text'
 						value={parsedMeta.custom_btn_text_2}
 						onChange={(e) => {
-							updateMetadata('custom_btn_text_2', e.target.value);
+							updateMetadata({ custom_btn_text_2: e.target.value });
 						}}
 					/>
 				</div>
@@ -115,7 +117,7 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 						type='text'
 						value={parsedMeta.custom_btn_url_2}
 						onChange={(e) => {
-							updateMetadata('custom_btn_url_2', e.target.value);
+							updateMetadata({ custom_btn_url_2: e.target.value });
 						}}
 					/>
 				</div>
@@ -126,7 +128,7 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 				selected={parsedMeta.btnLayoutPC || ''}
 				options={btnLayoutsPC}
 				onChange={(val) => {
-					updateMetadata('btnLayoutPC', val);
+					updateMetadata({ btnLayoutPC: val });
 				}}
 			/>
 			<RadioControl
@@ -135,35 +137,39 @@ export default ({ postTitle, parsedMeta, updateMetadata, customImgUrl }) => {
 				selected={parsedMeta.btnLayoutSP || ''}
 				options={btnLayoutsSP}
 				onChange={(val) => {
-					updateMetadata('btnLayoutSP', val);
+					updateMetadata({ btnLayoutSP: val });
 				}}
 			/>
-			<BaseControl>
-				<BaseControl.VisualLabel>情報の表示</BaseControl.VisualLabel>
-				{pchppVars.displayPrice === 'off' ? (
-					<CheckboxControl
-						label='価格情報を表示する'
-						checked={parsedMeta.showPrice}
-						onChange={(checked) => {
-							updateMetadata('showPrice', checked);
-						}}
-					/>
-				) : (
-					<CheckboxControl
-						label='価格情報を隠す'
-						checked={parsedMeta.hidePrice}
-						onChange={(checked) => {
-							updateMetadata('hidePrice', checked);
-						}}
-					/>
-				)}
-			</BaseControl>
-			<div className='components-base-control -custom-image'>
-				<div className='components-base-control__field'>
-					<div className='components-base-control__label'>商品カスタム画像</div>
-					<ExSettting />
+			{isShopLinkType && (
+				<BaseControl>
+					<BaseControl.VisualLabel>情報の表示</BaseControl.VisualLabel>
+					{pchppVars.displayPrice === 'off' ? (
+						<CheckboxControl
+							label='価格情報を表示する'
+							checked={parsedMeta.showPrice}
+							onChange={(checked) => {
+								updateMetadata({ showPrice: checked });
+							}}
+						/>
+					) : (
+						<CheckboxControl
+							label='価格情報を隠す'
+							checked={parsedMeta.hidePrice}
+							onChange={(checked) => {
+								updateMetadata({ hidePrice: checked });
+							}}
+						/>
+					)}
+				</BaseControl>
+			)}
+			{isShopLinkType && (
+				<div className='components-base-control -custom-image'>
+					<div className='components-base-control__field'>
+						<div className='components-base-control__label'>商品カスタム画像</div>
+						<ExSettting />
+					</div>
 				</div>
-			</div>
+			)}
 		</>
 	);
 };

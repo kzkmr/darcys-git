@@ -54,7 +54,7 @@ file that was distributed with this source code.
                 <div class="ec-addressRole">
                     <div class="ec-addressRole__actions" style="text-align:center;">
                         {% if ChainStore %}
-                            <a style="display:none;" class="ec-inlineBtn" href="/shop/branch?{% if ChainStore.stock_number is not empty %}number={{ ChainStore.stock_number }}{% endif %}{% if ChainStore.company_name is not empty %}&companyname={{ ChainStore.company_name }}{% endif %}{% if  ChainStore.full_name is not empty %}&name={{ ChainStore.full_name }}{% endif %}">新規販売店舗追加フォーム</a>
+                            <a class="ec-inlineBtn" href="/shop/branch?{% if ChainStore.stock_number is not empty %}number={{ ChainStore.stock_number }}{% endif %}{% if ChainStore.company_name is not empty %}&companyname={{ ChainStore.company_name }}{% endif %}{% if  ChainStore.full_name is not empty %}&name={{ ChainStore.full_name }}{% endif %}">新規販売店舗追加フォーム</a>
                             {# {% if Customer.CustomerAddresses|length < ChainStore.delivery_registrations %}
                                 <a class="ec-inlineBtn" href="{{ url('mypage_delivery_new') }}">新規販売店舗を追加する</a>
                             {% else %}

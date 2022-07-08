@@ -2,8 +2,8 @@
 Contributors: ninjateam
 Tags: wordpress media library folders, media library folders, media folder, file manager, folders, wp media folder, wp media folders, wordpress media folders, wordpress media library, wordpress media manager, media manager, firebird
 Requires at least: 3.0
-Tested up to: 5.8
-Stable tag: trunk
+Tested up to: 6.0
+Stable tag: 5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,14 +15,14 @@ Organize thousands of WordPress media files in folders / categories at ease.
 
 Let's organize WordPress media library folders using a drag and drop organizer.
 
-[TEST DRIVE](https://media-folder.ninjateam.org/create/) | [**GO PRO** (Lifetime Deal)](https://1.envato.market/FileBird-Premium) 💎
+[TEST DRIVE](https://media-folder.ninjateam.org/create/) | [**GO PRO (Lifetime License)**](https://1.envato.market/FileBird-Premium) 💎
 
 
-FileBird enhances your media library with clean UI, native icons, smooth drag & drop, advanced sort and organization. 
+FileBird enhances your media library with a clean user interface, native icons, smooth drag & drop, dynamic gallery, advanced sort options, and better organization. 
 
 The free version allows you to create **unlimited main folders** and **subfolders**.
 
-[Compare Free vs Pro](https://ninjateam.gitbook.io/filebird/compare-filebird-free-and-pro)
+📌 [Documentation](https://ninjateam.gitbook.io/filebird/) | [Compare FileBird Free vs Pro](https://ninjateam.gitbook.io/filebird/compare-filebird-free-and-pro)
 
 [youtube https://www.youtube.com/watch?v=NjeEbqmMVwU]
 
@@ -178,6 +178,31 @@ Happy Organizing! 😍
 
 
 == Changelog ==
+
+= Jun 30, 2022 - Version 5.0 = 
+- Added: FileBird Gallery Layouts (Flex | Manasory | Grid) and Lightbox
+- Added: New API method for Dev
+- Added: Some new settings
+- Added: Full Support Gutenberg Block Translation with new json file (you can generate by using wp i18n make-json which have been published by WP version 5)
+- Added: Support Korean Language
+- Added: Support Themify
+- Added: Recommended plugins
+- Optimized: Performance (FileBird 5 loads the previous versions, refactored code base, optimized query, removed some library, changed structure)
+- Improved: UI and notices
+- Updated: POT file
+- Fixed: CSS with LMS Plugin
+- Fixed: Minimize Upload Popup
+- Fixed: Warning in PHP 8 (Tested in PHP 8.1)
+- Fixed: Compatible with Enhanced Media plugin
+- Fixed: Some bugs
+
+= Feb 9, 2022 – Version 4.9.9.1 =
+- Optimized code
+
+= Jan 7, 2022 – Version 4.9.9 =
+- Fixed: Slow query 
+- Fixed: File permissions
+- Fixed: Hide tab Import/Export error
 
 = Dec 30, 2021 - Version 4.9.8 =
 - Added: Import/Export folder structure into CSV

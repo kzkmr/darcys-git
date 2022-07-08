@@ -33,34 +33,34 @@ const SearchConfField = ({ type, isSearchedSource, isProductPage, showSearchConf
 	return (
 		<>
 			{isSearchedSource && <span className='__mainLabel'>検索元</span>}
-			{!isSearchedSource && <>
-				{showSearchConf && (
-					<>
-						<Button
-							icon={<Icon icon={search} />}
-							isSecondary={true}
-							onClick={() => {
-								openThickbox(type);
-							}}
-						>
-							{isProductPage ? `${label}で再検索` : `${label}でも検索`}
-						</Button>
-						<Button
-							className={!isProductPage ? '-hide' : ''}
-							icon={<Icon icon={closeSmall} />}
-							isSecondary={true}
-							onClick={() => {
-								deleteSearchResult();
-							}}
-						>
-							詳細リンクを削除
-						</Button>
-					</>
-				)}
-				{!showSearchConf && (
-					<span className='__mainLabel'>「すべて検索結果ページを表示」するため検索できません</span>
-				)}
-			</>}
+			{!isSearchedSource && (
+				<>
+					{showSearchConf && (
+						<>
+							<Button
+								icon={<Icon icon={search} />}
+								isSecondary={true}
+								onClick={() => {
+									openThickbox(type);
+								}}
+							>
+								{isProductPage ? `${label}で再検索` : `${label}でも検索`}
+							</Button>
+							<Button
+								className={!isProductPage ? '-hide' : ''}
+								icon={<Icon icon={closeSmall} />}
+								isSecondary={true}
+								onClick={() => {
+									deleteSearchResult();
+								}}
+							>
+								詳細リンクを削除
+							</Button>
+						</>
+					)}
+					{!showSearchConf && <span className='__mainLabel'>「すべて検索結果ページを表示」するため検索できません</span>}
+				</>
+			)}
 		</>
 	);
 };
@@ -83,7 +83,7 @@ const LinkTableRow = ({ current, searchedAt, link, isProductPage, showSearchConf
 					isSearchedSource={isSearchedSource}
 					isProductPage={isProductPage}
 					showSearchConf={showSearchConf}
-					openThickbox={type => openThickBox(type)}
+					openThickbox={(type) => openThickBox(type)}
 					deleteSearchResult={() => {
 						deleteFunc();
 					}}

@@ -82,8 +82,8 @@ file that was distributed with this source code.
 {% if Page.meta_robots is not empty %}<meta name="robots" content="{{ Page.meta_robots }}">{% endif %}
 {% elseif app.request.get('_route') == 'product_list' and Category.itoben_seo_meta_robots is not empty %}
 
-<meta name="robots" content="{{ Category.itoben_seo_meta_robots }}">
-{# <meta name="robots" content="noindex,nofollow,noarchive" /> #}
+{# <meta name="robots" content="{{ Category.itoben_seo_meta_robots }}"> #}
+<meta name="robots" content="noindex,nofollow,noarchive" />
 
 {% elseif Page.meta_robots is not empty %}
 <meta name="robots" content="{{ Page.meta_robots }}">

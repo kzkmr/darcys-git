@@ -1348,6 +1348,66 @@ h2.p-related-posts__title.c-entry-aside__title{
     font-weight: unset;
 }
 
+/*////shop/store-guide/販売店用ご利用案内のトップページ追加///*/
+
+.ec-mypage-usermenu {
+    display: flex;
+    flex-wrap: wrap;
+}
+.ec-mypage-usermenu__item a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+    font-size: 22px;
+    line-height: 1.333;
+    letter-spacing: .05em;
+    background: linear-gradient(to bottom, #4A2511 0%, #795C34 100%);
+    color: #fff;
+    text-align: center;
+}
+
+.ec-mypage-usermenu__item .text {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: .05em;
+    color: #354e57;
+    padding: 0 1rem;
+}
+
+.contact-add {
+    border: 1px solid #f1f1f1;
+    padding: 1rem;
+    background-color: #f6f6f6;
+    box-shadow: 1px 1px 2px #ddd;
+}
+.has-sm-normal-font-size{
+    padding-left: 0.5rem;
+}
+
+
+@media only screen and (min-width: 768px){
+.ec-mypage-usermenu__item {
+    flex: 0 0 33.333%;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+}
+@media only screen and (max-width: 767px){
+.ec-mypage-usermenu__item {
+    display: contents;
+}
+    .ec-mypage-usermenu__item .text{
+        margin-bottom: 2rem;
+    }
+}
+
+
+
 /*//////////// メディアクエリ /////////////*/
 @media (min-width: 1401px) {
 

@@ -21,7 +21,6 @@ use Plugin\Webapi\Repository\NewsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 
-
 class RssController extends AbstractController
 {
 

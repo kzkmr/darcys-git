@@ -51,8 +51,6 @@ admin.common.chainstore_shop_code: 販売店
 admin.common.shop_code: 識別番号
 admin.common.shop_code_ex: 識別番号(例：AB12345678)
 admin.common.related_chainstore: 関連販売店
-admin.common.related_chainstore_representative: 代表者名
-admin.common.chainstore_: 代表者名
 admin.common.related_customer: 関連会員
 admin.common.shop_name: 営業店名称
 admin.common.bank_name: 金融機関名(例：ゆうちょ銀行)
@@ -201,4 +199,3 @@ admin.order.cust_shipping2_csv: 出荷(B2C)CSV
 admin.chainstore.export1_csv: 販売店一覧1CSV
 admin.chainstore.export2_csv: 販売店一覧2CSV
 admin.chainstore.export3_csv: 販売店一覧3CSV
-admin.chainstore.export_subchainstore1_csv: 販売店店舗一覧（お届け先情報）CSV

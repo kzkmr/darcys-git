@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.0.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-06-19 01:08:18+0000\n"
+"PO-Revision-Date: 2022-07-01 13:15:11+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -284,6 +284,18 @@ msgstr "1月"
 #, gp-priority: high
 msgid "Uncategorized"
 msgstr "未分類"
+
+#: wp-includes/option.php:2250
+msgid "The ID of the page that should display the latest posts"
+msgstr "最新の投稿を表示するページの ID"
+
+#: wp-includes/option.php:2240
+msgid "The ID of the page that should be displayed on the front page"
+msgstr "フロントページに表示するページの ID"
+
+#: wp-includes/option.php:2230
+msgid "What to show on the front page"
+msgstr "フロントページに表示する内容"
 
 #. translators: 1: PHP file name, 2: Version number.
 #: wp-includes/functions.php:5575
@@ -5220,7 +5232,7 @@ msgstr "%s への返信。"
 msgid "Previous and next months"
 msgstr "前と次の月"
 
-#: wp-includes/option.php:2322
+#: wp-includes/option.php:2353
 msgid "When registering an \"array\" setting to show in the REST API, you must specify the schema for each array item in \"show_in_rest.schema.items\"."
 msgstr "登録する際に「配列」のメタタイプを REST API で表示するには、\"show_in_rest.schema.items\" に各配列項目のスキーマを指定しなければなりません。 "
 
@@ -5774,7 +5786,7 @@ msgstr "添付ファイルのプレビュー"
 msgid "Your browser cannot upload files"
 msgstr "使用中のブラウザーはファイルをアップロードできません"
 
-#: wp-includes/class-wp-xmlrpc-server.php:658 wp-includes/option.php:2247
+#: wp-includes/class-wp-xmlrpc-server.php:658 wp-includes/option.php:2278
 msgid "Allow people to submit comments on new posts."
 msgstr "新しい投稿へのコメントを許可する。"
 
@@ -8431,7 +8443,7 @@ msgid "Featured image"
 msgstr "アイキャッチ画像"
 
 #. translators: 1: $sanitize_callback, 2: register_setting()
-#: wp-includes/option.php:2440
+#: wp-includes/option.php:2471
 msgid "%1$s is deprecated. The callback from %2$s is used instead."
 msgstr "%1$s は非推奨です。%2$s からのコールバックを代わりに使用します。"
 
@@ -8554,7 +8566,7 @@ msgstr[0] "お使いのテーマには他に%s個のウィジェットエリア�
 msgid "Your theme has 1 other widget area, but this particular page does not display it."
 msgstr "お使いのテーマには他に1個のウィジェットエリアがありますが、このページでは表示していません。"
 
-#: wp-includes/option.php:2121
+#: wp-includes/option.php:2122
 msgid "This address is used for admin purposes, like new user notification."
 msgstr "このアドレスは新規ユーザーの通知などサイト管理のために使われます。"
 
@@ -8749,11 +8761,11 @@ msgstr "添付ファイルの説明。"
 msgid "The attachment caption."
 msgstr "添付ファイルのキャプション。"
 
-#: wp-includes/option.php:2198
+#: wp-includes/option.php:2199
 msgid "Default post category."
 msgstr "デフォルトの投稿カテゴリー。"
 
-#: wp-includes/option.php:2088
+#: wp-includes/option.php:2089
 msgid "Site tagline."
 msgstr "サイトのキャッチフレーズ。"
 
@@ -10050,50 +10062,50 @@ msgstr "%1$s %2$s, %3$s前 (%4$s)"
 
 #. translators: %s: misc
 #. translators: %s: privacy
-#: wp-includes/option.php:2335 wp-includes/option.php:2348
-#: wp-includes/option.php:2408 wp-includes/option.php:2421
+#: wp-includes/option.php:2366 wp-includes/option.php:2379
+#: wp-includes/option.php:2439 wp-includes/option.php:2452
 #: wp-admin/includes/template.php:1575 wp-admin/includes/template.php:1588
 #: wp-admin/includes/template.php:1646 wp-admin/includes/template.php:1659
 msgid "The \"%s\" options group has been removed. Use another settings group."
 msgstr "「%s」オプショングループは削除されました。他の設定グループを使ってください。"
 
-#: wp-includes/option.php:2233
+#: wp-includes/option.php:2264
 msgid "Allow link notifications from other blogs (pingbacks and trackbacks) on new articles."
 msgstr "新しい記事に対し他のブログからの通知 (ピンバック・トラックバック) を受け付ける。"
 
-#: wp-includes/option.php:2218
+#: wp-includes/option.php:2219
 msgid "Blog pages show at most."
 msgstr "表示する最大投稿数。"
 
-#: wp-includes/option.php:2208
+#: wp-includes/option.php:2209
 msgid "Default post format."
 msgstr "デフォルトの投稿フォーマット。"
 
-#: wp-includes/option.php:2187
+#: wp-includes/option.php:2188
 msgid "Convert emoticons like :-) and :-P to graphics on display."
 msgstr ":-) や :-P などの顔文字を絵文字に変換します。"
 
-#: wp-includes/option.php:2176
+#: wp-includes/option.php:2177
 msgid "WordPress locale code."
 msgstr "WordPress のロケールコード。"
 
-#: wp-includes/option.php:2164
+#: wp-includes/option.php:2165
 msgid "A day number of the week that the week should start on."
 msgstr "週の始まりの曜日番号。"
 
-#: wp-includes/option.php:2154
+#: wp-includes/option.php:2155
 msgid "A time format for all time strings."
 msgstr "時刻文字列の書式。"
 
-#: wp-includes/option.php:2144
+#: wp-includes/option.php:2145
 msgid "A date format for all date strings."
 msgstr "日付文字列の書式。"
 
-#: wp-includes/option.php:2134
+#: wp-includes/option.php:2135
 msgid "A city in the same timezone as you."
 msgstr "現在地と同じタイムゾーンの都市。"
 
-#: wp-includes/option.php:2076
+#: wp-includes/option.php:2077
 msgid "Site title."
 msgstr "サイト名。"
 
@@ -15734,7 +15746,7 @@ msgstr "タグを表示するにはこのサイトの投稿を編集する権限
 msgid "Site Tagline"
 msgstr "サイトのキャッチフレーズ"
 
-#: wp-includes/option.php:2104
+#: wp-includes/option.php:2105
 msgid "Site URL."
 msgstr "サイト URL。"
 
