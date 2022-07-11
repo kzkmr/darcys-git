@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Eccube\Controller\AbstractController;
+use Customize\Repository\ChainStoreRepository;
 
 /**
  * Class CouponController
@@ -51,17 +52,26 @@ class CouponController extends AbstractController
     private $couponDetailRepository;
 
     /**
+     * @var ChainStoreRepository
+     */
+    protected $chainstoreRepository;
+
+    /**
      * CouponController constructor.
      *
      * @param CouponRepository $couponRepository
      * @param CouponService $couponService
      * @param CouponDetailRepository $couponDetailRepository
      */
-    public function __construct(CouponRepository $couponRepository, CouponService $couponService, CouponDetailRepository $couponDetailRepository)
+    public function __construct(CouponRepository $couponRepository, 
+                                CouponService $couponService, 
+                                CouponDetailRepository $couponDetailRepository,
+                                ChainStoreRepository $chainstoreRepository)
     {
         $this->couponRepository = $couponRepository;
         $this->couponService = $couponService;
         $this->couponDetailRepository = $couponDetailRepository;
+        $this->chainstoreRepository = $chainstoreRepository;
     }
 
     /**
@@ -91,9 +101,10 @@ class CouponController extends AbstractController
      *
      * @return RedirectResponse|Response
      * @Route("/%eccube_admin_route%/plugin/coupon/new", name="plugin_coupon_new", requirements={"id" = "\d+"})
+     * @Route("/%eccube_admin_route%/plugin/coupon/new/{chainstore_id}", name="plugin_coupon_new_chainstore", requirements={"chainstore_id" = "\d+"})
      * @Route("/%eccube_admin_route%/plugin/coupon/{id}/edit", name="plugin_coupon_edit", requirements={"id" = "\d+"})
      */
-    public function edit(Request $request, $id = null)
+    public function edit(Request $request, $id = null, $chainstore_id = null)
     {
         $Coupon = null;
         if (!$id) {
@@ -161,9 +172,16 @@ class CouponController extends AbstractController
             return $this->redirectToRoute('plugin_coupon_list');
         }
 
+        $ChainStoreInfo = null;
+        if($chainstore_id != null){
+            $ChainStoreInfo = $this->chainstoreRepository->findOneBy(["id" => $chainstore_id]);
+        }
+
         return $this->renderRegistView([
             'form' => $form->createView(),
             'id' => $id,
+            'chainstoreId' => $chainstore_id,
+            "ChainStoreInfo" => $ChainStoreInfo,
         ]);
     }
 
