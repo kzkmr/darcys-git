@@ -56,21 +56,28 @@ class RssController extends AbstractController
 
     	for($i=0;$i<count($xml->channel->item);$i++){
     		$item = $xml->channel->item[$i];
-    		$itemLink = $item->link;
-    		$itemLink = (array) $itemLink;
-            $checkExist = $this->newRepository->findOneBy(['url'=>$itemLink[0]]);
+    		$itemLink = (array) $item->link;
+            $commentLink = (array)$item->comments;
+            $itemDescription = (array)$item->description;
+            $itemTitle = (array) $item->title;
+
+            $article_link = str_replace('/comments','', $commentLink[0]);
+
+            $checkExist = $this->newRepository->findOneBy(['url'=>$article_link]);
             if(!$checkExist && isset($itemLink[0])) :
                 $dom = HtmlDomParser::file_get_html($itemLink[0]);
                 $article_picture = $dom->find('main#contents',0)->find('article',0)->find('picture',0);
-                $picture = '';
-                if($article_picture){
-                    $picture  = $article_picture->find('img',0)->src;
-                }
+                if($article_picture) $article_picture = $article_picture->find('img',0);
+
+                $article_picture_src = $article_picture->src;
+                $article_picture_src_split = explode('?', $article_picture_src);
+
+
                 $new = new News();
-                $new->setTitle($item->title);
-                $new->setDescription(($item->description[0])?$item->description[0]:' ');
-                $new->setUrl($itemLink[0]);
-                $new->setFeatureImage($picture);
+                $new->setTitle($itemTitle[0]);
+                $new->setDescription($itemDescription[0]);
+                $new->setUrl($article_link);
+                $new->setFeatureImage($article_picture_src_split[0]);
                 $new->setSource('yahoo');
                 $new->setCategory($category);
                 $new->setCreateAt(new \DateTime('now'));

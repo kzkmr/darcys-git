@@ -229,9 +229,9 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 
 	// 画像とかタイトル部分のリンク先
 	if ( 'rakuten' === $searched_at ) {
-		$main_url = $rakuten_url ?: $amazon_url ?: $yahoo_url;
+		$main_url = $rakuten_url ?: $amazon_url ?: $yahoo_url ?: $custom_btn_url ?: $custom_btn_url_2;
 	} else {
-		$main_url = $amazon_url ?: $rakuten_url ?: $yahoo_url;
+		$main_url = $amazon_url ?: $rakuten_url ?: $yahoo_url ?: $custom_btn_url ?: $custom_btn_url_2;
 	}
 
 	// 商品画像

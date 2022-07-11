@@ -26,13 +26,15 @@
 
 // ** MySQL 設定 - この情報はホスティング先から入手してください。 ** //
 /** WordPress のためのデータベース名 */
-define( 'DB_NAME', 'offshore2022_wp2' );
+//define('WP_CACHE', true);
+//define( 'WPCACHEHOME', '/home/benechantest/darcys-factory.co.jp/public_html/shop/wp-content/plugins/wp-super-cache/' );
+define( 'DB_NAME', 'offshore2022_wp1' );
 
 /** MySQL データベースのユーザー名 */
-define( 'DB_USER', 'offshore2022_wp2' );
+define( 'DB_USER', 'offshore2022_wp1' );
 
 /** MySQL データベースのパスワード */
-define( 'DB_PASSWORD', '2c4aq5mqz0' );
+define( 'DB_PASSWORD', 'jqy46do3ca' );
 
 /** MySQL のホスト名 */
 define( 'DB_HOST', 'localhost' );

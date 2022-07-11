@@ -6,7 +6,7 @@
 	//通常（ウィジェット以外）
 	$(function () {
 		$('.pochipp-colorpicker').wpColorPicker({
-			change(event, ui) {
+			change() {
 				//チェンジイベントを発火させる setTimeoutでちょっと遅らせないと選択した色が反映されない
 				const $this = $(this);
 				setTimeout(function () {

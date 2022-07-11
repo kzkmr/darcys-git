@@ -5,7 +5,7 @@ Tags: optimize, image, convert, webp, resize, compress, lazy load, optimization,
 Requires at least: 5.7
 Tested up to: 6.0
 Requires PHP: 7.2
-Stable tag: 6.5.2
+Stable tag: 6.6.0
 License: GPLv3
 
 Smaller Images, Faster Sites, Happier Visitors. Comprehensive image optimization that doesn't require a degree in rocket science.
@@ -136,6 +136,18 @@ That's not a question, but since I made it up, I'll answer it. See this resource
 
 * Feature requests can be viewed and submitted on our [feedback portal](https://feedback.ewww.io/b/features)
 * If you would like to help translate this plugin in your language, [join the team](https://translate.wordpress.org/projects/wp-plugins/ewww-image-optimizer/)
+
+= 6.6.0 =
+* added: AVIF support via Easy IO, enable on site management at ewww.io
+* added: sharpening setting to improve WP resizing via ImageMagick and WebP conversion
+* added: AVIF quality setting on Advanced tab
+* added: ability for Easy IO to get full-size path when using offloaded media
+* changed: JPG quality and WebP quality moved to Advanced tab
+* changed: allow .htaccess rules on Cloudways with notice about WebP Redirection toggle
+* fixed: front-end HTML parsers running within Bricks editor
+* fixed: Easy IO not finding scaled full-size for dynamic size generation
+* fixed: cover images not cropped properly by Easy IO
+* fixed: Easy IO URLs leaking into post editor with WP 6.0
 
 = 6.5.2 =
 * added: automatic optimization for Crop Thumbnails plugin
