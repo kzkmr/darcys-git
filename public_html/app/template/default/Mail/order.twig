@@ -51,9 +51,9 @@ file that was distributed with this source code.
 {% endif %}
 --------------------------
 合　計：{{ Order.taxable_total|price }}
-    {% for rate, total in Order.taxable_total_by_tax_rate %}
-    ({{ rate }} %対象：{{ total|price }})
-    {% endfor %}
+{% for rate, total in Order.taxable_total_by_tax_rate %}
+({{ rate }} %対象：{{ total|price }})
+{% endfor %}
 {% for item in Order.tax_free_discount_items %}
 --------------------------
 {{ item.product_name }}：{{ item.total_price|price }}
@@ -128,7 +128,7 @@ Darcy's Factory
 株式会社ダシーズファクトリー
 ■ダシーズ東京本社
 〒150-0012東京都渋谷区広尾3-12-36ワイマッツ広尾
-■ダシーズ大阪支社
+■ダシーズ大阪本社
 〒530-0014 大阪市北区鶴野町1-9　梅田ゲートタワー 19F
 Mail: infor@darcys-factory.co.jp (24時間365日受付)
 公式HP　https://darcys-factory.co.jp/
