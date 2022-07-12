@@ -80,6 +80,7 @@ final class Versions
   'egulias/email-validator' => '2.1.25@0dbf5d78455d4d6a41d186da50adc1122ec066f4',
   'exercise/htmlpurifier-bundle' => 'v3.1.0@32f4709006e810efd8a72466a8e9d0672df4bc24',
   'ezyang/htmlpurifier' => 'v4.13.0@08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
+  'firebase/php-jwt' => 'v6.2.0@d28e6df83830252650da4623c78aaaf98fb385f3',
   'friendsofphp/php-cs-fixer' => 'v2.19.0@d5b8a9d852b292c2f8a035200fa6844b1f82300b',
   'friendsofphp/proxy-manager-lts' => 'v1.0.5@006aa5d32f887a4db4353b13b5b5095613e0611f',
   'guzzlehttp/guzzle' => '6.5.5@9d4290de1cfd701f38099ef7e183b64b4b7b0c5e',
@@ -121,6 +122,7 @@ final class Versions
   'setasign/fpdi-tcpdf' => 'v2.3.0@f6711a95cba64db16e1a63e1b6195827a2150c93',
   'skorp/detect-incompatible-samesite-useragents' => '1.0.1@e3277efe3c12ac618af4536ba1bdb55c33c1ef80',
   'suncat/mobile-detect-bundle' => 'v1.1.1@06007fec624587fd90e8963b796fc84fff64d4d8',
+  'sunra/php-simple-html-dom-parser' => 'v1.5.2@75b9b1cb64502d8f8c04dc11b5906b969af247c6',
   'swiftmailer/swiftmailer' => 'v6.2.7@15f7faf8508e04471f666633addacf54c0ab5933',
   'symfony/asset' => 'v4.4.25@a6b30fd4a9c992667b38d6f13efb20446761980a',
   'symfony/cache' => 'v4.4.26@fcdbaf8af546939eeed5e32399656da2ad371aaf',
@@ -243,7 +245,7 @@ final class Versions
   'symfony/phpunit-bridge' => 'v4.4.26@279ffbf294759a57839afc884ccabef9a1155b23',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
   'webmozart/assert' => '1.9.1@bafc69caeb4d49c39fd0779086c03a3738cbb389',
-  'ec-cube/ec-cube' => '1.0.0+no-version-set@',
+  'ec-cube/ec-cube' => 'No version set (parsed as 1.0.0)@',
 );
 
     private function __construct()
