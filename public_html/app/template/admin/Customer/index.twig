@@ -345,6 +345,7 @@ file that was distributed with this source code.
                                         <th class="border-top-0 pt-2 pb-3 pl-3 text-nowrap">{{ 'admin.customer.customer_id'|trans }}</th>
                                         <th class="border-top-0 pt-2 pb-3">{{ 'admin.common.name'|trans }}</th>
                                         <th class="border-top-0 pt-2 pb-3">{{ 'admin.common.related_chainstore'|trans }}</th>
+                                        <th class="border-top-0 pt-2 pb-3">{{ 'admin.common.related_chainstore_representative'|trans }}</th>
                                         <th class="border-top-0 pt-2 pb-3">{{ 'admin.common.phone_number'|trans }}</th>
                                         <th class="border-top-0 pt-2 pb-3">{{ 'admin.common.mail_address'|trans }}</th>
                                         <th class="border-top-0 pt-2 pb-3">&nbsp;</th>
@@ -361,6 +362,13 @@ file that was distributed with this source code.
                                                     <a href="{{ url('admin_chainstore_edit', { 'id': Customer.ChainStore.id}) }}">{{ Customer.ChainStore.company_name }}</a><br />
                                                 {% else %}
                                                     関連なし
+                                                {% endif %}
+                                            </td>
+                                            <td class="align-middle">
+                                                {% if Customer.ChainStore %}
+                                                    {{ Customer.ChainStore.name01 }}{{ Customer.ChainStore.name02 }}
+                                                {% else %}
+
                                                 {% endif %}
                                             </td>
                                             <td class="align-middle">{{ Customer.phone_number }}</td>

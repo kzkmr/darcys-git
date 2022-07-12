@@ -309,8 +309,12 @@ class CustomEntryController extends BaseEntryController
                             $Customer->getChainStore()->setDeliveryRegistrations(0);
                         }
                         
+                        $Customer->getChainStore()->setOptionOrderLimit(1);
+
                         if($ChainstoreType->getId()=="2"){
                             $Customer->getChainStore()->setOrderLimitText("プログラム適用待ち");
+                        }else{
+                            $Customer->getChainStore()->setOrderLimitText("契約内容確認中です。お取引開始までしばしお待ちください");
                         }
 
                         //代表者名・氏名「姓名」
@@ -328,7 +332,7 @@ class CustomEntryController extends BaseEntryController
                         if(is_object($chainStoreTradingAccountType)){
                             //ゆうちょ銀行
                             if($chainStoreTradingAccountType->getId() == 2){
-                                if(trim($ChainStore->getBankAccount()) == ""){
+                                if(trim($ChainStore->getBankAccount()) != ""){
                                     $branchNo = $ChainStore->getCodeNumber();
                                     $accountNo = $ChainStore->getAccountNumber();
 

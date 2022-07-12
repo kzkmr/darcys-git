@@ -617,8 +617,8 @@ class DataExportController extends AbstractController
             $header = "1";                  //データ区分-1：ヘッダレコード
             $header .= "21";                //種別コード-21：総合  11または71：給与    12または72：賞与
             $header .= "0";                 //コード区分-文字コード種類 0：JIS
-            $header .= "1234567890";        //委託者コード
-            $header .= $this->mb_str_pad($this->convert_to_l("テスト"),40," ",STR_PAD_RIGHT);          //振込元の委託者名
+            $header .= "3658564000";        //委託者コード
+            $header .= $this->mb_str_pad($this->convert_to_l("ﾀﾞｼ-ｽﾞﾌｱｸﾄﾘ-"),40," ",STR_PAD_RIGHT);          //振込元の委託者名
             $header .= str_pad($payYM,4," ",STR_PAD_RIGHT);                     //振込指定日
             $header .= "0000";              //当組合金融機関番号
             $header .= $this->mb_str_pad($this->convert_to_l("テスト"),15," ",STR_PAD_RIGHT);          //当組合名称

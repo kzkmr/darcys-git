@@ -23,6 +23,12 @@ use Eccube\Event\EventArgs;
 use Customize\Form\Type\Admin\SearchChainStoreType;
 use Eccube\Repository\CustomerRepository;
 use Customize\Repository\ChainStoreRepository;
+use Customize\Repository\Master\ApplicantContractTypeRepository;
+use Customize\Repository\Master\BankRepository;
+use Customize\Repository\Master\BankBranchRepository;
+use Customize\Repository\Master\BankAccountTypeRepository;
+use Customize\Repository\Master\RelatedChainStoreTypeRepository;
+use Customize\Repository\Master\ChainStoreTradingAccountTypeRepository;
 use Eccube\Repository\Master\PageMaxRepository;
 use Eccube\Repository\Master\PrefRepository;
 use Eccube\Repository\Master\SexRepository;
@@ -69,7 +75,37 @@ class ChainStoreController extends AbstractController
      * @var ChainStoreRepository
      */
     protected $chainstoreRepository;
+    
+    /**
+     * @var ApplicantContractTypeRepository
+     */
+    protected $applicantContractTypeRepository;
 
+    /**
+     * @var BankRepository
+     */
+    protected $bankRepository;
+
+    /**
+     * @var BankBranchRepository
+     */
+    protected $bankBranchRepository;
+
+    /**
+     * @var BankAccountTypeRepository
+     */
+    protected $bankAccountTypeRepository;
+
+    /**
+     * @var ChainStoreTradingAccountTypeRepository
+     */
+    protected $chainStoreTradingAccountTypeRepository;
+
+    /**
+     * @var RelatedChainStoreTypeRepository
+     */
+    protected $relatedChainStoreTypeRepository;
+    
     /**
      * @var CustomerRepository
      */
@@ -79,6 +115,12 @@ class ChainStoreController extends AbstractController
         PageMaxRepository $pageMaxRepository,
         ChainStoreRepository $chainstoreRepository,
         CustomerRepository $customerRepository,
+        ApplicantContractTypeRepository $applicantContractTypeRepository,
+        BankRepository $bankRepository,
+        BankBranchRepository $bankBranchRepository,
+        BankAccountTypeRepository $bankAccountTypeRepository,
+        ChainStoreTradingAccountTypeRepository $chainStoreTradingAccountTypeRepository,
+        RelatedChainStoreTypeRepository $relatedChainStoreTypeRepository,
         SexRepository $sexRepository,
         PrefRepository $prefRepository,
         MailService $mailService,
@@ -87,6 +129,12 @@ class ChainStoreController extends AbstractController
         $this->pageMaxRepository = $pageMaxRepository;
         $this->chainstoreRepository = $chainstoreRepository;
         $this->customerRepository = $customerRepository;
+        $this->applicantContractTypeRepository = $applicantContractTypeRepository;
+        $this->bankRepository = $bankRepository;
+        $this->bankBranchRepository = $bankBranchRepository;
+        $this->bankAccountTypeRepository = $bankAccountTypeRepository;
+        $this->chainStoreTradingAccountTypeRepository = $chainStoreTradingAccountTypeRepository;
+        $this->relatedChainStoreTypeRepository = $relatedChainStoreTypeRepository;
         $this->sexRepository = $sexRepository;
         $this->prefRepository = $prefRepository;
         $this->mailService = $mailService;
@@ -337,6 +385,12 @@ class ChainStoreController extends AbstractController
                 $Customer = $this->customerRepository->findOneBy(["ChainStore" => $ChainStore->getId()]);
                 $ChainStore->setRelatedCustomer($Customer);
 
+                $BankBranch = null;
+
+                if(!empty($ChainStore->getBankBranch())){
+                    $BankBranch = $this->bankBranchRepository->findOneBy(["id" => $ChainStore->getBankBranch()]);
+                }
+
                 $ExportCsvRow = new \Eccube\Entity\ExportCsvRow();
 
                 // CSV出力項目と合致するデータを取得.
@@ -348,6 +402,12 @@ class ChainStoreController extends AbstractController
                         if(is_object($Customer)){
                             // 会員データにない場合は, 販売店明細を検索.
                             $ExportCsvRow->setData($csvService->getData($Csv, $Customer));
+                        }
+                    }
+                    if ($ExportCsvRow->isDataNull()) {
+                        if(is_object($BankBranch)){
+                            // 会員データにない場合は, 支店を検索.
+                            $ExportCsvRow->setData($csvService->getData($Csv, $BankBranch));
                         }
                     }
 

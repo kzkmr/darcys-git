@@ -92,6 +92,20 @@ file that was distributed with this source code.
             width:48%;
             padding: 10px;
         }
+        .ec-member-reg{
+            color: #fff;
+            background-color: #20505a;
+            border-color: #20505a;
+            border-radius: 56px;
+            width: fit-content;
+            padding-left: 5rem;
+            padding-right: 5rem;
+            margin-top: 3rem;
+        }
+        .c-static-memo{
+            font-size:14px;
+            margin-top: 10px;
+        }
         @media all and (max-width:767px) {
             .ec-layoutRole__contents {
                 padding-top: 0px;
@@ -218,6 +232,13 @@ file that was distributed with this source code.
                                 </div>
                             </h1>
                             <p class="c-static-page-header__text c-static-page-link"><a href="{{ url('mypage_coupon_list') }}">獲得したクーポンを確認する</a></p>
+                            <h1 class="c-static-page-header__title c-static-page-button">
+                                <div class="ec-login__actions">
+                                    <a href="{{ url('entry') }}" target="_newmember" class="ec-blockBtn ec-member-reg">新規会員登録はこちら ></a>
+                                </div>
+                            </h1>
+                            <p class="c-static-page-header__text c-static-memo">※会員登録をした方のみクーポンをご利用が可能です。</p>
+                            
                         </div>
                     {% endif %}
                 </form>

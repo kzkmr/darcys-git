@@ -265,7 +265,13 @@ file that was distributed with this source code.
                                                     関連なし
                                                 {% endif %}
                                             </td>
-                                            <td class="align-middle"><a href="{{ url('admin_chainstore_edit', { 'id': ChainStore.id}) }}">{{ ChainStore.company_name }}</a></td>
+                                            <td class="align-middle">
+                                                <a href="{{ url('admin_chainstore_edit', { 'id': ChainStore.id}) }}">{{ ChainStore.company_name }}</a>
+                                                {% if ChainStore.contract_type.id != 3 %}
+                                                    <br >
+                                                    <span style="font-size:12px;">( <a href="{{ url('plugin_coupon_new_chainstore', { 'chainstore_id': ChainStore.id}) }}">クーポン登録</a> )</span>
+                                                {% endif %}
+                                            </td>
                                             <td class="align-middle">{{ ChainStore.company_name_kana }}</td>
                                             <td class="align-middle">{{ ChainStore.stock_number }}</td>
                                             <td class="align-middle">{{ ChainStore.name01 }} {{ ChainStore.name02 }}</td>

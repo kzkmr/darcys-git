@@ -385,6 +385,35 @@
             });
 
             $("#coupon_coupon_cd").trigger("keyup");
+
+            {% if chainstoreId %}
+                var chainstoreId = "{{chainstoreId}}";
+                var chainstoreName = "{{ChainStoreInfo.company_name}}";
+                $('#coupon_chain_store').val(chainstoreId);
+                //対象商品 ==> 全商品
+                $("#coupon_coupon_type_1").prop("checked", false);
+                $("#coupon_coupon_type_2").prop("checked", true);
+                $("#coupon_coupon_type_2").trigger("click");
+                //利用制限 ==> 会員のみ
+                $("#coupon_coupon_member_1").prop("checked", false);
+                $("#coupon_coupon_member_0").prop("checked", true);
+                $("#coupon_coupon_member_0").trigger("click");
+
+                //値引き種別 ==> 値引率
+                $("#coupon_discount_type_0").prop("checked", false);
+                $("#coupon_discount_type_1").prop("checked", true);
+                $("#coupon_discount_type_1").trigger("click");
+                
+                //値引率(％) => 5
+                $("#coupon_discount_rate").val("5");
+
+                //有効期間
+                $("#coupon_available_from_date").val("{{date()|date("Y-m-d")}}");
+                $("#coupon_available_to_date").val("9999-12-31");
+
+                //
+                $("#coupon_coupon_name").val(chainstoreName + "　クーポン");
+            {% endif %}
         });
     </script>
 {% endblock javascript %}

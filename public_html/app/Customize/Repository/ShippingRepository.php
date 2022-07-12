@@ -327,7 +327,7 @@ class ShippingRepository extends AbstractRepository
                             CASE WHEN base.contract_type_id = 2 THEN
                                 /* マージン対象外 */
                                 CASE WHEN base.margin_not_included THEN
-                                    FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt))
+                                    0
                                 ELSE
                                     /* 最低保証額に満たない場合は必ず「15,000円」をマージンとする。 */
                                     CASE WHEN FLOOR(SUM((chain_total_notax.total * 0.03) / support_cnt.cnt)) >= 15000 THEN
