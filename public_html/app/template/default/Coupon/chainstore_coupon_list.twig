@@ -18,16 +18,46 @@ file that was distributed with this source code.
     <script src="{{ asset('assets/js/qrcode.min.js') }}"></script>
     <script>
         $(function() {
-            function download(url, code){
-                var a = $("<a>")
-                            .attr("href", url)
-                            .attr("download", code + ".png")
-                            .appendTo("body");
+            function download(btn, url, data, code){
+                if(isMobileOperatingSystem()){
+                    btn.attr("download", code + ".png")
+                        .attr("href", "/qrcode/text/" + code);
+                    return true;
+                    //var blob = dataURItoBlob(url);
+                    //saveFile(code + ".png", "data:image/png", blob);
+                }else{
+                    var a = $("<a>")
+                                .attr("href", data)
+                                .attr("download", code + ".png")
+                                .appendTo("body");
 
-                        a[0].click();
+                            a[0].click();
 
-                        a.remove();
+                            a.remove();
+                    return false;
+                }
             };
+            
+            function isMobileOperatingSystem() {
+                var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+                // Windows Phone must come first because its UA also contains "Android"
+                if (/windows phone/i.test(userAgent)) {
+                    return true;
+                }
+
+                if (/android/i.test(userAgent)) {
+                    return true;
+                }
+
+                // iOS detection from: http://stackoverflow.com/a/9039885/177710
+                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    return true;
+                }
+
+                return false;
+            }
+
             $(".qrcode").each(function(){
                 var qr = $(this);
                 var url = qr.data("url");
@@ -43,8 +73,7 @@ file that was distributed with this source code.
 
                 qr.parent().find(".qrdownload").off("click").on("click", function(){
                     var img = qr.find("img");
-                    download(img.attr("src"), code);
-                    return false;
+                    return download($(this), url, img.attr("src"), code);
                 });
             });
 
@@ -258,7 +287,7 @@ file that was distributed with this source code.
                                     <p class="c-static-intro-coupon qrcode" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
 
                                     </p>
-                                    <button type="submit" class="ec-blockBtn--cancel qrdownload">QRダウンロード</button>
+                                    <a href="/qrcode/text/{{Coupon.coupon_cd}}" target="_blank" download="{{Coupon.coupon_cd}}.png" class="ec-blockBtn--cancel qrdownload-fail">QRダウンロード</a>
                                 </div>
                                 <div class="ec-historyRole__detail share">
                                     <p class="ec-modal-title">Twitter,LINE,Facebookよりシェア</p>
@@ -285,7 +314,9 @@ file that was distributed with this source code.
                         {% include "pager.twig" with {'pages': pagination.paginationData} %}
                     </div>
                 {% else %}
-                    <p class="ec-para-normal">{{ 'クーポンはありません。'|trans }}</p>
+                    <p class="ec-para-normal">
+                        クーポンは3営業日以内にこちらのページに表示反映されます。<br />
+                        ※土日祝は営業日に含まれません</p>
                 {% endif %}
             {% else %}
                 <p class="ec-para-normal">{{ '販売店が見つかりませんでした。'|trans }}</p>

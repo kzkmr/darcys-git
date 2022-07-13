@@ -366,10 +366,7 @@ file that was distributed with this source code.
 
             purchasingLimitPrice();
 
-            var margin_not_included_chk = function(){
-                var def_order_limit_text = "契約内容確認中です。お取引開始までしばしお待ちください";
-                var def_oen_order_limit_text = "プログラム適用待ち";
-
+           var margin_not_included_chk = function(){
                 if( $("#admin_chain_store_contract_type").val() == "2" ){
                     $(".margin_not_included").show();
                     {% if ChainStore.id %}
@@ -378,11 +375,8 @@ file that was distributed with this source code.
                         if(!$("#admin_chain_store_margin_not_included").prop("checked")){
                             $("#admin_chain_store_margin_not_included").trigger("click");
                         }
-                        if(!$("#admin_chain_store_option_order_limit").prop("checked")){
-                            $("#admin_chain_store_option_order_limit").trigger("click");
-                        }
-                        if($("#admin_chain_store_order_limit_text").val() == "" || $("#admin_chain_store_order_limit_text").val() == def_order_limit_text){
-                            $("#admin_chain_store_order_limit_text").val(def_oen_order_limit_text);
+                        if($("#admin_chain_store_order_limit_text").val() == ""){
+                            $("#admin_chain_store_order_limit_text").val("プログラム適用待ち");
                         }
                     {% endif %}
                 }else{
@@ -390,14 +384,11 @@ file that was distributed with this source code.
                     {% if ChainStore.id %}
                         return;
                     {% else %}
-                        if($("#admin_chain_store_order_limit_text").val() == "" || $("#admin_chain_store_order_limit_text").val() == def_oen_order_limit_text){
-                            $("#admin_chain_store_order_limit_text").val(def_order_limit_text);
+                        if($("#admin_chain_store_order_limit_text").val() == "プログラム適用待ち"){
+                            $("#admin_chain_store_order_limit_text").val("");
                         }
                         if($("#admin_chain_store_margin_not_included").prop("checked")){
                             $("#admin_chain_store_margin_not_included").trigger("click");
-                        }
-                        if(!$("#admin_chain_store_option_order_limit").prop("checked")){
-                            $("#admin_chain_store_option_order_limit").trigger("click");
                         }
                     {% endif %}
                 }

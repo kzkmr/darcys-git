@@ -688,9 +688,9 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var boolean
          *
-         * @ORM\Column(name="option_order_limit", type="boolean", options={"default":true})
+         * @ORM\Column(name="option_order_limit", type="boolean", options={"default":false})
          */
-        private $optionOrderLimit = true;
+        private $optionOrderLimit = false;
 
         /**
          * @var string|null
