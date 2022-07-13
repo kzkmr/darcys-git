@@ -270,7 +270,7 @@ class ChainStoreType extends AbstractType
             //設立日（開業日）
             ->add('begin_day', BirthdayType::class, [
                 'required' => false,
-                'years' => range((date("Y")+1), 1901 ),
+                'years' => range((date("Y")+1), 1900 ),
                 'format' => 'yyyy/MM/dd',
                 'input' => 'datetime',
                 'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],

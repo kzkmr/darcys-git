@@ -206,7 +206,7 @@ admin.setting.shop.shop.option_margin_activate: 商品ごとにマージン対�
 
 admin.order.cust_shipping1_csv: 出荷(B2B)CSV
 admin.order.cust_shipping2_csv: 出荷(B2C)CSV
-admin.chainstore.export1_csv: 販売店一覧(E-ASPRO)CSV
-admin.chainstore.export2_csv: 販売店一覧(契約印刷用)CSV
+admin.chainstore.export1_csv: 販売店一覧1CSV
+admin.chainstore.export2_csv: 販売店一覧2CSV
 admin.chainstore.export3_csv: 販売店一覧3CSV
 admin.chainstore.export_subchainstore1_csv: 販売店店舗一覧（お届け先情報）CSV
