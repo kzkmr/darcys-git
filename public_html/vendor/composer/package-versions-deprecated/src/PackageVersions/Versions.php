@@ -33,6 +33,8 @@ final class Versions
      * @internal
      */
     const VERSIONS          = array (
+  'chillerlan/php-qrcode' => '4.3.3@6356b246948ac1025882b3f55e7c68ebd4515ae3',
+  'chillerlan/php-settings-container' => '2.1.4@1beb7df3c14346d4344b0b2e12f6f9a74feabd4a',
   'composer/ca-bundle' => '1.2.10@9fdb22c2e97a614657716178093cd1da90a64aa8',
   'composer/composer' => '2.1.3@fc5c4573aafce3a018eb7f1f8f91cea423970f2e',
   'composer/metadata-minifier' => '1.0.0@c549d23829536f0d0e984aaabbf02af91f443207',
@@ -69,6 +71,7 @@ final class Versions
   'ec-cube/customergroupentry' => '2.0.0@',
   'ec-cube/deliveryplus4' => '1.1.5@',
   'ec-cube/eccube4lineloginintegration' => '1.3.1@',
+  'ec-cube/hiddendeliverydate' => '1.0.3@',
   'ec-cube/kokokaraselect' => '2.1.0@',
   'ec-cube/mypagereceipt' => '4.1.2@',
   'ec-cube/noshi' => '4.1.1@',
