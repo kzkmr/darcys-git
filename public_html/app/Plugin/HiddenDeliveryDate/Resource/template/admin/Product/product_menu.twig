@@ -1,0 +1,22 @@
+{#
+* Plugin Name : HiddenDeliveryDate
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% for Product in pagination %}
+<div id="hiddendeliverydate_{{ loop.index }}" style="display:none;">
+    <div class="px-1 d-inline-block text-center" data-tooltip="true"
+         data-placement="top"
+         title="{{ 'hiddendeliverydate.admin.setting.hiddendeliverydate.hiddenday'|trans }}"><a class="btn btn-ec-actionIcon"
+                                                  href="{{ url('admin_setting_hiddendeliverydate_hiddenday', {id:Product.id}) }}"
+                                                  ><i
+                class="fa fa-calendar fa-lg text-secondary"
+                aria-hidden="true"></i></a>
+    </div>
+</div>
+{% endfor %}

@@ -44,11 +44,6 @@ file that was distributed with this source code.
                 </a>
             </li>
             <li class="ec-item-nav__nav-item">
-                <a href="/shop/store-guide">
-                    ご利用案内
-                </a>
-            </li>
-            <li class="ec-item-nav__nav-item">
                 <a href="{{ url('product_list') }}">
                     商品発注
                 </a>
@@ -59,8 +54,18 @@ file that was distributed with this source code.
                 </a>
             </li>
             <li class="ec-item-nav__nav-item">
-                <a href="/shop/products-list/">
-                    商品紹介
+                <a href="/shop/manual/">
+                    マニュアル
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="/shop/notifi/">
+                    各種申請
+                </a>
+            </li>
+            <li class="ec-item-nav__nav-item">
+                <a href="/shop/promotion/">
+                    プロモーション
                 </a>
             </li>
             <li class="ec-item-nav__nav-item">
@@ -68,7 +73,7 @@ file that was distributed with this source code.
                     マイページ
                 </a>
             </li>
-            {% if BaseInfo.option_favorite_product %}
+            {# {% if BaseInfo.option_favorite_product %}
                 <li class="ec-item-nav__nav-item">
                     <a href="{{ url('mypage_favorite') }}">
                         {{ 'front.block.login.favorite'|trans }}
@@ -79,7 +84,7 @@ file that was distributed with this source code.
                 <a href="{{ url('logout') }}">
                     {{ 'front.block.login.logout'|trans }}
                 </a>
-            </li>
+            </li> #}
         </ul>
     {% else %}
     <ul class="ec-item-nav__nav">

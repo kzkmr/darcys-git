@@ -16,6 +16,11 @@ file that was distributed with this source code.
 
 {% block main %}
 
+    <div class="ec-chainstore-title pc-none">
+        <h1 class="ec-chainstore-title__title">契約店専用サイト</h1>
+        <span class="ec-chainstore-title__sub">（発注システム）</span>
+    </div>
+
     {% if storeBlogDatas|length > 0 %}
         <div class="ec-mypageRole">
             <section class="ec-mypage-blog">
@@ -36,17 +41,11 @@ file that was distributed with this source code.
             </section>
         </div>
     {% else %}
-      <p>記事はありません</p>
+        <p>記事はありません</p>
     {% endif %}
 
     <div class="ec-mypageRole">
         <section class="ec-mypage-menu">
-            <div class="ec-mypage-menu__item">
-                <a href="/shop/store-guide">
-                    ご利用案内
-                </a>
-                <p class="text">お届け方法や送料、ご返品等のご案内はこちらでご確認ください。</p>
-            </div>
             <div class="ec-mypage-menu__item">
                 <a href="{{ url('product_list') }}?category_id=1">
                     商品発注
@@ -60,16 +59,28 @@ file that was distributed with this source code.
                 <p class="text">のぼりや製品パンフレットなど、販促品はこちらからご注文ください。</p>
             </div>
             <div class="ec-mypage-menu__item">
-                <a href="/shop/products-list/">
-                    商品紹介
-                </a>
-                <p class="text">発注いただける商品の詳細はこちらをご覧ください。</p>
-            </div>
-            <div class="ec-mypage-menu__item">
                 <a href="{{ url('mypage') }}">
                     マイページ
                 </a>
                 <p class="text">ご注文履歴や登録情報などをご確認いただけます。</p>
+            </div>
+            <div class="ec-mypage-menu__item">
+                <a href="/shop/manual/">
+                    マニュアル
+                </a>
+                <p class="text">発注システムの説明動画や販売店マニュアルをご覧いただけます。</p>
+            </div>
+            <div class="ec-mypage-menu__item">
+                <a href="/shop/notifi/">
+                    各種申請
+                </a>
+                <p class="text">販売店舗の追加や公式サイトへの掲載申請はこちらから。</p>
+            </div>
+            <div class="ec-mypage-menu__item">
+                <a href="/shop/promotion/">
+                    プロモーション
+                </a>
+                <p class="text">テレビCMやYouTube動画などプロモーションについてのご紹介です。</p>
             </div>
         </section>
     </div>

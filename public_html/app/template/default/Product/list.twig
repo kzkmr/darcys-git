@@ -163,12 +163,19 @@ file that was distributed with this source code.
     {% if ChainStore %}
       <div class="p-chain-store-heading">
           {% if Cate == '8' %}
+            <div class="p-chain-store-heading__text">
               <h1 class="p-chain-store-heading__title">販促品発注</h1>
               <p class="p-chain-store-heading__lead">発注する商品を選んでカートに入れてください。</p>
+            </div>
           {% else %}
+            <div class="p-chain-store-heading__text">
               <h1 class="p-chain-store-heading__title">商品発注</h1>
               <p class="p-chain-store-heading__lead">発注する商品を選んでカートに入れてください。アイスは数量「1」で20個セットになります。</p>
+            </div>
           {% endif %}
+          <div class="p-chain-store-heading__btn">
+            <a href="/shop/delivery/">お届けについて</a>
+          </div>
       </div>
     {% endif %}
 

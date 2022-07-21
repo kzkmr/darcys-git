@@ -799,8 +799,20 @@ class ApiController extends AbstractController
         log_info('販売店チェック処理開始',[]);
 
         // ログインチェック
+        $done = false;
         $LoginTypeInfo = $this->getLoginTypeInfo();
         $LoginType = $LoginTypeInfo['LoginType'];
+        $ChainStoreInfo = $LoginTypeInfo['ChainStore'];
+        $ChainStoreCorporateNumber = $ChainStoreInfo->getCorporateNumber() ? $ChainStoreInfo->getCorporateNumber() : "";
+        $ChainStoreCompanyName = $ChainStoreInfo->getCompanyName() ? $ChainStoreInfo->getCompanyName() : "";
+        $ChainStoreFullName = $ChainStoreInfo->getFullName() ? $ChainStoreInfo->getFullName() : "";
+        $ChainStoreChainstoreName = $ChainStoreInfo->getChainstoreName() ? $ChainStoreInfo->getChainstoreName() : "";
+        $ChainStoreChainstoreNameKana = $ChainStoreInfo->getChainstoreNameKana() ? $ChainStoreInfo->getChainstoreNameKana() : "";
+        $ChainStoreAddressFull = $ChainStoreInfo->getChainstoreAddressFull() ? $ChainStoreInfo->getChainstoreAddressFull() : "";
+        $ChainStorePhoneNumber = $ChainStoreInfo->getContactPhoneNumber() ? $ChainStoreInfo->getContactPhoneNumber() : "";
+        $ChainStoreEmail = $ChainStoreInfo->getChainstoreEmail() ? $ChainStoreInfo->getChainstoreEmail() : "";
+        $ChainStoreWebshopUrl = $ChainStoreInfo->getWebshopUrl() ? $ChainStoreInfo->getWebshopUrl() : "";
+
         if ( $LoginType == 3 ) {
           $done = true;
         } else {
@@ -809,7 +821,7 @@ class ApiController extends AbstractController
 
         log_info('販売店チェック処理完了',[]);
 
-        return $this->json(['done' => $done ]);
+        return $this->json(['done' => $done, 'chainStoreCorporateNumber' => $ChainStoreCorporateNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName, 'chainStoreChainstoreName' => $ChainStoreChainstoreName, 'chainStoreChainstoreNameKana' => $ChainStoreChainstoreNameKana, 'chainStoreAddressFull' => $ChainStoreAddressFull, 'chainStorePhoneNumber' => $ChainStorePhoneNumber, 'chainStoreEmail' => $ChainStoreEmail, 'chainStoreWebshopUrl' => $ChainStoreWebshopUrl]);
     }
 
     function getLoginTypeInfo()

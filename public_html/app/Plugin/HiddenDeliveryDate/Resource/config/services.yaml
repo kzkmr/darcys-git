@@ -1,0 +1,9 @@
+services:
+    hiddendeliverydate.api.allow_list:
+        class: ArrayObject
+        tags: ['eccube.api.allow_list']
+        arguments:
+            - #
+                Eccube\Entity\Product: ['Hiddendays']
+                Plugin\HiddenDeliveryDate\Entity\Hiddenday: ['date','Product']
+
