@@ -1406,7 +1406,60 @@ h2.p-related-posts__title.c-entry-aside__title{
     }
 }
 
+/*////// 契約店専用サイト（発注システム）EC-Q商品発注個別詳細ページ/products/detail/4////*/
+.details-list{
+    width:100%;
+    border-collapse: collapse;
+}
+td{
+        border:1px solid #EDE1E7;
+        padding: 6px 12px;
+}
+.details-list_l{
+    width:150px;
+    background-color: #fdf3f1;
+    font-size: 14px;
+}
+.details-list_r{
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+.details-list_exp{
+    border:none;
+    padding:8px 8px 0.7rem 8px;
+    font-size:0.9rem;
+    background: linear-gradient(transparent 75%, #EDE1E7 100%);
+    font-weight: 500;
+}
 
+.details-list_sub {
+    color: #666;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+.material_quality{
+    border: 1px solid #EDE1E7;
+    padding: 1rem;
+    background-color: #f9f9f9;
+}
+.material_quality-title {
+    font-size: 0.9rem;
+    margin-top: 2rem;
+    padding: 8px;
+    margin-bottom: 0rem;
+    background: linear-gradient(transparent 75%, #EDE1E7 100%);
+    padding-bottom: 0.7rem;
+}
+.material_quality-sub {
+    margin-bottom: 1.3rem;
+    margin-left: 0.5rem;
+}
+.material_quality-main {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
 
 /*//////////// メディアクエリ /////////////*/
 @media (min-width: 1401px) {
@@ -1600,6 +1653,17 @@ button.ec-blockBtn--action{
     width: 70%;
     }
 }
+@media only screen and (max-width: 661px) {
+    /*公式サイトへの掲載フォームの公式サイトに掲載しない項目*/
+    .mw_wp_form .horizontal-item + .horizontal-item {
+    margin-left: 0px;
+}
+    .mwform-checkbox-field input, .mwform-radio-field input {
+    margin-right: 0;
+}
+}
+
+
 @media only screen and (max-width: 620px) {
 /*現在の選択数量合計*/
 p.kokokara_select_cart_btn_area__text-03{

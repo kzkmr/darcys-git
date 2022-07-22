@@ -803,15 +803,27 @@ class ApiController extends AbstractController
         $LoginTypeInfo = $this->getLoginTypeInfo();
         $LoginType = $LoginTypeInfo['LoginType'];
         $ChainStoreInfo = $LoginTypeInfo['ChainStore'];
-        $ChainStoreCorporateNumber = $ChainStoreInfo->getCorporateNumber() ? $ChainStoreInfo->getCorporateNumber() : "";
+        $Customer = $LoginTypeInfo['Customer'];
+
+        $ChainStoreStockNumber = $ChainStoreInfo->getStockNumber() ? $ChainStoreInfo->getStockNumber() : "";
         $ChainStoreCompanyName = $ChainStoreInfo->getCompanyName() ? $ChainStoreInfo->getCompanyName() : "";
-        $ChainStoreFullName = $ChainStoreInfo->getFullName() ? $ChainStoreInfo->getFullName() : "";
-        $ChainStoreChainstoreName = $ChainStoreInfo->getChainstoreName() ? $ChainStoreInfo->getChainstoreName() : "";
-        $ChainStoreChainstoreNameKana = $ChainStoreInfo->getChainstoreNameKana() ? $ChainStoreInfo->getChainstoreNameKana() : "";
-        $ChainStoreAddressFull = $ChainStoreInfo->getChainstoreAddressFull() ? $ChainStoreInfo->getChainstoreAddressFull() : "";
-        $ChainStorePhoneNumber = $ChainStoreInfo->getContactPhoneNumber() ? $ChainStoreInfo->getContactPhoneNumber() : "";
-        $ChainStoreEmail = $ChainStoreInfo->getChainstoreEmail() ? $ChainStoreInfo->getChainstoreEmail() : "";
-        $ChainStoreWebshopUrl = $ChainStoreInfo->getWebshopUrl() ? $ChainStoreInfo->getWebshopUrl() : "";
+
+        $ChainStoreName01 = $ChainStoreInfo->getName01() ? $ChainStoreInfo->getName01() : "";
+        $ChainStoreName02 = $ChainStoreInfo->getName02() ? $ChainStoreInfo->getName02() : "";
+        $ChainStoreFullName = $ChainStoreName01.' '.$ChainStoreName02;
+
+        $ChainStoreChainstoreName = $Customer->getCompanyName() ? $Customer->getCompanyName() : "";
+        //$ChainStoreChainstoreNameKana = $ChainStoreInfo->getChainstoreNameKana() ? $ChainStoreInfo->getChainstoreNameKana() : "";
+
+        $AddressFull = "";
+        $AddressFull .= $Customer->getPostalCode();
+        $AddressFull .= " " . $Customer->getAddr01();
+        $AddressFull .= $Customer->getAddr02();
+        $ChainStoreAddressFull = $AddressFull ? $AddressFull : "";
+
+        $ChainStorePhoneNumber = $Customer->getPhoneNumber() ? $Customer->getPhoneNumber() : "";
+        $ChainStoreEmail = $Customer->getEmail() ? $Customer->getEmail() : "";
+        //$ChainStoreWebshopUrl = $ChainStoreInfo->getWebshopUrl() ? $ChainStoreInfo->getWebshopUrl() : "";
 
         if ( $LoginType == 3 ) {
           $done = true;
@@ -821,7 +833,9 @@ class ApiController extends AbstractController
 
         log_info('販売店チェック処理完了',[]);
 
-        return $this->json(['done' => $done, 'chainStoreCorporateNumber' => $ChainStoreCorporateNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName, 'chainStoreChainstoreName' => $ChainStoreChainstoreName, 'chainStoreChainstoreNameKana' => $ChainStoreChainstoreNameKana, 'chainStoreAddressFull' => $ChainStoreAddressFull, 'chainStorePhoneNumber' => $ChainStorePhoneNumber, 'chainStoreEmail' => $ChainStoreEmail, 'chainStoreWebshopUrl' => $ChainStoreWebshopUrl]);
+        //return $this->json(['done' => $done, 'chainStoreStockNumber' => $ChainStoreStockNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName, 'chainStoreChainstoreName' => $ChainStoreChainstoreName, 'chainStoreChainstoreNameKana' => $ChainStoreChainstoreNameKana, 'chainStoreAddressFull' => $ChainStoreAddressFull, 'chainStorePhoneNumber' => $ChainStorePhoneNumber, 'chainStoreEmail' => $ChainStoreEmail, 'chainStoreWebshopUrl' => $ChainStoreWebshopUrl]);
+        return $this->json(['done' => $done, 'chainStoreStockNumber' => $ChainStoreStockNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName, 'chainStoreChainstoreName' => $ChainStoreChainstoreName, 'chainStoreAddressFull' => $ChainStoreAddressFull, 'chainStorePhoneNumber' => $ChainStorePhoneNumber, 'chainStoreEmail' => $ChainStoreEmail]);
+        // return $this->json(['done' => $done, 'chainStoreStockNumber' => $ChainStoreStockNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName]);
     }
 
     function getLoginTypeInfo()
