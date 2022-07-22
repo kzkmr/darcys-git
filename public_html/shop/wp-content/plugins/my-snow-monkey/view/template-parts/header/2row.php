@@ -181,7 +181,7 @@ $hamburger_btn_position = get_theme_mod('hamburger-btn-position');
       </div>
       <div class="ec-header-bottom__center is_store hide">
         <div class="ec-header-bottom-title">
-          <h1>契約店専用サイト（発注システム）</h1>
+          <h1>ダシーズ契約店専用サイト</h1>
         </div>
       </div>
       <div class="ec-header-bottom__right">

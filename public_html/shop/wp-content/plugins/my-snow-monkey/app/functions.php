@@ -16,11 +16,13 @@ function ec_asset_url()
  * 親ページを持つ子ページを判別
  */
 function is_parent_slug() {
-    global $post;
-    if ($post->post_parent) {
-        $post_data = get_post($post->post_parent);
-        return $post_data->post_name;
-    }
+	global $post;
+	if (is_object($post)) {
+		if ($post->post_parent) {
+				$post_data = get_post($post->post_parent);
+				return $post_data->post_name;
+		}
+	}
 }
 
 /*
