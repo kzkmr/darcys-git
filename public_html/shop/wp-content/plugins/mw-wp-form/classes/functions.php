@@ -303,14 +303,6 @@ class MWF_Functions {
 						'audio/mpeg',
 					);
 					break;
-				case 'wav':
-					$wp_check_filetype['type'] = array(
-						$wp_check_filetype['type'],
-						'audio/wave',
-						'audio/x-wav',
-						'audio/x-pn-wav',
-					);
-					break;
 				case 'mpg':
 					$wp_check_filetype['type'] = array(
 						'audio/mpeg',

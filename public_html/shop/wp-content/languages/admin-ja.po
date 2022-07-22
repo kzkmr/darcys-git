@@ -34,162 +34,162 @@ msgstr "Asia/Tokyo"
 msgid "Continue"
 msgstr "次へ"
 
-#: wp-admin/about.php:303
+#: wp-admin/about.php:334
 msgid "https://make.wordpress.org/core/2022/05/03/wordpress-6-0-field-guide/"
 msgstr "https://make.wordpress.org/core/2022/05/03/wordpress-6-0-field-guide/"
 
 #. translators: %s: WordPress 6.0 Release Notes link.
-#: wp-admin/about.php:313
+#: wp-admin/about.php:344
 msgid "<a href=\"%s\">Read the WordPress 6.0 Release Notes</a> for more information on the included enhancements and issues fixed, installation information, developer notes and resources, release contributors, and the list of file changes in this release."
 msgstr "詳細な情報については、<a href=\"%s\">WordPress 6.0リリースノート</a>を参照してください。拡張された機能や修正された問題、インストール情報、開発者向け情報やリソース、このバージョンのコントリビューター、変更されたファイルのリストが記載されています。"
 
 #. translators: %s: WordPress 6.0 Field Guide link.
-#: wp-admin/about.php:302
+#: wp-admin/about.php:333
 msgid "Check out the latest version of the <a href=\"%s\">WordPress Field Guide</a>. It is overflowing with detailed developer notes to help you build with WordPress."
 msgstr "<a href=\"%s\">WordPress フィールドガイド</a>の最新版をチェックしてください。WordPress 構築における詳細な開発者情報が盛りだくさんです。"
 
 #. translators: 1: Learn WordPress workshops link, 2: Learn WordPress social
 #. learning link.
-#: wp-admin/about.php:290
+#: wp-admin/about.php:321
 msgid "Explore <a href=\"%1$s\">learn.wordpress.org/&#8203;workshops</a> for quick how-to videos and lots more on new features in WordPress. Or join a live <a href=\"%2$s\">interactive online learning session</a> on a specific WordPress topic."
 msgstr "<a href=\"%1$s\">learn.wordpress.org/&#8203;workshops</a> には、WordPress の新機能に関する、短い入門ビデオなど多くの情報がありますのでご覧ください。また、特定の WordPress トピックに関する、ライブの<a href=\"%2$s\">インタラクティブなオンライン学習セッション</a>にもご参加ください。"
 
 #. translators: %s: 6.0 overview video link.
-#: wp-admin/about.php:276
+#: wp-admin/about.php:307
 msgid "See WordPress 6.0 in action! <a href=\"%s\">Watch a brief overview video</a> highlighting some of the major features debuting in WordPress 6.0."
 msgstr "WordPress 6.0 を実際に見てみましょう ! WordPress 6.0 の主な機能を紹介する<a href=\"%s\">概要動画をご覧ください</a>。"
 
 #. translators: %s: Version number.
-#: wp-admin/about.php:267
+#: wp-admin/about.php:298
 msgid "Learn more about WordPress %s"
 msgstr "WordPress %sの詳細"
 
-#: wp-admin/about.php:259
+#: wp-admin/about.php:290
 msgid "Exploring WordPress 6.0 video"
 msgstr "WordPress 6.0の動画を観る"
 
-#: wp-admin/about.php:250
+#: wp-admin/about.php:281
 msgid "Use the gap support functionality in the Gallery block to create different looks–from adding spacing between all images, to removing spacing altogether."
 msgstr "ギャラリーブロックのギャップサポート機能を使用すると、すべての画像の間にスペースを追加したり、スペースを完全に削除したりと、さまざまな外観を作成できます。"
 
-#: wp-admin/about.php:240
+#: wp-admin/about.php:271
 msgid "Switch between stack, row, and group variations to position groups of blocks with more layout flexibility."
 msgstr "縦積み、横並び、グループとバリエーションを切り替えることで、ブロックのグループをより柔軟に配置できます。"
 
-#: wp-admin/about.php:232
+#: wp-admin/about.php:263
 msgid "Control gaps, margins, typography, and more on a collection of blocks, all at once, in the Group block."
 msgstr "グループブロックでは、ブロックの集合に対して、間隔、マージン、タイポグラフィなどを一度に制御できます。"
 
-#: wp-admin/about.php:221
+#: wp-admin/about.php:252
 msgid "Transparency levels for your colors allow for even more creative color options."
 msgstr "クリエイティブなオプションに、色の透明度が加わりました。"
 
-#: wp-admin/about.php:205
+#: wp-admin/about.php:236
 msgid "New border controls offer a simpler way to set your border exactly as you like it."
 msgstr "新しい枠線コントロールは、よりシンプルに、思い通りの枠線を設定できます。"
 
-#: wp-admin/about.php:197
+#: wp-admin/about.php:228
 msgid "A new color panel design saves space, but still shows your options at a glance."
 msgstr "新しいカラーパネルデザインはスペースを節約しながらも、オプションを一目で確認できます。"
 
-#: wp-admin/about.php:185
+#: wp-admin/about.php:216
 msgid "Some highlights for 6.0 include:"
 msgstr "6.0 のハイライトは以下のとおりです。"
 
-#: wp-admin/about.php:184
+#: wp-admin/about.php:215
 msgid "Design tools grow more powerful and intuitive with each release."
 msgstr "デザインツールはリリースのたびに、よりパワフルで直感的になっています。"
 
-#: wp-admin/about.php:181
+#: wp-admin/about.php:212
 msgid "Additional Design Tools"
 msgstr "追加されたデザインツール"
 
-#: wp-admin/about.php:171
+#: wp-admin/about.php:202
 msgid "Now you can lock your blocks. Choose to disable the option to move a block, remove a block, or both. This simplifies project handover, allowing your clients to unleash their creativity without worrying about accidentally breaking their site in the process."
 msgstr "ブロックをロックできるようになりました。ブロックの移動、ブロックの削除、またはその両方を防止できます。これにより、プロジェクトの引き渡しが簡単になり、クライアントはサイトを壊す心配をせずに、創造力を発揮できます。"
 
-#: wp-admin/about.php:168
+#: wp-admin/about.php:199
 msgid "Block Locking Controls"
 msgstr "ブロックのロック制御"
 
-#: wp-admin/about.php:154
+#: wp-admin/about.php:185
 msgid "New keyboard shortcuts enable you to select multiple blocks from the list view, modify them in bulk, and drag-and-drop them within the list. List View can be opened and closed easily; it comes collapsed by default and it automatically expands to the current selection whenever you select a block."
 msgstr "新しいキーボードショートカットにより、リストビューから複数のブロックを選択し、一括して修正し、リスト内でドラッグ & ドロップできます。リストビューは簡単に開閉できます。デフォルトでは折りたたまれていて、ブロックを選択すると、自動的に現在の選択が拡大されます。"
 
-#: wp-admin/about.php:151
+#: wp-admin/about.php:182
 msgid "Better List View"
 msgstr "改良されたリストビュー"
 
 #. translators: %s Working with Patterns dev note link.
-#: wp-admin/about.php:140
+#: wp-admin/about.php:171
 msgid "Patterns will now appear when you need them in even more places, like in the quick inserter or when creating a new header or footer. If you&#8217;re a block theme author, you can even <a href=\"%s\">register patterns from the Pattern Directory using <code>theme.json</code></a>, enabling you to prioritize specific patterns that are most helpful to your theme&#8217;s users."
 msgstr "パターンは、クイックインサーターや新しいヘッダーやフッターの作成時など、より多くの場所で表示されるようになりました。ブロックテーマの作者は、<a href=\"%s\"><code>theme.json</code> を使用してパターンディレクトリからパターンを登録</a>でき、ユーザーにとって最も有用な特定のパターンを優先的に表示できます。"
 
-#: wp-admin/about.php:134
+#: wp-admin/about.php:165
 msgid "Integrated Patterns"
 msgstr "統合されたパターン"
 
-#: wp-admin/about.php:124
+#: wp-admin/about.php:155
 msgid "The query block supports filtering on multiple authors, support for custom taxonomies, and support for customizing what is shown when there are no results."
 msgstr "クエリーブロックは、複数の投稿者のフィルタリング、カスタムタクソノミー、結果がない場合に表示される内容のカスタマイズをサポートします。"
 
-#: wp-admin/about.php:118
+#: wp-admin/about.php:149
 msgid "While editing a template, at the root, or between blocks, the quick inserter shows you patterns and template parts to help you work faster and discover new layout options."
 msgstr "テンプレートの編集中、クイックインサーターが、ルートやブロックの間に、パターンやテンプレートパーツを表示します。作業を速め、新しいレイアウトオプションを見つけやすくします。"
 
-#: wp-admin/about.php:112
+#: wp-admin/about.php:143
 msgid "New featured image sizing controls make it easier to get the results you want."
 msgstr "新しいアイキャッチ画像のサイズコントロールにより、簡単に思いどおりの結果を得られます。"
 
-#: wp-admin/about.php:111
+#: wp-admin/about.php:142
 msgid "Featured images can be used in the cover block."
 msgstr "カバーブロックでアイキャッチ画像を使用できます。"
 
-#: wp-admin/about.php:101
+#: wp-admin/about.php:132
 msgid "WordPress 6.0 includes five new template options: author, date, categories, tag, and taxonomy. These additional templates provide greater flexibility for content creators. Tailor each with the tools you already know or with the following new options in this release."
 msgstr "WordPress 6.0 では、投稿者、日付、カテゴリー、タグ、タクソノミーの5つの新しいテンプレートオプションが追加されました。コンテンツ制作者に大きな柔軟性を提供します。これらのテンプレートは、既存のツールや、今回のリリースに含まれる新しいオプションを使用して、カスタマイズできます。"
 
-#: wp-admin/about.php:98
+#: wp-admin/about.php:129
 msgid "More Template Choices"
 msgstr "追加されたテンプレート"
 
-#: wp-admin/about.php:84
+#: wp-admin/about.php:115
 msgid "Block themes now include the option to contain multiple style variations. This expands the new Style system even further and enables shortcuts to switch the look and feel of your site all within a single theme. You can change both the available settings, like the font weight, and the style options, like the default color palette. Change the look and feel of your site with just a few clicks."
 msgstr "新しいオプションにより、ブロックテーマに複数のスタイルバリエーションを含められます。新しいスタイルシステムをさらに拡張し、1つのテーマ内でサイトのあらゆる外観を簡単に切り替えられます。フォントの太さなどの利用可能な設定と、デフォルトのカラーパレットなどのスタイルオプションの両方を変更できます。サイトの外観を、数回のクリックで変更しましょう。"
 
-#: wp-admin/about.php:81
+#: wp-admin/about.php:112
 msgid "Style Switching"
 msgstr "スタイルの切り替え"
 
-#: wp-admin/about.php:73
+#: wp-admin/about.php:104
 msgid "Make tag clouds and social icons even more appealing with updated settings and controls, and a new outline style for the tag cloud."
 msgstr "タグクラウドとソーシャルアイコンの設定やコントロールを更新し、より魅力的にしました。また、タグクラウドに新しいアウトラインスタイルを追加しました。"
 
-#: wp-admin/about.php:72
+#: wp-admin/about.php:103
 msgid "Create customized buttons and any new buttons you make will retain the style customizations automatically."
 msgstr "カスタマイズしたボタンを作成すると、新しく作成したボタンにカスタマイズしたスタイルが自動的に適用されます。"
 
-#: wp-admin/about.php:71
+#: wp-admin/about.php:102
 msgid "Keep existing styles when you transform some blocks from one kind to another—from a Paragraph block to a Code block, for instance."
 msgstr "あるブロックを別のブロックに変換する場合、たとえば、段落ブロックからコードブロックに変換する場合、既存のスタイルを保持できます。"
 
-#: wp-admin/about.php:70
+#: wp-admin/about.php:101
 msgid "Type two open brackets <code>[[</code> to quickly access the link menu."
 msgstr "2つの角括弧 <code>[[</code> を入力すると、リンクメニューに素早くアクセスできます。"
 
-#: wp-admin/about.php:69
+#: wp-admin/about.php:100
 msgid "Select text across multiple blocks and edit it all at once."
 msgstr "複数のブロックにまたがるテキストを選択し、一度に編集できます。"
 
-#: wp-admin/about.php:66
+#: wp-admin/about.php:97
 msgid "Writing improvements abound, whether you&#8217;re writing a brand new post or adding elements to an existing page. Explore more ways to streamline your content creation process, including:"
 msgstr "新しい投稿の執筆であれ、既存のページへの要素の追加であれ、ライティングが大幅に改善されました。コンテンツ作成プロセスを効率化する方法をご紹介します。"
 
-#: wp-admin/about.php:63
+#: wp-admin/about.php:94
 msgid "Enhanced Writing Experience"
 msgstr "拡張されたライティング体験"
 
-#: wp-admin/about.php:52
+#: wp-admin/about.php:83
 msgid "WordPress 6.0 includes more than 500 enhancements and 400 bug fixes. This page highlights several key advancements aimed at making your WordPress content-creating and site-building experience more feature-rich and intuitive. You will also find resources for developers and anyone wanting a deeper understanding of WordPress."
 msgstr "WordPress 6.0では、500以上の機能拡張と400以上のバグフィックスが行われています。このページでは、WordPress のコンテンツ作成とサイト構築の体験をより豊かで、直感的なものにする、いくつかの重要な改良を紹介します。また、開発者や WordPress をより深く理解したい方向けのリソースも掲載します。"
 
@@ -254,7 +254,7 @@ msgstr "パーマリンク構造を変更"
 
 #. translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL:
 #. those are placeholders.
-#: wp-admin/includes/misc.php:1427
+#: wp-admin/includes/misc.php:1428
 msgid ""
 "Howdy ###USERNAME###,\n"
 "\n"
@@ -1154,7 +1154,7 @@ msgstr "新しいアプリケーションパスワードを追加"
 msgid "Required to create an Application Password, but not to update the user."
 msgstr "アプリケーションパスワードの作成に必要ですが、ユーザーの更新には不要です。"
 
-#: wp-admin/about.php:330
+#: wp-admin/about.php:361
 msgid "Go to Updates"
 msgstr "更新へ移動"
 
@@ -4488,9 +4488,9 @@ msgid "Cannot Install"
 msgstr "インストール不可"
 
 #. translators: %s: WordPress version.
-#: wp-admin/about.php:316 wp-admin/includes/update.php:302
-#: wp-admin/index.php:119 wp-admin/install.php:238 wp-admin/update-core.php:94
-#: wp-admin/upgrade.php:80
+#: wp-admin/about.php:62 wp-admin/about.php:347
+#: wp-admin/includes/update.php:302 wp-admin/index.php:119
+#: wp-admin/install.php:238 wp-admin/update-core.php:94 wp-admin/upgrade.php:80
 msgid "https://wordpress.org/support/wordpress-version/version-%s/"
 msgstr "https://wordpress.org/support/wordpress-version/version-%s/"
 
@@ -4695,7 +4695,7 @@ msgid "Privacy Policy Page"
 msgstr "プライバシーポリシーページ"
 
 #. translators: %s: Page title.
-#: wp-admin/includes/misc.php:1512
+#: wp-admin/includes/misc.php:1513
 msgid "%s (Draft)"
 msgstr "%s (下書き)"
 
@@ -6859,7 +6859,7 @@ msgid "(Currently set to: %s)"
 msgstr "(現在の設定: %s)"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:354
+#: wp-admin/about.php:385
 msgid "<strong>Version %s</strong> addressed one security issue."
 msgstr "<strong>バージョン %s</strong> ではセキュリティ問題1件に対応しました。"
 
@@ -6871,15 +6871,15 @@ msgstr "https://ja.gravatar.com/"
 msgid "Profile Picture"
 msgstr "プロフィール写真"
 
-#: wp-admin/about.php:351
+#: wp-admin/about.php:42 wp-admin/about.php:382
 msgid "Maintenance and Security Releases"
 msgstr "メンテナンスとセキュリティのリリース"
 
-#: wp-admin/about.php:348
+#: wp-admin/about.php:379
 msgid "Security Releases"
 msgstr "セキュリティリリース"
 
-#: wp-admin/about.php:345
+#: wp-admin/about.php:376
 msgid "Maintenance Releases"
 msgstr "メンテナンスリリース"
 
@@ -9245,7 +9245,7 @@ msgid "You cannot move this item to the Trash. %s is currently editing."
 msgstr "この項目をゴミ箱へ移動することはできません。%s は現在編集中です。"
 
 #. translators: %s: User's display name.
-#: wp-admin/includes/misc.php:1194
+#: wp-admin/includes/misc.php:1195
 msgid "%s has taken over and is currently editing."
 msgstr "%s さんが引き継いで現在編集しています。"
 
@@ -9945,7 +9945,7 @@ msgstr "MB (サイトネットワークの初期値を使うには空にする)"
 
 #. translators: New admin email address notification email subject. %s: Site
 #. title.
-#: wp-admin/includes/misc.php:1487
+#: wp-admin/includes/misc.php:1488
 msgid "[%s] New Admin Email Address"
 msgstr "[%s] 新規管理用メールアドレス"
 
@@ -10170,45 +10170,46 @@ msgstr "サイトネットワーク上の既存のユーザーをこのサイト
 msgid "Show Toolbar when viewing site"
 msgstr "サイトを見るときにツールバーを表示する"
 
+#. translators: %s: HelpHub URL.
 #. translators: %s: Documentation URL.
-#: wp-admin/about.php:377
+#: wp-admin/about.php:59 wp-admin/about.php:408
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "詳しくは<a href=\"%s\">リリースノート</a>をご覧ください。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:371
+#: wp-admin/about.php:402
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はいくつかのセキュリティ問題に対応し、%2$s個のバグを修正しました。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:365
+#: wp-admin/about.php:396
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はセキュリティ問題に対応し、%2$s個のバグを修正しました。"
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs.
-#: wp-admin/about.php:359
+#: wp-admin/about.php:47 wp-admin/about.php:390
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> では%2$s個のバグを修正しました。"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:356
+#: wp-admin/about.php:387
 msgid "<strong>Version %s</strong> addressed some security issues."
 msgstr "<strong>バージョン %s</strong> では複数のセキュリティ問題に対応しました。"
 
-#: wp-admin/about.php:350
+#: wp-admin/about.php:381
 msgid "Maintenance and Security Release"
 msgstr "メンテナンスとセキュリティのリリース"
 
-#: wp-admin/about.php:347
+#: wp-admin/about.php:378
 msgid "Security Release"
 msgstr "セキュリティリリース"
 
-#: wp-admin/about.php:344
+#: wp-admin/about.php:375
 msgid "Maintenance Release"
 msgstr "メンテナンスリリース"
 
@@ -10494,15 +10495,15 @@ msgid "Because this is a multisite installation, you may add accounts that alrea
 msgstr "このサイトはマルチサイトインストールのため、サイトネットワーク上にすでに存在するアカウントのユーザー名またはメールアドレスを指定し、権限グループを選択して追加することができます。パスワードを設定するといった追加オプションを使うには、「ネットワーク管理 > ユーザー一覧」ページで、サイトネットワーク管理者として既存のユーザーの名前をマウスオーバーしたときに表示される「編集」リンクを使う必要があります。"
 
 #. translators: %s: Version number.
-#: wp-admin/about.php:46
+#: wp-admin/about.php:77
 msgid "Welcome to WordPress %s"
 msgstr "WordPress %s へようこそ"
 
-#: wp-admin/about.php:333
+#: wp-admin/about.php:364
 msgid "Go to Dashboard &rarr; Home"
 msgstr "ダッシュボード &rarr; ホームへ移動"
 
-#: wp-admin/about.php:330
+#: wp-admin/about.php:361
 msgid "Go to Dashboard &rarr; Updates"
 msgstr "ダッシュボード &rarr; 更新へ移動"
 
@@ -12264,7 +12265,7 @@ msgstr "WordPress の更新"
 msgid "Edit menu item"
 msgstr "メニュー項目を編集"
 
-#: wp-admin/about.php:333 wp-admin/includes/network.php:148
+#: wp-admin/about.php:364 wp-admin/includes/network.php:148
 msgid "Go to Dashboard"
 msgstr "ダッシュボードへ移動"
 
@@ -12403,7 +12404,7 @@ msgstr "利用できるウィジェット"
 msgid "Error in displaying the widget settings form."
 msgstr "ウィジェット設定フォーム表示のエラー。"
 
-#: wp-admin/includes/misc.php:1316 wp-admin/includes/post.php:2001
+#: wp-admin/includes/misc.php:1317 wp-admin/includes/post.php:2001
 #: wp-admin/widgets-form.php:366
 msgid "Error while saving."
 msgstr "保存中にエラー発生。"
@@ -15334,13 +15335,13 @@ msgid "Someone"
 msgstr "だれか"
 
 #. translators: %s: Date and time.
-#: wp-admin/includes/misc.php:1324
+#: wp-admin/includes/misc.php:1325
 msgid "Draft saved at %s."
 msgstr "%s に下書きを保存しました。"
 
 #. translators: Draft saved date format, see
 #. https://www.php.net/manual/datetime.format.php
-#: wp-admin/includes/misc.php:1320
+#: wp-admin/includes/misc.php:1321
 msgid "g:i:s a"
 msgstr "g:i:s a"
 

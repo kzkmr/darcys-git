@@ -72,9 +72,7 @@
 	<?php
 	foreach ( $postdata as $postdata_key => $chart ) {
 		if ( ! isset( $custom_keys[ $chart['target'] ] ) ) {
-			// phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedUnsetVariable
 			unset( $postdata[ $postdata_key ] );
-			// phpcs:enable
 			continue;
 		}
 		printf(

@@ -718,6 +718,17 @@ h3 {
   letter-spacing: 0.05em;
   text-align: center;
 }
+.ec-header-navi-sp__store a p.chain-store-icon {
+  margin-left: 12px;
+  margin-right: 0;
+  padding: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  background-color: #231815;
+  color: #fff;
+}
 .ec-header-navi-sp__btn {
   flex: 0 0 90px;
   display: block;

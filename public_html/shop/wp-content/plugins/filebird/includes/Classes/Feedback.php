@@ -1,24 +1,41 @@
 <?php
 namespace FileBird\Classes;
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
-class Feedback {
+class Feedback
+{
+    protected static $instance = null;
 
-	public function __construct() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_filebird_feedback' ) );
-	}
+    public static function getInstance() {
+        if (null == self::$instance) {
+          self::$instance = new self;
+          self::$instance->doHooks();
+        }
+        
+        return self::$instance;
+    }
 
-	public function enqueue_filebird_feedback() {
-		if ( ! in_array( get_current_screen()->id, array( 'plugins', 'plugins-network' ), true ) ) {
-			return;
-		}
+    public function __construct()
+    {
+    }
 
-		add_action( 'admin_footer', array( $this, 'form_feedback' ) );
-	}
+    private function doHooks(){
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_filebird_feedback'));
+    }
 
-	public function form_feedback() {
-		echo '<div id="fbv-feedback"></div>';
-	}
+    public function enqueue_filebird_feedback()
+    {
+        if (!in_array(get_current_screen()->id, ['plugins', 'plugins-network'], true)) {
+            return;
+        }
+
+        add_action('admin_footer', array($this, 'form_feedback'));
+    }
+
+    public function form_feedback()
+    {
+        echo '<div id="fbv-feedback"></div>';
+    }
 }
-
+?>

@@ -2,9 +2,7 @@
 window.addEventListener('load', function () {
 	const moshimoElem = document.querySelector('.pchpp-setting__div.moshimo');
 
-	if (!!moshimoElem) {
-		validateMoshimo();
-	}
+	!!moshimoElem && validateMoshimo();
 });
 
 const validateMoshimo = () => {
@@ -12,16 +10,19 @@ const validateMoshimo = () => {
 		amazon: '.pchpp-setting__dl.-amazon > dd input',
 		rakuten: '.pchpp-setting__dl.-rakuten > dd input',
 		yahoo: '.pchpp-setting__dl.-yahoo > dd input',
-	};
+	}
 
-	Object.values(selectorList).forEach((selector) => {
-		document.querySelector(selector).addEventListener('input', (event) => {
+	Object.values(selectorList).forEach(selector => {
+		document.querySelector(selector).addEventListener('input', event => {
 			const strCountLimit = 7;
 			const expectedType = 'number';
 			const value = event.target.value;
 
-			const errors = [overWordCount(value, strCountLimit), invalidType(value, expectedType)];
-			const message = errors.find((error) => error !== '') || '';
+			const errors = [
+				overWordCount(value, strCountLimit),
+				invalidType(value, expectedType),
+			];
+			const message = errors.find(error => error !== '') || '';
 
 			// ここに表示する処理
 			outputError(event.target.closest('dd'), message);
@@ -41,7 +42,7 @@ const overWordCount = (target, limit) => {
 
 const invalidType = (target, type) => {
 	if (type === 'number') {
-		const matches = target.match(/^[0-9]*$/);
+		const matches = target.match(/^[0-9]*$/)
 		return matches === null || target !== matches[0] ? '入力可能な文字は数値のみです。' : '';
 	}
 

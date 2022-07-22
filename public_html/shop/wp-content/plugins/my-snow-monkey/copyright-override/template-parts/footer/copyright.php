@@ -72,16 +72,19 @@
                     <a href="<?php echo ec_url(); ?>/mypage/news">新着情報</a>
                 </li>
                 <li class="ec-footer-horizontal-navi__link">
-                    <a href="<?php echo esc_url(home_url('/store-guide/')); ?>">ご利用案内</a>
-                </li>
-                <li class="ec-footer-horizontal-navi__link">
                     <a href="<?php echo ec_url(); ?>">商品発注</a>
                 </li>
                 <li class="ec-footer-horizontal-navi__link">
                     <a href="<?php echo ec_url(); ?>/products/list?category_id=8">販促品発注</a>
                 </li>
                 <li class="ec-footer-horizontal-navi__link">
-                    <a href="<?php echo esc_url(home_url('/products-list/')); ?>">商品紹介</a>
+                    <a href="<?php echo esc_url(home_url('/manual/')); ?>">マニュアル</a>
+                </li>
+                <li class="ec-footer-horizontal-navi__link">
+                    <a href="<?php echo esc_url(home_url('/notifi/')); ?>">各種申請</a>
+                </li>
+                <li class="ec-footer-horizontal-navi__link">
+                    <a href="<?php echo esc_url(home_url('/promotion/')); ?>">プロモーション</a>
                 </li>
                 <li class="ec-footer-horizontal-navi__link ec-footer-horizontal-navi__link--last">
                     <a href="<?php echo ec_url(); ?>/mypage/">マイページ</a>
@@ -150,16 +153,19 @@
                     <a href="<?php echo ec_url(); ?>/mypage/news">新着情報</a>
                 </li>
                 <li class="ec-footer-navi__link">
-                    <a href="<?php echo esc_url(home_url('/store-guide/')); ?>">ご利用案内</a>
-                </li>
-                <li class="ec-footer-navi__link">
                     <a href="<?php echo ec_url(); ?>">商品発注</a>
                 </li>
                 <li class="ec-footer-navi__link">
                     <a href="<?php echo ec_url(); ?>/products/list?category_id=8">販促品発注</a>
                 </li>
                 <li class="ec-footer-navi__link">
-                    <a href="<?php echo esc_url(home_url('/products-list/')); ?>">商品紹介</a>
+                    <a href="<?php echo esc_url(home_url('/manual/')); ?>">マニュアル</a>
+                </li>
+                <li class="ec-footer-navi__link">
+                    <a href="<?php echo esc_url(home_url('/notifi/')); ?>">各種申請</a>
+                </li>
+                <li class="ec-footer-navi__link">
+                    <a href="<?php echo esc_url(home_url('/promotion/')); ?>">プロモーション</a>
                 </li>
                 <li class="ec-footer-navi__link">
                     <a href="<?php echo ec_url(); ?>/mypage/">マイページ</a>

@@ -60,9 +60,12 @@ $hamburger_btn_position = get_theme_mod('hamburger-btn-position');
     </div>
 
     <div class="ec-header-navi-sp__store">
-      <a href="<?php echo ec_url(); ?>/products/list">
+      <a class="not_store hide" href="<?php echo ec_url(); ?>/products/list">
         <p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
         <img src="<?php echo ec_asset_url(); ?>/img/common/icon_online_store.png" width="32">
+      </a>
+      <a class="is_store hide" href="<?php echo ec_url(); ?>/products/list">
+        <p class="chain-store-icon">商品<br>発注</p>
       </a>
     </div>
     <div class="ec-header-navi-sp__btn">
@@ -178,7 +181,7 @@ $hamburger_btn_position = get_theme_mod('hamburger-btn-position');
       </div>
       <div class="ec-header-bottom__center is_store hide">
         <div class="ec-header-bottom-title">
-          <h1>ダシーズファクトリー商品発注システム</h1>
+          <h1>契約店専用サイト（発注システム）</h1>
         </div>
       </div>
       <div class="ec-header-bottom__right">
@@ -211,17 +214,20 @@ $hamburger_btn_position = get_theme_mod('hamburger-btn-position');
           <a href="<?php echo ec_url(); ?>/mypage/news">新着情報</a>
         </li>
         <li class="ec-header-bottom-list__item">
-          <a href="<?php echo esc_url(home_url('/store-guide/')); ?>">ご利用案内</a>
-        </li>
-        <li class="ec-header-bottom-list__item">
           <a href="<?php echo ec_url(); ?>">商品発注</a>
         </li>
         <li class="ec-header-bottom-list__item">
           <a href="<?php echo ec_url(); ?>/products/list?category_id=8">販促品発注</a>
         </li>
         <li class="ec-header-bottom-list__item">
-          <a href="<?php echo esc_url(home_url('/products-list/')); ?>">商品紹介</a>
-        </li>
+					<a href="<?php echo esc_url(home_url('/manual/')); ?>">マニュアル</a>
+				</li>
+				<li class="ec-header-bottom-list__item">
+					<a href="<?php echo esc_url(home_url('/notifi/')); ?>">各種申請</a>
+				</li>
+				<li class="ec-header-bottom-list__item">
+					<a href="<?php echo esc_url(home_url('/promotion/')); ?>">プロモーション</a>
+				</li>
         <li class="ec-header-bottom-list__item ec-header-bottom-list__item--colored">
           <a href="<?php echo ec_url(); ?>/mypage/">マイページ</a>
         </li>

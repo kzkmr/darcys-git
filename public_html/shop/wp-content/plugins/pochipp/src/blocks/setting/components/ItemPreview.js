@@ -4,17 +4,6 @@
 import { memo } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
 
-// 価格の表示を行う判定を取得
-const getDispPrice = (isShowCommonSetting, isShowIndivisualSetting, isHideIndivisualSetting) => {
-	if (isShowIndivisualSetting) {
-		return true;
-	}
-	if (isHideIndivisualSetting) {
-		return false;
-	}
-	return isShowCommonSetting;
-};
-
 /**
  * ItemPreview
  */
@@ -28,7 +17,7 @@ export default memo(({ postTitle, customImgUrl, parsedMeta }) => {
 		);
 	}
 
-	const { info, price, showPrice, hidePrice, image_url: imageUrl, price_at: priceAt, searched_at: searchedAt } = parsedMeta;
+	const { info, price } = parsedMeta;
 
 	// ポチップ設定データ
 	const pchppVars = window.pchppVars || {};
@@ -36,7 +25,12 @@ export default memo(({ postTitle, customImgUrl, parsedMeta }) => {
 	let dataBtnStyle = pchppVars.btnStyle || 'dflt';
 	if ('default' === dataBtnStyle) dataBtnStyle = 'dflt';
 
-	const dispPrice = getDispPrice(pchppVars.displayPrice !== 'off', showPrice, hidePrice);
+	let showPrice = pchppVars.displayPrice !== 'off';
+	if (!showPrice && parsedMeta.showPrice) {
+		showPrice = true;
+	} else if (showPrice && parsedMeta.hidePrice) {
+		showPrice = false;
+	}
 
 	return (
 		<div className='__preview'>
@@ -49,16 +43,16 @@ export default memo(({ postTitle, customImgUrl, parsedMeta }) => {
 				data-btn-radius={pchppVars.btnRadius || 'off'}
 			>
 				<div className='pochipp-box__image'>
-					<img src={customImgUrl || imageUrl} alt='' />
+					<img src={customImgUrl || parsedMeta.image_url} alt='' />
 				</div>
 				<div className='pochipp-box__body'>
 					<div className='pochipp-box__title'>{postTitle}</div>
 					{info && <div className='pochipp-box__info'>{info}</div>}
-					{price && dispPrice && (
+					{price && showPrice && (
 						<div className='pochipp-box__price'>
 							¥{price.toLocaleString()}
 							<span>
-								（{priceAt}時点 | {searchedAt}調べ）
+								（{parsedMeta.price_at}時点 | {parsedMeta.searched_at}調べ）
 							</span>
 						</div>
 					)}

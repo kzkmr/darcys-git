@@ -13,7 +13,7 @@ import { PanelBody, CheckboxControl } from '@wordpress/components';
 import metadata from './block.json';
 import ItemPreview from './components/ItemPreview';
 import ItemSetting from './components/ItemSetting';
-import { SearchBtn, UpdateBtn, SimpleLinkBtn } from './components/settingBtns';
+import { SearchBtn, UpdateBtn } from './components/settingBtns';
 import BtnSettingTable from '@blocks/components/BtnSettingTable';
 import { getParsedMeta, setCustomFieldArea, sendUpdateAjax } from '@blocks/helper';
 
@@ -22,17 +22,6 @@ import { getParsedMeta, setCustomFieldArea, sendUpdateAjax } from '@blocks/helpe
  */
 const blockName = 'pochipp-block';
 const { apiVersion, name, category, keywords, supports } = metadata;
-const linkType = {
-	shop: 'shop', // amazon or rakuten or yahoo
-	simple: 'simple',
-};
-// ショップのリスト（searched_atのvalue）
-const shops = {
-	amazon: 'amazon',
-	rakuten: 'rakuten',
-	yahoo: 'yahoo',
-	simple: 'simple',
-};
 
 /* eslint no-alert: 0 */
 /* eslint no-console: 0 */
@@ -87,33 +76,6 @@ window.setItemMetaData = (itemData, isMerge) => {
 	// });
 };
 
-// 商品データ更新処理
-const updateItem = (itemCode, searchedAt) => {
-	const params = new URLSearchParams();
-	params.append('action', 'pochipp_update_data');
-	params.append('itemcode', itemCode);
-	params.append('searched_at', searchedAt);
-
-	const btns = document.querySelector('.pochipp-block--setting .__btns');
-	btns.classList.add('-updating');
-
-	const doneFunc = (response) => {
-		const itemData = response.data;
-		window.setItemMetaData(itemData, true);
-
-		alert('更新が完了しました！');
-		btns.classList.remove('-updating');
-	};
-	const failFunc = (err) => {
-		alert('更新に失敗しました。');
-		console.error(err);
-		btns.classList.remove('-updating');
-	};
-
-	// ajax処理
-	sendUpdateAjax(params, doneFunc, failFunc);
-};
-
 /**
  * ポチップ登録用のブロック
  */
@@ -126,25 +88,9 @@ registerBlockType(name, {
 	supports,
 	attributes: metadata.attributes,
 	edit: ({ attributes, setAttributes, clientId }) => {
-		// メタデータを取得
 		const { meta } = attributes;
-		const parsedMeta = useMemo(() => getParsedMeta(meta), [meta]);
-		const {
-			searched_at: searchedAt,
-			image_id: customImgId = 0,
-			custom_btn_text: customBtnText = '',
-			custom_btn_url: customBtnUrl = '',
-			custom_btn_text_2: customBtnText2 = '',
-			custom_btn_url_2: customBtnUrl2 = '',
-			asin: amazonAsin = '',
-			amazon_affi_url: amazonAffiUrl = '',
-			itemcode = '',
-			is_all_search_result: isAllSearchResult = false,
-		} = parsedMeta;
-		// console.log(meta, parsedMeta);
 
 		const [isStickey, setIsStickey] = useState(false);
-		const [selectedLinkType, setSelectedLinkType] = useState(searchedAt === shops.simple ? linkType.simple : linkType.shop);
 
 		// 投稿ID・投稿タイプを取得
 		const { postId } = useSelect((select) => {
@@ -154,26 +100,35 @@ registerBlockType(name, {
 			};
 		}, []);
 
-		// タイトル更新用関数
-		const { editPost } = wp.data.dispatch('core/editor');
-
 		// 投稿タイトルを取得
 		// memo: getCurrentPostAttribute は編集時のデータは取得できない。 getEditedPostAttribute だとOK。
 		const postTitle = useSelect((select) => select('core/editor').getEditedPostAttribute('title'), []);
 
+		// メタデータを取得
+		// const [meta, setMeta] = useEntityProp('postType', postType, 'meta');
+		const parsedMeta = useMemo(() => getParsedMeta(meta), [meta]);
+		// console.log(meta, parsedMeta);
+
+		// カスタム画像データを取得
+		const customImgId = parsedMeta.image_id || 0;
+		// console.log(customImgId);
 		const customImgUrl = useSelect(
 			(select) => {
 				if (!customImgId) return '';
 				const mediaData = select('core').getMedia(customImgId);
-				return mediaData ? mediaData.source_url : '';
+				if (!mediaData) {
+					return '';
+				}
+				return mediaData.source_url;
 			},
 			[customImgId]
 		);
 		// console.log(customImgUrl);
 
 		const updateMetadata = useCallback(
-			(data) => {
-				const newPochippMeta = JSON.stringify({ ...parsedMeta, ...data });
+			(key, newVal) => {
+				parsedMeta[key] = newVal;
+				const newPochippMeta = JSON.stringify(parsedMeta);
 
 				// meta更新
 				// setMeta({ ...meta, pochipp_data: newPochippMeta });
@@ -212,55 +167,56 @@ registerBlockType(name, {
 			[postId, clientId]
 		);
 
-		// simpleリンク作成が選択された場合
-		const selectCreateSimpleLink = (imageId) => {
-			setSelectedLinkType(linkType.simple);
-			// titleと初期の値を入力
-			if (!postTitle) {
-				editPost({ title: '【商品タイトル】タイトルを入力してください' });
-			}
-
-			updateMetadata({
-				searched_at: shops.simple,
-				image_id: imageId,
-				custom_btn_text: customBtnText || '公式サイトで探す',
-				custom_btn_url: customBtnUrl || 'https://example.com',
-				custom_btn_text_2: customBtnText2 || '近くのお店で探す',
-				custom_btn_url_2: customBtnUrl2 || 'https://example.com',
-			});
-		};
+		// meta情報
+		const amazonAsin = parsedMeta.asin || '';
+		const amazonAffiUrl = parsedMeta.amazon_affi_url || '';
 
 		// 商品が検索された状態かどうか
+		const searchedAt = parsedMeta.searched_at;
 		const hasSearchedItem = !!searchedAt;
 
-		// 商品リンクがamazon, rakuten, yahooで検索されたリンクかどうか
-		const isShopLinkType = selectedLinkType === linkType.shop;
+		// 商品データ更新用の itemCode
+		let itemCode = '';
 
-		// 商品検索ボタンを表示するかどうか
-		const showSearchBtn = !hasSearchedItem || isShopLinkType;
-
-		// リンク作成ボタンを表示するかどうか
-		const showSimpleLinkBtn = !hasSearchedItem || selectedLinkType === linkType.simple;
-
-		// 情報更新ボタンが表示可能か判定するためのオブジェクト
-		const itemInfoForUpdate = {
-			[shops.amazon]: {
-				itemCode: amazonAsin,
-				showUpdateBtn: !!(amazonAsin && amazonAffiUrl),
-			},
-			[shops.rakuten]: {
-				itemCode: itemcode,
-				showUpdateBtn: !!itemcode,
-			},
-			default: {
-				itemCode: '',
-				showUpdateBtn: false,
-			},
-		};
-		const { itemCode, showUpdateBtn } = itemInfoForUpdate[searchedAt] || itemInfoForUpdate.default;
+		// 情報更新ボタンを表示するかどうか
+		let showUpdateBtn = false;
+		if ('amazon' === searchedAt) {
+			itemCode = amazonAsin || '';
+			showUpdateBtn = !!(itemCode && amazonAffiUrl);
+		} else if ('rakuten' === searchedAt) {
+			itemCode = parsedMeta.itemcode || '';
+			showUpdateBtn = !!itemCode;
+		} else if ('yahoo' === searchedAt) {
+			// itemCode = parsedMeta.yahoo_itemcode || '';
+			// showUpdateBtn = !!itemCode;
+		}
 
 		// 商品データ更新処理
-		const updateItemData = useCallback(() => updateItem(itemCode, searchedAt), [itemCode, parsedMeta]);
+		const updateItemData = useCallback(() => {
+			const params = new URLSearchParams();
+			params.append('action', 'pochipp_update_data');
+			params.append('itemcode', itemCode);
+			params.append('searched_at', searchedAt);
+
+			const btns = document.querySelector('.pochipp-block--setting .__btns');
+			btns.classList.add('-updating');
+
+			const doneFunc = (response) => {
+				const itemData = response.data;
+				window.setItemMetaData(itemData, true);
+
+				alert('更新が完了しました！');
+				btns.classList.remove('-updating');
+			};
+			const failFunc = (err) => {
+				alert('更新に失敗しました。');
+				console.error(err);
+				btns.classList.remove('-updating');
+			};
+
+			// ajax処理
+			sendUpdateAjax(params, doneFunc, failFunc);
+		}, [itemCode, parsedMeta]);
 
 		return (
 			<>
@@ -273,54 +229,41 @@ registerBlockType(name, {
 					<ItemPreview {...{ postTitle, customImgUrl, parsedMeta }} />
 					<div className='__settings'>
 						<div className='__btns'>
-							{showSearchBtn && (
-								<>
-									<SearchBtn onClick={openThickbox} text={hasSearchedItem ? '商品を再検索' : '商品を検索'} />
-									{showUpdateBtn && <UpdateBtn onClick={updateItemData} />}
-								</>
-							)}
-							{showSimpleLinkBtn && (
-								<SimpleLinkBtn
-									text={hasSearchedItem ? 'リンクを再作成' : '手動でリンクを作成'}
-									imageId={customImgId}
-									selectCreateSimpleLink={selectCreateSimpleLink}
-								/>
-							)}
+							<SearchBtn onClick={openThickbox} text={hasSearchedItem ? '商品を再検索' : '商品を検索'} />
+							{showUpdateBtn && <UpdateBtn onClick={updateItemData} />}
 						</div>
 						{hasSearchedItem && (
 							<div className='__fields'>
-								{isShopLinkType && (
-									<div className='components-base-control'>
-										<div className='components-base-control__label'>ボタンリンク先</div>
-										<BtnSettingTable
-											attrs={parsedMeta}
-											openThickbox={openThickbox}
-											deleteAmazon={() => {
-												updateMetadata({ asin: '' });
-												updateMetadata({ amazon_affi_url: '' });
-											}}
-											deleteRakuten={() => {
-												updateMetadata({ itemcode: '' });
-												updateMetadata({ rakuten_detail_url: '' });
-											}}
-											deleteYahoo={() => {
-												updateMetadata({ yahoo_itemcode: '' });
-												updateMetadata({ seller_id: '' });
-												updateMetadata({ is_paypay: '' });
-												updateMetadata({ yahoo_detail_url: '' });
-											}}
-										/>
-										<CheckboxControl
-											className='__searchResultCheck'
-											label='リンク先をすべて検索結果ページにする'
-											checked={isAllSearchResult}
-											onChange={(checked) => {
-												updateMetadata({ is_all_search_result: checked });
-											}}
-										/>
-									</div>
-								)}
-								<ItemSetting {...{ postTitle, parsedMeta, updateMetadata, customImgUrl, isShopLinkType }} />
+								<div className='components-base-control'>
+									<div className='components-base-control__label'>ボタンリンク先</div>
+									<BtnSettingTable
+										attrs={parsedMeta}
+										openThickbox={openThickbox}
+										deleteAmazon={() => {
+											updateMetadata('asin', '');
+											updateMetadata('amazon_affi_url', '');
+										}}
+										deleteRakuten={() => {
+											updateMetadata('itemcode', '');
+											updateMetadata('rakuten_detail_url', '');
+										}}
+										deleteYahoo={() => {
+											updateMetadata('yahoo_itemcode', '');
+											updateMetadata('seller_id', '');
+											updateMetadata('is_paypay', '');
+											updateMetadata('yahoo_detail_url', '');
+										}}
+									/>
+									<CheckboxControl
+										className='__searchResultCheck'
+										label='リンク先をすべて検索結果ページにする'
+										checked={parsedMeta.is_all_search_result}
+										onChange={(checked) => {
+											updateMetadata('is_all_search_result', checked);
+										}}
+									/>
+								</div>
+								<ItemSetting {...{ postTitle, parsedMeta, updateMetadata, customImgUrl }} />
 							</div>
 						)}
 						{/* <div>【開発用】データ確認</div>

@@ -43,11 +43,6 @@
           </a>
         </li>
         <li class="ec-item-nav__nav-item">
-          <a href="<?php echo esc_url(home_url('/store-guide/')); ?>">
-            ご利用案内
-          </a>
-        </li>
-        <li class="ec-item-nav__nav-item">
           <a href="<?php echo ec_url(); ?>">
             商品発注
           </a>
@@ -58,8 +53,18 @@
           </a>
         </li>
         <li class="ec-item-nav__nav-item">
-          <a href="<?php echo esc_url(home_url('/products-list/')); ?>">
-            商品紹介
+          <a href="<?php echo esc_url(home_url('/manual/')); ?>">
+            マニュアル
+          </a>
+        </li>
+        <li class="ec-item-nav__nav-item">
+          <a href="<?php echo esc_url(home_url('/notifi/')); ?>">
+            各種申請
+          </a>
+        </li>
+        <li class="ec-item-nav__nav-item">
+          <a href="<?php echo esc_url(home_url('/promotion/')); ?>">
+            プロモーション
           </a>
         </li>
         <li class="ec-item-nav__nav-item">

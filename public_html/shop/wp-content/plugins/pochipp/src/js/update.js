@@ -24,7 +24,7 @@ const updatePochippData = async () => {
 			.join(',')
 	);
 
-	await fetch(ajaxUrl, {
+	const res = await fetch(ajaxUrl, {
 		method: 'POST',
 		cache: 'no-cache',
 		body: params,
@@ -36,4 +36,8 @@ const updatePochippData = async () => {
 		}
 		throw new TypeError('Failed ajax!');
 	});
+
+	if (res.result) {
+		console.log('Pochipp auto update:', JSON.parse(res.result));
+	}
 };

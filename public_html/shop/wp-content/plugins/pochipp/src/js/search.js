@@ -50,11 +50,6 @@ const getItemList = (itemDatas, type) => {
 			info = `<div class='pochipp-item__info'>${item.info}</div>`;
 		}
 
-		let priceStr = '';
-		if (item.price) {
-			priceStr = `<div class="pochipp-item__price">価格：¥${price.toLocaleString()}</div>`;
-		}
-
 		// 商品画像
 		let imageUrl = item.image_url;
 		const customImageUrl = item.custom_image_url || '';
@@ -77,7 +72,7 @@ const getItemList = (itemDatas, type) => {
 			<div class="pochipp-item__body">
 				<div class="pochipp-item__title">${item.title}</div>
 				${info}
-				${priceStr}
+				<div class="pochipp-item__price">価格：¥${price.toLocaleString()}</div>
 		`;
 
 		// ボタン
@@ -161,7 +156,7 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 				$('#loading_image').show(); // ローディング画像の表示開始
 			},
 		})
-			.done(function (datas) {
+			.done(function (datas, textStatus, jqXHR) {
 				// console.log('doSearchAjax: datas', datas);
 
 				if (datas.error) {
@@ -218,7 +213,7 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 					window.parent.tb_remove();
 				});
 			})
-			.always(function () {
+			.always(function (jqXHR, textStatus) {
 				// ローディング画像の表示終了
 				$('#loading_image').hide();
 			});
