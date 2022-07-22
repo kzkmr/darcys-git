@@ -1,0 +1,76 @@
+<?php
+/*
+* Plugin Name : HiddenDeliveryDate
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
+
+namespace Plugin\HiddenDeliveryDate\Repository;
+
+use Eccube\Repository\AbstractRepository;
+use Plugin\HiddenDeliveryDate\Entity\Hiddenday;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class HiddendayRepository extends AbstractRepository
+{
+    protected $container;
+
+    public function __construct(RegistryInterface $registry, string $entityClass = Hiddenday::class, ContainerInterface $container)
+    {
+        parent::__construct($registry, $entityClass);
+        $this->container = $container;
+    }
+
+    public function getList()
+    {
+        $qb = $this->createQueryBuilder('h')
+            ->orderBy('h.date', 'ASC');
+        $results = $qb->getQuery()
+            ->getResult();
+
+        return $results;
+    }
+
+    public function getHiddenday(\DateTime $date, $Product = null)
+    {
+        $date->setTimeZone(new \DateTimeZone($this->container->getParameter('timezone')));
+        $start = $date->format('Y-m-d 00:00:00P');
+        $end = $date->format('Y-m-d 23:59:59P');
+
+        $qb = $this->createQueryBuilder('h')
+            ->andWhere('h.date >= :start')
+            ->andWhere('h.date < :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->setMaxResults(1);
+        if(!is_null($Product)){
+            $qb->andWhere('h.Product = :Product')
+               ->setParameter('Product', $Product);
+        }else{
+            $qb->andWhere('h.Product is NULL');
+        }
+        $result = $qb->getQuery()
+            ->getResult();
+
+        if(count($result) > 0){
+            return $result[0];
+        }else{
+            return null;
+        }
+    }
+
+    public function checkHoliday(\DateTime $date)
+    {
+        if(!is_null($this->getHoliday($date))){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+}

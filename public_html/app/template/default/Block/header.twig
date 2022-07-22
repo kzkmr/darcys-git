@@ -40,10 +40,16 @@ file that was distributed with this source code.
     </div>
   </div>
   <div class="ec-header-navi-sp__store">
-    <a href="{{ url('product_list') }}">
-      <p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
-      <img src="{{ asset('assets/img/common/icon_online_store.png') }}" width="32">
-    </a>
+    {% if ChainStore == false %}
+        <a href="{{ url('product_list') }}">
+            <p><span class="small">ONLINE</span><span class="large">SHOP</span></p>
+            <img src="{{ asset('assets/img/common/icon_online_store.png') }}" width="32">
+        </a>
+    {% else %}
+        <a href="{{ url('product_list') }}">
+            <p class="chain-store-icon">商品<br>発注</p>
+        </a>
+    {% endif %}
   </div>
   <div class="ec-header-navi-sp__btn">
     {{ include('Block/nav_sp.twig') }}
@@ -116,7 +122,7 @@ file that was distributed with this source code.
     </div>
     <div class="ec-header-bottom__center">
       <div class="ec-header-bottom-title">
-        <h1>ダシーズファクトリー商品発注システム</h1>
+        <h1>契約店専用サイト（発注システム）</h1>
       </div>
     </div>
   {% endif %}
@@ -156,16 +162,19 @@ file that was distributed with this source code.
         <a href="{{ url('mypage_news') }}">新着情報</a>
       </li>
       <li class="ec-header-bottom-list__item">
-        <a href="/shop/store-guide">ご利用案内</a>
-      </li>
-      <li class="ec-header-bottom-list__item">
         <a href="{{ url('product_list') }}">商品発注</a>
       </li>
       <li class="ec-header-bottom-list__item">
         <a href="{{ url('product_list') }}?category_id=8">販促品発注</a>
       </li>
       <li class="ec-header-bottom-list__item">
-        <a href="/shop/products-list/">商品紹介</a>
+        <a href="/shop/manual/">マニュアル</a>
+      </li>
+      <li class="ec-header-bottom-list__item">
+        <a href="/shop/notifi/">各種申請</a>
+      </li>
+      <li class="ec-header-bottom-list__item">
+        <a href="/shop/promotion/">プロモーション</a>
       </li>
       <li class="ec-header-bottom-list__item ec-header-bottom-list__item--colored">
         <a href="{{ url('mypage') }}">マイページ</a>

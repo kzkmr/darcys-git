@@ -1,0 +1,23 @@
+hiddendeliverydate.common.choice.default: 選択してください
+hiddendeliverydate.common.sunday: 日
+hiddendeliverydate.common.monday: 月
+hiddendeliverydate.common.tuesday: 火
+hiddendeliverydate.common.wednesday: 水
+hiddendeliverydate.common.thursday: 木
+hiddendeliverydate.common.friday: 金
+hiddendeliverydate.common.saturday: 土
+hiddendeliverydate.common.hiddenday: お届け不可日
+
+hiddendeliverydate.admin.nav.setting.hiddendeliverydate.hiddenday: お届け不可日設定
+hiddendeliverydate.admin.setting.hiddendeliverydate.hiddenday: お届け不可日設定
+hiddendeliverydate.admin.setting.shop.hiddenday.common: 共通設定
+hiddendeliverydate.admin.setting.shop.hiddenday.label.regist: 登録
+hiddendeliverydate.admin.setting.shop.hiddenday.label.date: 日付
+hiddendeliverydate.admin.setting.shop.hiddenday.button: 選択
+hiddendeliverydate.admin.setting.shop.hiddenday.checkall: 曜日一括チェック
+hiddendeliverydate.admin.setting.shop.hiddenday.nodata: 年月が選択されていません
+
+admin.hiddendeliverydate.hiddenday.save.complete: お届け不可日を登録しました。
+admin.hiddendeliverydate.hiddenday.delete.complete: お届け不可日を削除しました。
+
+hiddendeliverydate.admin.product.product_csv.hidden_delivery_date_description: YYYY/MM/DDの日付形式で指定。複数指定の場合はカンマ区切りで「"」で囲んでください。

@@ -2,26 +2,57 @@
 /*購入ページ・商品詳細リスト*/
 .details-list{
     width:100%;
-    margin-top:1rem;
-    margin-bottom: 0.5rem;
     border-collapse: collapse;
 }
 td{
-        border:1px solid #ddd;
+        border:1px solid #EDE1E7;
         padding: 6px 12px;
 }
 .details-list_l{
     width:150px;
     background-color: #fdf3f1;
-    font-size: 0.8rem;
+    font-size: 14px;
 }
 
 .details-list_r{
-    font-size: 0.8rem;
+    font-size: 14px;
+    background-color: #f9f9f9;
 
 }
 .details-list_exp{
     border:none;
-    padding:8px;
+    padding:8px 8px 0.7rem 8px;
     font-size:0.9rem;
+    background: linear-gradient(transparent 75%, #EDE1E7 100%);
+    font-weight: 500;
+}
+.details-list_sub {
+    color: #666;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+/*販売店サイト商品発注*/
+.material_quality{
+    border: 1px solid #EDE1E7;
+    padding: 1rem;
+    background-color: #f9f9f9;
+}
+.material_quality-title {
+    font-size: 0.9rem;
+    margin-top: 2rem;
+    padding: 8px;
+    margin-bottom: 0rem;
+    background: linear-gradient(transparent 75%, #EDE1E7 100%);
+    padding-bottom: 0.7rem;
+}
+.material_quality-sub {
+    margin-bottom: 1.3rem;
+    margin-left: 0.5rem;
+}
+.material_quality-main {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 400;
 }

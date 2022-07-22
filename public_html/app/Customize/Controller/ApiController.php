@@ -799,8 +799,32 @@ class ApiController extends AbstractController
         log_info('販売店チェック処理開始',[]);
 
         // ログインチェック
+        $done = false;
         $LoginTypeInfo = $this->getLoginTypeInfo();
         $LoginType = $LoginTypeInfo['LoginType'];
+        $ChainStoreInfo = $LoginTypeInfo['ChainStore'];
+        $Customer = $LoginTypeInfo['Customer'];
+
+        $ChainStoreStockNumber = $ChainStoreInfo->getStockNumber() ? $ChainStoreInfo->getStockNumber() : "";
+        $ChainStoreCompanyName = $ChainStoreInfo->getCompanyName() ? $ChainStoreInfo->getCompanyName() : "";
+
+        $ChainStoreName01 = $ChainStoreInfo->getName01() ? $ChainStoreInfo->getName01() : "";
+        $ChainStoreName02 = $ChainStoreInfo->getName02() ? $ChainStoreInfo->getName02() : "";
+        $ChainStoreFullName = $ChainStoreName01.' '.$ChainStoreName02;
+
+        $ChainStoreChainstoreName = $Customer->getCompanyName() ? $Customer->getCompanyName() : "";
+        //$ChainStoreChainstoreNameKana = $ChainStoreInfo->getChainstoreNameKana() ? $ChainStoreInfo->getChainstoreNameKana() : "";
+
+        $AddressFull = "";
+        $AddressFull .= $Customer->getPostalCode();
+        $AddressFull .= " " . $Customer->getAddr01();
+        $AddressFull .= $Customer->getAddr02();
+        $ChainStoreAddressFull = $AddressFull ? $AddressFull : "";
+
+        $ChainStorePhoneNumber = $Customer->getPhoneNumber() ? $Customer->getPhoneNumber() : "";
+        $ChainStoreEmail = $Customer->getEmail() ? $Customer->getEmail() : "";
+        //$ChainStoreWebshopUrl = $ChainStoreInfo->getWebshopUrl() ? $ChainStoreInfo->getWebshopUrl() : "";
+
         if ( $LoginType == 3 ) {
           $done = true;
         } else {
@@ -809,7 +833,9 @@ class ApiController extends AbstractController
 
         log_info('販売店チェック処理完了',[]);
 
-        return $this->json(['done' => $done ]);
+        //return $this->json(['done' => $done, 'chainStoreStockNumber' => $ChainStoreStockNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName, 'chainStoreChainstoreName' => $ChainStoreChainstoreName, 'chainStoreChainstoreNameKana' => $ChainStoreChainstoreNameKana, 'chainStoreAddressFull' => $ChainStoreAddressFull, 'chainStorePhoneNumber' => $ChainStorePhoneNumber, 'chainStoreEmail' => $ChainStoreEmail, 'chainStoreWebshopUrl' => $ChainStoreWebshopUrl]);
+        return $this->json(['done' => $done, 'chainStoreStockNumber' => $ChainStoreStockNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName, 'chainStoreChainstoreName' => $ChainStoreChainstoreName, 'chainStoreAddressFull' => $ChainStoreAddressFull, 'chainStorePhoneNumber' => $ChainStorePhoneNumber, 'chainStoreEmail' => $ChainStoreEmail]);
+        // return $this->json(['done' => $done, 'chainStoreStockNumber' => $ChainStoreStockNumber, 'chainStoreCompanyName' => $ChainStoreCompanyName, 'chainStoreFullName' => $ChainStoreFullName]);
     }
 
     function getLoginTypeInfo()

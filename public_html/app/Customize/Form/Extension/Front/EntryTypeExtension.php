@@ -30,6 +30,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -66,6 +67,21 @@ class EntryTypeExtension extends AbstractTypeExtension
             if($Customer->getIsChainstore()){
                 $form->add('chain_store', ChainStoreType::class);
             }
+
+            $form->add('phone_number', TelType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length([
+                        'max' => 11,
+                        'min' => 10,
+                    ]),
+                    new Assert\Type([
+                        'type' => 'numeric',
+                        'message' => 'form_error.numeric_only',
+                    ]),
+                ],
+            ]);
         }
         );
 

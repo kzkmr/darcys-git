@@ -101,15 +101,20 @@ $(function() {
   var item = $('.ec-header-bottom-list__item');
   //console.log(url);
   switch(url) {
-    case '/shop/store-guide/':
-    item.eq(2).addClass('active');
+    case '/shop/manual/':
+    item.eq(4).addClass('active');
     break;
-    case '/mypage/news':
-    item.eq(1).addClass('active');
+    case '/shop/notifi/':
+    item.eq(5).addClass('active');
+    break;
+    case '/shop/promotion/':
+    item.eq(6).addClass('active');
     break;
   }
 });
 
+
+// API読み込み
 $(function() {
     // Chainstore api読み込み
     var path = '../../../../../../'; // ECCUBE設置パス
@@ -118,10 +123,58 @@ $(function() {
         type: 'post',
         dataType: 'json',
     }).done(function(data) {
+        // console.log(data.chainStoreStockNumber);
+        // console.log(data.chainStoreCompanyName);
+        // console.log(data.chainStoreFullName);
+        // console.log(data.chainStoreChainstoreName);
+        // console.log(data.chainStoreChainstoreNameKana);
+        // console.log(data.chainStoreAddressFull);
+        // console.log(data.chainStorePhoneNumber);
+        // console.log(data.chainStoreEmail);
+        // console.log(data.chainStoreWebshopUrl);
+
         if (data.done) {
             // 販売店時の処理を記載
             $('.is_store').removeClass('hide');  // is_storeを表示
             $('body').addClass('layout-store');
+
+            var chainStoreStockNumber = $('#chainstore_number');
+            var chainStoreCompanyName = $('#chainstore_companyname');
+            var chainStoreFullName = $('#chainstore_fullname');
+            var chainStoreChainstoreName = $('#chainstore_shopname');
+            var chainStoreChainstoreNameKana = $('#chainstore_shopnamekana');
+            var chainStoreAddressFull = $('#chainstore_address');
+            var chainStorePhoneNumber = $('#chainstore_phonenumber');
+            var chainStorechainStoreEmail = $('#chainstore_email');
+            var chainStoreWebshopUrl = $('#chainstore_url');
+
+            if (chainStoreStockNumber.length) {
+                chainStoreStockNumber.val(data.chainStoreStockNumber).css('border', 'none');
+            }
+            if (chainStoreCompanyName.length) {
+                chainStoreCompanyName.val(data.chainStoreCompanyName).css('border', 'none');
+            }
+            if (chainStoreFullName.length) {
+                chainStoreFullName.val(data.chainStoreFullName).css('border', 'none');
+            }
+            if (chainStoreChainstoreName.length) {
+                chainStoreChainstoreName.val(data.chainStoreChainstoreName).css('border', 'none');
+            }
+            if (chainStoreChainstoreNameKana.length) {
+                chainStoreChainstoreNameKana.val(data.chainStoreChainstoreNameKana).css('border', 'none');
+            }
+            if (chainStoreAddressFull.length) {
+                chainStoreAddressFull.val(data.chainStoreAddressFull).css('border', 'none');
+            }
+            if (chainStorePhoneNumber.length) {
+                chainStorePhoneNumber.val(data.chainStorePhoneNumber).css('border', 'none');
+            }
+            if (chainStorechainStoreEmail.length) {
+                chainStorechainStoreEmail.val(data.chainStoreEmail).css('border', 'none');
+            }
+            if (chainStoreWebshopUrl.length) {
+                chainStoreWebshopUrl.val(data.chainStoreWebshopUrl).css('border', 'none');
+            }
             //console.log('store');
         }else{
             // 販売店以外の処理を記載
@@ -144,7 +197,7 @@ $(function() {
             $('.nologin_block').removeClass('hide');  // login_blockを表示
             var num = data.num;
             if( $('.cart-num-indicator').length ) {
-              $('.cart-num-indicator').text(num);
+                $('.cart-num-indicator').text(num);
             }
         }else{
             // 未ログイン時の処理を記載

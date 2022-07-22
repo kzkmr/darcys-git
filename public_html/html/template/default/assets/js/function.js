@@ -261,10 +261,10 @@ $(function() {
     break;
     case '/products/list':
     case '/products/list?category_id=1':
-    item.eq(3).addClass('active');
+    item.eq(2).addClass('active');
     break;
     case '/products/list?category_id=8':
-    item.eq(4).addClass('active');
+    item.eq(3).addClass('active');
     break;
     // case '/mypage':
     // case '/mypage/chainstore_coupon_jisseki':
@@ -274,7 +274,7 @@ $(function() {
   }
 });
 
-// 販売店ヘッダーナビ
+// 数字インプット
 $(function () {
   var input = $('input[type="number"]');
   input.on('focus', function() {
