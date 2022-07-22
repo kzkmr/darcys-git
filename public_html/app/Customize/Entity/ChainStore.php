@@ -113,7 +113,7 @@ if (!class_exists('\Customize\Entity\ChainStore')) {
         /**
          * @var \DateTime 設立日（開業日）
          *
-         * @ORM\Column(name="begin_day", type="date", nullable=false, options={"comment":"設立日（開業日）"}) 
+         * @ORM\Column(name="begin_day", type="date", nullable=true, options={"comment":"設立日（開業日）"}) 
          */
         private $begin_day;
 

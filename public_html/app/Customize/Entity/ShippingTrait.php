@@ -37,6 +37,8 @@ trait  ShippingTrait
     private $merge_chainstore_kana;
     //CSV-E-ASPROのギフトモード
     private $e_aspro;
+    //CSV-伝票枚数
+    private $subpoena_num;
 
     /**
      * Set shippingDeliveryStringDate
@@ -255,6 +257,30 @@ trait  ShippingTrait
     public function getEAspro()
     {
         return $this->e_aspro;
+    }
+
+    /**
+     * Set subpoena_num
+     *
+     * @param string|null $subpoena_num
+     *
+     * @return Shipping
+     */
+    public function setSubpoenaNum($subpoena_num = null)
+    {
+        $this->subpoena_num = $subpoena_num;
+
+        return $this;
+    }
+
+    /**
+     * Get subpoena_num
+     *
+     * @return string|null
+     */
+    public function getSubpoenaNum()
+    {
+        return $this->subpoena_num;
     }
     
 }

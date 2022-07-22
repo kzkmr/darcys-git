@@ -34,6 +34,7 @@ use Eccube\Repository\Master\ProductStatusRepository;
 use Eccube\Repository\Master\SexRepository;
 use Eccube\Repository\OrderPdfRepository;
 use Customize\Repository\OrderRepository;
+use Eccube\Repository\OrderItemRepository;
 use Eccube\Repository\PaymentRepository;
 use Eccube\Repository\ProductStockRepository;
 use Customize\Service\CsvExportService;
@@ -43,6 +44,7 @@ use Eccube\Service\OrderStateMachine;
 use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Eccube\Util\FormUtil;
 use Knp\Component\Pager\PaginatorInterface;
+use Plugin\KokokaraSelect\Repository\KsProductRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -106,6 +108,11 @@ class OrderController extends BaseOrderController
      */
     protected $orderRepository;
 
+    /**
+     * @var OrderItemRepository
+     */
+    protected $orderItemRepository;
+    
     /** @var OrderPdfRepository */
     protected $orderPdfRepository;
 
@@ -133,6 +140,11 @@ class OrderController extends BaseOrderController
     protected $mailService;
 
     /**
+     * @var KsProductRepository
+     */
+    protected $ksProductRepository;
+    
+    /**
      * OrderController constructor.
      *
      * @param PurchaseFlow $orderPurchaseFlow
@@ -145,9 +157,11 @@ class OrderController extends BaseOrderController
      * @param ProductStatusRepository $productStatusRepository
      * @param ProductStockRepository $productStockRepository
      * @param OrderRepository $orderRepository
+     * @param OrderItemRepository $orderItemRepository
      * @param OrderPdfRepository $orderPdfRepository
      * @param ValidatorInterface $validator
      * @param OrderStateMachine $orderStateMachine ;
+     * @param KsProductRepository $ksProductRepository
      */
     public function __construct(
         PurchaseFlow $orderPurchaseFlow,
@@ -161,10 +175,12 @@ class OrderController extends BaseOrderController
         ProductStockRepository $productStockRepository,
         DeliveryTimeRepository $deliveryTimeRepository,
         OrderRepository $orderRepository,
+        OrderItemRepository $orderItemRepository,
         OrderPdfRepository $orderPdfRepository,
         ValidatorInterface $validator,
         OrderStateMachine $orderStateMachine,
-        MailService $mailService
+        MailService $mailService,
+        KsProductRepository $ksProductRepository
     ) {
         $this->purchaseFlow = $orderPurchaseFlow;
         $this->csvExportService = $csvExportService;
@@ -177,10 +193,12 @@ class OrderController extends BaseOrderController
         $this->productStockRepository = $productStockRepository;
         $this->deliveryTimeRepository = $deliveryTimeRepository;
         $this->orderRepository = $orderRepository;
+        $this->orderItemRepository = $orderItemRepository;
         $this->orderPdfRepository = $orderPdfRepository;
         $this->validator = $validator;
         $this->orderStateMachine = $orderStateMachine;
         $this->mailService = $mailService;
+        $this->ksProductRepository = $ksProductRepository;
     }
 
     /**
@@ -581,10 +599,108 @@ class OrderController extends BaseOrderController
                 $Customer = $Order->getCustomer();
                 $OrderItems = $Order->getOrderItems();
                 $ChainStore = null;
+                $shippingSubpoenaArray = [];
+
                 if(is_object($Customer)){
                     $ChainStore = $Customer->getChainStore();
                 }
         
+                foreach ($OrderItems as $OrderItem) {
+                    foreach ($ids as $id) {
+                        $Shipping = $OrderItem->getShipping();
+                        if(!is_object($Shipping)){
+                            continue;
+                        }
+                        
+                        if($Shipping->getId() == $id || $id == "all"){
+                            if(!$OrderItem->getProductCode() && $chkCode){
+                                continue;
+                            }
+
+                            $keyId = "SID-".$Shipping->getId();
+                            //$NewOrderItem = $this->orderItemRepository->findOneBy(["id" => $OrderItem->getId()]);
+                            
+                            if (array_key_exists($keyId, $shippingSubpoenaArray)) {
+                                // 同じID
+                                $old_subpoena = $shippingSubpoenaArray[$keyId];
+                                $quantity = 1;
+                                $size = 1;
+                                $skip = false;
+
+                                if($OrderItem->getProductClass()){
+                                    //$ksQuantity = $this->ksProductRepository->findOneBy(["Product" => $OrderItem->getProduct()]);
+                                    $ksQuantity = $OrderItem->getKsProduct();
+
+                                    if(is_object($ksQuantity)){
+                                        if($OrderItem->isKsSelectItem()){
+                                            $size = $ksQuantity->getQuantity();
+                                            if(!$size){
+                                                $size = 1;
+                                            }
+                                            $quantity = $OrderItem->getQuantity();
+                                            //$subpoenaNum = ceil(( $size * $quantity ) / 80);
+                                        }else{
+                                            $skip = true;
+                                        }
+                                    }else{
+                                        $size = $OrderItem->getProductClass()->getDeliveryplusSize();
+                                        if(!$size){
+                                            $size = 1;
+                                        }
+                                        $quantity = $OrderItem->getQuantity();
+                                    }
+                                }
+
+                                if(!$skip){
+                                    $subpoena = [
+                                        "qty" => ($quantity * $size) + $old_subpoena["qty"],
+                                        "debug" => $old_subpoena["debug"]."||".$quantity."x".$size
+                                    ];
+                                    $shippingSubpoenaArray[$keyId] = $subpoena;
+                                }
+                            }else{
+                                //伝票数の計算
+                                $subpoenaNum = 1;
+                                $quantity = 1;
+                                $size = 1;
+                                $skip = false;
+
+                                if($OrderItem->getProductClass()){
+                                    //$ksQuantity = $this->ksProductRepository->findOneBy(["Product" => $OrderItem->getProduct()]);
+                                    $ksQuantity = $OrderItem->getKsProduct();
+
+                                    if(is_object($ksQuantity)){
+                                        if($OrderItem->isKsSelectItem()){
+                                            $size = $ksQuantity->getQuantity();
+                                            if(!$size){
+                                                $size = 1;
+                                            }
+                                            $quantity = $OrderItem->getQuantity();
+                                            //$subpoenaNum = ceil(( $size * $quantity ) / 80);
+                                        }else{
+                                            $skip = true;
+                                        }
+                                    }else{
+                                        $size = $OrderItem->getProductClass()->getDeliveryplusSize();
+                                        if(!$size){
+                                            $size = 1;
+                                        }
+                                        $quantity = $OrderItem->getQuantity();
+                                    }
+                                }
+
+                                if(!$skip){
+                                    $subpoena = [
+                                        "qty" => ($quantity * $size),
+                                        "debug" => $quantity."x".$size
+                                    ];
+                                    $shippingSubpoenaArray[$keyId] = $subpoena;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 foreach ($OrderItems as $OrderItem) {
                     foreach ($ids as $id) {
                         $Shipping = $OrderItem->getShipping();
@@ -671,6 +787,17 @@ class OrderController extends BaseOrderController
                             }
                             //E-ASPROのギフトモード
                             $Shipping->setEAspro(1);
+
+                            //伝票枚数
+                            $keyId = "SID-".$Shipping->getId();
+
+                            if (array_key_exists($keyId, $shippingSubpoenaArray)) {
+                                $subpoena = $shippingSubpoenaArray[$keyId];
+                                $subpoenaNum = ceil($subpoena["qty"] / 80);
+                                $Shipping->setSubpoenaNum($subpoenaNum);
+                            }else{
+                                $Shipping->setSubpoenaNum(1);
+                            }
 
                             $ExportCsvRow = new ExportCsvRow();
 

@@ -196,13 +196,25 @@ file that was distributed with this source code.
             width:33%;
         }
         .ec-historyRole__detail.coupon{
-            width:40%;
+            width:50%;
+        }
+        .ec-historyRole__detail.coupon .coupon_img{
+            width: 55%;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .ec-historyRole__detail.coupon .coupon_text{
+            width: 40%;
+            display: inline-block;
         }
         .copy-finished{
             width: 80%;
             margin: 5px auto;
             font-size: 12px;
             padding: 10px;
+        }
+        .ec-historyRole__detail.coupon img{
+            width:90%;
         }
         @media all and (max-width:760px) {
             .c-static-intro-coupon-title {
@@ -223,6 +235,16 @@ file that was distributed with this source code.
             }
             .ec-historyRole__detail.coupon{
                 width:100%;
+            }
+            .ec-historyRole__detail.coupon img{
+                width:100%;
+                margin-bottom: 15px;
+            }
+            .ec-historyRole__detail.coupon .coupon_img{
+                width: 100%;
+            }
+            .ec-historyRole__detail.coupon .coupon_text{
+                width: 100%;
             }
         }
     </style>
@@ -259,29 +281,34 @@ file that was distributed with this source code.
                         <div class="ec-historyRole">
                             <div class="ec-historyRole__contents">
                                 <div class="ec-historyRole__detail coupon">
-                                    <p class="c-static-intro-coupon-title">{{ Coupon.coupon_name }}</p>
-                                    <p class="c-static-intro-coupon">
-                                        <span class="title">クーポンの対象商品</span><br>
-                                            {% if Coupon.coupon_type == 1 %}
-                                                一部の製品
-                                            {% elseif Coupon.coupon_type == 2 %}
-                                                カテゴリ
+                                    <div class="coupon_img">
+                                        <img src="{{ url('coupon_img', {size: 's', coupon_code: Coupon.coupon_cd}) }}">
+                                    </div>
+                                    <div class="coupon_text">
+                                        <p class="c-static-intro-coupon-title">{{ Coupon.coupon_name }}</p>
+                                        <p class="c-static-intro-coupon">
+                                            <span class="title">クーポンの対象商品</span><br>
+                                                {% if Coupon.coupon_type == 1 %}
+                                                    一部の製品
+                                                {% elseif Coupon.coupon_type == 2 %}
+                                                    カテゴリ
+                                                {% else %}
+                                                    全商品
+                                                {% endif %}<br>
+                                            <span class="title">クーポン対象期間</span><br>
+                                            {% if Coupon.available_to_date >= date('9999/12/31') %}
+                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ～<br>
                                             {% else %}
-                                                全商品
-                                            {% endif %}<br>
-                                        <span class="title">クーポン対象期間</span><br>
-                                        {% if Coupon.available_to_date >= date('9999/12/31') %}
-                                            {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ～<br>
-                                        {% else %}
-                                            {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}<br>
-                                        {% endif %}
-                                        <span class="title">値引き</span><br>
-                                        {% if Coupon.discount_type == 1 %}
-                                            {{ Coupon.discount_price | price }}
-                                        {% else %}
-                                            {{ Coupon.discount_rate }}% OFF
-                                        {% endif %}
-                                    </p>
+                                                {{Coupon.available_from_date|date_format('', 'Y/m/d') }} ~ {{Coupon.available_to_date|date_format('', 'Y/m/d') }}<br>
+                                            {% endif %}
+                                            <span class="title">値引き</span><br>
+                                            {% if Coupon.discount_type == 1 %}
+                                                {{ Coupon.discount_price | price }}
+                                            {% else %}
+                                                {{ Coupon.discount_rate }}% OFF
+                                            {% endif %}
+                                        </p>
+                                    </div>
                                 </div>
                                 <div class="ec-historyRole__detail qrblock">
                                     <p class="c-static-intro-coupon qrcode" data-code="{{Coupon.coupon_cd}}" data-url="{{ url('coupon', {"coupon_code": Coupon.coupon_cd}) }}">
